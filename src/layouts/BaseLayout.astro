@@ -69,16 +69,17 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE_URL).toString
 
     {/* AI 友好 — llms.txt 在 public/ */}
 
-    {/* Prefers-color-scheme handling — 防 FOUC（讀 localStorage 主題偏好） */}
+    {/* Theme handling — 預設 dark（學術書院夜讀檯燈氣質）。
+        防 FOUC：必須在 body render 前 set attribute。
+        Light mode 由用戶主動切換（localStorage 存 "light"）。 */}
     <script is:inline>
       (function () {
         try {
           const stored = localStorage.getItem('kinkref-theme');
-          if (stored === 'dark' || stored === 'light') {
-            document.documentElement.setAttribute('data-theme', stored);
-          }
+          const theme = stored === 'light' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
         } catch {
-          /* no-op */
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
       })();
     </script>
