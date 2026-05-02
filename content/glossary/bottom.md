@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 下方
 term_en: Bottom
 term_alt_zh: 動作接受方

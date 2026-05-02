@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 雙向者
 term_en: Switch
 aliases_en: SW

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "Different Loving: The World of Sexual Dominance and Submission"
 title_zh: null
 author: "Brame, Gloria G.; Brame, William D.; Jacobs, Jon"

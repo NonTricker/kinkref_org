@@ -373,8 +373,12 @@ def main() -> int:
     content_dir = repo_root / 'content'
     validator = CrossEntryValidator(content_dir if content_dir.exists() else scan_root)
 
-    # 蒐集所有 .md 檔案
-    md_files = sorted(scan_root.rglob('*.md'))
+    # 蒐集所有 .md 檔案（排除 README.md 與其他說明文件）
+    EXCLUDED_FILENAMES = {'README.md', 'readme.md', 'INDEX.md', 'index.md'}
+    md_files = sorted(
+        f for f in scan_root.rglob('*.md')
+        if f.name not in EXCLUDED_FILENAMES
+    )
     if not md_files:
         if not args.json:
             print(f"{C.YEL}⚠️  在 {scan_root} 下找不到 .md 檔案{C.RST}")

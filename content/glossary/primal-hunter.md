@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 原始捕獵者
 term_en: Primal (Hunter)
 aliases_en: Primal Hunter; Hunter

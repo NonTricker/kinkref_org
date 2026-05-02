@@ -1,7 +1,7 @@
 # Detection Rules for kinkref.org self-check
-# 版本: 1.1
-# 對應 schema: CONTENT_SCHEMA.md v1.2
-# 最後更新: 2026-05-02
+# 版本: 1.2
+# 對應 schema: CONTENT_SCHEMA.md v1.3
+# 最後更新: 2026-05-03
 #
 # 此檔案是 self-check.py 與 quality-scan.py 的外部規則庫。
 # 所有偵測規則集中在此，方便維護與調整。
@@ -9,7 +9,7 @@
 
 # ─── Schema 結構規則 ─────────────────────────────────────
 schema:
-  current_version: "1.2"
+  current_version: "1.3"
 
   required_fields:
     glossary:
@@ -57,6 +57,89 @@ schema:
       - difficulty
       - abstract_zh
       - curator_note
+      - contributor
+      - created_date
+      - last_reviewed
+
+    # v1.3 新增 5 個 content type
+    journal:
+      - schema_version
+      - title
+      - publisher
+      - website
+      - language
+      - scope
+      - accepts_bdsm
+      - access_type
+      - abstract_zh
+      - curator_note
+      - topic_tags
+      - reader_tags
+      - contributor
+      - created_date
+      - last_reviewed
+
+    counselor:
+      - schema_version
+      - name
+      - credentials
+      - specialty
+      - kink_friendly_statement
+      - location
+      - service_modes
+      - languages
+      - listing_consent
+      - self_attestation
+      - last_verified
+      - verification_method
+      - topic_tags
+      - reader_tags
+      - contributor
+      - created_date
+      - last_reviewed
+
+    legal:
+      - schema_version
+      - entry_type
+      - name
+      - specialty
+      - description
+      - listing_consent
+      - self_attestation
+      - last_verified
+      - topic_tags
+      - reader_tags
+      - contributor
+      - created_date
+      - last_reviewed
+
+    campus-group:
+      - schema_version
+      - name
+      - university
+      - official_status
+      - recruitment_open
+      - focus_areas
+      - bdsm_engagement_level
+      - description
+      - listing_consent
+      - last_verified
+      - topic_tags
+      - reader_tags
+      - contributor
+      - created_date
+      - last_reviewed
+
+    medical:
+      - schema_version
+      - entry_type
+      - name
+      - services_offered
+      - description
+      - listing_consent
+      - last_verified
+      - topic_tags
+      - reader_tags
       - contributor
       - created_date
       - last_reviewed
@@ -145,6 +228,70 @@ schema:
       - disputed
       - unknown
 
+    # v1.3 新增 enum
+    accepts_bdsm:
+      - yes-frequent
+      - yes-occasional
+      - yes-but-rare
+      - unclear
+      - unknown
+
+    journal_access_type:  # 期刊 access_type 比論文多了 diamond-oa
+      - diamond-oa
+      - gold-oa
+      - hybrid
+      - paywalled
+
+    impact_factor_source:
+      - JCR
+      - Scopus
+      - journal-self-reported
+      - other
+
+    ranking_quartile:
+      - Q1
+      - Q2
+      - Q3
+      - Q4
+
+    service_modes:
+      - in-person
+      - online
+      - hybrid
+
+    verification_method:
+      - direct-contact
+      - public-page-confirmed
+      - peer-referred
+
+    legal_entry_type:
+      - lawyer
+      - law-firm
+      - legal-aid
+      - statute-reference
+
+    medical_entry_type:
+      - physician
+      - clinic
+      - hotline
+      - support-org
+
+    campus_official_status:
+      - registered
+      - unregistered
+      - informal-group
+
+    bdsm_engagement_level:
+      - core-focus
+      - partial-focus
+      - friendly-but-not-focus
+
+    cost_level:
+      - free
+      - subsidized
+      - private-rate
+      - varies
+
   slug_rules:
     pattern: '^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$'
     max_length: 40
@@ -179,6 +326,43 @@ length_limits:
     abstract_zh_review:  # study_type 為 review/systematic-review/meta-analysis 時
       min: 150
       max: 500
+
+  # v1.3 新增
+  journal:
+    scope:
+      min: 100
+      max: 300
+    abstract_zh:
+      min: 150
+      max: 300
+    bdsm_history:
+      max: 200
+
+  counselor:
+    kink_friendly_statement:
+      min: 100
+      max: 300
+
+  legal:
+    description:
+      min: 100
+      max: 300
+    bdsm_relevance:
+      max: 200
+
+  campus-group:
+    description:
+      min: 100
+      max: 300
+
+  medical:
+    kink_friendly_statement:
+      max: 300
+    description:
+      min: 100
+      max: 300
+    bdsm_relevance:
+      max: 150
 
 # ─── 語氣中性化（第一人稱與主觀觀察詞）───────────────
 neutrality:

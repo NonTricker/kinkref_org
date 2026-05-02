@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "Extreme Rituals in a BDSM Context: The Physiological and Psychological Effects of the 'Dance of Souls'"
 authors: "Klement, K. R.; Lee, E. M.; Ambler, J. K.; Hanson, S. A.; Comber, E.; Wietting, D.; Wagner, M. F.; Burns, V. R.; Cutler, B.; Cutler, N.; Sagarin, B. J."
 year: 2017

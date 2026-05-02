@@ -24,10 +24,16 @@ function isActive(href: string): boolean {
 <header class="site-header">
   <div class="site-header-inner">
     <a href="/" class="site-brand" aria-label="Kink Reference 首頁">
-      <span class="site-brand-mark">KR</span>
+      <span class="site-brand-mark" aria-hidden="true">
+        <span class="site-brand-mark-letter">K</span><span class="site-brand-mark-letter">R</span>
+      </span>
       <span class="site-brand-text">
         <span class="site-brand-zh">中文 BDSM 學術文獻索引</span>
-        <span class="site-brand-en">Kink Reference</span>
+        <span class="site-brand-en">
+          <span class="site-brand-en-name">Kink Reference</span>
+          <span class="site-brand-en-sep" aria-hidden="true">·</span>
+          <span class="site-brand-en-locale">TR</span>
+        </span>
       </span>
     </a>
 
@@ -82,13 +88,12 @@ function isActive(href: string): boolean {
 
 <style>
   .site-header {
+    /* Iron Law (DESIGN.md §6): 禁 backdrop-blur。改用純色高不透明度達成 sticky 視覺分離。 */
     border-bottom: 1px solid var(--rule-fine);
     background: var(--bg-base);
     position: sticky;
     top: 0;
     z-index: var(--z-sticky-nav);
-    backdrop-filter: blur(8px);
-    background-color: color-mix(in srgb, var(--bg-base) 90%, transparent);
   }
 
   .site-header-inner {
@@ -103,30 +108,43 @@ function isActive(href: string): boolean {
   .site-brand {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-4);
     text-decoration: none;
     color: var(--ink-heading);
+    /* Decision: Wordmark 升級採 B+D 混合（手調字距 + baseline rule + sub-locale） */
   }
 
+  /* KR Monogram — 兩字母手調字距 + 底部 hairline baseline rule */
   .site-brand-mark {
     font-family: var(--font-serif);
-    font-size: var(--fs-h3);
+    font-size: 1.625rem; /* 26px — 比 fs-h3 (20px) 略大，但小於 fs-h2 (26px) 等同壓在 H2 重量 */
     font-weight: var(--fw-bold);
     color: var(--accent-primary);
-    letter-spacing: var(--ls-tight);
     line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--accent-primary);
+    /* small-caps 字距：兩字母之間留 0.04em 呼吸（Tiempos / IBM Plex Serif 風） */
+    letter-spacing: 0.04em;
+  }
+
+  .site-brand-mark-letter {
+    font-feature-settings: "ss01" on; /* serif stylistic set 若字體支援 */
   }
 
   .site-brand-text {
     display: flex;
     flex-direction: column;
-    line-height: 1.2;
+    line-height: 1.25;
+    gap: 2px;
   }
 
   .site-brand-zh {
     font-size: var(--fs-ui);
     font-family: var(--font-sans);
     font-weight: var(--fw-semibold);
+    letter-spacing: 0.02em;
   }
 
   .site-brand-en {
@@ -135,6 +153,18 @@ function isActive(href: string): boolean {
     color: var(--ink-meta);
     letter-spacing: var(--ls-eyebrow);
     text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .site-brand-en-sep {
+    color: var(--ink-disabled);
+  }
+
+  .site-brand-en-locale {
+    font-weight: var(--fw-semibold);
+    color: var(--accent-citation); /* Bronze Citation — 區域標記像書扉頁的版本記號 */
   }
 
   .site-nav {

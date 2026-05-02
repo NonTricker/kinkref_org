@@ -32,8 +32,13 @@ const metaDescription = stripInlineMarkdown(pageDescription);
 <BaseLayout title={pageTitle} description={metaDescription}>
   <section class="page-hero">
     <div class="page-hero-inner">
-      <p class="page-eyebrow">Glossary</p>
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-num">01</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-name">Glossary</span>
+      </p>
       <h1 class="page-title">術語表</h1>
+      <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
       <div class="page-search">
         <SearchBox placeholder="搜尋術語…" variant="hero" />
@@ -59,9 +64,10 @@ const metaDescription = stripInlineMarkdown(pageDescription);
   <section class="entry-list-section">
     <ul class="entry-list">
       {
-        sortedTerms.map((entry) => (
+        sortedTerms.map((entry, i) => (
           <li class="entry-card">
             <a href={`/glossary/${entry.id}`}>
+              <span class="entry-card-no" aria-hidden="true">№{(i + 1).toString().padStart(3, '0')}</span>
               <header class="entry-card-header">
                 <h2 class="entry-card-title">
                   <span class="entry-card-en">{entry.data.term_en}</span>
@@ -101,18 +107,53 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     margin: 0 auto;
   }
 
+  /* ──────────────────────────────────────────────────────
+     Page Hero — V2 Polish: 編號 + 章節點 + baseline rule
+     對標：Aeon / The Atlantic / Stanford SEP 的編輯感
+     ────────────────────────────────────────────────────── */
   .page-eyebrow {
     font-family: var(--font-sans);
     font-size: var(--fs-eyebrow);
     text-transform: uppercase;
     letter-spacing: var(--ls-eyebrow);
     color: var(--accent-primary);
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .page-eyebrow-num {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .page-eyebrow-sep {
+    color: var(--ink-disabled);
+    font-weight: var(--fw-regular);
+  }
+
+  .page-eyebrow-name {
+    font-weight: var(--fw-semibold);
   }
 
   .page-title {
     font-size: var(--fs-h1);
-    margin: 0 0 var(--space-4);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-5);
+  }
+
+  /* Baseline rule — h1 與 description 間的編輯裝飾線 */
+  .page-title-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
   }
 
   .page-description {
@@ -178,29 +219,69 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     gap: var(--space-5);
   }
 
-  /* 卡片：左側書脊邊條（hover 顯現）+ 緊湊內距 */
+  /* ──────────────────────────────────────────────────────
+     Card — V2 Polish: D（純 typographic 分量）+ 微 A（右上角編號）
+     - 移除 translateX hover（過於 SaaS）
+     - 改用 ::before 左側書脊 grow（0 → 3px）
+     - title hover underline grow
+     - 右上角極小 paper-trail 編號（Are.na/Aeon 編輯感）
+     ────────────────────────────────────────────────────── */
   .entry-card a {
+    position: relative;
     display: block;
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-6) var(--space-7);
     background: var(--bg-elevated);
     border: 1px solid var(--rule-fine);
-    border-left: 3px solid transparent;
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--ink-body);
     height: 100%;
-    transition: var(--transition-color), border-left-color var(--transition-fast),
-      transform var(--transition-fast);
+    overflow: hidden; /* 讓 ::before 不溢出 */
+    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .entry-card a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--accent-primary);
+    transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .entry-card a:hover {
     border-color: var(--accent-primary);
-    border-left-color: var(--accent-primary);
-    transform: translateX(2px);
+  }
+
+  .entry-card a:hover::before {
+    width: 3px;
+  }
+
+  .entry-card a:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+
+  /* 右上角 paper-trail 編號 */
+  .entry-card-no {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--fw-medium);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: var(--ink-disabled);
+    line-height: 1;
   }
 
   .entry-card-header {
     margin-bottom: var(--space-4);
+    /* 留空間給編號 */
+    padding-right: var(--space-7);
   }
 
   .entry-card-title {
@@ -210,11 +291,31 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     gap: var(--space-1);
   }
 
+  /* Title underline grow on hover — 微互動（::after pseudo，不踩 gradient 鐵律） */
   .entry-card-en {
+    position: relative;
+    display: inline-block;
     font-size: var(--fs-h3);
     font-family: var(--font-serif);
     font-weight: var(--fw-semibold);
     color: var(--ink-heading);
+    letter-spacing: var(--ls-tight);
+    padding-bottom: 2px;
+  }
+
+  .entry-card-en::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 0;
+    background: var(--accent-primary);
+    transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .entry-card a:hover .entry-card-en::after {
+    width: 100%;
   }
 
   .entry-card-zh {
@@ -222,10 +323,11 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     font-size: var(--fs-body-sm);
     color: var(--ink-meta);
     font-weight: var(--fw-regular);
+    letter-spacing: 0.02em;
   }
 
   .entry-card-aliases {
-    margin: var(--space-2) 0 0;
+    margin: var(--space-3) 0 0;
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
     color: var(--ink-meta);
@@ -235,6 +337,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     color: var(--ink-disabled);
     margin-right: var(--space-2);
     font-style: italic;
+    font-variant: small-caps;
   }
 
   .entry-card-tagline {
@@ -251,5 +354,13 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     display: flex;
     gap: var(--space-2);
     flex-wrap: wrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entry-card a,
+    .entry-card a::before,
+    .entry-card-en::after {
+      transition: none;
+    }
   }
 </style>

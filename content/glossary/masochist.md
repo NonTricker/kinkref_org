@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 受虐者
 term_en: Masochist
 term_alt_zh: M; 抖M

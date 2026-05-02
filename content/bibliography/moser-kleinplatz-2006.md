@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "DSM-IV-TR and the Paraphilias: An Argument for Removal"
 authors: "Moser, C.; Kleinplatz, P. J."
 year: 2006

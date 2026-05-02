@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 馴頑者
 term_en: Brat tamer
 term_alt_zh: 馴服者

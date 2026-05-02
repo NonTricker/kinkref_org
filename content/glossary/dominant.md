@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 支配者
 term_en: Dominant
 aliases_en: Dom; Domme

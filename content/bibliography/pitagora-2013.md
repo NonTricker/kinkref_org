@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "Consent vs. Coercion: BDSM Interactions Highlight a Fine but Immutable Line"
 authors: "Pitagora, D."
 year: 2013

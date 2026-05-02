@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 原始獵物
 term_en: Primal (Prey)
 aliases_en: Primal Prey; Prey

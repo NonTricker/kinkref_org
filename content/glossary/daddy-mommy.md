@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 爹地 / 媽咪
 term_en: Daddy / Mommy
 aliases_en: Daddy Dom; Mommy Dom; CG (Caregiver)

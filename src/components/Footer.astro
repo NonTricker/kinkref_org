@@ -2,8 +2,13 @@
 /**
  * Footer — 站台頁腳
  *
- * 區塊：簡介 / 導航 / 治理 / 授權聲明
+ * 區塊：簡介 / 導航 / 治理 / 授權聲明 / 建置記錄
+ *
+ * V2 Polish (2026-05-03)：加入 version / git short hash / build date 三件套，
+ * 致敬 Stanford SEP / Are.na 等學術站的「建置可追蹤」作風。
  */
+
+import { buildInfo } from '@/lib/build-info';
 
 const currentYear = new Date().getFullYear();
 
@@ -81,6 +86,14 @@ const footerSections = [
       </p>
       <p class="site-footer-copyright">© 2026 — {currentYear} Kink Reference</p>
     </div>
+
+    <p class="site-footer-build" aria-label="建置資訊">
+      <span class="build-version">v{buildInfo.version}</span>
+      <span class="build-sep" aria-hidden="true">·</span>
+      <span class="build-hash">#{buildInfo.gitHash}</span>
+      <span class="build-sep" aria-hidden="true">·</span>
+      <span class="build-date">built {buildInfo.buildDate}</span>
+    </p>
   </div>
 </footer>
 
@@ -189,6 +202,38 @@ const footerSections = [
   .site-footer-copyright {
     margin: 0;
     font-variant-numeric: tabular-nums;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Build info — 學術站「建置可追蹤」作風
+     對標：Stanford SEP 的 build timestamp / Are.na 的 git hash
+     ────────────────────────────────────────────────────── */
+  .site-footer-build {
+    margin: var(--space-5) 0 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid color-mix(in srgb, var(--ink-inverse) 12%, transparent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: color-mix(in srgb, var(--ink-inverse) 50%, transparent);
+    letter-spacing: 0.04em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+
+  .build-version,
+  .build-hash,
+  .build-date {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .build-hash {
+    color: color-mix(in srgb, var(--ink-inverse) 65%, transparent);
+  }
+
+  .build-sep {
+    color: color-mix(in srgb, var(--ink-inverse) 30%, transparent);
   }
 
   @media (max-width: 768px) {

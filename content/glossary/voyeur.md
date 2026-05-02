@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 偷窺者
 term_en: Voyeur
 tagline: 在合意脈絡下從觀看他人性活動或親密互動中獲得愉悅的人。

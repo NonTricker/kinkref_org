@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "虐戀亞文化"
 title_zh: 虐戀亞文化
 author: "李銀河"

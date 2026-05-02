@@ -159,17 +159,27 @@ def parse_entry(file_path: Path) -> Tuple[Dict, str, str]:
 def detect_entry_type(frontmatter: Dict, file_path: Path) -> str:
     """
     根據 frontmatter 與路徑推斷條目類型。
-    回傳 'glossary' / 'book' / 'paper'。
+    回傳 'glossary' / 'book' / 'paper' / 'journal' / 'counselor' / 'legal' / 'campus-group' / 'medical'。
     """
     path_str = str(file_path).replace('\\', '/').lower()
 
-    # 路徑優先
+    # 路徑優先（v1.3 加 5 個新 type）
     if '/glossary/' in path_str or path_str.endswith('/glossary'):
         return 'glossary'
     if '/books/' in path_str or path_str.endswith('/books'):
         return 'book'
     if '/bibliography/' in path_str or path_str.endswith('/bibliography'):
         return 'paper'
+    if '/journals/' in path_str or path_str.endswith('/journals'):
+        return 'journal'
+    if '/counselors/' in path_str or path_str.endswith('/counselors'):
+        return 'counselor'
+    if '/legal/' in path_str or path_str.endswith('/legal'):
+        return 'legal'
+    if '/campus-groups/' in path_str or path_str.endswith('/campus-groups'):
+        return 'campus-group'
+    if '/medical/' in path_str or path_str.endswith('/medical'):
+        return 'medical'
 
     # Frontmatter 特徵欄位
     if 'term_zh' in frontmatter or 'term_en' in frontmatter:
@@ -178,6 +188,17 @@ def detect_entry_type(frontmatter: Dict, file_path: Path) -> str:
         return 'book'
     if 'doi' in frontmatter or 'authors' in frontmatter or 'study_type' in frontmatter:
         return 'paper'
+    # v1.3 新增 type 的特徵欄位
+    if 'accepts_bdsm' in frontmatter or 'impact_factor' in frontmatter:
+        return 'journal'
+    if 'kink_friendly_statement' in frontmatter and 'credentials' in frontmatter:
+        return 'counselor'
+    if 'bar_admission' in frontmatter or 'statute_url' in frontmatter:
+        return 'legal'
+    if 'university' in frontmatter and 'recruitment_open' in frontmatter:
+        return 'campus-group'
+    if 'services_offered' in frontmatter or 'medical_specialty' in frontmatter:
+        return 'medical'
 
     raise ValueError("無法判斷條目類型（路徑與 frontmatter 都無明確指標）")
 

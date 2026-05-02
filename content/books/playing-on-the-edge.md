@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "Playing on the Edge: Sadomasochism, Risk, and Intimacy"
 title_zh: null
 author: "Newmahr, Staci"

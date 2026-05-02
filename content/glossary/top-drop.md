@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: Top-drop
 term_en: Top-drop
 aliases_en: topdrop

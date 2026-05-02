@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: Protocol
 term_en: Protocol
 term_alt_zh: 規範; 互動規則

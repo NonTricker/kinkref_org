@@ -2,13 +2,18 @@
 /**
  * SearchBox — 客戶端搜尋輸入（MiniSearch 占位）
  *
+ * V2 Polish (2026-05-03)：
+ *   - 取代 unicode `⌕` 為 inline SVG（24×24 stroke 1.5px Reference Crimson）
+ *   - hero variant：1.5px border（書院打字機氣）+ italic placeholder
+ *   - 「/」kbd hint：透明 + 細邊框 + ink-disabled
+ *   - Focus ring：1px outline + 2px offset（無 box-shadow）
+ *
  * 此組件僅提供 UI shell。
- * 實際 MiniSearch 整合 + 索引載入將於後續迭代加入：
+ * 實際 MiniSearch 整合將於後續迭代加入：
  *   - public/search-index.json（build 時生成）
  *   - 動態 import('minisearch')
- *   - 結果浮層
  *
- * Reference: https://lucaong.github.io/minisearch/
+ * Curated by: 光影師 艾莉兒
  */
 
 interface Props {
@@ -31,7 +36,21 @@ const { placeholder = '搜尋術語、論文、書目…', className, variant = 
 >
   <label for="search-input" class="search-box-label">搜尋本站</label>
   <div class="search-box-inner">
-    <span class="search-box-icon" aria-hidden="true">⌕</span>
+    <svg
+      class="search-box-icon"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="10.5" cy="10.5" r="6.5"></circle>
+      <line x1="15.5" y1="15.5" x2="20" y2="20"></line>
+    </svg>
     <input
       id="search-input"
       type="search"
@@ -82,22 +101,34 @@ const { placeholder = '搜尋術語、論文、書目…', className, variant = 
   .search-box-inner {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
     border: 1px solid var(--rule-fine);
     border-radius: var(--radius-sm);
     background: var(--bg-elevated);
-    padding: var(--space-2) var(--space-3);
-    transition: var(--transition-color);
+    padding: var(--space-2) var(--space-4);
+    transition:
+      border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .search-box-inner:hover {
+    border-color: var(--ink-meta);
   }
 
   .search-box-inner:focus-within {
     border-color: var(--accent-primary);
+    outline: 1px solid var(--accent-primary);
+    outline-offset: 2px;
   }
 
   .search-box-icon {
     color: var(--ink-disabled);
-    font-size: var(--fs-body);
-    line-height: 1;
+    flex-shrink: 0;
+    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .search-box-inner:focus-within .search-box-icon {
+    color: var(--accent-primary);
   }
 
   .search-box-input {
@@ -108,34 +139,57 @@ const { placeholder = '搜尋術語、論文、書目…', className, variant = 
     font-family: var(--font-serif);
     font-size: var(--fs-body-sm);
     color: var(--ink-body);
+    line-height: 1.5;
   }
 
   .search-box-input::placeholder {
     color: var(--ink-disabled);
+    font-style: italic; /* 書院文獻氣 */
   }
 
   .search-box-hint {
     font-family: var(--font-mono);
-    font-size: var(--fs-caption);
+    font-size: 11px;
     color: var(--ink-disabled);
-    background: var(--bg-subtle);
+    background: transparent;
     border: 1px solid var(--rule-fine);
     border-radius: var(--radius-sm);
-    padding: 0 var(--space-2);
+    padding: 1px 6px;
     line-height: 1.4;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
   }
 
-  /* Hero variant — index.astro 主視覺 */
+  /* ──────────────────────────────────────────────────────
+     Hero variant — index 頁主搜尋（1.5px border + 大尺寸）
+     ────────────────────────────────────────────────────── */
   .search-box--hero .search-box-inner {
+    border-width: 1.5px;
     padding: var(--space-4) var(--space-5);
-    font-size: var(--fs-body);
+    gap: var(--space-4);
+  }
+
+  .search-box--hero .search-box-icon {
+    width: 22px;
+    height: 22px;
   }
 
   .search-box--hero .search-box-input {
     font-size: var(--fs-body);
   }
 
+  .search-box--hero .search-box-input::placeholder {
+    font-style: italic;
+  }
+
   .search-box-results {
     margin-top: var(--space-3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .search-box-inner,
+    .search-box-icon {
+      transition: none;
+    }
   }
 </style>

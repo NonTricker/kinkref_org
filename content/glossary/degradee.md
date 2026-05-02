@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 被貶低者
 term_en: Degradee
 tagline: 在合意 D/s 動態中接受貶低、羞辱類言語或行為的被動方。

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "From 'SSC' and 'RACK' to the '4Cs': Introducing a New Framework for Negotiating BDSM Participation"
 authors: "Williams, D. J.; Thomas, J. N.; Prior, E. E.; Walters, W."
 year: 2014

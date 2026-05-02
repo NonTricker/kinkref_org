@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 場景
 term_en: Scene
 term_alt_zh: BDSM 場景

@@ -573,11 +573,11 @@ th {
   a::after {
     content: " (" attr(href) ")";
     font-size: 9pt;
-    color: #666;
+    color: var(--ink-meta);
   }
 
   .card {
-    border: 1px solid #ccc;
+    border: 1px solid var(--rule-fine);
     page-break-inside: avoid;
   }
 

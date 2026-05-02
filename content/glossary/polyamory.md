@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 多重伴侶關係
 term_en: Polyamory
 aliases_en: poly

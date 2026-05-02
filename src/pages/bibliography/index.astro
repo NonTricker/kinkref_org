@@ -34,8 +34,13 @@ const metaDescription = stripInlineMarkdown(pageDescription);
 <BaseLayout title={pageTitle} description={metaDescription}>
   <section class="page-hero">
     <div class="page-hero-inner">
-      <p class="page-eyebrow">Bibliography</p>
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-num">02</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-name">Bibliography</span>
+      </p>
       <h1 class="page-title">文獻指南</h1>
+      <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
       <div class="page-search">
         <SearchBox placeholder="搜尋論文標題、作者…" variant="hero" />
@@ -101,9 +106,10 @@ const metaDescription = stripInlineMarkdown(pageDescription);
 
         <section class="entry-list-section">
           <ul class="paper-list">
-            {sortedPapers.map((entry) => (
+            {sortedPapers.map((entry, i) => (
               <li class="paper-card">
                 <a href={`/bibliography/${entry.id}`}>
+                  <span class="paper-card-no" aria-hidden="true">№{(i + 1).toString().padStart(3, '0')}</span>
                   <header class="paper-card-header">
                     <p class="paper-card-meta">
                       <span class="paper-card-year">{entry.data.year}</span>
@@ -157,18 +163,49 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     margin: 0 auto;
   }
 
+  /* Page Hero — V2 Polish */
   .page-eyebrow {
     font-family: var(--font-sans);
     font-size: var(--fs-eyebrow);
     text-transform: uppercase;
     letter-spacing: var(--ls-eyebrow);
     color: var(--accent-primary);
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .page-eyebrow-num {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .page-eyebrow-sep {
+    color: var(--ink-disabled);
+    font-weight: var(--fw-regular);
+  }
+
+  .page-eyebrow-name {
+    font-weight: var(--fw-semibold);
   }
 
   .page-title {
     font-size: var(--fs-h1);
-    margin: 0 0 var(--space-4);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-5);
+  }
+
+  .page-title-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
   }
 
   .page-description {
@@ -274,24 +311,61 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     gap: var(--space-4);
   }
 
-  /* Paper card：左側書脊邊條（hover 顯現酒紅）+ 緊湊內距 */
+  /* ──────────────────────────────────────────────────────
+     Paper card — V2 Polish: D + 微 A
+     ────────────────────────────────────────────────────── */
   .paper-card a {
+    position: relative;
     display: block;
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-6) var(--space-7);
     background: var(--bg-elevated);
     border: 1px solid var(--rule-fine);
-    border-left: 3px solid transparent;
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--ink-body);
-    transition: var(--transition-color), border-left-color var(--transition-fast),
-      transform var(--transition-fast);
+    overflow: hidden;
+    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .paper-card a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--accent-primary);
+    transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .paper-card a:hover {
     border-color: var(--accent-primary);
-    border-left-color: var(--accent-primary);
-    transform: translateX(2px);
+  }
+
+  .paper-card a:hover::before {
+    width: 3px;
+  }
+
+  .paper-card a:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+
+  .paper-card-no {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--fw-medium);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: var(--ink-disabled);
+    line-height: 1;
+  }
+
+  .paper-card-header {
+    padding-right: var(--space-8); /* 給編號讓位 */
   }
 
   .paper-card-meta {
@@ -301,28 +375,55 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     margin: 0 0 var(--space-2);
     display: flex;
     gap: var(--space-3);
+    align-items: baseline;
   }
 
   .paper-card-year {
     font-variant-numeric: tabular-nums;
-    font-weight: var(--fw-medium);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-body);
+    letter-spacing: 0.02em;
   }
 
   .paper-card-journal {
     font-style: italic;
   }
 
+  /* Title underline grow on hover — ::after pseudo（不踩 gradient 鐵律） */
   .paper-card-title {
+    position: relative;
+    display: inline-block;
     font-size: var(--fs-h3);
+    font-family: var(--font-serif);
+    font-weight: var(--fw-semibold);
     margin: 0 0 var(--space-2);
     color: var(--ink-heading);
+    letter-spacing: var(--ls-tight);
+    line-height: var(--lh-heading);
+    padding-bottom: 2px;
+  }
+
+  .paper-card-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 0;
+    background: var(--accent-primary);
+    transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .paper-card a:hover .paper-card-title::after {
+    width: 100%;
   }
 
   .paper-card-authors {
     font-family: var(--font-sans);
     font-size: var(--fs-body-sm);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-4);
+    margin: var(--space-2) 0 var(--space-4);
+    font-style: italic;
   }
 
   .paper-card-curator {
@@ -341,5 +442,13 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     display: flex;
     gap: var(--space-2);
     flex-wrap: wrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .paper-card a,
+    .paper-card a::before,
+    .paper-card-title::after {
+      transition: none;
+    }
   }
 </style>

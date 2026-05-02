@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 共知風險的合意 kink
 term_en: RACK
 aliases_en: Risk-Aware Consensual Kink

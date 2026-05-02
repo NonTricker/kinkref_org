@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "The New Topping Book"
 title_zh: null
 author: "Easton, Dossie; Hardy, Janet W."

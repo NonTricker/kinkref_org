@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 主人
 term_en: Master
 aliases_en: Mistress; Sir; Ma'am

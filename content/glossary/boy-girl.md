@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 男孩 / 女孩
 term_en: Boy / Girl
 aliases_en: little boy; little girl; little

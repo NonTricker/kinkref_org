@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 全權力交換
 term_en: TPE
 aliases_en: Total Power Exchange

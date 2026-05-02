@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 奴僕
 term_en: Slave
 term_alt_zh: 奴; 奴隸; 侍奉者

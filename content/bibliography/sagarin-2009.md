@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "Hormonal Changes and Couple Bonding in Consensual Sadomasochistic Activity"
 authors: "Sagarin, B. J.; Cutler, B.; Cutler, N.; Lawler-Sagarin, K. A.; Matuszewich, L."
 year: 2009

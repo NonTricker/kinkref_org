@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 寵物
 term_en: Pet
 aliases_en: puppy; kitten; bunny; pony

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 title: "Psychological Functioning of Bondage/Domination/Sado-Masochism (BDSM) Practitioners"
 authors: "Connolly, P. H."
 year: 2006

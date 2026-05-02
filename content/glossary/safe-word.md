@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 安全詞
 term_en: Safe word
 term_alt_zh: 安全字; 安全暗號

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 硬性限制
 term_en: Hard limit
 term_alt_zh: 絕對界線; 絕對禁區

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: Aftercare
 term_en: Aftercare
 term_alt_zh: 事後照護; 餘韻照顧

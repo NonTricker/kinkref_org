@@ -1,8 +1,8 @@
 # Content Schema — kinkref.org
 
 > **給**：內容策展人、貢獻者、工程師
-> **版本**：v1.2
-> **最後更新**：2026-05-02
+> **版本**：v1.3
+> **最後更新**：2026-05-03
 > **變更紀錄**：見[附錄 A](#附錄-a變更紀錄)
 
 ---
@@ -678,7 +678,276 @@ last_reviewed: 2026-05-02
 
 ---
 
+## 九、期刊條目 Schema（Journal Entry）— v1.3 新增
+
+期刊條目用於整理性學、BDSM 相關研究的學術期刊，提供讀者投稿/引用/閱讀導航。
+
+### 9.1 欄位規格
+
+| 欄位名 | 必填 | 格式 | 說明 |
+|--------|------|------|------|
+| `schema_version` | ✅ | 純文字 | 條目使用的 schema 版本（如 `1.3`） |
+| `title` | ✅ | 純文字 | 期刊全名（英文） |
+| `title_zh` | ❌ | 純文字 | 中文譯名（如有正式中譯） |
+| `abbreviation` | ❌ | 純文字 | 標準縮寫（如 `JSM`、`ASB`） |
+| `issn_print` | ❌ | 純文字 | 紙本 ISSN |
+| `issn_online` | ❌ | 純文字 | 線上 ISSN |
+| `publisher` | ✅ | 純文字 | 出版社（如 Springer / Elsevier） |
+| `founded` | ❌ | YYYY | 創刊年 |
+| `website` | ✅ | URL | 期刊官網 |
+| `language` | ✅ | 語言代碼 | 主要語言（多數為 `en`） |
+| `scope` | ✅ | Markdown，100-300 字 | 期刊收錄範圍與編輯方針 |
+| `accepts_bdsm` | ✅ | enum | 見 9.2 |
+| `bdsm_history` | ❌ | Markdown，≤200 字 | 已發過的代表性 BDSM 研究 |
+| `access_type` | ✅ | enum | 見 9.3 |
+| `oa_apc_usd` | ❌ | 整數 | OA 處理費（USD），gold OA 適用 |
+| `impact_factor` | ❌ | 浮點數 | 最近期 IF 值 |
+| `impact_factor_year` | ❌ | YYYY | IF 對應年份 |
+| `impact_factor_source` | ❌ | enum | `JCR` / `Scopus` / `journal-self-reported` / `other` |
+| `ranking_quartile` | ❌ | enum | `Q1` / `Q2` / `Q3` / `Q4` |
+| `submission_url` | ❌ | URL | 投稿系統網址 |
+| `review_time_weeks` | ❌ | 整數或範圍 | 審稿時間（週），可用 `12-16` |
+| `acceptance_rate_pct` | ❌ | 整數 | 接受率（如 25 表 25%）|
+| `typical_article_length` | ❌ | 純文字 | 字數範圍（如「6000-8000 words」）|
+| `abstract_zh` | ✅ | Markdown，150-300 字 | 中文簡介（含定位、方針、特色） |
+| `curator_note` | ✅ | 純文字，1-5 句 | 策展人推薦語 |
+| `caveats` | ❌ | 結構化列表 | 注意事項（見 4.3） |
+| `citations` | ❌ | 結構化列表 | 站內外引用（如本站收錄論文已發表於此） |
+| `topic_tags` | ✅ | slug 列表（1-4 個） | 主題標籤 |
+| `reader_tags` | ✅ | slug 列表（1-3 個） | 讀者標籤（多為 researcher / clinical） |
+| `contributor` | ✅ | | |
+| `contributor_note` | ❌ | | |
+| `reviewer` | ❌ | | |
+| `created_date` | ✅ | YYYY-MM-DD | |
+| `last_reviewed` | ✅ | YYYY-MM-DD | 內容老化追蹤（IF/policy 變動需重審）|
+
+### 9.2 `accepts_bdsm` enum
+
+| 值 | 說明 |
+|---|------|
+| `yes-frequent` | 經常發表 BDSM 研究（如 Archives of Sexual Behavior） |
+| `yes-occasional` | 偶爾發表（性學期刊大宗） |
+| `yes-but-rare` | 接受但歷史紀錄少 |
+| `unclear` | 政策未明示，需個案評估 |
+| `unknown` | 無資料 |
+
+### 9.3 `access_type` enum（同 paper §7.2，但加 diamond）
+
+| 值 | 說明 |
+|---|------|
+| `diamond-oa` | 對讀者作者皆免費的 OA 期刊 |
+| `gold-oa` | 期刊本身是 OA（作者付 APC） |
+| `hybrid` | 訂閱期刊但個別文章可選 OA |
+| `paywalled` | 完全付費或機構訂閱 |
+
+---
+
+## 十、諮商資源 Schema（Counselor Entry）— v1.3 新增
+
+諮商師 directory，對應 SPEC §7「指路到願意曝光的 kink-friendly 諮商師等真實對象」。
+
+### 10.1 欄位規格
+
+| 欄位名 | 必填 | 格式 | 說明 |
+|--------|------|------|------|
+| `schema_version` | ✅ | | |
+| `name` | ✅ | 純文字 | 諮商師姓名或執業化名 |
+| `pronouns` | ❌ | 純文字 | 代名詞（如 he/him、she/her、they/them） |
+| `credentials` | ✅ | 純文字列表 | 執照（如「諮商心理師」「臨床心理師」「精神科醫師」） |
+| `license_number` | ❌ | 純文字 | 執照字號（選填，便於讀者驗證） |
+| `specialty` | ✅ | 純文字列表 | 專長（如：性別議題、伴侶諮商、創傷處理） |
+| `kink_friendly_statement` | ✅ | Markdown，100-300 字 | 諮商師自述對 BDSM 的友善程度與工作經驗 |
+| `location` | ✅ | 純文字 | 地點（限定到城市，不到精細地址） |
+| `service_modes` | ✅ | enum 列表 | `in-person` / `online` / `hybrid` |
+| `languages` | ✅ | 語言代碼列表 | 提供諮商的語言（如 `[zh, en]`） |
+| `contact_email` | ❌ | email | 聯絡 email |
+| `contact_website` | ❌ | URL | 個人/診所官網 |
+| `listing_consent` | ✅ | boolean | 諮商師是否明確同意被列在站上 |
+| `self_attestation` | ✅ | boolean | 是否為諮商師自薦資料 |
+| `last_verified` | ✅ | YYYY-MM-DD | 站方上次驗證日期（聯絡資訊、執照狀態） |
+| `verification_method` | ✅ | enum | `direct-contact` / `public-page-confirmed` / `peer-referred` |
+| `caveats` | ❌ | 結構化列表 | 注意事項 |
+| `topic_tags` | ✅ | slug 列表 | |
+| `reader_tags` | ✅ | slug 列表 | 多為 `clinical` / `practitioner` / `loved-ones` |
+| `contributor` | ✅ | | |
+| `contributor_note` | ❌ | | |
+| `created_date` | ✅ | | |
+| `last_reviewed` | ✅ | | |
+
+### 10.2 收錄原則（重要）
+
+- **僅收錄明確同意被列入的諮商師**（`listing_consent: true`）
+- **以諮商師自薦聲明為主**，站方不對諮商師個人專業能力背書
+- **每 12 個月需主動 re-verify**（聯絡資訊有效性、執照狀態）
+- **過期未驗證的條目須標 `caveats: type=dated`**
+
+### 10.3 與 SPEC §6「不背書個人」的協調
+
+本站不背書任何個人，但 directory 性質的列表是「指路」非「推薦」。具體做法：
+- 條目以**諮商師的自我聲明**為主，站方僅做格式化整理
+- 不做「推薦語」（curator_note 改為「列入說明」）
+- 列表本身是中性 directory，不排序、不分等級
+
+---
+
+## 十一、法律資源 Schema（Legal Entry）— v1.3 新增
+
+律師 / 法律諮詢資源 directory，含相關台灣法規連結。
+
+### 11.1 欄位規格
+
+| 欄位名 | 必填 | 格式 | 說明 |
+|--------|------|------|------|
+| `schema_version` | ✅ | | |
+| `entry_type` | ✅ | enum | `lawyer` / `law-firm` / `legal-aid` / `statute-reference` |
+| `name` | ✅ | 純文字 | 律師/事務所/組織名稱（statute-reference 時填法條名） |
+| `bar_admission` | ❌ | 純文字 | 律師資格（如「中華民國律師」），lawyer/firm 適用 |
+| `specialty` | ✅ | 純文字列表 | 專長領域（如：刑法、性別法、勞動法） |
+| `location` | ❌ | 純文字 | 城市（lawyer/firm 適用） |
+| `service_modes` | ❌ | enum 列表 | 諮詢方式 |
+| `languages` | ❌ | 語言代碼列表 | |
+| `contact_email` | ❌ | email | |
+| `contact_phone` | ❌ | 純文字 | |
+| `contact_website` | ❌ | URL | |
+| `statute_url` | ❌ | URL | 法條/法律資源連結（statute-reference 適用） |
+| `description` | ✅ | Markdown，100-300 字 | 法律資源說明 / 律師專長介紹 / 法條摘要 |
+| `bdsm_relevance` | ❌ | Markdown，≤200 字 | 與 BDSM 圈內議題的相關性說明 |
+| `listing_consent` | ✅ | boolean | 律師/組織明確同意被列（statute-reference 為 true）|
+| `self_attestation` | ✅ | boolean | 是否自薦資料 |
+| `last_verified` | ✅ | YYYY-MM-DD | |
+| `caveats` | ❌ | | |
+| `topic_tags` | ✅ | （多含 `legal`） | |
+| `reader_tags` | ✅ | （多含 `legal-pro` / `practitioner`） | |
+| `contributor` | ✅ | | |
+| `contributor_note` | ❌ | | |
+| `created_date` | ✅ | | |
+| `last_reviewed` | ✅ | | |
+
+### 11.2 收錄原則
+
+- **不提供法律意見**，僅指路與資源整理
+- **律師條目以自我聲明為主**，站方不背書個人能力
+- **每 12 個月 re-verify**
+
+---
+
+## 十二、大學社團 Schema（Campus Group Entry）— v1.3 新增
+
+大學 kink-friendly 社團 directory，對應 SPEC §7「大學 kinky 社團 directory（僅名稱 + 官方聯絡 + 是否公開招生）」。
+
+### 12.1 欄位規格
+
+| 欄位名 | 必填 | 格式 | 說明 |
+|--------|------|------|------|
+| `schema_version` | ✅ | | |
+| `name` | ✅ | 純文字 | 社團中文名稱 |
+| `name_en` | ❌ | 純文字 | 英文名稱（若有） |
+| `university` | ✅ | 純文字 | 學校名稱 |
+| `university_en` | ❌ | 純文字 | 學校英文名 |
+| `department_affiliation` | ❌ | 純文字 | 隸屬科系/學院（若有） |
+| `official_status` | ✅ | enum | `registered` / `unregistered` / `informal-group` |
+| `recruitment_open` | ✅ | boolean | 是否公開招生 |
+| `recruitment_period` | ❌ | 純文字 | 招生期間說明（如「每年九月開學週」） |
+| `recruitment_requirements` | ❌ | 純文字 | 招生條件（如「限本校在學生」） |
+| `focus_areas` | ✅ | 純文字列表 | 社團聚焦範圍（如：性別議題、性教育、酷兒倡議） |
+| `bdsm_engagement_level` | ✅ | enum | `core-focus` / `partial-focus` / `friendly-but-not-focus` |
+| `contact_email` | ❌ | email | 官方聯絡 email |
+| `contact_social` | ❌ | URL | 官方社群帳號（IG/Discord 等） |
+| `description` | ✅ | Markdown，100-300 字 | 社團簡介 |
+| `listing_consent` | ✅ | boolean | 社團官方同意被列 |
+| `last_verified` | ✅ | YYYY-MM-DD | |
+| `caveats` | ❌ | | |
+| `topic_tags` | ✅ | | |
+| `reader_tags` | ✅ | | |
+| `contributor` | ✅ | | |
+| `contributor_note` | ❌ | | |
+| `created_date` | ✅ | | |
+
+### 12.2 收錄原則
+
+- **僅收錄正式登記或穩定運作的社團**
+- **個人社員不列出**（避免身分曝光風險）
+- **每年新學期 re-verify**（社團存續 + 聯絡 + 招生狀態）
+
+---
+
+## 十三、醫療資源 Schema（Medical Entry）— v1.3 新增
+
+Kink-friendly 醫師 / 性健康診所 directory，含緊急/支持資源（家暴 / 性侵害 / 自殺防治專線）。
+
+### 13.1 欄位規格
+
+| 欄位名 | 必填 | 格式 | 說明 |
+|--------|------|------|------|
+| `schema_version` | ✅ | | |
+| `entry_type` | ✅ | enum | `physician` / `clinic` / `hotline` / `support-org` |
+| `name` | ✅ | 純文字 | 醫師/診所/組織名稱 |
+| `pronouns` | ❌ | | physician 適用 |
+| `credentials` | ❌ | 純文字列表 | 執照（physician 適用） |
+| `medical_specialty` | ❌ | 純文字列表 | 醫學專科（如：泌尿科、婦產科、家庭醫學科） |
+| `kink_friendly_statement` | ❌ | Markdown，≤300 字 | physician/clinic 的自述 |
+| `services_offered` | ✅ | 純文字列表 | 提供的服務（如：性健康檢查、傷口處置、心理支持） |
+| `location` | ❌ | 純文字 | 地點（physician/clinic 適用） |
+| `contact_phone` | ❌ | 純文字 | 電話（hotline 必填） |
+| `contact_email` | ❌ | email | |
+| `contact_website` | ❌ | URL | |
+| `languages` | ❌ | 語言代碼列表 | |
+| `available_hours` | ❌ | 純文字 | 服務時段（hotline 適用，如「24/7」「週一至五 9-17」）|
+| `description` | ✅ | Markdown，100-300 字 | 服務說明 |
+| `bdsm_relevance` | ❌ | Markdown，≤150 字 | 對 BDSM 圈的相關性 |
+| `cost` | ❌ | enum | `free` / `subsidized` / `private-rate` / `varies` |
+| `listing_consent` | ✅ | boolean | （hotline/支持組織為公開資源，consent=true） |
+| `last_verified` | ✅ | YYYY-MM-DD | |
+| `caveats` | ❌ | | |
+| `topic_tags` | ✅ | | |
+| `reader_tags` | ✅ | | |
+| `contributor` | ✅ | | |
+| `contributor_note` | ❌ | | |
+| `created_date` | ✅ | | |
+
+### 13.2 收錄原則
+
+- **緊急熱線（如 113 婦幼保護專線、1995 自殺防治專線、113 衛福部專線等）為公開資源**，可不需 explicit consent
+- **個別醫師/診所須有 listing_consent**
+- **每 6 個月 re-verify**（醫療資源變動較快）
+
+---
+
 ## 附錄 A：變更紀錄
+
+### v1.3（2026-05-03）
+
+**新增 5 個 content type**：
+- 第九節：期刊條目 Schema（journals）— 性學/心理學期刊指南
+- 第十節：諮商資源 Schema（counselors）— Kink-friendly 諮商師 directory
+- 第十一節：法律資源 Schema（legal）— 律師 + 法規連結
+- 第十二節：大學社團 Schema（campus-groups）— 校園 kink-friendly 社團
+- 第十三節：醫療資源 Schema（medical）— 醫師/診所/緊急支持熱線
+
+**設計動機**：
+- 對齊 SPEC §7「有限度做的事」(諮商師、大學社團、活動行事曆)
+- 主人 2026-05-03 決策：5 個類別、各分一頁、不做活動行事曆
+
+**目錄結構**：
+```
+content/
+  glossary/      （v1.0 起，51 條）
+  bibliography/  （v1.0 起，7 條）
+  books/         （v1.0 起，9 條）
+  journals/      （v1.3 新增，首批 15 本）
+  counselors/    （v1.3 新增，先建空架構）
+  legal/         （v1.3 新增，先建空架構）
+  campus-groups/ （v1.3 新增，先建空架構）
+  medical/       （v1.3 新增，先建空架構）
+```
+
+**收錄原則重點**（4 個 directory type 共通）：
+- `listing_consent: true` 必填（除明確公開資源如熱線）
+- `self_attestation` 標明自薦
+- `last_verified` 必填，定期 re-verify
+- 站方不背書個人能力，僅做 directory 整理
+
+**遷移**：v1.2 條目向後相容。新增 type 不影響既有 glossary / bibliography / books 條目。
 
 ### v1.2（2026-05-02）
 

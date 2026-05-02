@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 繩兔
 term_en: Rope bunny
 aliases_en: rope bottom; bunny

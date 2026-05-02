@@ -1,20 +1,54 @@
 ---
 /**
- * TagPill — 主題 / 讀者 / 狀態標籤膠囊
+ * TagPill — 主題 / 讀者 / 狀態標籤
  *
- * 用於：條目卡片、列表頁 filter、條目詳情頁。
- * Variant：topic / reader / status
+ * V2 Polish (2026-05-03)：書頁標籤的方塊感（拒絕膠囊）+ 銳利化 + 書院氣質。
+ *
+ * Variants：
+ *   - topic：淡赭底 + Reference Crimson 文字（學術引用色語境）
+ *   - reader：純灰系（中性，給讀者類型 / 難度等）
+ *   - status：oa / paywalled / translated / locked（語義色 + outlined）
+ *
+ * Sizes：
+ *   - sm（12px / padding 2-8）：默認、index 頁卡片內、filter toolbar
+ *   - md（13-14px / padding 4-12）：條目詳情頁標籤區、hero
+ *
+ * States：
+ *   - default：底色 + 1px hairline
+ *   - hover（href only）：左側 3px grow + 文字變 accent-primary
+ *   - active（filter 選中）：反白（accent-primary 底 + bg-base 文字）
+ *
+ * Iron Laws (DESIGN.md §6)：
+ *   - 零 box-shadow / gradient / blur
+ *   - 銳利方塊（radius-sm 2px，非膠囊）
+ *   - small caps 字距增強書院感
+ *
+ * Curated by: 光影師 艾莉兒
  */
 
 interface Props {
+  /** 顯示文字 */
   label: string;
+  /** 視覺類型 */
   variant?: 'topic' | 'reader' | 'status';
+  /** 當 variant=status 時必填 */
   status?: 'oa' | 'paywalled' | 'translated' | 'locked';
+  /** 指向連結（filter 用） */
   href?: string;
+  /** 尺寸（sm 默認） */
   size?: 'sm' | 'md';
+  /** 是否為 active 選中狀態（filter UI 用） */
+  active?: boolean;
 }
 
-const { label, variant = 'topic', status, href, size = 'md' } = Astro.props;
+const {
+  label,
+  variant = 'topic',
+  status,
+  href,
+  size = 'sm',
+  active = false,
+} = Astro.props;
 
 const Tag = href ? 'a' : 'span';
 ---
@@ -25,35 +59,119 @@ const Tag = href ? 'a' : 'span';
     `tag-pill--${variant}`,
     status && `tag-pill--status-${status}`,
     `tag-pill--${size}`,
+    active && 'is-active',
   ]}
   {...(href ? { href } : {})}
+  {...(active ? { 'aria-pressed': 'true' } : {})}
 >
   {label}
 </Tag>
 
 <style>
+  /* ──────────────────────────────────────────────────────
+     Base — 銳利方塊（書頁標籤感）
+     ────────────────────────────────────────────────────── */
   .tag-pill {
     display: inline-flex;
     align-items: center;
+    position: relative;
     font-family: var(--font-sans);
+    font-weight: var(--fw-semibold);
     line-height: 1;
+    letter-spacing: 0.04em;
     border-radius: var(--radius-sm);
     border: 1px solid var(--rule-fine);
     background: var(--bg-elevated);
     color: var(--ink-meta);
     text-decoration: none;
-    transition: var(--transition-color);
     white-space: nowrap;
+    transition:
+      color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Sizes
+     ────────────────────────────────────────────────────── */
+  .tag-pill--sm {
+    font-size: 11px;
+    padding: 2px 8px;
+    min-height: 20px;
   }
 
   .tag-pill--md {
-    font-size: var(--fs-caption);
-    padding: var(--space-1) var(--space-3);
+    font-size: 13px;
+    padding: 4px 12px;
+    min-height: 26px;
   }
 
-  .tag-pill--sm {
-    font-size: var(--fs-eyebrow);
-    padding: 2px var(--space-2);
+  /* ──────────────────────────────────────────────────────
+     Variant: topic — 學術引用語境（淡赭底 + 酒紅文字）
+     ────────────────────────────────────────────────────── */
+  .tag-pill--topic {
+    color: var(--accent-primary);
+    background: var(--bg-elevated);
+    border-color: var(--rule-fine);
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Variant: reader — 中性灰系
+     ────────────────────────────────────────────────────── */
+  .tag-pill--reader {
+    color: var(--ink-meta);
+    background: var(--bg-subtle);
+    border-color: var(--rule-fine);
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Variant: status — 語義色 outlined
+     ────────────────────────────────────────────────────── */
+  .tag-pill--status-oa {
+    color: var(--status-oa);
+    border-color: var(--status-oa);
+    background: var(--bg-elevated);
+  }
+
+  .tag-pill--status-paywalled {
+    color: var(--status-paywalled);
+    border-color: var(--status-paywalled);
+    background: var(--bg-elevated);
+  }
+
+  .tag-pill--status-translated {
+    color: var(--status-translated);
+    border-color: var(--status-translated);
+    background: var(--bg-elevated);
+  }
+
+  .tag-pill--status-locked {
+    color: var(--status-locked);
+    border-color: var(--status-locked);
+    background: var(--bg-elevated);
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Hover — 左側 3px 邊條 grow（書脊微互動）
+     僅 <a> 適用，<span> 不變
+     ────────────────────────────────────────────────────── */
+  a.tag-pill {
+    overflow: hidden; /* 讓 ::before 不溢出 */
+  }
+
+  a.tag-pill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--accent-primary);
+    transition: width 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  a.tag-pill:hover::before {
+    width: 3px;
   }
 
   a.tag-pill:hover {
@@ -61,30 +179,67 @@ const Tag = href ? 'a' : 'span';
     border-color: var(--accent-primary);
   }
 
-  /* Variant: reader — 較淡 */
-  .tag-pill--reader {
-    color: var(--ink-disabled);
-    background: var(--bg-subtle);
+  /* status variant hover — 邊條與文字維持 status 色 */
+  a.tag-pill--status-oa:hover::before { background: var(--status-oa); }
+  a.tag-pill--status-paywalled:hover::before { background: var(--status-paywalled); }
+  a.tag-pill--status-translated:hover::before { background: var(--status-translated); }
+  a.tag-pill--status-locked:hover::before { background: var(--status-locked); }
+
+  a.tag-pill--status-oa:hover { color: var(--status-oa); border-color: var(--status-oa); }
+  a.tag-pill--status-paywalled:hover { color: var(--status-paywalled); border-color: var(--status-paywalled); }
+  a.tag-pill--status-translated:hover { color: var(--status-translated); border-color: var(--status-translated); }
+  a.tag-pill--status-locked:hover { color: var(--status-locked); border-color: var(--status-locked); }
+
+  /* ──────────────────────────────────────────────────────
+     Active state — 反白（filter 選中強對比）
+     ────────────────────────────────────────────────────── */
+  .tag-pill.is-active {
+    background: var(--accent-primary);
+    color: var(--bg-base);
+    border-color: var(--accent-primary);
   }
 
-  /* Variant: status — 語義色 */
-  .tag-pill--status-oa {
-    color: var(--status-oa);
+  .tag-pill.is-active::before {
+    width: 0; /* active 時不要 grow 邊條，已是反白 */
+  }
+
+  .tag-pill--status-oa.is-active {
+    background: var(--status-oa);
+    color: var(--bg-base);
     border-color: var(--status-oa);
   }
 
-  .tag-pill--status-paywalled {
-    color: var(--status-paywalled);
+  .tag-pill--status-paywalled.is-active {
+    background: var(--status-paywalled);
+    color: var(--bg-base);
     border-color: var(--status-paywalled);
   }
 
-  .tag-pill--status-translated {
-    color: var(--status-translated);
+  .tag-pill--status-translated.is-active {
+    background: var(--status-translated);
+    color: var(--bg-base);
     border-color: var(--status-translated);
   }
 
-  .tag-pill--status-locked {
-    color: var(--status-locked);
+  .tag-pill--status-locked.is-active {
+    background: var(--status-locked);
+    color: var(--bg-base);
     border-color: var(--status-locked);
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Focus visible — a11y ring（無 box-shadow，純 outline）
+     ────────────────────────────────────────────────────── */
+  a.tag-pill:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .tag-pill,
+    a.tag-pill::before {
+      transition: none;
+    }
   }
 </style>

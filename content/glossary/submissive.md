@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 順從者
 term_en: Submissive
 aliases_en: sub; submissive

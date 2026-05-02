@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 香草
 term_en: Vanilla
 tagline: 描述非 BDSM 性傾向或生活風格的圈內用詞。

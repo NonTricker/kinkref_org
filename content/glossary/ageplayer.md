@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 年齡扮演者
 term_en: Ageplayer
 aliases_en: Ageplay practitioner

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.2"
+schema_version: "1.3"
 term_zh: 24/7 動態
 term_en: 24/7
 aliases_en: 24/7 dynamic; full-time D/s
