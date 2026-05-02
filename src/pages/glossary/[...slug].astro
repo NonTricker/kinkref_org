@@ -14,6 +14,7 @@ import { getCollection, render } from 'astro:content';
 import EntryLayout from '@layouts/EntryLayout.astro';
 import TagPill from '@components/TagPill.astro';
 import CrossRefMap from '@components/CrossRefMap.astro';
+import { renderParagraphs } from '@/lib/inline-markdown';
 
 export async function getStaticPaths() {
   const allTerms = await getCollection('glossary');
@@ -27,13 +28,11 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
-/** 將 frontmatter 內 Markdown 風格純文字切成段落（粗略 fallback）。 */
-function paragraphs(text: string): string[] {
-  return text
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter((p) => p.length > 0);
-}
+/**
+ * 將 frontmatter 字串切段並 render inline markdown（**bold**、*italic*、`code`、[link]）。
+ * 詳見 src/lib/inline-markdown.ts。
+ */
+const paragraphsHtml = (text: string) => renderParagraphs(text);
 
 // 找出 related_terms 對應的條目（用於底部交叉連結）
 let relatedEntries: Awaited<ReturnType<typeof getCollection<'glossary'>>> = [];
@@ -111,8 +110,8 @@ const citationText = `${data.contributor} (${data.created_date.getFullYear()}). 
   {/* Definition body — 主定義段首字下沉（DESIGN.md §4 Drop Cap） */}
   <section class="term-section">
     <h2>定義</h2>
-    {paragraphs(data.definition).map((para, i) => (
-      <p class={i === 0 ? 'drop-cap' : undefined}>{para}</p>
+    {paragraphsHtml(data.definition).map((html, i) => (
+      <p class={i === 0 ? 'drop-cap' : undefined} set:html={html} />
     ))}
   </section>
 
@@ -127,8 +126,8 @@ const citationText = `${data.contributor} (${data.created_date.getFullYear()}). 
               <h3 class="disambiguation-vs">
                 vs. <span>{item.vs}</span>
               </h3>
-              {paragraphs(item.note).map((para) => (
-                <p>{para}</p>
+              {paragraphsHtml(item.note).map((html) => (
+                <p set:html={html} />
               ))}
             </li>
           ))}
@@ -142,7 +141,7 @@ const citationText = `${data.contributor} (${data.created_date.getFullYear()}). 
     data.usage_notes && (
       <section class="term-section">
         <h2>使用脈絡</h2>
-        {paragraphs(data.usage_notes).map((para) => <p>{para}</p>)}
+        {paragraphsHtml(data.usage_notes).map((html) => <p set:html={html} />)}
       </section>
     )
   }
@@ -152,7 +151,7 @@ const citationText = `${data.contributor} (${data.created_date.getFullYear()}). 
     data.controversies && (
       <section class="term-section">
         <h2>爭議點</h2>
-        {paragraphs(data.controversies).map((para) => <p>{para}</p>)}
+        {paragraphsHtml(data.controversies).map((html) => <p set:html={html} />)}
       </section>
     )
   }

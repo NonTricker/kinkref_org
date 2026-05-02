@@ -1,28 +1,38 @@
 ---
 /**
  * Books index — 書架清單列表頁
+ *
+ * v0.3.0 加入篩選器：topic_tags / book_type / has_zh_translation / difficulty
  */
 
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SearchBox from '@components/SearchBox.astro';
 import TagPill from '@components/TagPill.astro';
+import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown';
 
 const allBooks = await getCollection('books');
 const sortedBooks = allBooks.sort((a, b) => b.data.year - a.data.year);
 
+// 收集篩選器來源
+const allTopicTags = [...new Set(allBooks.flatMap((b) => b.data.topic_tags))].sort();
+const allBookTypes = [...new Set(allBooks.map((b) => b.data.book_type))].sort();
+const allDifficulties = [...new Set(allBooks.map((b) => b.data.difficulty))].sort();
+const hasAnyZhTranslation = allBooks.some((b) => b.data.has_zh_translation);
+
 const pageTitle = '書架清單 · Books';
-const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。首批含歐美教學經典（Topping/Bottom Book、SM 101、Screw the Roses）、reference（Different Loving）、學術民族誌（Newmahr）+ 中文圈代表（李銀河、小林繩霧）+ 日本傳統（蒼月流）。每本附中文書摘與取得方式。`;
+const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。首批含**歐美教學經典**（Topping/Bottom Book、SM 101、Screw the Roses）、**reference**（Different Loving）、**學術民族誌**（Newmahr）、**中文圈代表**（李銀河、小林繩霧）+ **日本傳統**（蒼月流）。每本附中文書摘與取得方式。`;
+const metaDescription = stripInlineMarkdown(pageDescription);
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
+<BaseLayout title={pageTitle} description={metaDescription}>
   <section class="page-hero">
     <div class="page-hero-inner">
       <p class="page-eyebrow">Books</p>
       <h1 class="page-title">書架清單</h1>
-      <p class="page-description">{pageDescription}</p>
+      <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
       <div class="page-search">
-        <SearchBox placeholder="搜尋書名、作者…" />
+        <SearchBox placeholder="搜尋書名、作者…" variant="hero" />
       </div>
     </div>
   </section>
@@ -41,35 +51,104 @@ const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。
         </div>
       </section>
     ) : (
-      <section class="entry-list-section">
-        <ul class="book-list">
-          {sortedBooks.map((entry) => (
-            <li class="book-card">
-              <a href={`/books/${entry.id}`}>
-                <header class="book-card-header">
-                  <p class="book-card-meta">
-                    <span class="book-card-year">{entry.data.year}</span>
-                    <span class="book-card-publisher">{entry.data.publisher}</span>
-                  </p>
-                  <h2 class="book-card-title">
-                    {entry.data.title}
-                    {entry.data.title_zh && <span class="book-card-title-zh">{entry.data.title_zh}</span>}
-                  </h2>
-                  <p class="book-card-authors">{entry.data.author}</p>
-                </header>
-                <p class="book-card-curator">{entry.data.curator_note}</p>
-                <ul class="book-card-tags">
-                  <li><TagPill label={entry.data.book_type} variant="topic" size="sm" /></li>
-                  <li><TagPill label={entry.data.difficulty} variant="reader" size="sm" /></li>
-                  {entry.data.has_zh_translation && (
-                    <li><TagPill label="有中譯本" variant="status" status="translated" size="sm" /></li>
-                  )}
+      <>
+        <section class="page-toolbar" aria-label="篩選">
+          <div class="page-toolbar-inner">
+            <div class="filter-group">
+              <p class="filter-label">主題：</p>
+              <ul class="filter-tags">
+                {allTopicTags.map((tag) => (
+                  <li>
+                    <TagPill label={tag} variant="topic" size="sm" href={`/books?topic=${tag}`} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="filter-group">
+              <p class="filter-label">書類：</p>
+              <ul class="filter-tags">
+                {allBookTypes.map((t) => (
+                  <li>
+                    <TagPill label={t} variant="topic" size="sm" href={`/books?type=${t}`} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="filter-group">
+              <p class="filter-label">難度：</p>
+              <ul class="filter-tags">
+                {allDifficulties.map((d) => (
+                  <li>
+                    <TagPill label={d} variant="reader" size="sm" href={`/books?difficulty=${d}`} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {hasAnyZhTranslation && (
+              <div class="filter-group">
+                <p class="filter-label">中譯本：</p>
+                <ul class="filter-tags">
+                  <li>
+                    <TagPill
+                      label="有中譯本"
+                      variant="status"
+                      status="translated"
+                      size="sm"
+                      href="/books?zh=1"
+                    />
+                  </li>
                 </ul>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section class="entry-list-section">
+          <ul class="book-list">
+            {sortedBooks.map((entry) => (
+              <li class="book-card">
+                <a href={`/books/${entry.id}`}>
+                  <header class="book-card-header">
+                    <p class="book-card-meta">
+                      <span class="book-card-year">{entry.data.year}</span>
+                      <span class="book-card-publisher">{entry.data.publisher}</span>
+                    </p>
+                    <h2 class="book-card-title">
+                      {entry.data.title}
+                      {entry.data.title_zh && (
+                        <span class="book-card-title-zh">{entry.data.title_zh}</span>
+                      )}
+                    </h2>
+                    <p class="book-card-authors">{entry.data.author}</p>
+                  </header>
+                  <p
+                    class="book-card-curator"
+                    set:html={renderInlineMarkdown(entry.data.curator_note)}
+                  />
+                  <ul class="book-card-tags">
+                    <li>
+                      <TagPill label={entry.data.book_type} variant="topic" size="sm" />
+                    </li>
+                    <li>
+                      <TagPill label={entry.data.difficulty} variant="reader" size="sm" />
+                    </li>
+                    {entry.data.has_zh_translation && (
+                      <li>
+                        <TagPill
+                          label="有中譯本"
+                          variant="status"
+                          status="translated"
+                          size="sm"
+                        />
+                      </li>
+                    )}
+                  </ul>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </>
     )
   }
 </BaseLayout>
@@ -101,13 +180,57 @@ const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。
 
   .page-description {
     font-size: var(--fs-body);
+    line-height: var(--lh-body);
     color: var(--ink-meta);
     margin: 0 0 var(--space-7);
-    max-width: 60ch;
+    max-width: 65ch;
+  }
+
+  .page-description :global(strong) {
+    color: var(--ink-heading);
+    font-weight: var(--fw-semibold);
   }
 
   .page-search {
-    max-width: 480px;
+    max-width: 100%;
+  }
+
+  .page-toolbar {
+    padding: var(--space-5);
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-toolbar-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+    min-width: 5em;
+  }
+
+  .filter-tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
   }
 
   .empty-state {
@@ -156,27 +279,32 @@ const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。
     gap: var(--space-5);
   }
 
+  /* Book card：左側書脊邊條（hover 顯現酒紅）+ 緊湊內距 */
   .book-card a {
     display: block;
-    padding: var(--space-7);
+    padding: var(--space-5) var(--space-6);
     background: var(--bg-elevated);
     border: 1px solid var(--rule-fine);
+    border-left: 3px solid transparent;
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--ink-body);
     height: 100%;
-    transition: var(--transition-color);
+    transition: var(--transition-color), border-left-color var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .book-card a:hover {
     border-color: var(--accent-primary);
+    border-left-color: var(--accent-primary);
+    transform: translateX(2px);
   }
 
   .book-card-meta {
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-2);
     display: flex;
     gap: var(--space-3);
   }
@@ -188,7 +316,7 @@ const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。
 
   .book-card-title {
     font-size: var(--fs-h3);
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-2);
     color: var(--ink-heading);
     display: flex;
     flex-direction: column;
@@ -206,14 +334,14 @@ const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。
     font-family: var(--font-sans);
     font-size: var(--fs-body-sm);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-4);
   }
 
   .book-card-curator {
     font-size: var(--fs-body-sm);
     line-height: var(--lh-body);
     color: var(--ink-body);
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-4);
     border-left: 3px solid var(--accent-citation);
     padding-left: var(--space-4);
   }

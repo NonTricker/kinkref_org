@@ -8,6 +8,7 @@
 import { getCollection, render } from 'astro:content';
 import EntryLayout from '@layouts/EntryLayout.astro';
 import TagPill from '@components/TagPill.astro';
+import { renderParagraphs, renderInlineMarkdown } from '@/lib/inline-markdown';
 
 export async function getStaticPaths() {
   const books = await getCollection('books');
@@ -21,12 +22,8 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
-function paragraphs(text: string): string[] {
-  return text
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter((p) => p.length > 0);
-}
+/** Render frontmatter 字串為含 inline markdown 的 HTML 段落陣列。 */
+const paragraphsHtml = (text: string) => renderParagraphs(text);
 
 const apaCitation = `${data.author} (${data.year}). ${data.title}. ${data.publisher}.${
   data.isbn ? ` ISBN: ${data.isbn}` : ''
@@ -77,12 +74,12 @@ const description = data.curator_note;
 
   <section class="book-section">
     <h2>中文書摘</h2>
-    {paragraphs(data.abstract_zh).map((para) => <p>{para}</p>)}
+    {paragraphsHtml(data.abstract_zh).map((html) => <p set:html={html} />)}
   </section>
 
   <section class="book-section">
     <h2 class="curator-heading">策展人推薦</h2>
-    <p class="curator-note">{data.curator_note}</p>
+    <p class="curator-note" set:html={renderInlineMarkdown(data.curator_note)} />
   </section>
 
   {
@@ -96,7 +93,7 @@ const description = data.curator_note;
                 {ch.chapter}
                 {ch.pages && <span class="chapter-pages">pp. {ch.pages}</span>}
               </h3>
-              {ch.note && <p class="chapter-note">{ch.note}</p>}
+              {ch.note && <p class="chapter-note" set:html={renderInlineMarkdown(ch.note)} />}
             </li>
           ))}
         </ul>
@@ -130,7 +127,7 @@ const description = data.curator_note;
           {data.caveats.map((caveat) => (
             <li class="caveat-item">
               <span class="caveat-type">{caveat.type}</span>
-              <span class="caveat-note">{caveat.note}</span>
+              <span class="caveat-note" set:html={renderInlineMarkdown(caveat.note)} />
             </li>
           ))}
         </ul>

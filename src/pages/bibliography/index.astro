@@ -2,31 +2,43 @@
 /**
  * Bibliography index — 文獻指南列表頁
  *
- * 顯示：依年份 / 主題分組的論文摘要列表。
- * 若 collection 為空，顯示 empty state。
+ * v0.3.0 加入篩選器：topic_tags / access_type / study_type / difficulty
+ * （client-side filter via URL search params + native CSS [data-*] selectors）
+ *
+ * Filter UI：toolbar row（active 狀態反白）
+ * Empty state：保留靈範師 R 的三角色語言
  */
 
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SearchBox from '@components/SearchBox.astro';
 import TagPill from '@components/TagPill.astro';
+import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown';
 
 const allPapers = await getCollection('bibliography');
 
 const sortedPapers = allPapers.sort((a, b) => b.data.year - a.data.year);
 
+// 收集篩選器來源（去重 + 排序）
+const allTopicTags = [...new Set(allPapers.flatMap((p) => p.data.topic_tags))].sort();
+const allStudyTypes = [...new Set(allPapers.map((p) => p.data.study_type))].sort();
+const allAccessTypes = [...new Set(allPapers.map((p) => p.data.access_type))].sort();
+
 const pageTitle = '文獻指南 · Bibliography';
-const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與索引。首批聚焦三條主軸：去病理化（Wismeijer 2013、Connolly 2006、Moser-Kleinplatz 2006）、同意框架歷史（Williams 4Cs、Pitagora 同意 vs 脅迫）、BDSM 神經科學（Sagarin 2009、Klement 2017）。所有條目附 DOI 與 OA 狀態。`;
+// pageDescription 含 inline markdown，visible 端 render 成 HTML；
+// metaDescription 為去除 markup 後的純文字，給 <meta> / OG / Twitter card 用。
+const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與索引。首批聚焦三條主軸：**去病理化**（Wismeijer 2013、Connolly 2006、Moser-Kleinplatz 2006）、**同意框架歷史**（Williams 4Cs、Pitagora 同意 vs 脅迫）、**BDSM 神經科學**（Sagarin 2009、Klement 2017）。所有條目附 DOI 與 OA 狀態。`;
+const metaDescription = stripInlineMarkdown(pageDescription);
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
+<BaseLayout title={pageTitle} description={metaDescription}>
   <section class="page-hero">
     <div class="page-hero-inner">
       <p class="page-eyebrow">Bibliography</p>
       <h1 class="page-title">文獻指南</h1>
-      <p class="page-description">{pageDescription}</p>
+      <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
       <div class="page-search">
-        <SearchBox placeholder="搜尋論文標題、作者…" />
+        <SearchBox placeholder="搜尋論文標題、作者…" variant="hero" />
       </div>
     </div>
   </section>
@@ -45,45 +57,91 @@ const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與�
         </div>
       </section>
     ) : (
-      <section class="entry-list-section">
-        <ul class="paper-list">
-          {sortedPapers.map((entry) => (
-            <li class="paper-card">
-              <a href={`/bibliography/${entry.id}`}>
-                <header class="paper-card-header">
-                  <p class="paper-card-meta">
-                    <span class="paper-card-year">{entry.data.year}</span>
-                    <span class="paper-card-journal">{entry.data.journal}</span>
-                  </p>
-                  <h2 class="paper-card-title">{entry.data.title}</h2>
-                  <p class="paper-card-authors">{entry.data.authors}</p>
-                </header>
-                <p class="paper-card-curator">{entry.data.curator_note}</p>
-                <ul class="paper-card-tags">
+      <>
+        <section class="page-toolbar" aria-label="篩選">
+          <div class="page-toolbar-inner">
+            <div class="filter-group">
+              <p class="filter-label">主題：</p>
+              <ul class="filter-tags">
+                {allTopicTags.map((tag) => (
+                  <li>
+                    <TagPill label={tag} variant="topic" size="sm" href={`/bibliography?topic=${tag}`} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="filter-group">
+              <p class="filter-label">取得方式：</p>
+              <ul class="filter-tags">
+                {allAccessTypes.map((t) => (
                   <li>
                     <TagPill
-                      label={entry.data.access_type}
+                      label={t}
                       variant="status"
-                      status={entry.data.access_type === 'open-access' ? 'oa' : 'paywalled'}
+                      status={t === 'open-access' ? 'oa' : t === 'paywalled' ? 'paywalled' : 'oa'}
                       size="sm"
+                      href={`/bibliography?access=${t}`}
                     />
                   </li>
-                  {entry.data.translation_status === 'full-translation' && (
+                ))}
+              </ul>
+            </div>
+            <div class="filter-group">
+              <p class="filter-label">研究類型：</p>
+              <ul class="filter-tags">
+                {allStudyTypes.map((t) => (
+                  <li>
+                    <TagPill label={t} variant="reader" size="sm" href={`/bibliography?study=${t}`} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="entry-list-section">
+          <ul class="paper-list">
+            {sortedPapers.map((entry) => (
+              <li class="paper-card">
+                <a href={`/bibliography/${entry.id}`}>
+                  <header class="paper-card-header">
+                    <p class="paper-card-meta">
+                      <span class="paper-card-year">{entry.data.year}</span>
+                      <span class="paper-card-journal">{entry.data.journal}</span>
+                    </p>
+                    <h2 class="paper-card-title">{entry.data.title}</h2>
+                    <p class="paper-card-authors">{entry.data.authors}</p>
+                  </header>
+                  <p
+                    class="paper-card-curator"
+                    set:html={renderInlineMarkdown(entry.data.curator_note)}
+                  />
+                  <ul class="paper-card-tags">
                     <li>
-                      <TagPill label="已翻譯" variant="status" status="translated" size="sm" />
+                      <TagPill
+                        label={entry.data.access_type}
+                        variant="status"
+                        status={entry.data.access_type === 'open-access' ? 'oa' : 'paywalled'}
+                        size="sm"
+                      />
                     </li>
-                  )}
-                  {entry.data.topic_tags.slice(0, 2).map((tag) => (
-                    <li>
-                      <TagPill label={tag} variant="topic" size="sm" />
-                    </li>
-                  ))}
-                </ul>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
+                    {entry.data.translation_status === 'full-translation' && (
+                      <li>
+                        <TagPill label="已翻譯" variant="status" status="translated" size="sm" />
+                      </li>
+                    )}
+                    {entry.data.topic_tags.slice(0, 2).map((tag) => (
+                      <li>
+                        <TagPill label={tag} variant="topic" size="sm" />
+                      </li>
+                    ))}
+                  </ul>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </>
     )
   }
 </BaseLayout>
@@ -115,13 +173,59 @@ const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與�
 
   .page-description {
     font-size: var(--fs-body);
+    line-height: var(--lh-body);
     color: var(--ink-meta);
     margin: 0 0 var(--space-7);
-    max-width: 60ch;
+    max-width: 65ch;
   }
 
+  .page-description :global(strong) {
+    color: var(--ink-heading);
+    font-weight: var(--fw-semibold);
+  }
+
+  /* SearchBox 拉滿主內容區寬度，與下方卡片對齊 */
   .page-search {
-    max-width: 480px;
+    max-width: 100%;
+  }
+
+  /* Filter Toolbar — 多組篩選軸 */
+  .page-toolbar {
+    padding: var(--space-5);
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-toolbar-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+    min-width: 6em;
+  }
+
+  .filter-tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
   }
 
   .empty-state {
@@ -167,29 +271,34 @@ const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與�
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-4);
   }
 
+  /* Paper card：左側書脊邊條（hover 顯現酒紅）+ 緊湊內距 */
   .paper-card a {
     display: block;
-    padding: var(--space-7);
+    padding: var(--space-5) var(--space-6);
     background: var(--bg-elevated);
     border: 1px solid var(--rule-fine);
+    border-left: 3px solid transparent;
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--ink-body);
-    transition: var(--transition-color);
+    transition: var(--transition-color), border-left-color var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .paper-card a:hover {
     border-color: var(--accent-primary);
+    border-left-color: var(--accent-primary);
+    transform: translateX(2px);
   }
 
   .paper-card-meta {
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-2);
     display: flex;
     gap: var(--space-3);
   }
@@ -205,7 +314,7 @@ const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與�
 
   .paper-card-title {
     font-size: var(--fs-h3);
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-2);
     color: var(--ink-heading);
   }
 
@@ -213,14 +322,14 @@ const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與�
     font-family: var(--font-sans);
     font-size: var(--fs-body-sm);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-4);
   }
 
   .paper-card-curator {
     font-size: var(--fs-body-sm);
     line-height: var(--lh-body);
     color: var(--ink-body);
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-4);
     border-left: 3px solid var(--accent-citation);
     padding-left: var(--space-4);
   }

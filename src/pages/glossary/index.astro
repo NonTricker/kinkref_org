@@ -12,6 +12,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SearchBox from '@components/SearchBox.astro';
 import TagPill from '@components/TagPill.astro';
+import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown';
 
 const allTerms = await getCollection('glossary');
 
@@ -25,16 +26,17 @@ const allTopicTags = [...new Set(allTerms.flatMap((entry) => entry.data.topic_ta
 
 const pageTitle = '術語表 · Glossary';
 const pageDescription = `${allTerms.length} 個 BDSM 學術術語的中英對照與辨析。剛測完 bdsmtest 想搜 archetype？想理解 sub vs M、pet vs slave 等圈內微分？每個條目附對偶辨析、爭議標註與圈內用法說明。`;
+const metaDescription = stripInlineMarkdown(pageDescription);
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
+<BaseLayout title={pageTitle} description={metaDescription}>
   <section class="page-hero">
     <div class="page-hero-inner">
       <p class="page-eyebrow">Glossary</p>
       <h1 class="page-title">術語表</h1>
-      <p class="page-description">{pageDescription}</p>
+      <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
       <div class="page-search">
-        <SearchBox placeholder="搜尋術語…" />
+        <SearchBox placeholder="搜尋術語…" variant="hero" />
       </div>
     </div>
   </section>
@@ -118,11 +120,17 @@ const pageDescription = `${allTerms.length} 個 BDSM 學術術語的中英對照
     line-height: var(--lh-body);
     color: var(--ink-meta);
     margin: 0 0 var(--space-7);
-    max-width: 60ch;
+    max-width: 65ch;
   }
 
+  .page-description :global(strong) {
+    color: var(--ink-heading);
+    font-weight: var(--fw-semibold);
+  }
+
+  /* SearchBox 拉滿主內容區寬度，跟下方卡片對齊 */
   .page-search {
-    max-width: 480px;
+    max-width: 100%;
   }
 
   .page-toolbar {
@@ -170,20 +178,25 @@ const pageDescription = `${allTerms.length} 個 BDSM 學術術語的中英對照
     gap: var(--space-5);
   }
 
+  /* 卡片：左側書脊邊條（hover 顯現）+ 緊湊內距 */
   .entry-card a {
     display: block;
-    padding: var(--space-7);
+    padding: var(--space-5) var(--space-6);
     background: var(--bg-elevated);
     border: 1px solid var(--rule-fine);
+    border-left: 3px solid transparent;
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--ink-body);
     height: 100%;
-    transition: var(--transition-color);
+    transition: var(--transition-color), border-left-color var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .entry-card a:hover {
     border-color: var(--accent-primary);
+    border-left-color: var(--accent-primary);
+    transform: translateX(2px);
   }
 
   .entry-card-header {
