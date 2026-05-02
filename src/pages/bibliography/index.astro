@@ -208,12 +208,13 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     margin: 0 0 var(--space-6);
   }
 
+  /* Hero description 對齊 page-hero-inner（1024px），與 search/toolbar 視覺一致。
+     65ch 紀律僅保留給詳情頁長文段落。 */
   .page-description {
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     color: var(--ink-meta);
     margin: 0 0 var(--space-7);
-    max-width: 65ch;
   }
 
   .page-description :global(strong) {
