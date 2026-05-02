@@ -12,7 +12,7 @@ const allBooks = await getCollection('books');
 const sortedBooks = allBooks.sort((a, b) => b.data.year - a.data.year);
 
 const pageTitle = '書架清單 · Books';
-const pageDescription = `${allBooks.length} 本已驗證書目。每本書附中文書摘、推薦章節與取得方式。`;
+const pageDescription = `${allBooks.length} 本跨日中英三文化的書目。首批含歐美教學經典（Topping/Bottom Book、SM 101、Screw the Roses）、reference（Different Loving）、學術民族誌（Newmahr）+ 中文圈代表（李銀河、小林繩霧）+ 日本傳統（蒼月流）。每本附中文書摘與取得方式。`;
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -33,7 +33,7 @@ const pageDescription = `${allBooks.length} 本已驗證書目。每本書附中
         <div class="empty-state-inner">
           <p class="empty-state-eyebrow">尚未開放</p>
           <h2>書架清單正在編纂中</h2>
-          <p>首批 30-50 本書目正由策展人撰寫書摘中。</p>
+          <p>首批書目摘要正由 AI 心理學家 Agent 繆思生成、策展人薩約審校中。</p>
           <p>
             如果你有想推薦的書，請參考
             <a href="/contribute">貢獻指南</a>。

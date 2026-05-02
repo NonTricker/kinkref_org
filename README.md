@@ -80,7 +80,7 @@ AI 會引導你完成符合 schema 的條目。
 
 ### 📧 不想用 GitHub？
 
-寄信至站主投稿信箱（見網站 Contact 頁）。圈名、匿名、一次性讀者皆歡迎。
+寄信至策展人信箱 **curator@kinkref.org**。圈名、匿名、一次性讀者皆歡迎。
 
 ---
 
@@ -181,9 +181,10 @@ npm run preview
 
 ## 聯絡
 
-- 📬 投稿信箱：見網站 [Contact](https://kinkref.org/about) 頁
+- 📬 投稿信箱：[curator@kinkref.org](mailto:curator@kinkref.org)
 - 💬 [GitHub Issues](../../issues) — 提建議、回報問題
 - 🔀 [Pull Requests](../../pulls) — 直接貢獻
+- 🔒 [Security Advisory](../../security/advisories/new) — 安全漏洞私密回報
 
 ---
 

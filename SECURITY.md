@@ -20,15 +20,25 @@ This project follows a rolling-release model. Only the latest deployed version o
 
 If you discover a security vulnerability, please **do not open a public GitHub issue**.
 
-### How to Report
+### How to Report (preferred)
 
-1. Email the maintainer at the address listed on the site's Contact page
-2. Subject line should start with `[SECURITY]`
-3. Include:
-   - Description of the vulnerability
-   - Steps to reproduce
-   - Potential impact
-   - Suggested mitigation (if any)
+Use **[GitHub Security Advisory](https://github.com/NonTricker/kinkref_org/security/advisories/new)** —
+this is a private channel between you and the maintainer, with built-in workflow for tracking,
+fixing, and CVE assignment if needed.
+
+### Alternative: Email
+
+If you cannot use GitHub Advisory, email the curator:
+
+- **Address**: `curator@kinkref.org`
+- **Subject**: must start with `[SECURITY]`
+- **Body**:
+  - Description of the vulnerability
+  - Steps to reproduce
+  - Potential impact
+  - Suggested mitigation (if any)
+
+> Note: email is plain transport. For sensitive reports we strongly recommend GitHub Advisory above.
 
 ### What to Expect
 
