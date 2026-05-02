@@ -167,7 +167,9 @@
     --ink-body:     #E8E2D6;
     --ink-meta:     #A8A095;
     --ink-disabled: #6B6760;
-    --ink-inverse:  #1C1A17;
+    /* --ink-inverse 是「在深底上的淺字」語意。Footer 在 light/dark mode 都是深底，
+       所以這個 token 在兩個 mode 都保持淺色（不要翻轉成深色）。 */
+    --ink-inverse:  #E8E2D6;
 
     --accent-primary:  #C25555; /* 提亮酒紅以維持 contrast */
     --accent-citation: #C9A65A; /* 提亮銅金 */
@@ -196,7 +198,8 @@
   --ink-body:     #E8E2D6;
   --ink-meta:     #A8A095;
   --ink-disabled: #6B6760;
-  --ink-inverse:  #1C1A17;
+  /* 同 prefers-color-scheme: dark，footer 文字保持淺色 */
+  --ink-inverse:  #E8E2D6;
 
   --accent-primary:  #C25555;
   --accent-citation: #C9A65A;

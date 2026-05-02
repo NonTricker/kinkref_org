@@ -129,23 +129,8 @@ const formattedDate = lastReviewed
     padding: var(--space-9) var(--space-5) var(--space-11);
   }
 
-  /* 長文段落紀律 — 內文 <p> 限制 65ch 維持閱讀寬度，
-     不影響 metadata grid / citation block / tag pills 等結構。 */
-  .entry-body :global(.term-section p),
-  .entry-body :global(.paper-section p),
-  .entry-body :global(.book-section p),
-  .entry-body :global(.term-section li),
-  .entry-body :global(.paper-section li),
-  .entry-body :global(.book-section li) {
-    max-width: var(--content-width-prose);
-  }
-
-  /* H2 與裝飾線也保留窄寬，跟段落視覺對齊 */
-  .entry-body :global(.term-section > h2),
-  .entry-body :global(.paper-section > h2),
-  .entry-body :global(.book-section > h2) {
-    max-width: var(--content-width-prose);
-  }
+  /* 2026-05-03 v0.3.7：執政官選擇統一拿掉 65ch 紀律，全頁 1024px 對齊。
+     原本「結構寬、段落窄」的雙層紀律由「全頁一致」取代。 */
 
   .entry-breadcrumb {
     font-family: var(--font-sans);

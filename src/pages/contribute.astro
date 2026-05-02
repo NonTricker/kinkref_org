@@ -54,16 +54,23 @@ const types = [
 ---
 
 <BaseLayout title={pageTitle} description={description}>
-  <article class="contribute-page">
-    <header class="contribute-header">
-      <p class="page-eyebrow">Contribute</p>
-      <h1>三條貢獻路徑</h1>
-      <p class="contribute-intro">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-num">04</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-name">Contribute</span>
+      </p>
+      <h1 class="page-title">三條貢獻路徑</h1>
+      <hr class="page-title-rule" aria-hidden="true" />
+      <p class="page-description">
         無論你是研究者、譯者、圈內人，或單純想協助—— 本站歡迎你的貢獻。
         所有內容皆採 CC BY-SA 4.0 授權，貢獻者可選擇圈名、匿名或一次性 GitHub 帳號。
       </p>
-    </header>
+    </div>
+  </section>
 
+  <article class="contribute-page">
     <section class="paths">
       {
         paths.map((path) => (
@@ -123,17 +130,15 @@ const types = [
 </BaseLayout>
 
 <style>
-  .contribute-page {
-    max-width: var(--content-width-index);
-    margin: 0 auto;
-    padding: var(--space-11) var(--space-5) var(--space-12);
+  /* Page hero — 對齊 glossary/bibliography/books index 的 V2 polish 模式 */
+  .page-hero {
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
   }
 
-  .contribute-header {
-    max-width: var(--content-width-prose);
-    margin: 0 auto var(--space-11);
-    padding-bottom: var(--space-7);
-    border-bottom: 1px solid var(--rule-fine);
+  .page-hero-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
   }
 
   .page-eyebrow {
@@ -142,19 +147,56 @@ const types = [
     text-transform: uppercase;
     letter-spacing: var(--ls-eyebrow);
     color: var(--accent-primary);
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
   }
 
-  .contribute-header h1 {
+  .page-eyebrow-num {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .page-eyebrow-sep {
+    color: var(--ink-disabled);
+    font-weight: var(--fw-regular);
+  }
+
+  .page-eyebrow-name {
+    font-weight: var(--fw-semibold);
+  }
+
+  .page-title {
     font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-tight);
     margin: 0 0 var(--space-5);
   }
 
-  .contribute-intro {
-    color: var(--ink-meta);
+  .page-title-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .page-description {
     font-size: var(--fs-body);
     line-height: var(--lh-body);
+    color: var(--ink-meta);
     margin: 0;
+  }
+
+  /* 內容區 wrapper — 1024px，對齊 hero */
+  .contribute-page {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-12);
   }
 
   .paths {
@@ -232,8 +274,7 @@ const types = [
   }
 
   .types {
-    max-width: var(--content-width-prose);
-    margin: 0 auto var(--space-12);
+    margin: 0 0 var(--space-12);
   }
 
   .types h2 {
@@ -270,8 +311,7 @@ const types = [
   }
 
   .opsec {
-    max-width: var(--content-width-prose);
-    margin: 0 auto;
+    margin: 0;
   }
 
   .opsec-inner {
