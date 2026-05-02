@@ -1,0 +1,242 @@
+---
+/**
+ * Glossary index — 術語表列表頁
+ *
+ * 顯示：依字母排序的所有術語條目，含中英對照、tagline、tag 摘要。
+ * Filter（占位 — 後續 client-side filter）：
+ *   - by topic_tag
+ *   - by reader_tag
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SearchBox from '@components/SearchBox.astro';
+import TagPill from '@components/TagPill.astro';
+
+const allTerms = await getCollection('glossary');
+
+// 依英文 term 排序
+const sortedTerms = allTerms.sort((a, b) =>
+  a.data.term_en.toLowerCase().localeCompare(b.data.term_en.toLowerCase())
+);
+
+// 取所有 topic_tags（去重）供 filter UI 用
+const allTopicTags = [...new Set(allTerms.flatMap((entry) => entry.data.topic_tags))].sort();
+
+const pageTitle = '術語表 · Glossary';
+const pageDescription = `${allTerms.length} 個 BDSM 學術術語的中英對照與辨析。`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">Glossary</p>
+      <h1 class="page-title">術語表</h1>
+      <p class="page-description">{pageDescription}</p>
+      <div class="page-search">
+        <SearchBox placeholder="搜尋術語…" />
+      </div>
+    </div>
+  </section>
+
+  <section class="page-toolbar" aria-label="篩選">
+    <div class="page-toolbar-inner">
+      <p class="toolbar-label">主題篩選：</p>
+      <ul class="toolbar-tags">
+        {
+          allTopicTags.map((tag) => (
+            <li>
+              <TagPill label={tag} variant="topic" size="sm" href={`/glossary?topic=${tag}`} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="entry-list-section">
+    <ul class="entry-list">
+      {
+        sortedTerms.map((entry) => (
+          <li class="entry-card">
+            <a href={`/glossary/${entry.id}`}>
+              <header class="entry-card-header">
+                <h2 class="entry-card-title">
+                  <span class="entry-card-en">{entry.data.term_en}</span>
+                  <span class="entry-card-zh">{entry.data.term_zh}</span>
+                </h2>
+                {entry.data.aliases_en && (
+                  <p class="entry-card-aliases">
+                    <span class="entry-card-meta-label">aka.</span>
+                    {entry.data.aliases_en}
+                  </p>
+                )}
+              </header>
+              <p class="entry-card-tagline">{entry.data.tagline}</p>
+              <ul class="entry-card-tags">
+                {entry.data.topic_tags.slice(0, 3).map((tag) => (
+                  <li>
+                    <TagPill label={tag} variant="topic" size="sm" />
+                  </li>
+                ))}
+              </ul>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-hero-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .page-title {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-4);
+  }
+
+  .page-description {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-7);
+    max-width: 60ch;
+  }
+
+  .page-search {
+    max-width: 480px;
+  }
+
+  .page-toolbar {
+    padding: var(--space-5) var(--space-5);
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-toolbar-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .toolbar-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .toolbar-tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .entry-list-section {
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .entry-list {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .entry-card a {
+    display: block;
+    padding: var(--space-7);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    height: 100%;
+    transition: var(--transition-color);
+  }
+
+  .entry-card a:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .entry-card-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .entry-card-title {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .entry-card-en {
+    font-size: var(--fs-h3);
+    font-family: var(--font-serif);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+  }
+
+  .entry-card-zh {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    font-weight: var(--fw-regular);
+  }
+
+  .entry-card-aliases {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
+  .entry-card-meta-label {
+    color: var(--ink-disabled);
+    margin-right: var(--space-2);
+    font-style: italic;
+  }
+
+  .entry-card-tagline {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-5);
+  }
+
+  .entry-card-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+</style>

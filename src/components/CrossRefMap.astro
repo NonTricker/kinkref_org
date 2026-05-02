@@ -1,0 +1,225 @@
+---
+/**
+ * CrossRefMap — 詞彙地圖（術語交叉引用）
+ *
+ * 形式：純靜態 SVG 樹狀圖，無 JS、無 zoom/pan、無動畫。
+ * 佈局：垂直 list 連線（current 在頂端，左側豎線下穿 + 横線分支至 related 縱列）。
+ *       對標：學術書院的「卡式索引附錄」氣質。
+ *       不採中心放射（過於現代圖譜風）/ 不採 force-directed graph。
+ *
+ * Mood: The Reference Press（學術書院）— DESIGN.md §4 L319-325
+ * Spec: 線條 1px solid #5C544A → var(--rule-tree)
+ *       節點 13px sans → var(--font-sans)
+ *       Current 背景 var(--bg-base) + 邊框 var(--accent-primary)
+ *       Related hover → var(--accent-primary)
+ *
+ * Curated by: 光影師 艾莉兒
+ */
+
+interface RelatedNode {
+  /** content collection id（slug） */
+  slug: string;
+  /** 英文術語名 */
+  termEn: string;
+  /** 中文術語名 */
+  termZh: string;
+}
+
+interface Props {
+  /** 當前術語的英文名（樹中心節點） */
+  currentTermEn: string;
+  /** 當前術語的中文名 */
+  currentTermZh: string;
+  /** 相關術語列表（已從 frontmatter 解析完畢） */
+  related: RelatedNode[];
+}
+
+const { currentTermEn, currentTermZh, related } = Astro.props;
+
+/* ──────────────────────────────────────────────────────
+   SVG 座標系（單位 px，但會被 viewBox 等比縮放）
+   ────────────────────────────────────────────────────── */
+const VIEWBOX_W = 700;
+const CURRENT_W = 360;
+const CURRENT_X = (VIEWBOX_W - CURRENT_W) / 2; // 170
+const CURRENT_Y = 8;
+const CURRENT_H = 60;
+const TRUNK_X = VIEWBOX_W / 2; // 350 — 樹幹位置（垂直中軸）
+const TRUNK_TOP = CURRENT_Y + CURRENT_H; // 68 — 從 current 底部出發
+const FIRST_BRANCH_Y = TRUNK_TOP + 24; // 92 — 第一條分支
+const BRANCH_GAP = 56; // 分支垂直間距
+const BRANCH_LEN = 60; // 横線長度
+const TEXT_X = TRUNK_X + BRANCH_LEN + 12; // 422 — related 文字起點
+const PADDING_BOTTOM = 32;
+
+const lastBranchY =
+  related.length > 0 ? FIRST_BRANCH_Y + (related.length - 1) * BRANCH_GAP : TRUNK_TOP;
+const VIEWBOX_H = lastBranchY + PADDING_BOTTOM;
+
+const ariaLabel = `詞彙地圖：當前術語 ${currentTermEn}（${currentTermZh}），共 ${related.length} 條相關連結`;
+---
+
+<figure class="cross-ref-map" aria-label={ariaLabel}>
+  <svg
+    class="cross-ref-svg"
+    viewBox={`0 0 ${VIEWBOX_W} ${VIEWBOX_H}`}
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-label={ariaLabel}
+  >
+    {/* Current term box — 中央頂端，背景 + 1px 酒紅邊框（spec 規定） */}
+    <g class="node-current">
+      <rect
+        x={CURRENT_X}
+        y={CURRENT_Y}
+        width={CURRENT_W}
+        height={CURRENT_H}
+        rx="0"
+        ry="0"
+      />
+      <text class="current-en" x={TRUNK_X} y={CURRENT_Y + 26} text-anchor="middle">
+        {currentTermEn}
+      </text>
+      <text class="current-zh" x={TRUNK_X} y={CURRENT_Y + 46} text-anchor="middle">
+        {currentTermZh}
+      </text>
+    </g>
+
+    {/* Trunk vertical line — 從 current 底部延伸到最後一個分支 y */}
+    {related.length > 0 && (
+      <line
+        class="trunk-line"
+        x1={TRUNK_X}
+        y1={TRUNK_TOP}
+        x2={TRUNK_X}
+        y2={lastBranchY}
+      />
+    )}
+
+    {/* Branches — 每條分支：横線 + 連結文字（en serif / zh sans） */}
+    {
+      related.map((node, i) => {
+        const y = FIRST_BRANCH_Y + i * BRANCH_GAP;
+        return (
+          <g class="node-branch">
+            <line
+              class="branch-line"
+              x1={TRUNK_X}
+              y1={y}
+              x2={TRUNK_X + BRANCH_LEN}
+              y2={y}
+            />
+            <a href={`/glossary/${node.slug}`} class="branch-link">
+              <text class="branch-en" x={TEXT_X} y={y - 2}>
+                {node.termEn}
+              </text>
+              <text class="branch-zh" x={TEXT_X} y={y + 14}>
+                {node.termZh}
+              </text>
+            </a>
+          </g>
+        );
+      })
+    }
+  </svg>
+</figure>
+
+<style>
+  /* ──────────────────────────────────────────────────────
+     Container — Mobile RWD：≥480 顯示完整，< 480 允許橫向 scroll
+     ────────────────────────────────────────────────────── */
+  .cross-ref-map {
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cross-ref-svg {
+    display: block;
+    width: 100%;
+    min-width: 480px;
+    max-width: 720px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Current node — 視覺上明確標出（背景 + 1px 酒紅邊框）
+     ────────────────────────────────────────────────────── */
+  .node-current rect {
+    fill: var(--bg-base);
+    stroke: var(--accent-primary);
+    stroke-width: 1;
+  }
+
+  .current-en {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 600;
+    fill: var(--ink-heading);
+    letter-spacing: -0.1px;
+  }
+
+  .current-zh {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    fill: var(--ink-meta);
+    letter-spacing: 0;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Lines — 1px solid var(--rule-tree)（DESIGN.md §4 spec）
+     ────────────────────────────────────────────────────── */
+  .trunk-line,
+  .branch-line {
+    stroke: var(--rule-tree);
+    stroke-width: 1;
+    stroke-linecap: square;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Branch text — sans 13px，hover 變酒紅
+     ────────────────────────────────────────────────────── */
+  .branch-en {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    fill: var(--ink-body);
+    letter-spacing: 0.1px;
+    transition: fill 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .branch-zh {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    fill: var(--ink-meta);
+    transition: fill 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .branch-link {
+    cursor: pointer;
+  }
+
+  .branch-link:hover .branch-en,
+  .branch-link:hover .branch-zh,
+  .branch-link:focus .branch-en,
+  .branch-link:focus .branch-zh {
+    fill: var(--accent-primary);
+  }
+
+  .branch-link:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Reduced motion — 關閉 hover transition
+     ────────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .branch-en,
+    .branch-zh {
+      transition: none;
+    }
+  }
+</style>

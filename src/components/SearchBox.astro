@@ -1,0 +1,141 @@
+---
+/**
+ * SearchBox — 客戶端搜尋輸入（MiniSearch 占位）
+ *
+ * 此組件僅提供 UI shell。
+ * 實際 MiniSearch 整合 + 索引載入將於後續迭代加入：
+ *   - public/search-index.json（build 時生成）
+ *   - 動態 import('minisearch')
+ *   - 結果浮層
+ *
+ * Reference: https://lucaong.github.io/minisearch/
+ */
+
+interface Props {
+  /** 占位文字 */
+  placeholder?: string;
+  /** 可選的 className */
+  className?: string;
+  /** 顯示為頁面內 hero 區還是 nav inline */
+  variant?: 'hero' | 'inline';
+}
+
+const { placeholder = '搜尋術語、論文、書目…', className, variant = 'inline' } = Astro.props;
+---
+
+<form
+  class:list={['search-box', `search-box--${variant}`, className]}
+  role="search"
+  data-search-form
+  onsubmit="return false"
+>
+  <label for="search-input" class="search-box-label">搜尋本站</label>
+  <div class="search-box-inner">
+    <span class="search-box-icon" aria-hidden="true">⌕</span>
+    <input
+      id="search-input"
+      type="search"
+      class="search-box-input"
+      placeholder={placeholder}
+      autocomplete="off"
+      spellcheck="false"
+      data-search-input
+    />
+    <kbd class="search-box-hint" aria-hidden="true">/</kbd>
+  </div>
+
+  <div class="search-box-results" data-search-results hidden>
+    {/* Populated by client-side script */}
+  </div>
+</form>
+
+<script>
+  // Placeholder: focus shortcut "/"
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
+    const target = e.target as HTMLElement | null;
+    if (target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+    const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+    if (!input) return;
+    e.preventDefault();
+    input.focus();
+  });
+
+  // TODO: load minisearch lazily and bind to data-search-input
+  // const { default: MiniSearch } = await import('minisearch');
+</script>
+
+<style>
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .search-box-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    background: var(--bg-elevated);
+    padding: var(--space-2) var(--space-3);
+    transition: var(--transition-color);
+  }
+
+  .search-box-inner:focus-within {
+    border-color: var(--accent-primary);
+  }
+
+  .search-box-icon {
+    color: var(--ink-disabled);
+    font-size: var(--fs-body);
+    line-height: 1;
+  }
+
+  .search-box-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-body);
+  }
+
+  .search-box-input::placeholder {
+    color: var(--ink-disabled);
+  }
+
+  .search-box-hint {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-disabled);
+    background: var(--bg-subtle);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    padding: 0 var(--space-2);
+    line-height: 1.4;
+  }
+
+  /* Hero variant — index.astro 主視覺 */
+  .search-box--hero .search-box-inner {
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--fs-body);
+  }
+
+  .search-box--hero .search-box-input {
+    font-size: var(--fs-body);
+  }
+
+  .search-box-results {
+    margin-top: var(--space-3);
+  }
+</style>

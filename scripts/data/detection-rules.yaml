@@ -1,0 +1,498 @@
+# Detection Rules for kinkref.org self-check
+# 版本: 1.1
+# 對應 schema: CONTENT_SCHEMA.md v1.2
+# 最後更新: 2026-05-02
+#
+# 此檔案是 self-check.py 與 quality-scan.py 的外部規則庫。
+# 所有偵測規則集中在此，方便維護與調整。
+# 修改規則不需要動腳本程式碼。
+
+# ─── Schema 結構規則 ─────────────────────────────────────
+schema:
+  current_version: "1.2"
+
+  required_fields:
+    glossary:
+      - schema_version
+      - term_zh
+      - term_en
+      - tagline
+      - definition
+      - topic_tags
+      - reader_tags
+      - contributor
+      - created_date
+      - last_reviewed
+
+    book:
+      - schema_version
+      - title
+      - author
+      - year
+      - publisher
+      - language
+      - has_zh_translation
+      - book_type
+      - topic_tags
+      - reader_tags
+      - difficulty
+      - abstract_zh
+      - curator_note
+      - contributor
+      - created_date
+      - last_reviewed
+
+    paper:
+      - schema_version
+      - title
+      - authors
+      - year
+      - journal
+      - doi
+      - access_type
+      - study_type
+      - translation_status
+      - topic_tags
+      - reader_tags
+      - difficulty
+      - abstract_zh
+      - curator_note
+      - contributor
+      - created_date
+      - last_reviewed
+
+  topic_tags_valid:
+    - consent
+    - psychopathology
+    - aftercare
+    - cross-cultural
+    - harm-reduction
+    - methodology
+    - legal
+    - neuroscience
+    - identity
+    - relationship-dynamics
+    - gender-sexuality
+    - subculture-ethnography
+    - practice-specific
+    - history
+
+  topic_tags_deprecated:
+    glossary: "v1.1 移除（對術語條目永真冗餘）"
+
+  reader_tags_valid:
+    - beginner
+    - practitioner
+    - researcher
+    - clinical
+    - legal-pro
+    - educator
+    - media
+    - policy-maker
+    - loved-ones
+
+  reader_tags_deprecated:
+    partner-family: "v1.1 改為 loved-ones（避免病理化聯想）"
+
+  enums:
+    book_type:
+      - academic
+      - popular
+      - fiction
+      - memoir
+      - reference
+
+    difficulty:
+      - entry
+      - intermediate
+      - advanced
+
+    access_type:
+      - open-access
+      - paywalled
+      - preprint-available
+
+    oa_type:
+      - gold
+      - green
+      - bronze
+      - hybrid
+      - diamond
+
+    study_type:
+      - quantitative
+      - qualitative
+      - mixed-methods
+      - theoretical
+      - review
+      - systematic-review
+      - meta-analysis
+      - case-study
+      - ethnography
+      - commentary
+
+    translation_status:
+      - full-translation
+      - partial-translation
+      - abstract-only
+      - planned
+      - none
+
+    replication_status:
+      - replicated
+      - partially-replicated
+      - failed-replication
+      - disputed
+      - unknown
+
+  slug_rules:
+    pattern: '^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$'
+    max_length: 40
+    forbidden_chars: ['_', ' ', '/', '\\']
+
+# ─── 篇幅規範 ───────────────────────────────────────────
+length_limits:
+  glossary:
+    tagline:
+      max: 30
+    definition:
+      min: 150
+      max: 400
+    disambiguation_per_item:
+      max: 100
+    disambiguation_total:
+      max: 500
+    usage_notes:
+      max: 200
+    controversies:
+      max: 200
+
+  book:
+    abstract_zh:
+      min: 100
+      max: 300
+
+  paper:
+    abstract_zh:
+      min: 150
+      max: 400
+    abstract_zh_review:  # study_type 為 review/systematic-review/meta-analysis 時
+      min: 150
+      max: 500
+
+# ─── 語氣中性化（第一人稱與主觀觀察詞）───────────────
+neutrality:
+  forbidden_phrases:
+    # 第一人稱觀察
+    - 我認為
+    - 我覺得
+    - 我想
+    - 我觀察到
+    - 我接觸過
+    - 我聽過
+    - 我見過
+    - 我幫人
+    - 我自己
+    - 我相信
+    - 我發現
+    # 個人位置感
+    - 在我的關係中
+    - 我追求的
+    - 我期望的
+    - 我自認
+    # 修飾性主觀詞
+    - 個人觀點
+    - 個人意見
+    - 個人感悟
+    - 個人立場
+    - 淺見
+    - 拙見
+    - 僅供參考
+    - 自行斟酌
+    # 編輯位置洩漏
+    - 筆者
+    - 本人
+
+# ─── 規範性語言（避免「應該」式絕對化）──────────────
+prescriptive_language:
+  patterns:
+    - '只有.{1,10}才(算是|是|能)'
+    - '真正的.{1,10}應該'
+    - '正確的.{1,10}應該'
+    - '所有.{1,10}都必須'
+    - '一個.{1,10}必定'
+    - '必須是.{1,10}才能'
+
+# ─── AI 塑膠句式（借鑑 Taiwan.md quality-scan v3）─────
+ai_plastic_phrases:
+  patterns:
+    - '不僅.{0,8}更是'
+    - '不只.{0,8}也是'
+    - '不是.{0,8}而是'
+    - '展現了.{0,8}的精神'
+    - '展現.{0,8}的決心'
+    - '體現了.{0,8}的精神'
+    - '彰顯了'
+    - '承載著'
+    - '見證了.{0,10}的歷程'
+    - '為.{0,10}注入.{0,8}活力'
+    - '為.{0,10}奠定.{0,8}基礎'
+    - '開啟了.{0,8}的新篇章'
+    - '譜寫.{0,8}的華章'
+    - '綻放.{0,8}的光芒'
+    - '從.{2,15}到.{2,15}，從.{2,15}到'
+  thresholds:
+    warn_at: 1
+    error_at: 3
+
+  dash_max: 4  # 「——」上限
+
+  hollow_modifiers:
+    - 重要的
+    - 顯著的
+    - 豐富的
+    - 完整的
+    - 多元的
+    - 蓬勃發展
+    - 逐步
+    - 逐漸
+    - 不斷
+    - 持續
+    - 日益
+    - 進一步
+    - 全面
+    - 深入
+    - 大力
+    - 有效
+    - 穩步
+  hollow_thresholds:
+    warn_at: 4
+    error_at: 8
+
+# ─── 中國用語偵測（含 false-positives）────────────────
+china_terms:
+  - cterm: 視頻
+    severity: A
+    taiwan: 影片
+  - cterm: 質量
+    severity: B  # 「質量守恆」物理用語可接受
+    taiwan: 品質
+    false_positives:
+      - 質量守恆
+      - 質量單位
+      - 質量數
+  - cterm: 軟件
+    severity: A
+    taiwan: 軟體
+  - cterm: 硬件
+    severity: A
+    taiwan: 硬體
+  - cterm: 博客
+    severity: A
+    taiwan: 部落格
+    false_positives:
+      - 博客來  # 台灣書店
+  - cterm: 點贊
+    severity: A
+    taiwan: 按讚
+  - cterm: 互聯網
+    severity: A
+    taiwan: 網際網路
+  - cterm: 操作系統
+    severity: A
+    taiwan: 作業系統
+  - cterm: 數據庫
+    severity: A
+    taiwan: 資料庫
+  - cterm: 信息化
+    severity: A
+    taiwan: 資訊化
+  - cterm: 服務器
+    severity: A
+    taiwan: 伺服器
+  - cterm: 算法
+    severity: A
+    taiwan: 演算法
+    false_positives:
+      - 演算法
+  - cterm: 屏幕
+    severity: A
+    taiwan: 螢幕
+  - cterm: 網絡
+    severity: B
+    taiwan: 網路
+    false_positives:
+      - 網絡犯罪
+      - 網絡攻擊
+  - cterm: 鼠標
+    severity: A
+    taiwan: 滑鼠
+  - cterm: 寬帶
+    severity: A
+    taiwan: 寬頻
+  - cterm: 移動端
+    severity: A
+    taiwan: 行動裝置
+  - cterm: 公交車
+    severity: A
+    taiwan: 公車
+  - cterm: 出租車
+    severity: A
+    taiwan: 計程車
+
+# ─── 政策禁區 ────────────────────────────────────────
+policy_violations:
+
+  # 操作安全指引（站方明確不收錄）
+  safety_instructions:
+    severity: critical
+    note: "本站不收錄操作安全指引（SPEC §6）"
+    patterns:
+      - '如何安全(進行|實踐|操作)'
+      - '安全進行.{0,10}的步驟'
+      - '操作步驟如下'
+      - '正確姿勢應'
+      - '建議使用.{0,10}的方式'
+      - '具體做法是'
+      - '步驟[一二三四五六七八九十]'
+
+  # 個人/工作室評價（本站不背書任何個人，包括執政官自己）
+  personal_endorsement:
+    severity: critical
+    note: "本站不背書個人或工作室（SPEC §6）"
+    patterns:
+      - '推薦.{0,8}(老師|工作室|教練|導師|前輩)'
+      - '建議找.{0,5}(老師|工作室)'
+      - '介紹.{0,5}(場地|工作室)'
+      - '@[A-Za-z0-9_\u4e00-\u9fff]{2,}'  # @某人
+
+  # 未成年相關（context-aware：在 ageplay 條目的 caveats/audience_warning 內為保護聲明）
+  underage:
+    severity: critical
+    note: "未成年詞彙僅允許在 ageplay 系列條目作為保護聲明（SPEC §12c）"
+    patterns:
+      - 未成年
+      - 兒童(?!色情)  # 「兒童色情」是法律用語可允許
+      - 小學生
+      - 中學生
+      - 國中生
+      - 國小生
+      - minor
+      - underage
+      - loli
+      - shota
+      - 蘿莉
+      - 正太
+    context_aware: true
+    allowed_in_slug:
+      - ageplayer
+      - daddy-mommy
+      - boy-girl
+    # 在這些條目中，未成年相關詞應僅出現於下列欄位（保護聲明用）
+    allowed_only_in_fields:
+      - caveats
+      - audience_warning
+      - controversies
+
+  # 窒息立場質疑（本站立場已鎖定）
+  breath_play_dispute:
+    severity: critical
+    note: "本站立場已鎖定：不存在安全窒息（SPEC §12c）"
+    patterns:
+      - 安全的窒息
+      - 可以安全(進行|地)?窒息
+      - 正確的窒息
+      - 安全(地)?勒頸
+
+# ─── 高敏感詞條目的 caveats 強制 ────────────────────
+required_caveats:
+
+  master:
+    note: "Master 一詞需處理殖民/種族歷史包袱"
+    required_fields:
+      - controversies
+
+  slave:
+    note: "Slave 跨種族脈絡敏感（尤其美國黑奴史）"
+    required_fields:
+      - controversies
+      - caveats
+
+  ageplayer:
+    note: "Ageplayer 高敏感詞，必須有完整保護聲明"
+    required_fields:
+      - caveats
+      - audience_warning
+    required_in_tagline:
+      - 成年
+    required_caveats_types:
+      - legal-context
+      - cultural-context
+
+  daddy-mommy:
+    note: "Daddy/Mommy 角色扮演必須在 tagline 明示成年"
+    required_fields:
+      - caveats
+      - audience_warning
+    required_in_tagline:
+      - 成年
+
+  boy-girl:
+    note: "Boy/Girl 角色扮演必須在 tagline 明示成年"
+    required_fields:
+      - caveats
+      - audience_warning
+    required_in_tagline:
+      - 成年
+
+  degrader:
+    note: "與 emotional abuse 的界線需澄清"
+    required_fields:
+      - controversies
+
+  degradee:
+    note: "與被精神虐待的界線需澄清"
+    required_fields:
+      - controversies
+
+  primal-hunter:
+    note: "需澄清協商性質"
+    required_fields:
+      - caveats
+
+  primal-prey:
+    note: "需澄清協商性質"
+    required_fields:
+      - caveats
+
+  sadist:
+    note: "需區別 DSM 中的 Sexual Sadism Disorder"
+    required_keywords_in:
+      definition_or_disambiguation:
+        - DSM
+
+  masochist:
+    note: "需區別 DSM 中的 Sexual Masochism Disorder"
+    required_keywords_in:
+      definition_or_disambiguation:
+        - DSM
+
+  voyeur:
+    note: "需區別 DSM 中的 Voyeuristic Disorder"
+    required_keywords_in:
+      definition_or_disambiguation:
+        - DSM
+
+  exhibitionist:
+    note: "需區別 DSM 中的 Exhibitionistic Disorder"
+    required_keywords_in:
+      definition_or_disambiguation:
+        - DSM
+
+# ─── 腳本退出碼 ──────────────────────────────────────
+exit_codes:
+  all_pass: 0           # 全部通過
+  warnings_only: 0      # 僅警告（非 strict 模式）
+  warnings_strict: 1    # strict 模式下警告也算失敗
+  errors: 1             # 有錯誤
+  parse_failure: 2      # 檔案解析失敗

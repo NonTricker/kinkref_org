@@ -1,0 +1,55 @@
+name: 內容勘誤
+description: 回報事實錯誤、引用問題、翻譯問題
+title: "[Correction] "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感謝你協助維持站台品質。請盡量提供具體的引用依據。
+
+  - type: input
+    id: page
+    attributes:
+      label: 受影響的頁面
+      description: URL 或 content/ 內路徑
+      placeholder: https://kinkref.org/glossary/[term-slug]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: error-type
+    attributes:
+      label: 錯誤類型
+      options:
+        - 事實錯誤
+        - 引用格式錯誤
+        - 翻譯品質
+        - 連結失效（404 / DOI 失效）
+        - 拼字 / 排版
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: 目前的內容
+      description: 直接複製貼上有問題的段落
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested
+    attributes:
+      label: 建議的修正
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: 修正依據
+      description: DOI、書頁、官方來源等
+    validations:
+      required: false

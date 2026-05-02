@@ -1,0 +1,305 @@
+---
+/**
+ * AgeGate — 年齡確認閘門 modal
+ *
+ * 觸發策略：策略 2（內容頁觸發）
+ * 理由：首頁 / About / Contribute 為對外門面（中性學術定位），
+ *       使用者進入 /glossary/* /bibliography/* /books/* 條目頁才觸發。
+ *       兼顧 SEO（首頁可被 OG 抓取，Google bot 不會撞牆）
+ *       與合規（敏感內容前明確聲明）。
+ *
+ * 實作：本元件本身不判斷路徑——由整合方（EntryLayout.astro）
+ *       決定渲染與否。本元件被渲染時即假設「需要 gate」。
+ *
+ * 行為（spec §2.3）：
+ * - 確認後 localStorage.setItem('kinkref-age-confirmed', '1')，後續訪問不再彈
+ * - 「離開」導向 https://www.google.com/
+ * - Backdrop 點擊不關閉、ESC 不關閉（強制明確選擇）
+ * - Tab 鍵在兩按鈕間 focus trap
+ * - Modal 開啟時 body overflow hidden（鎖捲動）
+ *
+ * 視覺（DESIGN.md §4 L327-339 + §6 深度紀律）：
+ * - 中性、無情緒符號（無鎖頭/警告三角/emoji）
+ * - 純色 backdrop + opacity（非 backdrop-blur）
+ * - 一條左側酒紅邊條替代 icon 表達「學術警示」
+ * - 兩按鈕：Primary 酒紅實心 / Secondary 純文字 + hairline border
+ *
+ * Curated by: 光影師 艾莉兒
+ */
+---
+
+<aside
+  id="age-gate"
+  class="age-gate"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="age-gate-heading"
+  aria-describedby="age-gate-body"
+  data-hidden="true"
+>
+  <div class="age-gate-backdrop" aria-hidden="true"></div>
+
+  <div class="age-gate-panel" role="document">
+    <p class="age-gate-eyebrow">進入須知</p>
+
+    <h2 id="age-gate-heading" class="age-gate-heading">
+      本站內容涉及成人議題的學術討論
+    </h2>
+
+    <div id="age-gate-body" class="age-gate-body">
+      <p>
+        Kink Reference 是繁體中文 BDSM 學術翻譯與策展站。
+        內容包含學術用語、文獻翻譯與書目導讀，採中性、可查證的編輯立場。
+      </p>
+      <p>
+        本站不發布情色內容，但討論主題涉及成人性議題。
+        請確認您已年滿您所在司法管轄區的成年年齡。
+      </p>
+    </div>
+
+    <div class="age-gate-actions">
+      <button
+        type="button"
+        id="age-gate-confirm"
+        class="age-gate-btn age-gate-btn-primary"
+      >
+        我已成年，繼續
+      </button>
+      <button
+        type="button"
+        id="age-gate-decline"
+        class="age-gate-btn age-gate-btn-secondary"
+      >
+        離開
+      </button>
+    </div>
+  </div>
+</aside>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = 'kinkref-age-confirmed';
+    var EXIT_URL = 'https://www.google.com/';
+    var gate = document.getElementById('age-gate');
+    if (!gate) return;
+
+    /* ──────────────────────────────────────────────────────
+       已確認過 → 不顯示（fail-open：localStorage 不可用時仍彈出 modal）
+       ────────────────────────────────────────────────────── */
+    var confirmed = '0';
+    try {
+      confirmed = localStorage.getItem(STORAGE_KEY) || '0';
+    } catch (_) {
+      /* private 模式可能 block，仍顯示 */
+    }
+    if (confirmed === '1') return;
+
+    var primaryBtn = document.getElementById('age-gate-confirm');
+    var secondaryBtn = document.getElementById('age-gate-decline');
+    if (!primaryBtn || !secondaryBtn) return;
+
+    /* ──────────────────────────────────────────────────────
+       揭示 modal + 鎖 body 捲動 + 預設 focus 到 Primary
+       ────────────────────────────────────────────────────── */
+    gate.removeAttribute('data-hidden');
+    var prevBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    requestAnimationFrame(function () {
+      primaryBtn.focus();
+    });
+
+    /* ──────────────────────────────────────────────────────
+       Focus trap：Tab 在 primary <-> secondary 間循環
+       ESC：不允許關閉
+       ────────────────────────────────────────────────────── */
+    function onKeyDown(e) {
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === primaryBtn) {
+          e.preventDefault();
+          secondaryBtn.focus();
+        } else if (!e.shiftKey && document.activeElement === secondaryBtn) {
+          e.preventDefault();
+          primaryBtn.focus();
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+      }
+    }
+    gate.addEventListener('keydown', onKeyDown);
+
+    /* ──────────────────────────────────────────────────────
+       Confirm：寫 localStorage → hide modal → unlock body
+       ────────────────────────────────────────────────────── */
+    primaryBtn.addEventListener('click', function () {
+      try {
+        localStorage.setItem(STORAGE_KEY, '1');
+      } catch (_) {
+        /* localStorage 不可用：本次允許繼續，但下次仍會彈 */
+      }
+      gate.setAttribute('data-hidden', 'true');
+      document.body.style.overflow = prevBodyOverflow;
+      gate.removeEventListener('keydown', onKeyDown);
+    });
+
+    /* ──────────────────────────────────────────────────────
+       Decline：導出站
+       ────────────────────────────────────────────────────── */
+    secondaryBtn.addEventListener('click', function () {
+      window.location.href = EXIT_URL;
+    });
+  })();
+</script>
+
+<style>
+  /* ──────────────────────────────────────────────────────
+     Container — 全屏覆蓋，最高 z-index
+     ────────────────────────────────────────────────────── */
+  .age-gate {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-age-gate);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .age-gate[data-hidden] {
+    display: none;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Backdrop — 純色 + opacity（DESIGN.md §6 鐵律：禁 backdrop-blur）
+     ────────────────────────────────────────────────────── */
+  .age-gate-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Panel — 學術風 modal：紙白底 + 一條左側酒紅 + 純襯線標題
+     ────────────────────────────────────────────────────── */
+  .age-gate-panel {
+    position: relative;
+    max-width: 520px;
+    width: calc(100% - var(--space-7));
+    background: var(--bg-base);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid var(--accent-primary); /* 學術警示 — 替代 icon */
+    border-radius: var(--radius-sm); /* 2px — DESIGN.md §4 L344 */
+    padding: var(--space-8) var(--space-9); /* 40px 48px — spec L345 */
+  }
+
+  .age-gate-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow); /* 12px caps — spec L347 */
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .age-gate-heading {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-heading);
+    color: var(--ink-heading);
+    letter-spacing: var(--ls-h2);
+    margin: 0 0 var(--space-5);
+  }
+
+  .age-gate-body {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-7);
+  }
+
+  .age-gate-body p {
+    margin: 0 0 var(--space-4);
+  }
+
+  .age-gate-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Actions — 兩按鈕（Primary / Secondary）
+     ────────────────────────────────────────────────────── */
+  .age-gate-actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .age-gate-btn {
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    letter-spacing: var(--ls-ui);
+    padding: var(--space-3) var(--space-6);
+    min-height: 44px; /* WCAG AAA touch target */
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-color);
+  }
+
+  .age-gate-btn-primary {
+    background: var(--accent-primary);
+    color: var(--bg-base);
+    border: 1px solid var(--accent-primary);
+  }
+
+  .age-gate-btn-primary:hover {
+    background: var(--ink-heading);
+    border-color: var(--ink-heading);
+  }
+
+  .age-gate-btn-secondary {
+    background: transparent;
+    color: var(--ink-body);
+    border: 1px solid var(--rule-fine);
+  }
+
+  .age-gate-btn-secondary:hover {
+    border-color: var(--ink-body);
+    color: var(--ink-heading);
+  }
+
+  .age-gate-btn:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Mobile RWD — 縮 padding，按鈕全寬
+     ────────────────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    .age-gate-panel {
+      padding: var(--space-6) var(--space-6); /* 24px 24px — spec §2.6 */
+    }
+
+    .age-gate-heading {
+      font-size: var(--fs-h3);
+    }
+
+    .age-gate-actions {
+      flex-direction: column;
+    }
+
+    .age-gate-btn {
+      width: 100%;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .age-gate-btn {
+      transition: none;
+    }
+  }
+</style>

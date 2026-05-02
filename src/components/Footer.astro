@@ -1,0 +1,204 @@
+---
+/**
+ * Footer — 站台頁腳
+ *
+ * 區塊：簡介 / 導航 / 治理 / 授權聲明
+ */
+
+const currentYear = new Date().getFullYear();
+
+const footerSections = [
+  {
+    heading: '內容',
+    links: [
+      { href: '/glossary', label: '術語表' },
+      { href: '/bibliography', label: '文獻指南' },
+      { href: '/books', label: '書架清單' },
+    ],
+  },
+  {
+    heading: '專案',
+    links: [
+      { href: '/about', label: '關於' },
+      { href: '/contribute', label: '貢獻' },
+      { href: 'https://github.com/NonTricker/kinkref_org', label: 'GitHub', external: true },
+    ],
+  },
+  {
+    heading: '治理',
+    links: [
+      { href: '/about#editorial', label: '編輯立場' },
+      { href: '/about#governance', label: '治理模型' },
+      { href: '/about#contact', label: '聯絡' },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-top">
+      <div class="site-footer-about">
+        <p class="site-footer-brand">Kink Reference</p>
+        <p class="site-footer-tagline">中文 BDSM 學術文獻策展與術語索引</p>
+        <p class="site-footer-tagline-en">
+          Curating BDSM scholarship for the Traditional Chinese reading public.
+        </p>
+      </div>
+
+      <nav class="site-footer-nav" aria-label="頁腳導航">
+        {
+          footerSections.map((section) => (
+            <div class="site-footer-section">
+              <h2 class="site-footer-heading">{section.heading}</h2>
+              <ul>
+                {section.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      {...('external' in link && link.external
+                        ? { target: '_blank', rel: 'noopener noreferrer' }
+                        : {})}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div class="site-footer-bottom">
+      <p class="site-footer-license">
+        本站內容採
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">
+          CC BY-SA 4.0
+        </a>
+        授權。引用請註明來源。
+      </p>
+      <p class="site-footer-copyright">© 2026 — {currentYear} Kink Reference</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--bg-footer);
+    color: var(--ink-inverse);
+    margin-top: var(--space-12);
+  }
+
+  .site-footer-inner {
+    max-width: var(--content-width-wide);
+    margin: 0 auto;
+    padding: var(--space-11) var(--space-5) var(--space-7);
+  }
+
+  .site-footer-top {
+    display: grid;
+    grid-template-columns: 1.4fr 2fr;
+    gap: var(--space-9);
+    padding-bottom: var(--space-9);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink-inverse) 20%, transparent);
+  }
+
+  .site-footer-brand {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+    color: var(--ink-inverse);
+    margin: 0 0 var(--space-3);
+  }
+
+  .site-footer-tagline {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: color-mix(in srgb, var(--ink-inverse) 80%, transparent);
+    margin: 0 0 var(--space-2);
+  }
+
+  .site-footer-tagline-en {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: color-mix(in srgb, var(--ink-inverse) 60%, transparent);
+    margin: 0;
+    font-style: italic;
+  }
+
+  .site-footer-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-7);
+  }
+
+  .site-footer-heading {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: color-mix(in srgb, var(--ink-inverse) 70%, transparent);
+    margin: 0 0 var(--space-4);
+  }
+
+  .site-footer-section ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .site-footer-section a {
+    color: var(--ink-inverse);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    transition: var(--transition-color);
+  }
+
+  .site-footer-section a:hover {
+    color: var(--accent-primary);
+  }
+
+  .site-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-5);
+    padding-top: var(--space-7);
+    flex-wrap: wrap;
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: color-mix(in srgb, var(--ink-inverse) 70%, transparent);
+  }
+
+  .site-footer-bottom a {
+    color: var(--ink-inverse);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .site-footer-license {
+    margin: 0;
+  }
+
+  .site-footer-copyright {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 768px) {
+    .site-footer-top {
+      grid-template-columns: 1fr;
+      gap: var(--space-7);
+    }
+
+    .site-footer-nav {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

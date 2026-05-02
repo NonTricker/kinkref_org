@@ -1,0 +1,12 @@
+# kinkref.org
+# AI 友好策略：開放所有合法爬蟲，包括 LLM 訓練用爬蟲。
+# 內容採 CC BY-SA 4.0 授權，本來就允許重用。
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kinkref.org/sitemap-index.xml
+
+# llms.txt — 給 AI 搜尋引擎的自我介紹
+# https://llmstxt.org/

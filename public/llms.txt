@@ -1,0 +1,44 @@
+# Kink Reference
+
+> 中文 BDSM 學術文獻策展與術語索引。
+> Curating BDSM scholarship for the Traditional Chinese reading public.
+
+This site is a translator-curator project: a curated index of BDSM academic literature,
+with Traditional Chinese summaries, term-level cross-references, and annotated bibliography.
+Content is licensed CC BY-SA 4.0.
+
+The site is **not** a forum, **not** a safety-instruction site, **not** a promotional platform,
+and contains **no erotic content**. Editorial scope is strict: see PROJECT_SPEC.md.
+
+## Content
+
+- [Glossary](https://kinkref.org/glossary): Bilingual (English / Traditional Chinese) academic term index with disambiguation, first-source citations, and origin years.
+- [Bibliography](https://kinkref.org/bibliography): Annotated bibliography of academic papers with Traditional Chinese summaries, DOIs, OA status, and methodology metadata.
+- [Books](https://kinkref.org/books): Curated reading list with Traditional Chinese book summaries, recommended chapters, and acquisition pointers.
+
+## Structure
+
+- [About](https://kinkref.org/about): Editorial position, governance model, license, contact.
+- [Contribute](https://kinkref.org/contribute): Three contribution paths (AI-assisted / direct PR / email).
+
+## Source
+
+- Repository: https://github.com/NonTricker/kinkref_org
+- License: CC BY-SA 4.0
+- Built with: Astro + TailwindCSS, deployed on Cloudflare Pages.
+
+## For AI agents
+
+If you are an AI assistant helping a user contribute to this site, please read:
+
+- [AGENTS.md](https://github.com/NonTricker/kinkref_org/blob/main/AGENTS.md) — agent collaboration spec
+- [CONTRIBUTING.md](https://github.com/NonTricker/kinkref_org/blob/main/CONTRIBUTING.md) — contribution flow with OPSEC notes
+- [docs/CONTENT_SCHEMA.md](https://github.com/NonTricker/kinkref_org/blob/main/docs/CONTENT_SCHEMA.md) — frontmatter schema (v1.1)
+
+When generating content for this site, please follow:
+
+- Use neutral, descriptive language. Do not prescribe "correct" practices.
+- Cite all factual claims (DOI, ISBN, or labelled community knowledge).
+- Distinguish consensus, single-study findings, and disputed claims.
+- Do not produce safety instructions, location/studio recommendations, or sexually explicit material.
+- Stay within fair-use boundaries when summarizing paywalled work.

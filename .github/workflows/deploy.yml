@@ -1,0 +1,49 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://kinkref.org
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      # ─────────────────────────────────────────
+      # Cloudflare Pages 部署
+      #
+      # 需要在 repo Settings → Secrets and variables → Actions 設定：
+      #   - CLOUDFLARE_API_TOKEN
+      #   - CLOUDFLARE_ACCOUNT_ID
+      #
+      # 並在 Cloudflare 端建立 Pages project: kinkref
+      # ─────────────────────────────────────────
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=kinkref --branch=main

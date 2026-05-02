@@ -1,0 +1,238 @@
+---
+/**
+ * About — 站方立場、治理、聯絡
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const pageTitle = '關於 · About';
+const description = 'kinkref.org 的定位、治理模型、編輯立場與聯絡方式。';
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <article class="about-page">
+    <header class="about-header">
+      <p class="page-eyebrow">About</p>
+      <h1>關於 Kink Reference</h1>
+      <p class="about-tagline">
+        中文 BDSM 學術文獻策展與術語索引。<br />
+        Curating BDSM scholarship for the Traditional Chinese reading public.
+      </p>
+    </header>
+
+    <section class="about-section" id="position">
+      <h2>定位</h2>
+      <p>
+        本站是<strong>轉譯派 (Translator-Curator)</strong>—— 英文 BDSM
+        學術文獻的中文摘要與索引站。台灣中文圈完全沒有結構化的 BDSM
+        學術入口，本站填補這個缺口。
+      </p>
+      <p>本站不是：</p>
+      <ul>
+        <li>介紹站（不做通識教育）</li>
+        <li>橋樑站（不做圈內外橋接）</li>
+        <li>論壇（不做社群互動）</li>
+        <li>全域知識庫（不做全方位百科）</li>
+      </ul>
+      <p>
+        完整定位見
+        <a href="https://github.com/NonTricker/kinkref_org/blob/main/docs/PROJECT_SPEC.md" target="_blank" rel="noopener noreferrer">PROJECT_SPEC.md</a>。
+      </p>
+    </section>
+
+    <section class="about-section" id="editorial">
+      <h2>編輯立場</h2>
+      <p>本站秉持以下核心原則：</p>
+      <ul>
+        <li>
+          <strong>學術 rigor 優先</strong>：所有條目附引用、DOI、出版年。
+          區分共識、單一研究、爭議三類斷言。
+        </li>
+        <li>
+          <strong>中性敘事</strong>：不評價哪種傾向「正確」或「進階」。
+          不使用「真正的⋯應該」「只有⋯才算是」等規範性語言。
+        </li>
+        <li>
+          <strong>翻譯透明</strong>：機翻初稿 + 人工校對標示完整 commit history。
+        </li>
+        <li>
+          <strong>明確負面清單</strong>：不做安全操作指引、不做場地推薦、
+          不收任何形式贊助、不涉及未成年內容。
+        </li>
+      </ul>
+    </section>
+
+    <section class="about-section" id="governance">
+      <h2>治理模型</h2>
+      <h3>角色</h3>
+      <ul>
+        <li><strong>策展人 / 主編</strong>：負責內容品質、最終裁決、爭議處理</li>
+        <li><strong>貢獻者</strong>：透過 PR 或 email 投稿術語、書目、論文摘要、翻譯</li>
+        <li><strong>審校者</strong>：協助方法論段落或翻譯品質的人工複審</li>
+      </ul>
+
+      <h3>開放投稿區</h3>
+      <p>歡迎社群提交 PR：</p>
+      <ul>
+        <li>術語表新增 / 中文定義補充 / 辨析</li>
+        <li>書目新增 / 書摘撰寫</li>
+        <li>論文新增 / 摘要撰寫 / 翻譯勘誤</li>
+        <li>引用格式修正</li>
+      </ul>
+
+      <h3>主編鎖定區</h3>
+      <p>以下內容由主編獨立維護，不接受外部修改型 PR：</p>
+      <ul>
+        <li>窒息類項目（學界共識：不存在安全做法，立場硬性鎖定）</li>
+        <li>法律章節（需專業審核）</li>
+        <li>未成年保護聲明（零爭議區）</li>
+        <li>站方立場 / 治理說明</li>
+        <li>任何「安全操作指引」性質內容</li>
+      </ul>
+    </section>
+
+    <section class="about-section" id="license">
+      <h2>授權</h2>
+      <p>
+        本站內容採
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">
+          CC BY-SA 4.0
+        </a>
+        授權。
+      </p>
+      <ul>
+        <li>可以自由引用、改作、傳播</li>
+        <li>商業使用也可以</li>
+        <li>必須註明來源</li>
+        <li>改作後須以相同授權釋出</li>
+      </ul>
+    </section>
+
+    <section class="about-section" id="contact">
+      <h2>聯絡</h2>
+      <p>
+        <strong>投稿信箱</strong>：透過 <a href="https://github.com/NonTricker/kinkref_org">GitHub</a>
+        Issues 或 Pull Requests 是最便利的方式。
+      </p>
+      <p>
+        <strong>不想用 GitHub？</strong> 可寄 email 至策展人信箱（將於正式上線時公布）。
+        圈名、匿名、一次性讀者皆歡迎。
+      </p>
+      <p>
+        <strong>內容問題</strong>（事實錯誤、引用問題、範圍爭議）：請使用
+        <a href="https://github.com/NonTricker/kinkref_org/issues">GitHub Issues</a>。
+      </p>
+      <p>
+        <strong>安全回報</strong>：請參考
+        <a href="https://github.com/NonTricker/kinkref_org/blob/main/SECURITY.md">SECURITY.md</a>。
+      </p>
+    </section>
+
+    <section class="about-section" id="version">
+      <h2>版本</h2>
+      <ul class="version-list">
+        <li><span>站台版本</span><span>v0.1.0</span></li>
+        <li><span>Schema 版本</span><span>1.1</span></li>
+        <li><span>建置基底</span><span>Astro 6.x · TailwindCSS v4</span></li>
+        <li><span>授權</span><span>CC BY-SA 4.0</span></li>
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: var(--content-width-prose);
+    margin: 0 auto;
+    padding: var(--space-11) var(--space-5) var(--space-12);
+  }
+
+  .about-header {
+    margin-bottom: var(--space-11);
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .about-header h1 {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-5);
+  }
+
+  .about-tagline {
+    font-size: var(--fs-body);
+    color: var(--ink-meta);
+    line-height: var(--lh-body);
+    margin: 0;
+  }
+
+  .about-section {
+    margin-bottom: var(--space-11);
+    scroll-margin-top: 80px;
+  }
+
+  .about-section h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 var(--space-5);
+  }
+
+  .about-section h3 {
+    font-size: var(--fs-h3);
+    margin-top: var(--space-7);
+    margin-bottom: var(--space-4);
+  }
+
+  .about-section ul {
+    padding-left: var(--space-6);
+  }
+
+  .about-section li {
+    margin-bottom: var(--space-2);
+    line-height: var(--lh-body);
+  }
+
+  .about-section a {
+    color: var(--accent-primary);
+  }
+
+  .version-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    background: var(--bg-subtle);
+  }
+
+  .version-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-5);
+    margin: 0;
+    border-bottom: 1px solid var(--rule-fine);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .version-list li:last-child {
+    border-bottom: 0;
+  }
+
+  .version-list li > span:first-child {
+    color: var(--ink-meta);
+  }
+
+  .version-list li > span:last-child {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    color: var(--ink-body);
+  }
+</style>

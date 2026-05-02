@@ -1,0 +1,42 @@
+{
+  "name": "kinkref",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Curated index of academic literature in Traditional Chinese — kinkref.org",
+  "homepage": "https://kinkref.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NonTricker/kinkref_org"
+  },
+  "license": "CC-BY-SA-4.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build && npm run build:search",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "build:search": "node scripts/build-search-index.mjs",
+    "lint": "prettier --check \"**/*.{astro,ts,tsx,js,mjs,md,json,css}\"",
+    "format": "prettier --write \"**/*.{astro,ts,tsx,js,mjs,md,json,css}\"",
+    "selfcheck": "python scripts/self-check.py",
+    "qualityscan": "python scripts/quality-scan.py"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.4.0",
+    "astro": "^6.0.0",
+    "minisearch": "^7.1.0",
+    "typescript": "^5.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "gray-matter": "^4.0.3",
+    "prettier": "^3.4.0",
+    "prettier-plugin-astro": "^0.14.0"
+  }
+}

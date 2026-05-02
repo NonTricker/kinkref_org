@@ -1,0 +1,81 @@
+---
+/**
+ * 404 — Not Found
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const pageTitle = '找不到頁面 · 404';
+---
+
+<BaseLayout title={pageTitle} noindex>
+  <section class="not-found">
+    <div class="not-found-inner">
+      <p class="not-found-eyebrow">404 · Not Found</p>
+      <h1>找不到這個頁面</h1>
+      <p class="not-found-body">
+        這個 URL 可能已搬遷、撰寫中、或從未存在。
+      </p>
+      <ul class="not-found-links">
+        <li><a href="/">回首頁</a></li>
+        <li><a href="/glossary">瀏覽術語表</a></li>
+        <li><a href="/bibliography">瀏覽文獻指南</a></li>
+        <li><a href="/books">瀏覽書架清單</a></li>
+        <li><a href="https://github.com/NonTricker/kinkref_org/issues">回報問題</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: var(--space-12) var(--space-5);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .not-found-inner {
+    max-width: 480px;
+    text-align: center;
+  }
+
+  .not-found-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-5);
+  }
+
+  .not-found h1 {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-5);
+  }
+
+  .not-found-body {
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-9);
+  }
+
+  .not-found-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .not-found-links a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-family: var(--font-sans);
+  }
+
+  .not-found-links a:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,48 @@
+# Citation File Format v1.2.0
+# https://citation-file-format.github.io/
+#
+# 此檔讓引用者能以標準格式引用 kinkref.org。
+# GitHub 會自動偵測此檔並在 repo 頁顯示 "Cite this repository" 按鈕。
+
+cff-version: 1.2.0
+message: >-
+  若您在學術或非學術寫作中參考本站內容，請依下列格式引用。
+  本站採用 CC BY-SA 4.0 授權，引用時請保留來源與授權聲明。
+
+title: "Kink Reference (kinkref.org)"
+abstract: >-
+  繁體中文 BDSM 學術翻譯與策展站。內容含術語表 (Glossary)、
+  學術文獻索引 (Bibliography) 與書目導讀 (Books) 三大支柱，
+  以中性、可查證、可批判的編輯立場服務華語讀者。
+
+type: dataset
+
+# 站方為集體編輯立場，不掛個人名銜。
+# 投稿者列於各條目 frontmatter 的 contributor 欄位。
+authors:
+  - name: "Kink Reference Editorial Collective"
+    website: "https://kinkref.org/about"
+
+url: "https://kinkref.org"
+repository-code: "https://github.com/NonTricker/kinkref_org"
+
+license: CC-BY-SA-4.0
+
+keywords:
+  - BDSM
+  - kink
+  - reference
+  - glossary
+  - academic-translation
+  - traditional-chinese
+  - taiwan
+  - sexology
+  - sexuality-studies
+
+# 首版上線日期（v0.1.0 公開測試版）
+date-released: "2026-05-02"
+version: "0.1.0"
+
+# 個別條目的引用建議：
+#   每個術語/書目/論文頁面都會顯示專屬的 APA 風格引用區塊（見 EntryLayout.astro）。
+#   本檔僅用於引用「整個 kinkref.org 站作為來源」。

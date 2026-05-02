@@ -1,0 +1,209 @@
+---
+/**
+ * Header — 站台頂部導航
+ *
+ * 結構：站名 + 主要導航 + Search 入口 + Theme toggle（將由光影師細修）。
+ */
+
+const navItems = [
+  { href: '/glossary', label: '術語表', en: 'Glossary' },
+  { href: '/bibliography', label: '文獻指南', en: 'Bibliography' },
+  { href: '/books', label: '書架清單', en: 'Books' },
+  { href: '/contribute', label: '貢獻', en: 'Contribute' },
+  { href: '/about', label: '關於', en: 'About' },
+];
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Kink Reference 首頁">
+      <span class="site-brand-mark">KR</span>
+      <span class="site-brand-text">
+        <span class="site-brand-zh">中文 BDSM 學術文獻索引</span>
+        <span class="site-brand-en">Kink Reference</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="主要導航">
+      <ul>
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={['site-nav-link', { 'is-active': isActive(item.href) }]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                <span class="site-nav-zh">{item.label}</span>
+                <span class="site-nav-en">{item.en}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="theme-toggle"
+      class="theme-toggle"
+      aria-label="切換主題"
+      title="切換亮 / 暗主題"
+    >
+      <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+    </button>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('kinkref-theme', next);
+      } catch {
+        /* no-op */
+      }
+    });
+  })();
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--rule-fine);
+    background: var(--bg-base);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky-nav);
+    backdrop-filter: blur(8px);
+    background-color: color-mix(in srgb, var(--bg-base) 90%, transparent);
+  }
+
+  .site-header-inner {
+    max-width: var(--content-width-wide);
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    align-items: center;
+    gap: var(--space-7);
+  }
+
+  .site-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--ink-heading);
+  }
+
+  .site-brand-mark {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+    color: var(--accent-primary);
+    letter-spacing: var(--ls-tight);
+    line-height: 1;
+  }
+
+  .site-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .site-brand-zh {
+    font-size: var(--fs-ui);
+    font-family: var(--font-sans);
+    font-weight: var(--fw-semibold);
+  }
+
+  .site-brand-en {
+    font-size: var(--fs-eyebrow);
+    font-family: var(--font-sans);
+    color: var(--ink-meta);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .site-nav {
+    flex: 1;
+  }
+
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .site-nav-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--ink-body);
+    font-family: var(--font-sans);
+    line-height: 1.2;
+    transition: var(--transition-color);
+  }
+
+  .site-nav-zh {
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+  }
+
+  .site-nav-en {
+    font-size: var(--fs-eyebrow);
+    color: var(--ink-meta);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .site-nav-link:hover,
+  .site-nav-link.is-active {
+    color: var(--accent-primary);
+  }
+
+  .site-nav-link.is-active .site-nav-en {
+    color: var(--accent-primary);
+  }
+
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    color: var(--ink-meta);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--fs-body);
+    line-height: 1;
+    transition: var(--transition-color);
+  }
+
+  .theme-toggle:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+  }
+
+  @media (max-width: 720px) {
+    .site-header-inner {
+      flex-wrap: wrap;
+    }
+
+    .site-nav ul {
+      gap: var(--space-4);
+    }
+  }
+</style>

@@ -1,0 +1,15 @@
+# kinkref.org — Python 工具相依套件
+#
+# 用於 self-check.py 與 quality-scan.py。
+# 對應 scripts/README.md §「安裝需求」區塊。
+#
+# 安裝：
+#   pip install -r scripts/requirements.txt
+#
+# CI 中由 .github/workflows/ci.yml 的 content-quality job 自動安裝。
+
+# YAML frontmatter 解析（必要）
+PyYAML>=6.0,<7.0
+
+# Windows 終端 ANSI 顏色支援（建議；非 Windows 平台會自動 no-op）
+colorama>=0.4.6,<1.0

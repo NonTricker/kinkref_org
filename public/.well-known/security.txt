@@ -1,0 +1,6 @@
+# https://datatracker.ietf.org/doc/html/rfc9116
+# 安全回報請見 SECURITY.md
+Contact: https://github.com/NonTricker/kinkref_org/blob/main/SECURITY.md
+Expires: 2027-05-02T00:00:00.000Z
+Preferred-Languages: zh-Hant, en
+Canonical: https://kinkref.org/.well-known/security.txt

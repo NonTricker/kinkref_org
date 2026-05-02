@@ -1,0 +1,369 @@
+---
+/**
+ * Homepage — kinkref.org
+ *
+ * 結構（依 DESIGN_PRINCIPLES.md）：
+ *  - Hero（站名 + 一句話定位 + 搜尋）
+ *  - 內容三柱卡片（Glossary / Bibliography / Books）
+ *  - 最近更新區
+ *  - 站方立場聲明
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SearchBox from '@components/SearchBox.astro';
+
+// 取最近更新的 3 筆 glossary 條目
+const allGlossary = await getCollection('glossary');
+const recentTerms = allGlossary
+  .sort((a, b) => b.data.last_reviewed.getTime() - a.data.last_reviewed.getTime())
+  .slice(0, 6);
+
+const pillars = [
+  {
+    href: '/glossary',
+    eyebrow: 'Glossary',
+    title: '術語表',
+    description: '中英對照的學術定義索引。每個術語標註首見年代、辨析與相關詞。',
+    count: allGlossary.length,
+    countLabel: '條',
+  },
+  {
+    href: '/bibliography',
+    eyebrow: 'Bibliography',
+    title: '文獻指南',
+    description: '按主題分類的論文摘要。標示 OA 狀態、研究方法與翻譯進度。',
+    count: 0,
+    countLabel: '篇',
+  },
+  {
+    href: '/books',
+    eyebrow: 'Books',
+    title: '書架清單',
+    description: '已驗證的書目。每本書附中文書摘、推薦章節與取得方式。',
+    count: 0,
+    countLabel: '本',
+  },
+];
+---
+
+<BaseLayout title="Kink Reference">
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Kink Reference · 中文 BDSM 學術文獻索引</p>
+      <h1 class="hero-title">學術轉譯，不是介紹站。</h1>
+      <p class="hero-tagline">
+        台灣中文圈唯一的 BDSM 學術文獻策展與術語索引。
+        中英對照、註明來源、結構化貢獻。
+      </p>
+      <div class="hero-search">
+        <SearchBox variant="hero" placeholder="搜尋術語、論文、書目（試試「safe word」）" />
+      </div>
+    </div>
+  </section>
+
+  <section class="pillars" aria-labelledby="pillars-heading">
+    <div class="pillars-inner">
+      <h2 id="pillars-heading" class="section-heading">內容三柱</h2>
+      <div class="pillars-grid">
+        {
+          pillars.map((p) => (
+            <a class="pillar-card" href={p.href}>
+              <p class="pillar-eyebrow">{p.eyebrow}</p>
+              <h3 class="pillar-title">{p.title}</h3>
+              <p class="pillar-description">{p.description}</p>
+              <p class="pillar-count">
+                <span class="pillar-count-num">{p.count}</span>
+                <span class="pillar-count-unit">{p.countLabel}</span>
+              </p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="recent" aria-labelledby="recent-heading">
+    <div class="recent-inner">
+      <h2 id="recent-heading" class="section-heading">最近更新的術語</h2>
+      <ul class="recent-list">
+        {
+          recentTerms.map((entry) => (
+            <li class="recent-item">
+              <a href={`/glossary/${entry.id}`}>
+                <span class="recent-term-zh">{entry.data.term_zh}</span>
+                <span class="recent-term-en">{entry.data.term_en}</span>
+              </a>
+              <p class="recent-tagline">{entry.data.tagline}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="recent-cta">
+        <a href="/glossary">查看完整術語表 →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="position" aria-labelledby="position-heading">
+    <div class="position-inner">
+      <h2 id="position-heading" class="section-heading">這個站是什麼，不是什麼</h2>
+      <div class="position-grid">
+        <div class="position-card position-card--is">
+          <h3>是</h3>
+          <ul>
+            <li>英文學術文獻的中文摘要</li>
+            <li>術語的中英對照與辨析</li>
+            <li>方法論透明的策展</li>
+            <li>CC BY-SA 授權的開放資源</li>
+          </ul>
+        </div>
+        <div class="position-card position-card--isnt">
+          <h3>不是</h3>
+          <ul>
+            <li>社群論壇</li>
+            <li>安全操作指引站</li>
+            <li>個人或工作室推薦平台</li>
+            <li>情色站</li>
+          </ul>
+        </div>
+      </div>
+      <p class="position-cta">
+        <a href="/about">完整站方立場 →</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: var(--space-12) var(--space-5) var(--space-11);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .hero-inner {
+    max-width: var(--content-width-prose);
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-5);
+  }
+
+  .hero-title {
+    font-size: var(--fs-display);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-display);
+    margin: 0 0 var(--space-5);
+  }
+
+  .hero-tagline {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    max-width: 50ch;
+    margin: 0 0 var(--space-9);
+  }
+
+  .hero-search {
+    max-width: 600px;
+  }
+
+  .pillars,
+  .recent,
+  .position {
+    padding: var(--space-11) var(--space-5);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .pillars-inner,
+  .recent-inner,
+  .position-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .section-heading {
+    font-size: var(--fs-h2);
+    margin: 0 0 var(--space-9);
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-7);
+  }
+
+  .pillar-card {
+    display: block;
+    padding: var(--space-7);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    transition:
+      var(--transition-color),
+      transform var(--transition-fast);
+  }
+
+  .pillar-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+  }
+
+  .pillar-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .pillar-title {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-4);
+  }
+
+  .pillar-description {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-5);
+  }
+
+  .pillar-count {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+  }
+
+  .pillar-count-num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    color: var(--accent-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pillar-count-unit {
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
+  .recent-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-7);
+  }
+
+  .recent-item a {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--ink-heading);
+    margin-bottom: var(--space-2);
+  }
+
+  .recent-item a:hover .recent-term-zh {
+    color: var(--accent-primary);
+  }
+
+  .recent-term-zh {
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    transition: var(--transition-color);
+  }
+
+  .recent-term-en {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    font-style: italic;
+  }
+
+  .recent-tagline {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .recent-cta,
+  .position-cta {
+    margin-top: var(--space-9);
+  }
+
+  .recent-cta a,
+  .position-cta a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: var(--fw-medium);
+  }
+
+  .recent-cta a:hover,
+  .position-cta a:hover {
+    text-decoration: underline;
+  }
+
+  .position-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+  }
+
+  .position-card {
+    padding: var(--space-7);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+  }
+
+  .position-card h3 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-h4);
+    margin: 0 0 var(--space-4);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+  }
+
+  .position-card--is h3 {
+    color: var(--status-oa);
+  }
+
+  .position-card--isnt h3 {
+    color: var(--accent-primary);
+  }
+
+  .position-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .position-card li {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+  }
+
+  @media (max-width: 640px) {
+    .position-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,269 @@
+/**
+ * Astro Content Collections — Schema Definitions
+ *
+ * Mirror of docs/CONTENT_SCHEMA.md (v1.1).
+ * Three collections: glossary / books / bibliography (papers).
+ *
+ * Content SSOT 位於 repo 根目錄 `content/`，
+ * 透過 Content Layer `glob` loader 讀入。
+ *
+ * Iron Law: 任何 frontmatter 欄位異動必須同步更新 CONTENT_SCHEMA.md。
+ * 任何 schema 異動需 bump schema_version。
+ */
+
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+// ──────────────────────────────────────────────────────
+// Shared sub-schemas
+// ──────────────────────────────────────────────────────
+
+const externalReferenceSchema = z.object({
+  source: z.string(),
+  name: z.string().nullish(),
+  url: z.string().url().nullish(),
+});
+
+// citation.type 與 caveat.type 為「開放枚舉」（CONTENT_SCHEMA.md §4）
+// 業務規則檢查交給 scripts/quality-scan.py 與 detection-rules.yaml
+// 此處只做型別保證與必填欄位，不限縮 enum。
+const citationSchema = z.object({
+  type: z.string(), // 例：internal-paper / internal-book / internal-glossary / external
+  ref: z.string().nullish(),
+  url: z.string().url().nullish(),
+  doi: z.string().nullish(),
+  apa: z.string().nullish(),
+  note: z.string().nullish(),
+});
+
+const caveatSchema = z.object({
+  type: z.string(), // 例：methodology / cultural-context / legal-context / dated / sample-bias 等
+  note: z.string(),
+});
+
+const revisionSchema = z.object({
+  date: z.string(),
+  version: z.string(),
+  by: z.string(),
+  note: z.string(),
+});
+
+// ──────────────────────────────────────────────────────
+// Topic / Reader tag enums
+//
+// SSOT：scripts/data/detection-rules.yaml（靈範師維護）
+// 修改任何 tag 都必須同步更新 detection-rules.yaml + CONTENT_SCHEMA.md
+// ──────────────────────────────────────────────────────
+
+const topicTagEnum = z.enum([
+  // 同意 / 安全 / 倫理
+  'consent',
+  'aftercare',
+  'harm-reduction',
+  'legal',
+  // 心理 / 神經科學
+  'psychopathology',
+  'neuroscience',
+  // 文化與方法
+  'cross-cultural',
+  'methodology',
+  // 身分與動態
+  'identity',
+  'relationship-dynamics',
+  'gender-sexuality',
+  // 文化研究 / 實踐
+  'subculture-ethnography',
+  'practice-specific',
+  'history',
+]);
+
+const readerTagEnum = z.enum([
+  'beginner',
+  'practitioner',
+  'researcher',
+  'clinical',
+  'legal-pro',
+  'educator',
+  'media',
+  'policy-maker',
+  'loved-ones',
+]);
+
+// ──────────────────────────────────────────────────────
+// Glossary collection
+// ──────────────────────────────────────────────────────
+
+const glossary = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './content/glossary' }),
+  schema: z.object({
+    schema_version: z.string(),
+    term_zh: z.string(),
+    term_en: z.string(),
+    term_ja: z.string().nullish(),
+    term_alt_zh: z.string().nullish(),
+    aliases_en: z.string().nullish(),
+    tagline: z.string().max(60),
+    definition: z.string(),
+    disambiguation: z
+      .array(
+        z.object({
+          vs: z.string(),
+          note: z.string(),
+        })
+      )
+      .nullish(),
+    usage_notes: z.string().nullish(),
+    controversies: z.string().nullish(),
+    origin_year: z.string().nullish(),
+    first_source: z.string().nullish(),
+    first_source_doi: z.string().nullish(),
+    related_terms: z.array(z.string()).nullish(),
+    external_references: z.array(externalReferenceSchema).nullish(),
+    citations: z.array(citationSchema).nullish(),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    contributor: z.string(),
+    reviewer: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date(),
+    revision_history: z.array(revisionSchema).nullish(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
+// Books collection
+// ──────────────────────────────────────────────────────
+
+const editionSchema = z.object({
+  version: z.string(),
+  year: z.number(),
+  isbn: z.string().nullish(),
+  note: z.string().nullish(),
+});
+
+const recommendedChapterSchema = z.object({
+  chapter: z.string(),
+  pages: z.string().nullish(),
+  note: z.string().nullish(),
+});
+
+const accessLinkSchema = z.object({
+  type: z.enum([
+    'amazon',
+    'openlibrary',
+    'bookstore-tw',
+    'library',
+    'publisher',
+    'archive-org',
+    'other',
+  ]),
+  url: z.string().url(),
+  note: z.string().nullish(),
+});
+
+const books = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './content/books' }),
+  schema: z.object({
+    schema_version: z.string(),
+    title: z.string(),
+    title_zh: z.string().nullish(),
+    author: z.string(),
+    translator: z.string().nullish(),
+    year: z.number(),
+    year_zh_translation: z.number().nullish(),
+    publisher: z.string(),
+    publisher_zh: z.string().nullish(),
+    isbn: z.string().nullish(),
+    editions: z.array(editionSchema).nullish(),
+    language: z.string(),
+    has_zh_translation: z.boolean(),
+    out_of_print: z.boolean().nullish(),
+    book_type: z.enum(['academic', 'popular', 'fiction', 'memoir', 'reference']),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    difficulty: z.enum(['entry', 'intermediate', 'advanced']),
+    abstract_zh: z.string(),
+    curator_note: z.string(),
+    recommended_chapters: z.array(recommendedChapterSchema).nullish(),
+    access_links: z.array(accessLinkSchema).nullish(),
+    caveats: z.array(caveatSchema).nullish(),
+    audience_warning: z.array(z.string()).nullish(),
+    citations: z.array(citationSchema).nullish(),
+    contributor: z.string(),
+    reviewer: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
+// Bibliography (Papers) collection
+// ──────────────────────────────────────────────────────
+
+const bibliography = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './content/bibliography' }),
+  schema: z.object({
+    schema_version: z.string(),
+    title: z.string(),
+    authors: z.string(),
+    year: z.number(),
+    journal: z.string(),
+    volume: z.string().nullish(),
+    issue: z.string().nullish(),
+    pages: z.string().nullish(),
+    doi: z.string(),
+    access_type: z.enum(['open-access', 'paywalled', 'preprint-available']),
+    oa_type: z.enum(['gold', 'green', 'bronze', 'hybrid', 'diamond']).nullish(),
+    preprint_url: z.string().url().nullish(),
+    study_type: z.enum([
+      'quantitative',
+      'qualitative',
+      'mixed-methods',
+      'theoretical',
+      'review',
+      'systematic-review',
+      'meta-analysis',
+      'case-study',
+      'ethnography',
+      'commentary',
+    ]),
+    methodology_keywords: z.array(z.string()).nullish(),
+    sample_size: z.union([z.number(), z.string()]).nullish(),
+    sample_population: z.string().nullish(),
+    original_abstract: z.string().nullish(),
+    translation_status: z.enum([
+      'full-translation',
+      'partial-translation',
+      'abstract-only',
+      'planned',
+      'none',
+    ]),
+    translation_url: z.string().nullish(),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    difficulty: z.enum(['entry', 'intermediate', 'advanced']),
+    abstract_zh: z.string(),
+    curator_note: z.string(),
+    caveats: z.array(caveatSchema).nullish(),
+    audience_warning: z.array(z.string()).nullish(),
+    replication_status: z
+      .enum(['replicated', 'partially-replicated', 'failed-replication', 'disputed', 'unknown'])
+      .nullish(),
+    corrigenda: z.string().url().nullish(),
+    citations: z.array(citationSchema).nullish(),
+    contributor: z.string(),
+    reviewed_by: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
+// Export
+// ──────────────────────────────────────────────────────
+
+export const collections = {
+  glossary,
+  books,
+  bibliography,
+};

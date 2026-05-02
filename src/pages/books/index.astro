@@ -1,0 +1,229 @@
+---
+/**
+ * Books index — 書架清單列表頁
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SearchBox from '@components/SearchBox.astro';
+import TagPill from '@components/TagPill.astro';
+
+const allBooks = await getCollection('books');
+const sortedBooks = allBooks.sort((a, b) => b.data.year - a.data.year);
+
+const pageTitle = '書架清單 · Books';
+const pageDescription = `${allBooks.length} 本已驗證書目。每本書附中文書摘、推薦章節與取得方式。`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">Books</p>
+      <h1 class="page-title">書架清單</h1>
+      <p class="page-description">{pageDescription}</p>
+      <div class="page-search">
+        <SearchBox placeholder="搜尋書名、作者…" />
+      </div>
+    </div>
+  </section>
+
+  {
+    sortedBooks.length === 0 ? (
+      <section class="empty-state">
+        <div class="empty-state-inner">
+          <p class="empty-state-eyebrow">尚未開放</p>
+          <h2>書架清單正在編纂中</h2>
+          <p>首批 30-50 本書目正由策展人撰寫書摘中。</p>
+          <p>
+            如果你有想推薦的書，請參考
+            <a href="/contribute">貢獻指南</a>。
+          </p>
+        </div>
+      </section>
+    ) : (
+      <section class="entry-list-section">
+        <ul class="book-list">
+          {sortedBooks.map((entry) => (
+            <li class="book-card">
+              <a href={`/books/${entry.id}`}>
+                <header class="book-card-header">
+                  <p class="book-card-meta">
+                    <span class="book-card-year">{entry.data.year}</span>
+                    <span class="book-card-publisher">{entry.data.publisher}</span>
+                  </p>
+                  <h2 class="book-card-title">
+                    {entry.data.title}
+                    {entry.data.title_zh && <span class="book-card-title-zh">{entry.data.title_zh}</span>}
+                  </h2>
+                  <p class="book-card-authors">{entry.data.author}</p>
+                </header>
+                <p class="book-card-curator">{entry.data.curator_note}</p>
+                <ul class="book-card-tags">
+                  <li><TagPill label={entry.data.book_type} variant="topic" size="sm" /></li>
+                  <li><TagPill label={entry.data.difficulty} variant="reader" size="sm" /></li>
+                  {entry.data.has_zh_translation && (
+                    <li><TagPill label="有中譯本" variant="status" status="translated" size="sm" /></li>
+                  )}
+                </ul>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-hero-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .page-title {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-4);
+  }
+
+  .page-description {
+    font-size: var(--fs-body);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-7);
+    max-width: 60ch;
+  }
+
+  .page-search {
+    max-width: 480px;
+  }
+
+  .empty-state {
+    padding: var(--space-12) var(--space-5);
+  }
+
+  .empty-state-inner {
+    max-width: 60ch;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .empty-state-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--ink-disabled);
+    margin: 0 0 var(--space-4);
+  }
+
+  .empty-state h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 var(--space-5);
+  }
+
+  .empty-state p {
+    color: var(--ink-meta);
+  }
+
+  .empty-state a {
+    color: var(--accent-primary);
+  }
+
+  .entry-list-section {
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .book-list {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .book-card a {
+    display: block;
+    padding: var(--space-7);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    height: 100%;
+    transition: var(--transition-color);
+  }
+
+  .book-card a:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .book-card-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .book-card-year {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--fw-medium);
+  }
+
+  .book-card-title {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-3);
+    color: var(--ink-heading);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .book-card-title-zh {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    font-weight: var(--fw-regular);
+  }
+
+  .book-card-authors {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-5);
+  }
+
+  .book-card-curator {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-5);
+    border-left: 3px solid var(--accent-citation);
+    padding-left: var(--space-4);
+  }
+
+  .book-card-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+</style>

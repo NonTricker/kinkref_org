@@ -1,0 +1,236 @@
+---
+/**
+ * Bibliography index — 文獻指南列表頁
+ *
+ * 顯示：依年份 / 主題分組的論文摘要列表。
+ * 若 collection 為空，顯示 empty state。
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SearchBox from '@components/SearchBox.astro';
+import TagPill from '@components/TagPill.astro';
+
+const allPapers = await getCollection('bibliography');
+
+const sortedPapers = allPapers.sort((a, b) => b.data.year - a.data.year);
+
+const pageTitle = '文獻指南 · Bibliography';
+const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與索引，含 DOI、OA 狀態與翻譯進度。`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">Bibliography</p>
+      <h1 class="page-title">文獻指南</h1>
+      <p class="page-description">{pageDescription}</p>
+      <div class="page-search">
+        <SearchBox placeholder="搜尋論文標題、作者…" />
+      </div>
+    </div>
+  </section>
+
+  {
+    sortedPapers.length === 0 ? (
+      <section class="empty-state">
+        <div class="empty-state-inner">
+          <p class="empty-state-eyebrow">尚未開放</p>
+          <h2>文獻指南正在編纂中</h2>
+          <p>
+            首批 20-30 篇論文摘要正由策展人撰寫中。
+            如果你想協助翻譯或撰寫摘要，請參考
+            <a href="/contribute">貢獻指南</a>。
+          </p>
+        </div>
+      </section>
+    ) : (
+      <section class="entry-list-section">
+        <ul class="paper-list">
+          {sortedPapers.map((entry) => (
+            <li class="paper-card">
+              <a href={`/bibliography/${entry.id}`}>
+                <header class="paper-card-header">
+                  <p class="paper-card-meta">
+                    <span class="paper-card-year">{entry.data.year}</span>
+                    <span class="paper-card-journal">{entry.data.journal}</span>
+                  </p>
+                  <h2 class="paper-card-title">{entry.data.title}</h2>
+                  <p class="paper-card-authors">{entry.data.authors}</p>
+                </header>
+                <p class="paper-card-curator">{entry.data.curator_note}</p>
+                <ul class="paper-card-tags">
+                  <li>
+                    <TagPill
+                      label={entry.data.access_type}
+                      variant="status"
+                      status={entry.data.access_type === 'open-access' ? 'oa' : 'paywalled'}
+                      size="sm"
+                    />
+                  </li>
+                  {entry.data.translation_status === 'full-translation' && (
+                    <li>
+                      <TagPill label="已翻譯" variant="status" status="translated" size="sm" />
+                    </li>
+                  )}
+                  {entry.data.topic_tags.slice(0, 2).map((tag) => (
+                    <li>
+                      <TagPill label={tag} variant="topic" size="sm" />
+                    </li>
+                  ))}
+                </ul>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-hero-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .page-title {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-4);
+  }
+
+  .page-description {
+    font-size: var(--fs-body);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-7);
+    max-width: 60ch;
+  }
+
+  .page-search {
+    max-width: 480px;
+  }
+
+  .empty-state {
+    padding: var(--space-12) var(--space-5);
+  }
+
+  .empty-state-inner {
+    max-width: 60ch;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .empty-state-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--ink-disabled);
+    margin: 0 0 var(--space-4);
+  }
+
+  .empty-state h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 var(--space-5);
+  }
+
+  .empty-state p {
+    color: var(--ink-meta);
+  }
+
+  .empty-state a {
+    color: var(--accent-primary);
+  }
+
+  .entry-list-section {
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .paper-list {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .paper-card a {
+    display: block;
+    padding: var(--space-7);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    transition: var(--transition-color);
+  }
+
+  .paper-card a:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .paper-card-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .paper-card-year {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--fw-medium);
+  }
+
+  .paper-card-journal {
+    font-style: italic;
+  }
+
+  .paper-card-title {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-3);
+    color: var(--ink-heading);
+  }
+
+  .paper-card-authors {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-5);
+  }
+
+  .paper-card-curator {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-5);
+    border-left: 3px solid var(--accent-citation);
+    padding-left: var(--space-4);
+  }
+
+  .paper-card-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+</style>

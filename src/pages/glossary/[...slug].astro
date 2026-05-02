@@ -1,0 +1,336 @@
+---
+/**
+ * Glossary entry detail page — 術語詳情頁
+ *
+ * 動態路由：/glossary/[term-slug]
+ *
+ * Note: 條目正文存在 frontmatter（definition / usage_notes / controversies），
+ * Markdown 主體本身僅為 placeholder。本頁直接渲染 frontmatter 欄位。
+ *
+ * 段落處理：YAML pipe-string 內的 \n\n 為段落界，\n 為軟換行。
+ */
+
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '@layouts/EntryLayout.astro';
+import TagPill from '@components/TagPill.astro';
+import CrossRefMap from '@components/CrossRefMap.astro';
+
+export async function getStaticPaths() {
+  const allTerms = await getCollection('glossary');
+  return allTerms.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+/** 將 frontmatter 內 Markdown 風格純文字切成段落（粗略 fallback）。 */
+function paragraphs(text: string): string[] {
+  return text
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter((p) => p.length > 0);
+}
+
+// 找出 related_terms 對應的條目（用於底部交叉連結）
+let relatedEntries: Awaited<ReturnType<typeof getCollection<'glossary'>>> = [];
+if (data.related_terms && data.related_terms.length > 0) {
+  const all = await getCollection('glossary');
+  const lookup = new Set(data.related_terms.map((s) => s.toLowerCase()));
+  relatedEntries = all.filter(
+    (e) => lookup.has(e.id.toLowerCase()) || lookup.has(e.data.term_en.toLowerCase())
+  );
+}
+
+const pageTitle = `${data.term_zh} · ${data.term_en}`;
+const description = data.tagline;
+
+// 簡易 APA 引用格式
+const citationText = `${data.contributor} (${data.created_date.getFullYear()}). ${data.term_zh} (${data.term_en}). Kink Reference. https://kinkref.org/glossary/${entry.id}`;
+---
+
+<EntryLayout
+  title={pageTitle}
+  description={description}
+  collection="glossary"
+  eyebrow="術語條目 · Glossary Entry"
+  subtitle={data.tagline}
+  contributor={data.contributor}
+  lastReviewed={data.last_reviewed}
+  citationText={citationText}
+>
+  {/* Term metadata block */}
+  <section class="term-meta" aria-label="術語對照">
+    <dl class="term-meta-list">
+      <div class="term-meta-row">
+        <dt>中文</dt>
+        <dd>{data.term_zh}</dd>
+      </div>
+      <div class="term-meta-row">
+        <dt>英文</dt>
+        <dd>{data.term_en}</dd>
+      </div>
+      {
+        data.term_ja && (
+          <div class="term-meta-row">
+            <dt>日文</dt>
+            <dd>{data.term_ja}</dd>
+          </div>
+        )
+      }
+      {
+        data.term_alt_zh && (
+          <div class="term-meta-row">
+            <dt>其他譯名</dt>
+            <dd>{data.term_alt_zh}</dd>
+          </div>
+        )
+      }
+      {
+        data.aliases_en && (
+          <div class="term-meta-row">
+            <dt>英文別稱</dt>
+            <dd>{data.aliases_en}</dd>
+          </div>
+        )
+      }
+      {
+        data.origin_year && (
+          <div class="term-meta-row">
+            <dt>首見年代</dt>
+            <dd>{data.origin_year}</dd>
+          </div>
+        )
+      }
+    </dl>
+  </section>
+
+  {/* Definition body — 主定義段首字下沉（DESIGN.md §4 Drop Cap） */}
+  <section class="term-section">
+    <h2>定義</h2>
+    {paragraphs(data.definition).map((para, i) => (
+      <p class={i === 0 ? 'drop-cap' : undefined}>{para}</p>
+    ))}
+  </section>
+
+  {/* Disambiguation */}
+  {
+    data.disambiguation && data.disambiguation.length > 0 && (
+      <section class="term-section">
+        <h2>辨析</h2>
+        <ul class="disambiguation-list">
+          {data.disambiguation.map((item) => (
+            <li>
+              <h3 class="disambiguation-vs">
+                vs. <span>{item.vs}</span>
+              </h3>
+              {paragraphs(item.note).map((para) => (
+                <p>{para}</p>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {/* Usage notes */}
+  {
+    data.usage_notes && (
+      <section class="term-section">
+        <h2>使用脈絡</h2>
+        {paragraphs(data.usage_notes).map((para) => <p>{para}</p>)}
+      </section>
+    )
+  }
+
+  {/* Controversies */}
+  {
+    data.controversies && (
+      <section class="term-section">
+        <h2>爭議點</h2>
+        {paragraphs(data.controversies).map((para) => <p>{para}</p>)}
+      </section>
+    )
+  }
+
+  {/* External references */}
+  {
+    data.external_references && data.external_references.length > 0 && (
+      <section class="term-section">
+        <h2>外部參考</h2>
+        <ul class="references-list">
+          {data.external_references.map((ref) => (
+            <li>
+              <span class="reference-source">{ref.source}</span>
+              {ref.url ? (
+                <a href={ref.url} target="_blank" rel="noopener noreferrer">
+                  {ref.name ?? ref.url}
+                </a>
+              ) : (
+                <span>{ref.name}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {/* Tags */}
+  <section class="term-section">
+    <h2>標籤</h2>
+    <div class="tag-group">
+      <p class="tag-group-label">主題</p>
+      <ul class="tag-pills">
+        {data.topic_tags.map((tag) => <li><TagPill label={tag} variant="topic" /></li>)}
+      </ul>
+    </div>
+    <div class="tag-group">
+      <p class="tag-group-label">讀者</p>
+      <ul class="tag-pills">
+        {data.reader_tags.map((tag) => <li><TagPill label={tag} variant="reader" /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  {/* Markdown body slot — 主體目前僅為 placeholder，留作將來擴充 */}
+  <div class="term-body">
+    <Content />
+  </div>
+
+  {/* Related entries — 詞彙地圖（CrossRefMap，光影師交付） */}
+  {
+    relatedEntries.length > 0 && (
+      <aside slot="related" class="term-related">
+        <h2>詞彙地圖</h2>
+        <CrossRefMap
+          currentTermEn={data.term_en}
+          currentTermZh={data.term_zh}
+          related={relatedEntries.map((rel) => ({
+            slug: rel.id,
+            termEn: rel.data.term_en,
+            termZh: rel.data.term_zh,
+          }))}
+        />
+      </aside>
+    )
+  }
+</EntryLayout>
+
+<style>
+  .term-meta {
+    background: var(--bg-subtle);
+    padding: var(--space-7);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-9);
+  }
+
+  .term-meta-list {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .term-meta-row {
+    display: grid;
+    grid-template-columns: 6em 1fr;
+    gap: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .term-meta-row dt {
+    color: var(--ink-meta);
+    font-weight: var(--fw-medium);
+  }
+
+  .term-meta-row dd {
+    margin: 0;
+    color: var(--ink-body);
+  }
+
+  .term-section {
+    margin-bottom: var(--space-9);
+  }
+
+  .disambiguation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .disambiguation-vs {
+    font-family: var(--font-sans);
+    font-size: var(--fs-h4);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+  }
+
+  .disambiguation-vs span {
+    color: var(--accent-primary);
+    font-style: italic;
+  }
+
+  .references-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .reference-source {
+    color: var(--ink-meta);
+    margin-right: var(--space-3);
+    font-variant: small-caps;
+  }
+
+  .tag-group {
+    margin-bottom: var(--space-5);
+  }
+
+  .tag-group-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+  }
+
+  .tag-pills {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .term-body {
+    margin-bottom: var(--space-9);
+  }
+
+  .term-body:empty {
+    display: none;
+  }
+
+  .term-related {
+    max-width: var(--content-width-prose);
+    margin: var(--space-11) auto 0;
+    padding: var(--space-9) var(--space-5);
+    border-top: 2px solid var(--rule-section);
+  }
+
+  .term-related h2 {
+    margin-top: 0;
+  }
+</style>

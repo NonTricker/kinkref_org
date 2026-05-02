@@ -1,0 +1,237 @@
+/**
+ * kinkref.org — Design Tokens
+ * Mood: The Reference Press（學術書院）
+ * Curated by: 光影師 艾莉兒
+ * Spec: ../../DESIGN.md
+ *
+ * Iron Law: Token-driven only. No inline color, no ad-hoc hex.
+ * 所有 UI 顏色、字級、間距必須引用 token，禁止硬編碼。
+ */
+
+:root {
+  /* ──────────────────────────────────────────────────────
+     SURFACE & BACKGROUND（表面與背景）
+     ────────────────────────────────────────────────────── */
+  --bg-base:     #FAF7F2; /* Paper Cream — 全站底 */
+  --bg-elevated: #FFFFFF; /* Card White — 卡片浮起層 */
+  --bg-subtle:   #F2EDE4; /* Subtle Tint — sidebar / 二級背景 */
+  --bg-footer:   #2C2823; /* Footer Earth — 唯一深色塊 */
+
+  /* ──────────────────────────────────────────────────────
+     INK（墨色 / 文字）
+     ────────────────────────────────────────────────────── */
+  --ink-heading:  #1C1A17; /* Page Ink — 標題 */
+  --ink-body:     #1C1A17; /* Page Ink — 內文 */
+  --ink-meta:     #5C544A; /* Faded Ink — metadata */
+  --ink-disabled: #8B8275; /* Muted Ink — 禁用態 / placeholder */
+  --ink-inverse:  #E8E2D6; /* Warm Off-white — footer / dark mode body */
+
+  /* ──────────────────────────────────────────────────────
+     ACCENT（情感色 / 引用色）
+     ────────────────────────────────────────────────────── */
+  --accent-primary:  #7A1D1D; /* Reference Crimson — 唯一情感色 */
+  --accent-citation: #8C6A2F; /* Bronze Citation — 引用學術徽章色 */
+
+  /* ──────────────────────────────────────────────────────
+     SEMANTIC（語義 / 狀態徽章）
+     ────────────────────────────────────────────────────── */
+  --status-oa:          #5A7A3D; /* Open Access — 苔蘚綠 */
+  --status-paywalled:   #8B6F47; /* Paywalled — 沙赭色 */
+  --status-translated:  #8C6A2F; /* 已翻譯 — 銅金 */
+  --status-locked:      #5C544A; /* Maintainer-locked — 褪墨 */
+
+  /* ──────────────────────────────────────────────────────
+     RULE（線條 / 分隔）
+     ────────────────────────────────────────────────────── */
+  --rule-fine:    #D8CFC2; /* 紙紋灰 hairline */
+  --rule-section: #1C1A17; /* 章節分隔 / Eyebrow ribbon */
+  --rule-tree:    #5C544A; /* 詞彙地圖樹狀線（CrossRefMap）= Faded Ink */
+
+  /* ──────────────────────────────────────────────────────
+     OVERLAY（半透明遮罩 — 唯一允許場景：Age Gate）
+     深度紀律：純色 + opacity，禁止 backdrop-blur（DESIGN.md §6）
+     ────────────────────────────────────────────────────── */
+  --bg-overlay: rgba(28, 26, 23, 0.92); /* Page Ink @ 92% — Age Gate backdrop */
+
+  /* ──────────────────────────────────────────────────────
+     RADIUS（圓角 — 三檔絕對紀律）
+     ────────────────────────────────────────────────────── */
+  --radius-flat: 0;     /* 圖片占位、表格、Eyebrow */
+  --radius-sm:   2px;   /* 按鈕、卡片、輸入框、Tag、Badge、Age Gate Modal（DESIGN.md §4 L344） */
+  --radius-md:   4px;   /* 大型卡片、彈窗（保留升級空間） */
+
+  /* ──────────────────────────────────────────────────────
+     SPACING（4px scale）
+     ────────────────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  40px;
+  --space-9:  48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 96px;
+  --space-13: 128px;
+
+  /* ──────────────────────────────────────────────────────
+     TYPOGRAPHY — Font Family
+     ────────────────────────────────────────────────────── */
+  --font-serif: "Noto Serif TC", "Source Serif 4", "Charter",
+                "Iowan Old Style", "Songti TC", serif;
+  --font-sans:  "Noto Sans TC", "Inter", -apple-system,
+                BlinkMacSystemFont, "PingFang TC",
+                "Microsoft JhengHei", sans-serif;
+  --font-mono:  "JetBrains Mono", "Menlo", "Consolas",
+                "Roboto Mono", monospace;
+
+  /* ──────────────────────────────────────────────────────
+     TYPOGRAPHY — Size scale (rem-based)
+     Base: 16px
+     ────────────────────────────────────────────────────── */
+  --fs-display:    3.00rem;    /* 48px — Hero */
+  --fs-h1:         2.25rem;    /* 36px */
+  --fs-h2:         1.625rem;   /* 26px */
+  --fs-h3:         1.25rem;    /* 20px */
+  --fs-h4:         1.00rem;    /* 16px — UI heading */
+  --fs-body:       1.0625rem;  /* 17px — long-form 主體 */
+  --fs-body-sm:    0.9375rem;  /* 15px */
+  --fs-ui:         0.875rem;   /* 14px — button / nav label */
+  --fs-caption:    0.8125rem;  /* 13px */
+  --fs-eyebrow:    0.75rem;    /* 12px */
+  --fs-mono:       0.8125rem;  /* 13px — DOI / identifier */
+  --fs-mono-block: 0.875rem;   /* 14px — APA citation block */
+  --fs-dropcap:    3.5rem;     /* 56px */
+
+  /* Line height — CJK 友善 */
+  --lh-tight:    1.20; /* Display, H1 */
+  --lh-heading:  1.30; /* H2-H3 */
+  --lh-ui:       1.40; /* UI 元素 */
+  --lh-body:     1.75; /* 內文 */
+  --lh-relaxed:  1.85; /* 翻譯頁、長段落 */
+
+  /* Letter spacing */
+  --ls-display:  -0.4px;
+  --ls-h1:       -0.3px;
+  --ls-h2:       -0.2px;
+  --ls-tight:    -0.1px;
+  --ls-normal:   0;
+  --ls-ui:       0.1px;
+  --ls-eyebrow:  0.8px;
+
+  /* Font weight */
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* ──────────────────────────────────────────────────────
+     CONTENT WIDTH（紀律性 reading width）
+     ────────────────────────────────────────────────────── */
+  --content-width-prose: 65ch;     /* ~720px — 長文 */
+  --content-width-index: 1024px;   /* 索引頁 */
+  --content-width-wide:  1280px;   /* footer / nav 容器最大 */
+
+  /* ──────────────────────────────────────────────────────
+     TRANSITION（克制動效）
+     ────────────────────────────────────────────────────── */
+  --transition-fast:  150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-color: color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                      border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                      background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ──────────────────────────────────────────────────────
+     Z-INDEX（層級紀律）
+     ────────────────────────────────────────────────────── */
+  --z-content:      1;
+  --z-sticky-nav:   100;
+  --z-dropdown:     200;
+  --z-modal:        500;
+  --z-age-gate:     1000; /* 必須最高 */
+}
+
+/* ──────────────────────────────────────────────────────
+   DARK MODE — 夜讀檯燈，不是工程黑
+   ────────────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-base:     #161A18;
+    --bg-elevated: #1F2421;
+    --bg-subtle:   #22272A;
+    --bg-footer:   #0F1311;
+
+    --ink-heading:  #E8E2D6;
+    --ink-body:     #E8E2D6;
+    --ink-meta:     #A8A095;
+    --ink-disabled: #6B6760;
+    --ink-inverse:  #1C1A17;
+
+    --accent-primary:  #C25555; /* 提亮酒紅以維持 contrast */
+    --accent-citation: #C9A65A; /* 提亮銅金 */
+
+    --status-oa:          #8AB069;
+    --status-paywalled:   #B89875;
+    --status-translated:  #C9A65A;
+    --status-locked:      #A8A095;
+
+    --rule-fine:    #3A3F3C;
+    --rule-section: #E8E2D6;
+    --rule-tree:    #6B6760; /* dark: 提亮以維持對比 */
+
+    --bg-overlay:   rgba(15, 19, 17, 0.94); /* dark: Footer Earth @ 94% */
+  }
+}
+
+/* Class-based dark mode override（手動切換用） */
+:root[data-theme="dark"] {
+  --bg-base:     #161A18;
+  --bg-elevated: #1F2421;
+  --bg-subtle:   #22272A;
+  --bg-footer:   #0F1311;
+
+  --ink-heading:  #E8E2D6;
+  --ink-body:     #E8E2D6;
+  --ink-meta:     #A8A095;
+  --ink-disabled: #6B6760;
+  --ink-inverse:  #1C1A17;
+
+  --accent-primary:  #C25555;
+  --accent-citation: #C9A65A;
+
+  --status-oa:          #8AB069;
+  --status-paywalled:   #B89875;
+  --status-translated:  #C9A65A;
+  --status-locked:      #A8A095;
+
+  --rule-fine:    #3A3F3C;
+  --rule-section: #E8E2D6;
+  --rule-tree:    #6B6760;
+
+  --bg-overlay:   rgba(15, 19, 17, 0.94);
+}
+
+:root[data-theme="light"] {
+  /* 強制亮色覆蓋（防 OS dark 但用戶選 light） */
+  --bg-base:     #FAF7F2;
+  --bg-elevated: #FFFFFF;
+  --bg-subtle:   #F2EDE4;
+  --bg-footer:   #2C2823;
+
+  --ink-heading:  #1C1A17;
+  --ink-body:     #1C1A17;
+  --ink-meta:     #5C544A;
+  --ink-disabled: #8B8275;
+  --ink-inverse:  #E8E2D6;
+
+  --accent-primary:  #7A1D1D;
+  --accent-citation: #8C6A2F;
+
+  --rule-fine:    #D8CFC2;
+  --rule-section: #1C1A17;
+  --rule-tree:    #5C544A;
+
+  --bg-overlay:   rgba(28, 26, 23, 0.92);
+}

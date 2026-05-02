@@ -1,0 +1,227 @@
+---
+/**
+ * EntryLayout — 條目詳情頁骨架
+ *
+ * 用於：術語、論文、書目的單條詳情頁。
+ * 提供：返回連結、條目 metadata 區塊、主內容 slot、相關條目區塊（外部填入）。
+ *
+ * 視覺細節由光影師於 DESIGN.md 規範，本 layout 僅組裝結構與引用 token。
+ */
+
+import BaseLayout from './BaseLayout.astro';
+import AgeGate from '@components/AgeGate.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** 條目所屬 collection 名 — 顯示麵包屑 */
+  collection: 'glossary' | 'bibliography' | 'books';
+  /** 顯示在標題上方的 eyebrow 文字（如「術語條目」） */
+  eyebrow?: string;
+  /** 條目副標 */
+  subtitle?: string;
+  /** APA / 引用文字（顯示於條目下方） */
+  citationText?: string;
+  /** 末次審校日期 */
+  lastReviewed?: Date;
+  /** 條目 contributor 圈名 */
+  contributor?: string;
+}
+
+const {
+  title,
+  description,
+  collection,
+  eyebrow,
+  subtitle,
+  citationText,
+  lastReviewed,
+  contributor,
+} = Astro.props;
+
+const collectionLabel: Record<Props['collection'], string> = {
+  glossary: '術語表',
+  bibliography: '文獻指南',
+  books: '書架清單',
+};
+
+const collectionPath: Record<Props['collection'], string> = {
+  glossary: '/glossary',
+  bibliography: '/bibliography',
+  books: '/books',
+};
+
+const formattedDate = lastReviewed
+  ? new Intl.DateTimeFormat('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(lastReviewed)
+  : null;
+---
+
+<BaseLayout title={title} description={description} ogType="article">
+  <article class="entry">
+    <nav class="entry-breadcrumb" aria-label="麵包屑">
+      <a href="/">首頁</a>
+      <span aria-hidden="true">/</span>
+      <a href={collectionPath[collection]}>{collectionLabel[collection]}</a>
+      <span aria-hidden="true">/</span>
+      <span class="entry-breadcrumb-current">{title}</span>
+    </nav>
+
+    <header class="entry-header">
+      {eyebrow && <p class="entry-eyebrow">{eyebrow}</p>}
+      <h1 class="entry-title">{title}</h1>
+      {subtitle && <p class="entry-subtitle">{subtitle}</p>}
+    </header>
+
+    <div class="entry-body">
+      <slot />
+    </div>
+
+    {
+      (formattedDate || contributor || citationText) && (
+        <footer class="entry-footer">
+          {citationText && (
+            <section class="entry-citation">
+              <h2 class="entry-footer-heading">引用本條目</h2>
+              <pre class="entry-citation-block">{citationText}</pre>
+            </section>
+          )}
+
+          <section class="entry-meta">
+            {contributor && (
+              <p class="entry-meta-row">
+                <span class="entry-meta-label">撰寫者</span>
+                <span>{contributor}</span>
+              </p>
+            )}
+            {formattedDate && (
+              <p class="entry-meta-row">
+                <span class="entry-meta-label">最後審校</span>
+                <time datetime={lastReviewed?.toISOString()}>{formattedDate}</time>
+              </p>
+            )}
+          </section>
+        </footer>
+      )
+    }
+
+    <slot name="related" />
+  </article>
+
+  {/* Age Gate — 策略 2（內容頁觸發）：所有條目頁進入時提示，
+      首頁 / About / Contribute 不觸發。光影師交付 */}
+  <AgeGate />
+</BaseLayout>
+
+<style>
+  .entry {
+    max-width: var(--content-width-prose);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .entry-breadcrumb {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin-bottom: var(--space-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .entry-breadcrumb a {
+    color: var(--ink-meta);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .entry-breadcrumb a:hover {
+    color: var(--accent-primary);
+  }
+
+  .entry-breadcrumb-current {
+    color: var(--ink-body);
+  }
+
+  .entry-header {
+    margin-bottom: var(--space-9);
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .entry-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .entry-title {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-3);
+  }
+
+  .entry-subtitle {
+    font-family: var(--font-sans);
+    color: var(--ink-meta);
+    font-size: var(--fs-body-sm);
+    margin: 0;
+  }
+
+  .entry-body {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .entry-footer {
+    margin-top: var(--space-11);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-fine);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .entry-footer-heading {
+    font-family: var(--font-sans);
+    font-size: var(--fs-h4);
+    margin: 0 0 var(--space-3);
+  }
+
+  .entry-citation-block {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-block);
+    background: var(--bg-subtle);
+    padding: var(--space-5);
+    border-radius: var(--radius-sm);
+    white-space: pre-wrap;
+    margin: 0;
+  }
+
+  .entry-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
+  .entry-meta-row {
+    margin: 0;
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .entry-meta-label {
+    color: var(--ink-disabled);
+    min-width: 5em;
+  }
+</style>

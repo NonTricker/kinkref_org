@@ -1,0 +1,90 @@
+---
+/**
+ * TagPill — 主題 / 讀者 / 狀態標籤膠囊
+ *
+ * 用於：條目卡片、列表頁 filter、條目詳情頁。
+ * Variant：topic / reader / status
+ */
+
+interface Props {
+  label: string;
+  variant?: 'topic' | 'reader' | 'status';
+  status?: 'oa' | 'paywalled' | 'translated' | 'locked';
+  href?: string;
+  size?: 'sm' | 'md';
+}
+
+const { label, variant = 'topic', status, href, size = 'md' } = Astro.props;
+
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  class:list={[
+    'tag-pill',
+    `tag-pill--${variant}`,
+    status && `tag-pill--status-${status}`,
+    `tag-pill--${size}`,
+  ]}
+  {...(href ? { href } : {})}
+>
+  {label}
+</Tag>
+
+<style>
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-sans);
+    line-height: 1;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--rule-fine);
+    background: var(--bg-elevated);
+    color: var(--ink-meta);
+    text-decoration: none;
+    transition: var(--transition-color);
+    white-space: nowrap;
+  }
+
+  .tag-pill--md {
+    font-size: var(--fs-caption);
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .tag-pill--sm {
+    font-size: var(--fs-eyebrow);
+    padding: 2px var(--space-2);
+  }
+
+  a.tag-pill:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+  }
+
+  /* Variant: reader — 較淡 */
+  .tag-pill--reader {
+    color: var(--ink-disabled);
+    background: var(--bg-subtle);
+  }
+
+  /* Variant: status — 語義色 */
+  .tag-pill--status-oa {
+    color: var(--status-oa);
+    border-color: var(--status-oa);
+  }
+
+  .tag-pill--status-paywalled {
+    color: var(--status-paywalled);
+    border-color: var(--status-paywalled);
+  }
+
+  .tag-pill--status-translated {
+    color: var(--status-translated);
+    border-color: var(--status-translated);
+  }
+
+  .tag-pill--status-locked {
+    color: var(--status-locked);
+    border-color: var(--status-locked);
+  }
+</style>

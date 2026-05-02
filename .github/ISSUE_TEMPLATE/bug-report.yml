@@ -1,0 +1,53 @@
+name: Bug 回報
+description: 站台技術問題（顯示異常、連結錯誤、行為異常）
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: 受影響的頁面 URL
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: 裝置類別
+      options:
+        - 桌機
+        - 平板
+        - 手機
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: 瀏覽器與版本
+      placeholder: e.g., Chrome 130 / Safari 18 / Firefox 132
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 預期行為
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 實際行為
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 重現步驟
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 截圖（可拖入）

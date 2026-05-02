@@ -1,0 +1,122 @@
+---
+/**
+ * BaseLayout — 全域骨架
+ *
+ * 提供：HTML 文件結構、meta、語言聲明、共用 Header/Footer。
+ * 所有頁面 layout 應繼承此 layout 或在其上組合。
+ *
+ * Mood spec: ../../DESIGN.md（光影師）
+ */
+
+import '@styles/global.css';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = '中文 BDSM 學術文獻策展與術語索引。Curating BDSM scholarship for the Traditional Chinese reading public.',
+  ogType = 'website',
+  noindex = false,
+  canonical,
+} = Astro.props;
+
+const SITE_NAME = 'Kink Reference';
+const SITE_URL = 'https://kinkref.org';
+const fullTitle = title === SITE_NAME ? title : `${title} — ${SITE_NAME}`;
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE_URL).toString();
+---
+
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    {/* Open Graph */}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content="zh_TW" />
+
+    {/* Twitter Card — 中性 summary，不放圖（站方無情色意象） */}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    {/* Favicon — 由光影師提供 */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+
+    {/* Sitemap */}
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {/* AI 友好 — llms.txt 在 public/ */}
+
+    {/* Prefers-color-scheme handling — 防 FOUC（讀 localStorage 主題偏好） */}
+    <script is:inline>
+      (function () {
+        try {
+          const stored = localStorage.getItem('kinkref-theme');
+          if (stored === 'dark' || stored === 'light') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch {
+          /* no-op */
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">跳至主要內容</a>
+
+    <Header />
+
+    <main id="main" class="site-main">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: var(--space-4);
+    background: var(--ink-heading);
+    color: var(--ink-inverse);
+    padding: var(--space-2) var(--space-4);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-ui);
+    z-index: var(--z-sticky-nav);
+    transition: top var(--transition-fast);
+  }
+
+  .skip-link:focus {
+    top: var(--space-4);
+  }
+
+  .site-main {
+    min-height: calc(100vh - 200px);
+  }
+</style>

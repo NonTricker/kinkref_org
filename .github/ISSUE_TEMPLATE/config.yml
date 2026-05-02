@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 安全問題回報
+    url: https://github.com/NonTricker/kinkref_org/blob/main/SECURITY.md
+    about: 發現安全漏洞或隱私問題？請依照 SECURITY.md 流程私下回報，不要在公開 Issue 揭露。
+  - name: 私下投稿（不想用 GitHub）
+    url: https://github.com/NonTricker/kinkref_org/blob/main/CONTRIBUTING.md
+    about: 圈內人或不熟悉 Git 的貢獻者，可選擇 email 投稿。流程見 CONTRIBUTING.md。
+  - name: 用 AI 協助貢獻
+    url: https://github.com/NonTricker/kinkref_org/blob/main/AGENTS.md
+    about: 把 AGENTS.md 給你的 AI（Claude / ChatGPT / Gemini），它會引導你完成符合 schema 的條目。

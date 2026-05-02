@@ -1,0 +1,301 @@
+---
+/**
+ * Contribute — 貢獻指引總覽（Web 版）
+ *
+ * 詳細流程在 CONTRIBUTING.md。本頁是友善的入口。
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const pageTitle = '貢獻 · Contribute';
+const description = '如何貢獻內容到 kinkref.org：透過 AI 協助、直接 PR、或寄信投稿。';
+
+const paths = [
+  {
+    eyebrow: 'Path A',
+    title: '用 AI 協助貢獻',
+    body: '把以下訊息貼給你的 AI（Claude / ChatGPT / Gemini），它會引導你完成符合 schema 的條目。',
+    snippet:
+      '請閱讀 https://github.com/NonTricker/kinkref_org/blob/main/AGENTS.md\n和 https://github.com/NonTricker/kinkref_org/blob/main/CONTRIBUTING.md\n然後協助我為 kinkref.org 撰寫一篇 [術語/論文摘要/書摘]。',
+    cta: '閱讀 AGENTS.md',
+    href: 'https://github.com/NonTricker/kinkref_org/blob/main/AGENTS.md',
+  },
+  {
+    eyebrow: 'Path B',
+    title: '直接送 Pull Request',
+    body: '熟悉 GitHub 工作流的貢獻者，可以直接 fork repo 提交 PR。',
+    list: [
+      'Fork 本 repo',
+      '讀 CONTRIBUTING.md（含 OPSEC 教學）',
+      '讀 docs/CONTENT_SCHEMA.md（資料結構規範）',
+      '在 content/ 對應目錄新增 Markdown 檔',
+      '跑過 PR 自檢清單',
+      '提交 PR',
+    ],
+    cta: '前往 GitHub',
+    href: 'https://github.com/NonTricker/kinkref_org',
+  },
+  {
+    eyebrow: 'Path C',
+    title: '不想用 GitHub？',
+    body: '寄信至站主投稿信箱（將於正式上線時公布）。圈名、匿名、一次性讀者皆歡迎。',
+    cta: '了解 OPSEC',
+    href: 'https://github.com/NonTricker/kinkref_org/blob/main/CONTRIBUTING.md#3-opsec-身分保護',
+  },
+];
+
+const types = [
+  { type: '術語', desc: '中英對照、辨析、首見年代' },
+  { type: '論文摘要', desc: '中文摘要、DOI、研究類型、難度標註' },
+  { type: '書摘', desc: '100-300 字書摘 + 推薦章節 + 取得方式' },
+  { type: '翻譯', desc: 'Open Access 論文全文翻譯' },
+  { type: '勘誤', desc: '事實錯誤、引用格式、翻譯問題' },
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <article class="contribute-page">
+    <header class="contribute-header">
+      <p class="page-eyebrow">Contribute</p>
+      <h1>三條貢獻路徑</h1>
+      <p class="contribute-intro">
+        無論你是研究者、譯者、圈內人，或單純想協助—— 本站歡迎你的貢獻。
+        所有內容皆採 CC BY-SA 4.0 授權，貢獻者可選擇圈名、匿名或一次性 GitHub 帳號。
+      </p>
+    </header>
+
+    <section class="paths">
+      {
+        paths.map((path) => (
+          <article class="path-card">
+            <p class="path-eyebrow">{path.eyebrow}</p>
+            <h2 class="path-title">{path.title}</h2>
+            <p class="path-body">{path.body}</p>
+            {path.snippet && (
+              <pre class="path-snippet"><code>{path.snippet}</code></pre>
+            )}
+            {path.list && (
+              <ol class="path-list">
+                {path.list.map((step) => <li>{step}</li>)}
+              </ol>
+            )}
+            <p class="path-cta">
+              <a href={path.href} target="_blank" rel="noopener noreferrer">
+                {path.cta} →
+              </a>
+            </p>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="types">
+      <h2>可貢獻的內容類型</h2>
+      <ul class="type-list">
+        {
+          types.map((t) => (
+            <li>
+              <strong>{t.type}</strong>
+              <span>{t.desc}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="opsec">
+      <div class="opsec-inner">
+        <h2>圈內人 OPSEC 保護</h2>
+        <p>
+          如果你是圈內人，本站為你設計了完整的身分保護機制：使用 GitHub 專屬帳號、
+          directory-scoped git config、GitHub noreply email、圈名 contributor 欄位。
+        </p>
+        <p>
+          完整流程見
+          <a href="https://github.com/NonTricker/kinkref_org/blob/main/CONTRIBUTING.md">
+            CONTRIBUTING.md § 3
+          </a>
+          ，或請 AI 協助你完成設定。
+        </p>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .contribute-page {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: var(--space-11) var(--space-5) var(--space-12);
+  }
+
+  .contribute-header {
+    max-width: var(--content-width-prose);
+    margin: 0 auto var(--space-11);
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .contribute-header h1 {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-5);
+  }
+
+  .contribute-intro {
+    color: var(--ink-meta);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    margin: 0;
+  }
+
+  .paths {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-7);
+    margin-bottom: var(--space-12);
+  }
+
+  .path-card {
+    padding: var(--space-7);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+  }
+
+  .path-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .path-title {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-4);
+  }
+
+  .path-body {
+    color: var(--ink-meta);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    margin: 0 0 var(--space-5);
+  }
+
+  .path-snippet {
+    background: var(--bg-subtle);
+    padding: var(--space-4);
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+    margin: 0 0 var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .path-list {
+    padding-left: var(--space-6);
+    margin: 0 0 var(--space-5);
+  }
+
+  .path-list li {
+    margin-bottom: var(--space-2);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+  }
+
+  .path-cta {
+    margin: 0;
+  }
+
+  .path-cta a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: var(--fw-medium);
+  }
+
+  .path-cta a:hover {
+    text-decoration: underline;
+  }
+
+  .types {
+    max-width: var(--content-width-prose);
+    margin: 0 auto var(--space-12);
+  }
+
+  .types h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 var(--space-7);
+  }
+
+  .type-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .type-list li {
+    display: grid;
+    grid-template-columns: 8em 1fr;
+    gap: var(--space-5);
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    background: var(--bg-elevated);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .type-list strong {
+    color: var(--ink-heading);
+  }
+
+  .type-list span {
+    color: var(--ink-meta);
+  }
+
+  .opsec {
+    max-width: var(--content-width-prose);
+    margin: 0 auto;
+  }
+
+  .opsec-inner {
+    padding: var(--space-7);
+    border: 2px solid var(--rule-section);
+    border-radius: var(--radius-sm);
+    background: var(--bg-subtle);
+  }
+
+  .opsec-inner h2 {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-5);
+  }
+
+  .opsec-inner p {
+    margin: 0 0 var(--space-4);
+    line-height: var(--lh-body);
+  }
+
+  .opsec-inner p:last-child {
+    margin-bottom: 0;
+  }
+
+  .opsec-inner a {
+    color: var(--accent-primary);
+  }
+</style>

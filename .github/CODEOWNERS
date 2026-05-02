@@ -1,0 +1,26 @@
+# Code owners — kinkref.org
+#
+# 對應 PROJECT_SPEC.md § 4.3「主編鎖定區」。
+# 這些路徑下的變更必須由策展人 review。
+#
+# 注意：將 @NonTricker 替換為實際的 GitHub handle。
+
+# 主編鎖定區
+/docs/PROJECT_SPEC.md          @NonTricker
+/docs/DESIGN_PRINCIPLES.md     @NonTricker
+/docs/CONTENT_SCHEMA.md        @NonTricker
+/AGENTS.md                     @NonTricker
+/CONTRIBUTING.md               @NonTricker
+/CODE_OF_CONDUCT.md            @NonTricker
+/SECURITY.md                   @NonTricker
+/LICENSE                       @NonTricker
+/README.md                     @NonTricker
+
+# 設計與站台核心程式碼
+/src/styles/*                  @NonTricker
+/src/layouts/*                 @NonTricker
+/astro.config.mjs              @NonTricker
+/src/content/config.ts         @NonTricker
+
+# CI / Deployment
+/.github/workflows/*           @NonTricker

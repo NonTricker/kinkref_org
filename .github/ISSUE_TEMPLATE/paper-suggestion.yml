@@ -1,0 +1,105 @@
+name: 論文建議
+description: 建議將某篇學術論文加入 Bibliography
+title: "[Paper] "
+labels: ["content", "bibliography"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感謝你想協助擴充文獻指南。優先收錄：
+        - 同儕審查期刊論文
+        - DOI 可查
+        - 學術 rigor 達標（樣本可驗、方法透明）
+
+        本站偏好 OA 論文（避免讀者撞牆），但 paywalled 論文有合法 preprint 也接受。
+
+  - type: input
+    id: doi
+    attributes:
+      label: DOI
+      description: 必填。沒有 DOI 通常意味著不是同儕審查文獻。
+      placeholder: 10.xxxx/xxxxx
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: 論文標題（英文原文）
+    validations:
+      required: true
+
+  - type: input
+    id: authors
+    attributes:
+      label: 作者
+      placeholder: Last, F. M.; Last2, F.
+    validations:
+      required: true
+
+  - type: input
+    id: year
+    attributes:
+      label: 發表年份
+      placeholder: "2013"
+    validations:
+      required: true
+
+  - type: input
+    id: journal
+    attributes:
+      label: 期刊名稱
+    validations:
+      required: true
+
+  - type: dropdown
+    id: access-type
+    attributes:
+      label: 取得方式
+      options:
+        - open-access
+        - paywalled
+        - preprint-available
+    validations:
+      required: true
+
+  - type: input
+    id: preprint-url
+    attributes:
+      label: Preprint URL（如有）
+      placeholder: https://psyarxiv.com/...
+
+  - type: textarea
+    id: why
+    attributes:
+      label: 為何值得收錄
+      description: 一段話說明這篇論文在 BDSM 學術文獻中的位置。
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度（你的判斷）
+      options:
+        - high — 該領域必引文獻
+        - medium — 重要補充
+        - low — 邊緣相關
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 補充
+      description: 方法論注意事項、樣本偏誤、爭議點等
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: 確認事項
+      options:
+        - label: 我已驗證 DOI 連結有效
+          required: true
+        - label: 此論文符合學術 rigor 基本門檻
+          required: true

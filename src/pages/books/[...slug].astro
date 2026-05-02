@@ -1,0 +1,324 @@
+---
+/**
+ * Book entry detail page — 書目詳情頁
+ *
+ * 動態路由：/books/[book-slug]
+ */
+
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '@layouts/EntryLayout.astro';
+import TagPill from '@components/TagPill.astro';
+
+export async function getStaticPaths() {
+  const books = await getCollection('books');
+  return books.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+function paragraphs(text: string): string[] {
+  return text
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter((p) => p.length > 0);
+}
+
+const apaCitation = `${data.author} (${data.year}). ${data.title}. ${data.publisher}.${
+  data.isbn ? ` ISBN: ${data.isbn}` : ''
+}`;
+
+const pageTitle = data.title_zh ? `${data.title_zh}（${data.title}）` : data.title;
+const description = data.curator_note;
+---
+
+<EntryLayout
+  title={pageTitle}
+  description={description}
+  collection="books"
+  eyebrow="書目條目 · Book Entry"
+  contributor={data.contributor}
+  lastReviewed={data.last_reviewed}
+  citationText={apaCitation}
+>
+  <section class="book-meta" aria-label="書目資訊">
+    <dl>
+      <div class="book-meta-row"><dt>作者</dt><dd>{data.author}</dd></div>
+      <div class="book-meta-row"><dt>原文出版年</dt><dd>{data.year}</dd></div>
+      <div class="book-meta-row"><dt>原文出版社</dt><dd>{data.publisher}</dd></div>
+      {data.isbn && <div class="book-meta-row"><dt>ISBN</dt><dd>{data.isbn}</dd></div>}
+      <div class="book-meta-row"><dt>原文語言</dt><dd>{data.language}</dd></div>
+      <div class="book-meta-row"><dt>類型</dt><dd>{data.book_type}</dd></div>
+      <div class="book-meta-row"><dt>難度</dt><dd>{data.difficulty}</dd></div>
+      <div class="book-meta-row">
+        <dt>中譯本</dt>
+        <dd>
+          {data.has_zh_translation ? (
+            <>
+              <TagPill label="有中譯本" variant="status" status="translated" size="sm" />
+              {data.publisher_zh && ` · ${data.publisher_zh}`}
+              {data.year_zh_translation && ` · ${data.year_zh_translation}`}
+            </>
+          ) : (
+            '尚無中譯本'
+          )}
+        </dd>
+      </div>
+      {data.translator && <div class="book-meta-row"><dt>譯者</dt><dd>{data.translator}</dd></div>}
+      {data.out_of_print && (
+        <div class="book-meta-row"><dt>狀態</dt><dd><TagPill label="絕版" variant="reader" size="sm" /></dd></div>
+      )}
+    </dl>
+  </section>
+
+  <section class="book-section">
+    <h2>中文書摘</h2>
+    {paragraphs(data.abstract_zh).map((para) => <p>{para}</p>)}
+  </section>
+
+  <section class="book-section">
+    <h2 class="curator-heading">策展人推薦</h2>
+    <p class="curator-note">{data.curator_note}</p>
+  </section>
+
+  {
+    data.recommended_chapters && data.recommended_chapters.length > 0 && (
+      <section class="book-section">
+        <h2>推薦章節</h2>
+        <ul class="chapter-list">
+          {data.recommended_chapters.map((ch) => (
+            <li>
+              <h3 class="chapter-title">
+                {ch.chapter}
+                {ch.pages && <span class="chapter-pages">pp. {ch.pages}</span>}
+              </h3>
+              {ch.note && <p class="chapter-note">{ch.note}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    data.access_links && data.access_links.length > 0 && (
+      <section class="book-section">
+        <h2>取得方式</h2>
+        <ul class="access-list">
+          {data.access_links.map((link) => (
+            <li>
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                <span class="access-type">{link.type}</span>
+                {link.note && <span class="access-note">{link.note}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    data.caveats && data.caveats.length > 0 && (
+      <section class="book-section">
+        <h2>注意事項</h2>
+        <ul class="caveat-list">
+          {data.caveats.map((caveat) => (
+            <li class="caveat-item">
+              <span class="caveat-type">{caveat.type}</span>
+              <span class="caveat-note">{caveat.note}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="book-section">
+    <h2>標籤</h2>
+    <div class="tag-group">
+      <p class="tag-group-label">主題</p>
+      <ul class="tag-pills">
+        {data.topic_tags.map((tag) => <li><TagPill label={tag} variant="topic" /></li>)}
+      </ul>
+    </div>
+    <div class="tag-group">
+      <p class="tag-group-label">讀者</p>
+      <ul class="tag-pills">
+        {data.reader_tags.map((tag) => <li><TagPill label={tag} variant="reader" /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <div class="book-body">
+    <Content />
+  </div>
+</EntryLayout>
+
+<style>
+  .book-meta {
+    background: var(--bg-subtle);
+    padding: var(--space-7);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-9);
+  }
+
+  .book-meta dl {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .book-meta-row {
+    display: grid;
+    grid-template-columns: 8em 1fr;
+    gap: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .book-meta-row dt {
+    color: var(--ink-meta);
+    font-weight: var(--fw-medium);
+  }
+
+  .book-meta-row dd {
+    margin: 0;
+  }
+
+  .book-section {
+    margin-bottom: var(--space-9);
+  }
+
+  .curator-heading {
+    color: var(--accent-citation);
+  }
+
+  .curator-note {
+    font-style: italic;
+    border-left: 3px solid var(--accent-citation);
+    padding-left: var(--space-5);
+    color: var(--ink-body);
+  }
+
+  .chapter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .chapter-title {
+    font-family: var(--font-sans);
+    font-size: var(--fs-h4);
+    margin: 0 0 var(--space-2);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .chapter-pages {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    color: var(--ink-meta);
+  }
+
+  .chapter-note {
+    margin: 0;
+    color: var(--ink-meta);
+    font-size: var(--fs-body-sm);
+  }
+
+  .access-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .access-list a {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    transition: var(--transition-color);
+  }
+
+  .access-list a:hover {
+    color: var(--accent-primary);
+  }
+
+  .access-type {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    min-width: 8em;
+  }
+
+  .access-note {
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+  }
+
+  .caveat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .caveat-item {
+    padding: var(--space-4);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-body-sm);
+  }
+
+  .caveat-type {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin-right: var(--space-3);
+  }
+
+  .tag-group {
+    margin-bottom: var(--space-5);
+  }
+
+  .tag-group-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+  }
+
+  .tag-pills {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .book-body:empty {
+    display: none;
+  }
+</style>

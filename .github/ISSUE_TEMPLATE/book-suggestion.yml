@@ -1,0 +1,100 @@
+name: 書目建議
+description: 建議將某本書加入 Books（書架清單）
+title: "[Book] "
+labels: ["content", "books"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感謝你想協助擴充書架清單。優先收錄：
+        - 學術專著（academic）
+        - 嚴謹科普（popular）
+        - 經典文獻（reference）
+
+        本站不收：純情色文學、操作手冊性質書籍、未經考證的回憶錄。
+
+  - type: input
+    id: title
+    attributes:
+      label: 書名（英文原文）
+    validations:
+      required: true
+
+  - type: input
+    id: title-zh
+    attributes:
+      label: 中譯本書名（如有）
+
+  - type: input
+    id: author
+    attributes:
+      label: 作者
+      placeholder: Last, F. M.; Last2, F.
+    validations:
+      required: true
+
+  - type: input
+    id: year
+    attributes:
+      label: 原文出版年
+    validations:
+      required: true
+
+  - type: input
+    id: publisher
+    attributes:
+      label: 原文出版社
+    validations:
+      required: true
+
+  - type: input
+    id: isbn
+    attributes:
+      label: ISBN-13（如有）
+
+  - type: dropdown
+    id: book-type
+    attributes:
+      label: 類型
+      options:
+        - academic — 學術專著
+        - popular — 科普
+        - reference — 工具書 / 參考
+        - memoir — 回憶錄（謹慎收錄）
+    validations:
+      required: true
+
+  - type: dropdown
+    id: zh-translation
+    attributes:
+      label: 是否有中譯本
+      options:
+        - 是
+        - 否
+        - 不確定
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: 為何值得收錄
+      description: 一段話說明這本書在 BDSM 文獻中的位置。
+    validations:
+      required: true
+
+  - type: textarea
+    id: caveats
+    attributes:
+      label: 注意事項
+      description: 方法論問題、年代限制、文化脈絡限制、需要與哪些書並讀等
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: 確認事項
+      options:
+        - label: 我推薦這本書是基於內容品質，非情感連結或商業利益
+          required: true
+        - label: 我不是這本書的作者、譯者或出版社關係人
+          required: true
