@@ -75,6 +75,8 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
   collection="journals"
   eyebrow="期刊條目 · Journal Entry"
   contributor={data.contributor}
+  contributorNote={data.contributor_note}
+  reviewer={data.reviewer}
   lastReviewed={data.last_reviewed}
   citationText={citationText}
   jsonLd={jsonLd}

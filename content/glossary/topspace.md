@@ -32,7 +32,7 @@ topic_tags: [neuroscience, aftercare, identity]
 reader_tags: [practitioner, researcher, clinical]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
-reviewer: "策展人：薩約"
+reviewer: "策展人薩約"
 created_date: 2026-05-02
 last_reviewed: 2026-05-02
 ---

@@ -36,6 +36,10 @@ interface Props {
   lastReviewed?: Date;
   /** 條目 contributor 圈名 */
   contributor?: string;
+  /** AI-augmented 透明性聲明（v1.2 新增）— 標 AI Agent 來源等 */
+  contributorNote?: string | null;
+  /** 審校者署名（v1.2 新增）— 通常為「策展人薩約」 */
+  reviewer?: string | null;
   /** Per-page JSON-LD（DefinedTerm / ScholarlyArticle / Book / Periodical 等） */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -49,6 +53,8 @@ const {
   citationText,
   lastReviewed,
   contributor,
+  contributorNote,
+  reviewer,
   jsonLd,
 } = Astro.props;
 
@@ -104,7 +110,7 @@ const formattedDate = lastReviewed
     </div>
 
     {
-      (formattedDate || contributor || citationText) && (
+      (formattedDate || contributor || contributorNote || reviewer || citationText) && (
         <footer class="entry-footer">
           {citationText && (
             <section class="entry-citation">
@@ -113,11 +119,25 @@ const formattedDate = lastReviewed
             </section>
           )}
 
+          {/* v1.2 透明性聲明：產製 / 備註（AI 來源）/ 審校 / 最後審校
+              主人 2026-05-03 footer 樣式建議 */}
           <section class="entry-meta">
             {contributor && (
               <p class="entry-meta-row">
-                <span class="entry-meta-label">撰寫者</span>
+                <span class="entry-meta-label">產製</span>
                 <span>{contributor}</span>
+              </p>
+            )}
+            {contributorNote && (
+              <p class="entry-meta-row">
+                <span class="entry-meta-label">備註</span>
+                <span>{contributorNote}</span>
+              </p>
+            )}
+            {reviewer && (
+              <p class="entry-meta-row">
+                <span class="entry-meta-label">審校</span>
+                <span>{reviewer}</span>
               </p>
             )}
             {formattedDate && (
