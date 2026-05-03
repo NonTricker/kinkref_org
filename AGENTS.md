@@ -1,8 +1,8 @@
 # AGENTS.md — AI Agent 協作指引
 
 > **給**：所有讀取此 repo 的 AI agent（Claude、GPT、Gemini、Cursor、Copilot 等）
-> **版本**：v1.0
-> **最後更新**：2026-05-02
+> **版本**：v1.1
+> **最後更新**：2026-05-03
 > **License**：CC-BY-SA 4.0
 
 ---
@@ -30,9 +30,10 @@
 | **撰寫術語條目** | 依照 [`docs/CONTENT_SCHEMA.md`](./docs/CONTENT_SCHEMA.md) § 5 的 schema 起草 | 🔴 必讀 schema |
 | **撰寫論文摘要** | 依照 schema § 7，摘要長度 150-400 字（review/meta-analysis ≤500 字） | 🔴 必讀 schema |
 | **撰寫書摘** | 依照 schema § 6，書摘長度 100-300 字 | 🔴 必讀 schema |
+| **撰寫期刊條目（投稿地圖）** | 依照 schema § 9，scope 100-300 字 + abstract_zh 150-300 字 | 🔴 必讀 schema |
 | **翻譯 OA 論文** | 走「AI 初譯 → 術語層校對 → 方法論段落人工複審」流程 | 🟡 必須標示翻譯狀態 |
 | **檢查 PR 是否合規** | 跑 [`CONTRIBUTING.md`](./CONTRIBUTING.md) § 7 的自檢清單 | 🔴 結構性 + 內容 + OPSEC |
-| **建議貢獻者哪些議題該補** | 對齊 [`docs/PROJECT_SPEC.md`](./docs/PROJECT_SPEC.md) 的內容三柱範圍 | 🟢 建議 |
+| **建議貢獻者哪些議題該補** | 對齊 [`docs/PROJECT_SPEC.md`](./docs/PROJECT_SPEC.md) 的內容範圍 | 🟢 建議 |
 
 ---
 
@@ -63,7 +64,27 @@
 4. **篇幅自律** — 嚴守 schema 規定的字數，不要為了「完整」而灌水
 5. **中文讀者視角** — 翻譯論文摘要時，重新組織給中文讀者，**不要直譯**
 
-### 2.3 OPSEC 鐵律
+### 2.3 AI-augmented 透明鐵律（v1.1 新增）
+
+🔴 **如果你協助使用者起草條目，frontmatter 必須對齊站方三角色架構**：
+
+| 欄位 | 規則 |
+|------|------|
+| `contributor` | 永遠填 `kinkref`（站方品牌統一） |
+| `contributor_note` | 若條目由 AI（你 / Claude / GPT 等）起草，**必須**標示「本條目由 AI 心理學家 Agent 繆思（Muse）生成」或等義說明 |
+| `reviewer` | 若策展人實質介入過（翻譯哲學決策、圈內微分洞察、敏感議題審校），策展人會自己加 `reviewer: 策展人：薩約` |
+
+**核心原則**：
+- ❌ **不偽裝** — 不假裝條目是人工撰寫
+- ❌ **不隱藏 AI 角色** — 讀者有權知道 contributor_note 的真實來源
+- ✅ **透明寫明 AI 參與** — 站方對 AI-augmented 內容公開
+- ✅ **保留人類最終判斷** — 你產出初稿，但人類策展人決定是否合站方原則
+
+詳見 [關於本站 § 治理模型 → 站方角色](https://kinkref.org/about#governance)。
+
+---
+
+### 2.4 OPSEC 鐵律
 
 🔴 **如果你在幫使用者準備 PR**，必須提醒：
 
@@ -122,6 +143,39 @@
 8. 自檢
 ```
 
+### 3.4 撰寫期刊條目（投稿地圖，v1.3 新增）
+
+```
+1. Read docs/CONTENT_SCHEMA.md § 9 完整 schema
+2. 取得期刊 metadata：
+   - title / abbreviation / publisher / founded
+   - ISSN（print + online）
+   - website / submission_url
+   - access_type（diamond-oa / gold-oa / hybrid / paywalled）
+   - oa_apc_usd（如有）
+   - impact_factor + impact_factor_year + impact_factor_source
+     （JCR / Scopus / journal-self-reported）
+   - ranking_quartile（Q1-Q4，如有）
+   - review_time_weeks（可用範圍如 "8-16"）
+   - acceptance_rate_pct（如有）
+3. 標記 accepts_bdsm enum：
+   - yes-frequent / yes-occasional / yes-but-rare / unclear / unknown
+   - 依據期刊歷史發過的 BDSM 研究數量判斷
+4. 起草 scope（100-300 字，期刊收錄範圍與編輯方針）
+5. 起草 abstract_zh（150-300 字，含定位、方針、特色）
+6. 起草 curator_note（1-5 句，策展人推薦語：適合投何種研究設計）
+7. 補 bdsm_history（≤200 字，已發過的代表性 BDSM 研究）
+8. 補 caveats（如出版社變動、IF 老化等）
+9. 補 citations（站內引用論文，type: internal-paper）
+10. 自檢
+```
+
+**期刊條目特殊規則**：
+- ❌ **不評等期刊「好壞」** — 站方不背書，curator_note 只說「適合什麼研究取向」
+- ❌ **不指引「投這本一定收」** — 描述 acceptance_rate 但不給建議
+- ✅ **客觀資訊** — IF / OA / submission policy 等可查證資料
+- ✅ **對立期刊全收** — 同一領域對立流派的期刊都收，不挑邊
+
 ---
 
 ## 4. 翻譯論文的 SOP
@@ -174,16 +228,22 @@ kinkref_org/                       ← repo root
 │   └── CONTENT_SCHEMA.md          ← 資料結構規範
 │
 ├── content/                       ← Markdown SSOT（PR 主戰場）
-│   ├── glossary/                  ← 術語條目
-│   ├── bibliography/              ← 論文摘要
-│   └── books/                     ← 書摘
+│   ├── glossary/                  ← 術語條目（51+ 條）
+│   ├── bibliography/              ← 論文摘要（v1.4 doi 改選填，加 article_url）
+│   ├── books/                     ← 書摘
+│   ├── journals/                  ← 期刊條目（v1.3 新增，投稿地圖用）
+│   ├── counselors/                ← 諮商師 directory（v1.3，listing_consent 必填）
+│   ├── legal/                     ← 法律資源 directory（v1.3）
+│   ├── campus-groups/             ← 大學社團 directory（v1.3）
+│   └── medical/                   ← 醫療資源 directory（v1.3，含公開緊急熱線）
 │
 ├── src/                           ← Astro 應用碼
-│   ├── pages/
-│   ├── layouts/
-│   ├── components/
-│   ├── content/                   ← Content Collections 設定
-│   └── styles/
+│   ├── pages/                     ← 含 /journals/ /resources（5-section 整合頁）
+│   ├── layouts/                   ← BaseLayout 含 SEO 全套（JSON-LD / OG / rel=me）
+│   ├── components/                ← 含 KrMonogram.astro / CrossRefMap / AgeGate
+│   ├── content.config.ts          ← Astro Content Collections 設定（zod schema v1.4）
+│   ├── lib/                       ← inline-markdown helper / build-info
+│   └── styles/                    ← tokens.css + global.css（純 CSS Variables，無 Tailwind）
 │
 ├── public/                        ← 靜態資源
 │   ├── llms.txt                   ← AI 友好說明
@@ -300,11 +360,19 @@ kinkref_org/                       ← repo root
 
 ## 11. 版本歷史
 
+### v1.1（2026-05-03）
+
+- 加 §2.3 **AI-augmented 透明鐵律**（`contributor` = `kinkref` / `contributor_note` 標 AI 來源 / `reviewer` = `策展人：薩約`）
+- 加 §3.4 **撰寫期刊條目 SOP**（v1.3 schema 投稿地圖）
+- §5 Repo 結構：補 5 個新 collection（journals / counselors / legal / campus-groups / medical）
+- §5：標註 `src/content.config.ts` 為 zod schema v1.4（doi 改選填、加 article_url）
+- §1 表格：加「撰寫期刊條目（投稿地圖）」場景
+
 ### v1.0（2026-05-02）
 
 初版發布。
 
 ---
 
-*AGENTS.md v1.0 — kinkref.org maintainers, 2026-05-02*
+*AGENTS.md v1.1 — kinkref.org maintainers, 2026-05-03*
 *本文件採 CC-BY-SA 4.0 授權，歡迎其他開源專案借鑑此格式撰寫自己的 AGENTS.md。*
