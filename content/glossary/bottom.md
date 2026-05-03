@@ -1,8 +1,8 @@
 ---
 schema_version: "1.4"
-term_zh: 下方
+term_zh: 被動
 term_en: Bottom
-term_alt_zh: 動作接受方
+term_alt_zh: 被動方; 下方; 動作接受方
 tagline: 在 BDSM 場景中接受動作或感官的一方。
 definition: |
   Bottom 是 BDSM 場景中接受動作或感官刺激的一方，與 top（執行方）相對。Bottom 的角色是動作層次的描述，不直接蘊含關係中的權力結構或人格傾向。
@@ -23,7 +23,7 @@ disambiguation:
       Bottom 是動作層的接受方，Girl（在 ageplay 脈絡下）是含「小孩面貌」自我認同的角色身分。圈內常見「我是 bottom 但沒有 girl 成份」的描述，即願意承接動作但不釋放幼齡或小孩特質。
 
 usage_notes: |
-  在台灣中文圈，Bottom 常以原文使用，「下方」較常出現於翻譯文獻。在繩縛社群中，rope bottom 與 rope bunny 也常作為 bottom 的細分稱呼。
+  在台灣中文圈，Bottom 常以原文使用，「被動方」是日常稱呼，「下方」較常出現於翻譯文獻。在繩縛社群中，rope bottom 與 rope bunny 也常作為 bottom 的細分稱呼。
 
 related_terms: [top, submissive, masochist, switch]
 
@@ -39,6 +39,6 @@ created_date: 2026-05-02
 last_reviewed: 2026-05-02
 ---
 
-# Bottom（下方）
+# Bottom（被動）
 
 本條目於 frontmatter 中定義。

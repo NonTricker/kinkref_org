@@ -12,6 +12,8 @@ definition: |
 
   BDSM 並非指特定的單一行為或關係形式，而是一個**範疇集合**——涵蓋從輕度的角色扮演到深度的權力交換、從藝術性的繩縛到強烈的感官 play、從場景型的偶發互動到 24/7 的長期動態。實踐者通常只在這個集合中採用部分元素。
 
+  三組對偶概念對應**三個層次**：B/D 是**實體 / 規訓層**（身體束縛 + 行為紀律）、D/s 是**心理 / 權力層**（決策權的協商性轉移）、S/M 是**身體 / 感官層**（合意痛苦的雙向交換）。三者可獨立或交織——多數實踐者的關係同時含 2-3 層，但層次差異對精準描述自身需求至關重要。
+
   BDSM 一詞的合成出現於 1990 年代左右，在此之前圈內較常使用 S/M、leather、kink 等個別稱謂。BDSM 作為合稱的好處是涵蓋面廣、學術引用便利；缺點是過於概括，無法精細描述任何特定實踐者或關係的具體形式。
 
 disambiguation:
@@ -29,7 +31,18 @@ usage_notes: |
   在台灣中文圈，BDSM 多以原文使用，無常見中文翻譯。實踐者使用此詞通常作為對外解釋的合稱，內部則使用更精細的術語（如「我是 Dom」「我有 24/7 動態」）。
 
 origin_year: "1990s"
-related_terms: [kink, dominant, submissive, sadist, masochist]
+related_terms: [bondage-discipline, dominance-submission, sadism-masochism, kink, dominant, submissive, sadist, masochist]
+
+citations:
+  - type: internal-term
+    ref: bondage-discipline
+    note: "B/D 對偶概念的關係性介紹"
+  - type: internal-term
+    ref: dominance-submission
+    note: "D/s 對偶概念的關係性介紹"
+  - type: internal-term
+    ref: sadism-masochism
+    note: "S/M 對偶概念的關係性介紹"
 
 external_references:
   - source: wikipedia

@@ -16,10 +16,32 @@ import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown
 
 const allTerms = await getCollection('glossary');
 
-// 依英文 term 排序
-const sortedTerms = allTerms.sort((a, b) =>
-  a.data.term_en.toLowerCase().localeCompare(b.data.term_en.toLowerCase())
-);
+// 6 個核心定義詞置頂（執政官 v0.5.6 指示）：BDSM / DS / SM / BD / SSC / RACK
+// 順序對應主人原話：「BDSM DS SM BD SSC RACK」
+const PINNED_SLUGS = [
+  'bdsm',
+  'dominance-submission',
+  'sadism-masochism',
+  'bondage-discipline',
+  'ssc',
+  'rack',
+];
+
+const pinnedSet = new Set(PINNED_SLUGS);
+
+// 找出 pinned 條目（按 PINNED_SLUGS 順序保留）
+const pinnedTerms = PINNED_SLUGS
+  .map((slug) => allTerms.find((t) => t.id === slug))
+  .filter((t): t is NonNullable<typeof t> => t !== undefined);
+
+// 其餘條目依英文 term 字母排序
+const restTerms = allTerms
+  .filter((t) => !pinnedSet.has(t.id))
+  .sort((a, b) =>
+    a.data.term_en.toLowerCase().localeCompare(b.data.term_en.toLowerCase())
+  );
+
+const sortedTerms = [...pinnedTerms, ...restTerms];
 
 // 取所有 topic_tags（去重）供 filter UI 用
 const allTopicTags = [...new Set(allTerms.flatMap((entry) => entry.data.topic_tags))].sort();
@@ -230,7 +252,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
   .entry-card a {
     position: relative;
     display: block;
-    padding: var(--space-6) var(--space-7);
+    padding: var(--space-5) var(--space-7);
     background: var(--bg-elevated);
     border: 1px solid var(--rule-fine);
     border-radius: var(--radius-sm);
@@ -280,7 +302,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
   }
 
   .entry-card-header {
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-3);
     /* 留空間給編號 */
     padding-right: var(--space-7);
   }
@@ -345,7 +367,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     font-size: var(--fs-body-sm);
     line-height: var(--lh-body);
     color: var(--ink-body);
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-4);
   }
 
   .entry-card-tags {

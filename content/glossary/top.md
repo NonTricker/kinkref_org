@@ -1,8 +1,8 @@
 ---
 schema_version: "1.4"
-term_zh: 上方
+term_zh: 主動
 term_en: Top
-term_alt_zh: 動作執行方
+term_alt_zh: 主動方; 上方; 動作執行方
 tagline: 在 BDSM 場景中執行動作或施加感官的一方。
 definition: |
   Top 是 BDSM 場景中執行動作或施加感官刺激的一方，與 bottom（接受方）相對。Top 的角色是動作層次的描述，不直接蘊含關係中的權力結構或人格傾向。
@@ -23,7 +23,7 @@ disambiguation:
       Rigger 是繩縛場景中的縛師，可視為一種特定 practice 的 Top。Rigger 是更精細化的稱呼，但不是所有 Top 都是 Rigger。
 
 usage_notes: |
-  在台灣中文圈，Top 常以原文使用，「上方」較常出現於翻譯文獻或正式書寫。在繩縛社群中，Top 與 Rigger 兩個詞依語境互用。
+  在台灣中文圈，Top 常以原文使用，「主動方」是日常稱呼，「上方」較常出現於翻譯文獻或正式書寫。在繩縛社群中，Top 與 Rigger 兩個詞依語境互用。
 
 related_terms: [bottom, dominant, sadist, switch]
 
@@ -39,6 +39,6 @@ created_date: 2026-05-02
 last_reviewed: 2026-05-02
 ---
 
-# Top（上方）
+# Top（主動）
 
 本條目於 frontmatter 中定義。
