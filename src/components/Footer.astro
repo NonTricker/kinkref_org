@@ -12,15 +12,19 @@ import { buildInfo } from '../lib/build-info';
 
 const currentYear = new Date().getFullYear();
 
-// Crew · 工作組 — 致敬實作層五位執行者
-// v0.5.7（執政官指示亮名）：保留貢獻認可，等未來追認
-// v0.5.8（執政官升級「大膽一點」）：codename + 本名並列、標 (AI Agent)，不附 link 留 clue
-const crew = [
-  { role: '策展人', codename: null, name: '薩約', isAgent: false },
-  { role: '撰寫者', codename: '靈範師', name: '繆思', isAgent: true },
-  { role: '前端工程師', codename: '織法者', name: '紬', isAgent: true },
-  { role: '符號師', codename: '銘文師', name: '席琳', isAgent: true },
-  { role: '視覺設計', codename: '光影師', name: '艾莉兒', isAgent: true },
+// Crew · 工作組 — 致敬實作層執行者
+// v0.5.7：保留貢獻認可，等未來追認
+// v0.5.8：codename + 本名並列、標 (AI Agent)
+// v0.5.9（執政官指示）：拆「人類團隊」+「AI 工作組」兩塊，未來各自能擴
+const humanCrew = [
+  { role: '策展人', name: '薩約' },
+];
+
+const agentCrew = [
+  { role: '撰寫者', codename: '靈範師', name: '繆思' },
+  { role: '前端工程師', codename: '織法者', name: '紬' },
+  { role: '符號師', codename: '銘文師', name: '席琳' },
+  { role: '視覺設計', codename: '光影師', name: '艾莉兒' },
 ];
 
 const footerSections = [
@@ -114,29 +118,48 @@ const footerSections = [
         <span class="crew-heading-sep" aria-hidden="true">·</span>
         <span class="crew-heading-en">Crew</span>
       </p>
-      <ul class="crew-list">
-        {
-          crew.map((member) => (
-            <li class="crew-item">
-              <span class="crew-role">{member.role}</span>
-              <span class="crew-name">
-                {member.codename && (
-                  <>
+
+      <div class="crew-grid">
+        <div class="crew-block">
+          <p class="crew-block-heading">
+            <span>人類團隊</span>
+            <span class="crew-block-heading-sep" aria-hidden="true">·</span>
+            <span class="crew-block-heading-en">Human</span>
+          </p>
+          <ul class="crew-list">
+            {
+              humanCrew.map((member) => (
+                <li class="crew-item">
+                  <span class="crew-role">{member.role}</span>
+                  <span class="crew-name">{member.name}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="crew-block">
+          <p class="crew-block-heading">
+            <span>AI 工作組</span>
+            <span class="crew-block-heading-sep" aria-hidden="true">·</span>
+            <span class="crew-block-heading-en">Agents</span>
+          </p>
+          <ul class="crew-list">
+            {
+              agentCrew.map((member) => (
+                <li class="crew-item">
+                  <span class="crew-role">{member.role}</span>
+                  <span class="crew-name">
                     <span class="crew-codename">{member.codename}</span>
                     <span class="crew-name-sep" aria-hidden="true">．</span>
-                  </>
-                )}
-                {member.name}
-                {member.isAgent && (
-                  <span class="crew-tag" aria-label="AI Agent">
-                    (AI Agent)
+                    {member.name}
                   </span>
-                )}
-              </span>
-            </li>
-          ))
-        }
-      </ul>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
     </section>
 
     <div class="site-footer-bottom">
@@ -241,8 +264,9 @@ const footerSections = [
   }
 
   /* ──────────────────────────────────────────────────────
-     Crew colophon — 致敬實作層執行者（v0.5.7）
+     Crew colophon — 致敬實作層執行者
      對標：NYRB masthead / Aeon editorial colophon
+     v0.5.9：拆「人類團隊」+「AI 工作組」兩塊，未來各自能擴
      ────────────────────────────────────────────────────── */
   .site-footer-crew {
     /* 上方 border 由 site-footer-top 的 border-bottom 提供，這裡只給氣息 */
@@ -250,7 +274,7 @@ const footerSections = [
   }
 
   .crew-heading {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-5);
     font-family: var(--font-sans);
     font-size: var(--fs-eyebrow);
     text-transform: uppercase;
@@ -265,28 +289,61 @@ const footerSections = [
     color: color-mix(in srgb, var(--ink-inverse) 30%, transparent);
   }
 
+  /* 兩欄結構：人類團隊（左）+ AI 工作組（右）。寬螢幕並排，行動上下堆疊 */
+  .crew-grid {
+    display: grid;
+    grid-template-columns: 1fr 2.4fr;
+    gap: var(--space-7) var(--space-9);
+  }
+
+  .crew-block-heading {
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--ink-inverse) 50%, transparent);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .crew-block-heading-sep {
+    color: color-mix(in srgb, var(--ink-inverse) 25%, transparent);
+    font-weight: var(--fw-regular);
+  }
+
+  .crew-block-heading-en {
+    color: color-mix(in srgb, var(--ink-inverse) 60%, transparent);
+  }
+
+  /* 每個 list 改為單欄 flex column —— 每行自己一個 row，
+     (codename．name) 不再被 grid 壓得擠到折行。 */
   .crew-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-3) var(--space-7);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
   }
 
   .crew-item {
     display: flex;
     align-items: baseline;
-    gap: var(--space-3);
+    gap: var(--space-4);
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
     line-height: 1.5;
+    /* 防止內部任何東西折行 — colophon 必須一行寫完 */
+    white-space: nowrap;
   }
 
   .crew-role {
     /* 角色 label：偏 meta 灰，類 dl > dt 結構 */
     flex: 0 0 auto;
-    min-width: 6em;
+    min-width: 7em;
     color: color-mix(in srgb, var(--ink-inverse) 55%, transparent);
     font-weight: var(--fw-regular);
   }
@@ -298,7 +355,7 @@ const footerSections = [
   }
 
   .crew-codename {
-    /* codename 跟本名同字級同色，靠中間 ．分隔（v0.5.8） */
+    /* codename 跟本名同字級同色，靠中間 ．分隔 */
     color: var(--ink-inverse);
     font-weight: var(--fw-medium);
   }
@@ -309,14 +366,16 @@ const footerSections = [
     font-weight: var(--fw-regular);
   }
 
-  .crew-tag {
-    /* (Agent) 標記：mono、極小、灰，視覺上像 footnote */
-    margin-left: 6px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: color-mix(in srgb, var(--ink-inverse) 45%, transparent);
-    font-weight: var(--fw-regular);
-    letter-spacing: 0.04em;
+  /* 行動版：兩欄堆疊為單欄 */
+  @media (max-width: 720px) {
+    .crew-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .crew-item {
+      /* 行動小螢幕允許折行（避免水平 scroll） */
+      white-space: normal;
+    }
   }
 
   .site-footer-bottom {
