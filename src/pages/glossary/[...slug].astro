@@ -15,6 +15,7 @@ import EntryLayout from '@layouts/EntryLayout.astro';
 import TagPill from '@components/TagPill.astro';
 import CrossRefMap from '@components/CrossRefMap.astro';
 import { renderParagraphs } from '@/lib/inline-markdown';
+import { glossaryDescription } from '@/lib/meta-description';
 
 export async function getStaticPaths() {
   const allTerms = await getCollection('glossary');
@@ -45,7 +46,12 @@ if (data.related_terms && data.related_terms.length > 0) {
 }
 
 const pageTitle = `${data.term_zh} · ${data.term_en}`;
-const description = data.tagline;
+// v0.7.2 SEO（脈流師工單 #2）：collection 級 meta description 模板
+const description = glossaryDescription({
+  termZh: data.term_zh,
+  termEn: data.term_en,
+  tagline: data.tagline,
+});
 
 // 簡易 APA 引用格式
 const citationText = `${data.contributor} (${data.created_date.getFullYear()}). ${data.term_zh} (${data.term_en}). Kink Reference. https://kinkref.org/glossary/${entry.id}`;

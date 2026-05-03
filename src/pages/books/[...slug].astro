@@ -15,6 +15,7 @@ import {
   pickTrustSignal,
   pickWarnings,
 } from '@/lib/caveat-labels';
+import { booksDescription } from '@/lib/meta-description';
 
 export async function getStaticPaths() {
   const books = await getCollection('books');
@@ -71,7 +72,14 @@ const jsonLd = {
 };
 
 const pageTitle = data.title_zh ? `${data.title_zh}（${data.title}）` : data.title;
-const description = data.curator_note;
+// v0.7.2 SEO（脈流師工單 #2）：collection 級 meta description 模板
+const description = booksDescription({
+  title: data.title,
+  author: data.author,
+  year: data.year,
+  difficulty: data.difficulty,
+  abstractZh: data.abstract_zh,
+});
 
 // v0.7.1：拆 caveats — trust signal 抽到 meta bar，學術警告留「注意事項」
 const trustSignal = pickTrustSignal(data.caveats);

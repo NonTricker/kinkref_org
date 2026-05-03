@@ -11,6 +11,7 @@ import EntryLayout from '@layouts/EntryLayout.astro';
 import TagPill from '@components/TagPill.astro';
 import { renderParagraphs, renderInlineMarkdown } from '@/lib/inline-markdown';
 import { caveatLabel } from '@/lib/caveat-labels';
+import { journalsDescription } from '@/lib/meta-description';
 
 export async function getStaticPaths() {
   const journals = await getCollection('journals');
@@ -27,7 +28,13 @@ const data = entry.data;
 const paragraphsHtml = (text: string) => renderParagraphs(text);
 
 const pageTitle = data.title;
-const description = `${data.publisher}${data.founded ? ` · 創刊 ${data.founded}` : ''} · ${data.access_type}`;
+// v0.7.2 SEO（脈流師工單 #2）：collection 級 meta description 模板
+const description = journalsDescription({
+  title: data.title,
+  abbreviation: data.abbreviation,
+  impactFactor: data.impact_factor,
+  accessType: data.access_type,
+});
 
 // 站方推薦引用格式
 const citationText = `${data.title}${data.abbreviation ? ` (${data.abbreviation})` : ''}. ${data.publisher}. ${data.website}`;

@@ -28,6 +28,64 @@ const recentTerms = allGlossary
   .sort((a, b) => b.data.last_reviewed.getTime() - a.data.last_reviewed.getTime())
   .slice(0, 6);
 
+// v0.7.2 SEO（脈流師工單 #1）：FAQPage Schema
+// Q&A 對齊圈內常見 query，導向 glossary / bibliography 入口。
+// 若 Google 抓到，會在 SERP 顯示 FAQ rich snippet（CTR 提升 30-50%）。
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'sub 跟 M 有什麼不同？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'sub（submissive，順從者）強調權力動態（D/s 軸線），M（masochist，受虐者）強調痛感體驗（S/M 軸線）。圈內微分為「sub 不一定 M、M 不一定 sub」——一個人可以喜歡服從但不喜歡疼痛，也可以喜歡疼痛但不接受權力交換。詳見 kinkref.org 術語表的 sub / masochist 辨析條目。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'BDSM 是精神疾病嗎？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '學界主流共識為否。DSM-5（2013）已將合意 BDSM 實踐排除於 paraphilic disorder 之外，需具備 distress or impairment 才構成診斷。多項實證研究（Wismeijer 2013、Connolly 2006、Moser & Kleinplatz 2006）顯示 BDSM 實踐者心理健康水準與一般人相當，常被引用為去病理化的學術基礎。詳見 kinkref.org 文獻指南。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '台灣有 BDSM 學術資源嗎？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '過去中文圈缺乏結構化的 BDSM 學術入口。kinkref.org 是中文圈專注於 BDSM 學術文獻的策展站，定位為「國際學術知識 × 台灣文化的統合轉譯」，含策展註、翻譯哲學選擇、文化適配說明。目前收錄術語表、論文摘要、書架清單、期刊投稿地圖。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'safe word 怎麼設定？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'safe word 是合意框架的核心工具，常用三段式（如紅黃綠燈，紅停 / 黃慢 / 綠繼續）讓 bottom 在過程中明確表達狀態。設定原則：易發音、易記憶、與情境無關（不會誤觸）；任何一方喊出後，行動即停止並進入 aftercare。詳見 kinkref.org 術語表的 safe word / consent 條目。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'dom 跟 master 差在哪？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'dom（dominant）是泛稱「掌控位置」，可用於各種 D/s 互動，從單次 scene 到長期關係皆可。master 是更深層、長期、儀式化的權力動態角色，常與「奴僕（slave / servant）」對偶，含義更指向 ownership 與 total power exchange（TPE）的關係結構。詳見 kinkref.org 術語表的 dominant / master 辨析條目。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'BDSM 的學術研究都在研究什麼？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '當代 BDSM 學術研究主要分三大主軸：(1) 去病理化研究（Wismeijer、Connolly、Moser-Kleinplatz 等實證與理論文獻）；(2) 合意框架與協商實務（同意、negotiation、aftercare、SSC vs RACK）；(3) 神經科學與生理學（subspace、痛感與愉悅的生理機轉）。kinkref.org 文獻指南收錄 34 篇核心論文中文摘要。',
+      },
+    },
+  ],
+};
+
 const pillars = [
   {
     href: '/glossary',
@@ -64,7 +122,7 @@ const pillars = [
 ];
 ---
 
-<BaseLayout title="Kink Reference">
+<BaseLayout title="Kink Reference" jsonLd={faqSchema}>
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-eyebrow">Kink Reference · 中文 BDSM 學術策展</p>
