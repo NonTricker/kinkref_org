@@ -10,9 +10,9 @@ const navItems = [
   { href: '/bibliography', label: '文獻指南', en: 'Bibliography' },
   { href: '/books', label: '書架清單', en: 'Books' },
   { href: '/journals', label: '期刊指南', en: 'Journals' },
-  { href: '/resources', label: '資源', en: 'Resources' },
-  { href: '/contribute', label: '貢獻', en: 'Contribute' },
-  { href: '/about', label: '關於', en: 'About' },
+  { href: '/resources', label: '外部資源', en: 'Resources' },
+  { href: '/contribute', label: '投稿地圖', en: 'Contribute' },
+  { href: '/about', label: '關於本站', en: 'About' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -30,11 +30,11 @@ function isActive(href: string): boolean {
         <span class="site-brand-mark-letter">K</span><span class="site-brand-mark-letter">R</span>
       </span>
       <span class="site-brand-text">
-        <span class="site-brand-zh">中文 BDSM 學術文獻索引</span>
+        <span class="site-brand-zh">中文 BDSM 學術站</span>
         <span class="site-brand-en">
           <span class="site-brand-en-name">Kink Reference</span>
           <span class="site-brand-en-sep" aria-hidden="true">·</span>
-          <span class="site-brand-en-locale">TR</span>
+          <span class="site-brand-en-locale">OSS</span>
         </span>
       </span>
     </a>
