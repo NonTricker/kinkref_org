@@ -30,7 +30,11 @@ function isActive(href: string): boolean {
         <span class="site-brand-mark-letter">K</span><span class="site-brand-mark-letter">R</span>
       </span>
       <span class="site-brand-text">
-        <span class="site-brand-zh">中文 BDSM 學術策展</span>
+        <span class="site-brand-zh">
+          中文 BDSM 學術策展
+          <span class="site-brand-zh-sep" aria-hidden="true">·</span>
+          <span class="site-brand-zh-tag">開源</span>
+        </span>
         <span class="site-brand-en">
           <span class="site-brand-en-name">Kink Reference</span>
           <span class="site-brand-en-sep" aria-hidden="true">·</span>
@@ -168,6 +172,20 @@ function isActive(href: string): boolean {
     font-family: var(--font-sans);
     font-weight: var(--fw-semibold);
     letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .site-brand-zh-sep {
+    color: var(--ink-disabled);
+    font-weight: var(--fw-regular);
+  }
+
+  /* 「開源」chip — 中文版本，跟英文行 OSS · CC BY-SA 呼應 */
+  .site-brand-zh-tag {
+    color: var(--accent-citation);
+    font-weight: var(--fw-medium);
   }
 
   .site-brand-en {
