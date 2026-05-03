@@ -10,7 +10,7 @@
  */
 
 import { execSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import pkg from '../../package.json';
 
 interface BuildInfo {
   /** package.json 的 semantic version（如 "0.1.0"） */
@@ -22,14 +22,9 @@ interface BuildInfo {
 }
 
 function readVersion(): string {
-  try {
-    const pkg = JSON.parse(
-      readFileSync(new URL('../../package.json', import.meta.url), 'utf-8')
-    );
-    return typeof pkg.version === 'string' ? pkg.version : 'unknown';
-  } catch (_) {
-    return 'unknown';
-  }
+  // v0.5.10：直接 import package.json，由 Vite/Rollup 在 build 時 inline，
+  // 不再依賴運行時 readFileSync（之前 Windows 路徑解析失敗會 fallback unknown）。
+  return typeof pkg.version === 'string' ? pkg.version : 'unknown';
 }
 
 function readGitHash(): string {
