@@ -1,16 +1,19 @@
 # Kink Reference
 
-> **中文 BDSM 學術文獻策展與術語索引**
-> A curated index of BDSM academic literature in Traditional Chinese.
+> **中文 BDSM 學術策展 · 開源**
+> A curated index of BDSM academic literature in Traditional Chinese — open source under CC BY-SA 4.0.
 
 [🌐 kinkref.org](https://kinkref.org)
 [📖 術語表](https://kinkref.org/glossary)
 [📚 文獻指南](https://kinkref.org/bibliography)
 [📕 書架清單](https://kinkref.org/books)
-[🤝 貢獻](https://kinkref.org/contribute)
+[📰 投稿地圖](https://kinkref.org/journals)
+[🧭 外部資源](https://kinkref.org/resources)
+[🤝 貢獻參與](https://kinkref.org/contribute)
 
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](./CONTRIBUTING.md)
+[![Schema v1.4](https://img.shields.io/badge/schema-v1.4-7A1D1D.svg)](./docs/CONTENT_SCHEMA.md)
 
 ---
 
@@ -26,21 +29,35 @@
 
 ## 這個站是什麼
 
-**轉譯派 (Translator-Curator)**：英文 BDSM 學術文獻的中文摘要與索引站。
+**轉譯派 (Translator-Curator)**：英文 BDSM 學術文獻的中文摘要、術語索引與投稿導航站。
 
-### 內容三柱
+### 內容四柱 + 資源整合
 
-| 柱 | 說明 |
-|---|------|
-| **📖 術語表 (Glossary)** | 50-80 詞起手。中英對照 + 來源年代 + 首見文獻 + 與相近術語的辨析 |
-| **📚 文獻指南 (Annotated Bibliography)** | 5-7 主題分類。每篇 150-400 字中文摘要 + DOI + open access 指引 |
-| **📕 書架清單 (Curated Reading List)** | 30-50 本已驗證書目。分類 + 中文評介 + 取得方式 |
+| 區塊 | 說明 |
+|------|------|
+| **📖 術語表 (Glossary)** | 中英對照 + 來源年代 + 首見文獻 + 與相近術語的辨析 |
+| **📚 文獻指南 (Bibliography)** | 主題分類論文摘要。中文摘要 + DOI / article URL + OA 狀態 + 翻譯進度 |
+| **📕 書架清單 (Books)** | 已驗證書目。分類 + 中文書摘 + 推薦章節 + 取得方式 |
+| **📰 投稿地圖 (Journals)** | 性學/心理學期刊指南。IF + OA 狀態 + scope + submission policy + acceptance rate |
+| **🧭 外部資源 (Resources)** | 5 sections 整合頁：心理 / 法律 / 社團 / 醫療 + 公開緊急熱線（113/1995/1925）+ 行事曆 / 線上工具 / 學術資料庫 |
+
+### 內容規模（v0.4.x）
+
+數字隨 main 分支即時連動 — 詳見 [kinkref.org](https://kinkref.org) 首頁四柱卡片。
+
+### 站方角色（v1.2 確立）
+
+- **kinkref**：站方品牌識別。所有條目 `contributor` 統一填 `kinkref`
+- **繆思 Muse**：站方專責 AI Agent，負責條目初稿生成、跨條目一致性維護
+- **策展人薩約**：人類策展人，負責內容戰略、品質把關、圈內視角校正
+
+詳見 [關於本站 § 治理模型](https://kinkref.org/about#governance)。
 
 ### 三類讀者
 
-- **入門者**：透過術語表、白話解釋頁，建立基礎詞彙
-- **引用者**：DOI、APA 格式 export、Zotero 連結
-- **研究者**：按主題組織的 annotated bibliography
+- **入門者**：透過術語表、辨析、爭議標註建立基礎詞彙
+- **研究者**：按主題組織的 annotated bibliography + 投稿地圖
+- **臨床/法律/教育專業**：directory + 跨領域標籤（reader_tags）
 
 ---
 
@@ -111,12 +128,14 @@ AI 會引導你完成符合 schema 的條目。
 
 | 層 | 選擇 |
 |----|------|
-| 靜態站生成 | [Astro](https://astro.build/) 6.x |
-| 樣式 | [TailwindCSS](https://tailwindcss.com/) v4 |
-| 內容 | Markdown + YAML frontmatter |
-| 搜尋 | [MiniSearch](https://lucaong.github.io/minisearch/)（客戶端） |
-| 部署 | [Cloudflare Pages](https://pages.cloudflare.com/) |
-| AI 友好 | `llms.txt` + `robots.txt` 開放 |
+| 靜態站生成 | [Astro](https://astro.build/) 6.x（純 SSG，`output: 'static'`）|
+| 樣式 | 純 CSS Variables（`tokens.css` → `global.css`，無 Tailwind） |
+| 字體 | [Bunny Fonts](https://fonts.bunny.net/) — IBM Plex Serif / Noto Serif TC / Noto Sans TC / Inter / JetBrains Mono |
+| 內容 | Markdown + YAML frontmatter，schema v1.4 |
+| Content Layer | Astro Content Collections（zod schema，8 個 collections） |
+| 搜尋 | [MiniSearch](https://lucaong.github.io/minisearch/)（客戶端，build 時生成 search-index.json） |
+| 部署 | [Cloudflare Pages](https://pages.cloudflare.com/)（git integration，純 static） |
+| AI 友好 | `llms.txt` + `robots.txt` 開放、`AGENTS.md` 含 schema 引導 |
 
 ---
 

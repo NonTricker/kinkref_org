@@ -4,17 +4,26 @@
  *
  * 結構（依 DESIGN_PRINCIPLES.md）：
  *  - Hero（站名 + 一句話定位 + 搜尋）
- *  - 內容三柱卡片（Glossary / Bibliography / Books）
+ *  - 內容四柱卡片（Glossary / Bibliography / Books / Journals）
  *  - 最近更新區
  *  - 站方立場聲明
+ *
+ * v0.4.7：四柱 count 全部連動 getCollection().length
  */
 
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SearchBox from '@components/SearchBox.astro';
 
-// 取最近更新的 3 筆 glossary 條目
-const allGlossary = await getCollection('glossary');
+// 並行讀四個 collection（Astro Content Layer 已內快取）
+const [allGlossary, allBibliography, allBooks, allJournals] = await Promise.all([
+  getCollection('glossary'),
+  getCollection('bibliography'),
+  getCollection('books'),
+  getCollection('journals'),
+]);
+
+// 取最近更新的 6 筆 glossary 條目
 const recentTerms = allGlossary
   .sort((a, b) => b.data.last_reviewed.getTime() - a.data.last_reviewed.getTime())
   .slice(0, 6);
@@ -33,7 +42,7 @@ const pillars = [
     eyebrow: 'Bibliography',
     title: '文獻指南',
     description: '按主題分類的論文摘要。標示 OA 狀態、研究方法與翻譯進度。',
-    count: 0,
+    count: allBibliography.length,
     countLabel: '篇',
   },
   {
@@ -41,7 +50,15 @@ const pillars = [
     eyebrow: 'Books',
     title: '書架清單',
     description: '已驗證的書目。每本書附中文書摘、推薦章節與取得方式。',
-    count: 0,
+    count: allBooks.length,
+    countLabel: '本',
+  },
+  {
+    href: '/journals',
+    eyebrow: 'Journals',
+    title: '投稿地圖',
+    description: '性學 / 心理學期刊指南。IF、OA 狀態、submission policy、acceptance rate。',
+    count: allJournals.length,
     countLabel: '本',
   },
 ];
@@ -50,21 +67,21 @@ const pillars = [
 <BaseLayout title="Kink Reference">
   <section class="hero">
     <div class="hero-inner">
-      <p class="hero-eyebrow">Kink Reference · 中文 BDSM 學術文獻索引</p>
+      <p class="hero-eyebrow">Kink Reference · 中文 BDSM 學術策展</p>
       <h1 class="hero-title">學術轉譯，不是介紹站。</h1>
       <p class="hero-tagline">
-        台灣中文圈唯一的 BDSM 學術文獻策展與術語索引。
-        中英對照、註明來源、結構化貢獻。
+        台灣中文圈唯一的 BDSM 學術文獻策展、術語索引與期刊投稿地圖。
+        中英對照、註明來源、結構化貢獻、開源授權。
       </p>
       <div class="hero-search">
-        <SearchBox variant="hero" placeholder="搜尋術語、論文、書目（試試「safe word」）" />
+        <SearchBox variant="hero" placeholder="搜尋術語、論文、書目、期刊（試試「safe word」）" />
       </div>
     </div>
   </section>
 
   <section class="pillars" aria-labelledby="pillars-heading">
     <div class="pillars-inner">
-      <h2 id="pillars-heading" class="section-heading">內容三柱</h2>
+      <h2 id="pillars-heading" class="section-heading">內容四柱</h2>
       <div class="pillars-grid">
         {
           pillars.map((p) => (
