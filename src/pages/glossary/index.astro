@@ -89,6 +89,9 @@ const metaDescription = stripInlineMarkdown(pageDescription);
         sortedTerms.map((entry, i) => (
           <li class="entry-card">
             <a href={`/glossary/${entry.id}`}>
+              {pinnedSet.has(entry.id) && (
+                <span class="entry-card-pin" aria-label="置頂條目" title="核心定義詞">◆</span>
+              )}
               <span class="entry-card-no" aria-hidden="true">№{(i + 1).toString().padStart(3, '0')}</span>
               <header class="entry-card-header">
                 <h2 class="entry-card-title">
@@ -299,6 +302,20 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     letter-spacing: 0.06em;
     color: var(--ink-disabled);
     line-height: 1;
+  }
+
+  /* 左上角 pin 標記（v0.5.11）— 6 個核心定義詞置頂注記
+     與右上角 №001 對位 mirror，純紅小符號，不破壞 paper-trail 紀律 */
+  .entry-card-pin {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-5);
+    font-size: 9px;
+    color: var(--accent-primary);
+    line-height: 1;
+    letter-spacing: 0;
+    /* 提升一點 z 確保不被書脊 ::before 蓋住 */
+    z-index: 1;
   }
 
   .entry-card-header {
