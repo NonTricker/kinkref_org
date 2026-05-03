@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: Kink
 term_en: Kink
 term_alt_zh: 性傾向; 非主流性實踐

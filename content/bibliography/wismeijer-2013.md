@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "Psychological Characteristics of BDSM Practitioners"
 authors: "Wismeijer, A. A. J.; van Assen, M. A. L. M."
 year: 2013

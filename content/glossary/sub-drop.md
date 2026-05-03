@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: Sub-drop
 term_en: Sub-drop
 aliases_en: subdrop

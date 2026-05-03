@@ -11,11 +11,21 @@
 import BaseLayout from './BaseLayout.astro';
 import AgeGate from '@components/AgeGate.astro';
 
+type EntryCollection =
+  | 'glossary'
+  | 'bibliography'
+  | 'books'
+  | 'journals'
+  | 'counselors'
+  | 'legal'
+  | 'campusGroups'
+  | 'medical';
+
 interface Props {
   title: string;
   description?: string;
   /** 條目所屬 collection 名 — 顯示麵包屑 */
-  collection: 'glossary' | 'bibliography' | 'books';
+  collection: EntryCollection;
   /** 顯示在標題上方的 eyebrow 文字（如「術語條目」） */
   eyebrow?: string;
   /** 條目副標 */
@@ -43,12 +53,22 @@ const collectionLabel: Record<Props['collection'], string> = {
   glossary: '術語表',
   bibliography: '文獻指南',
   books: '書架清單',
+  journals: '期刊指南',
+  counselors: '諮商資源',
+  legal: '法律資源',
+  campusGroups: '大學社團',
+  medical: '醫療資源',
 };
 
 const collectionPath: Record<Props['collection'], string> = {
   glossary: '/glossary',
   bibliography: '/bibliography',
   books: '/books',
+  journals: '/journals',
+  counselors: '/counselors',
+  legal: '/legal',
+  campusGroups: '/campus-groups',
+  medical: '/medical',
 };
 
 const formattedDate = lastReviewed

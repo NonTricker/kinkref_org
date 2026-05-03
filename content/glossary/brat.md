@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 頑童
 term_en: Brat
 term_alt_zh: 搗蛋鬼; 不乖

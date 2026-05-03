@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: Topspace
 term_en: Topspace
 term_alt_zh: Top 空間; 主導方意識狀態

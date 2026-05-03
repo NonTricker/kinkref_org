@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 上方
 term_en: Top
 term_alt_zh: 動作執行方

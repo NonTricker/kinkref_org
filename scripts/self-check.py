@@ -322,6 +322,12 @@ def check_schema(frontmatter: Dict, entry_type: str, rules: Dict) -> Result:
             if v and valid_values and v not in valid_values:
                 r.error(f"{field} 「{v}」不在合法列表 {valid_values}")
 
+        # v1.4: doi 或 article_url 至少一個（conditional required）
+        has_doi = bool(frontmatter.get('doi'))
+        has_article_url = bool(frontmatter.get('article_url'))
+        if not has_doi and not has_article_url:
+            r.error("paper 條目必須有 doi 或 article_url 至少一個（v1.4）")
+
         # 選填 enum
         for field, valid_values in [
             ('oa_type', enums.get('oa_type', [])),

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 安全、理智、知情同意
 term_en: SSC
 aliases_en: Safe, Sane, Consensual

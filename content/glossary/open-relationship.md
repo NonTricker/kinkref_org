@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 開放式關係
 term_en: Open relationship
 term_alt_zh: 開放關係

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "Psychological Functioning of Bondage/Domination/Sado-Masochism (BDSM) Practitioners"
 authors: "Connolly, P. H."
 year: 2006
@@ -14,14 +14,14 @@ methodology_keywords:
   - cross-sectional
   - clinical-assessment
   - self-report
-sample_size: "132 BDSM 實踐者"
+sample_size: "32 BDSM 實踐者"
 sample_population: "美國 BDSM 社群招募樣本"
 translation_status: abstract-only
 topic_tags: [psychopathology, identity, methodology]
 reader_tags: [researcher, clinical]
 difficulty: intermediate
 abstract_zh: |
-  本研究評估 132 位 BDSM 實踐者在多項心理健康指標上的表現，包括憂鬱、焦慮、強迫症狀、解離、社交障礙、PTSD 等臨床面向。研究採用標準化臨床量表（如 SCL-90-R），與一般人口的常模進行比較。
+  本研究評估 32 位 BDSM 實踐者在多項心理健康指標上的表現，包括憂鬱、焦慮、強迫症狀、解離、社交障礙、PTSD 等臨床面向。研究採用標準化臨床量表（如 SCL-90-R），與一般人口的常模進行比較。
 
   結果顯示，BDSM 實踐者在大多數臨床指標上**不存在升高的精神病理水準**——憂鬱、焦慮、強迫症狀等的分數與一般人口相當。實踐者展現出較高的解離傾向，但被作者解讀為與 BDSM 場景中的意識狀態探索相關，而非病理性解離。
 
@@ -32,7 +32,7 @@ curator_note: |
 
 caveats:
   - type: methodology
-    note: "樣本量（N=132）較小，且使用社群招募存在 self-selection bias。"
+    note: "樣本量（N=32）較小，且使用社群招募存在 self-selection bias。"
   - type: dated
     note: "資料蒐集於 2006 年前後，當時的臨床量表標準與當代實踐略有差異，引用時建議搭配近期研究（如 Wismeijer 2013）相互佐證。"
 

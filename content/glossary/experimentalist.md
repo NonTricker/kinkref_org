@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 實驗者
 term_en: Experimentalist
 term_alt_zh: 探索者; 嘗試者

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "繩縛本事"
 title_zh: 繩縛本事
 author: "小林繩霧"

@@ -1,0 +1,423 @@
+---
+/**
+ * Journals index — 學術期刊指南列表頁
+ *
+ * v0.4.0 新建（v1.3 schema → v1.4 同步），對應 HANDOFF_TO_WEAVER §2.1。
+ * 篩選軸：topic_tags / access_type / accepts_bdsm / publisher
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SearchBox from '@components/SearchBox.astro';
+import TagPill from '@components/TagPill.astro';
+import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown';
+
+const allJournals = await getCollection('journals');
+
+// 排序：IF 由高到低（無 IF 排最後）
+const sortedJournals = allJournals.sort((a, b) => {
+  const ifA = a.data.impact_factor ?? -1;
+  const ifB = b.data.impact_factor ?? -1;
+  return ifB - ifA;
+});
+
+// 篩選來源
+const allTopicTags = [...new Set(allJournals.flatMap((j) => j.data.topic_tags))].sort();
+const allAccessTypes = [...new Set(allJournals.map((j) => j.data.access_type))].sort();
+const allAcceptsBdsm = [...new Set(allJournals.map((j) => j.data.accepts_bdsm))].sort();
+const allPublishers = [...new Set(allJournals.map((j) => j.data.publisher))].sort();
+
+const pageTitle = '期刊指南 · Journals';
+const pageDescription = `${allJournals.length} 本性學、心理學、跨學科期刊指南。涵蓋本站已引用的核心平台（**ASB / JSR / JSM**）+ 主流性學期刊（Sexualities、SRSP、Psychology & Sexuality）+ 心理學 BDSM-friendly 期刊（PID / Frontiers / PLOS ONE / SOGD）。每本附 IF、OA 狀態、scope、submission policy 與站方策展註。`;
+const metaDescription = stripInlineMarkdown(pageDescription);
+
+// access_type → status pill 對應
+function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
+  if (at === 'diamond-oa' || at === 'gold-oa') return 'oa';
+  if (at === 'paywalled') return 'paywalled';
+  return 'translated'; // hybrid 視為「半開放」用銅金色
+}
+---
+
+<BaseLayout title={pageTitle} description={metaDescription}>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-num">05</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-name">Journals</span>
+      </p>
+      <h1 class="page-title">期刊指南</h1>
+      <hr class="page-title-rule" aria-hidden="true" />
+      <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
+      <div class="page-search">
+        <SearchBox placeholder="搜尋期刊名、出版社…" variant="hero" />
+      </div>
+    </div>
+  </section>
+
+  <section class="page-toolbar" aria-label="篩選">
+    <div class="page-toolbar-inner">
+      <div class="filter-group">
+        <p class="filter-label">主題：</p>
+        <ul class="filter-tags">
+          {allTopicTags.map((tag) => (
+            <li>
+              <TagPill label={tag} variant="topic" size="sm" href={`/journals?topic=${tag}`} />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="filter-group">
+        <p class="filter-label">取得方式：</p>
+        <ul class="filter-tags">
+          {allAccessTypes.map((t) => (
+            <li>
+              <TagPill
+                label={t}
+                variant="status"
+                status={accessStatus(t)}
+                size="sm"
+                href={`/journals?access=${t}`}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="filter-group">
+        <p class="filter-label">BDSM 接受度：</p>
+        <ul class="filter-tags">
+          {allAcceptsBdsm.map((a) => (
+            <li>
+              <TagPill label={a} variant="reader" size="sm" href={`/journals?bdsm=${a}`} />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="filter-group">
+        <p class="filter-label">出版社：</p>
+        <ul class="filter-tags">
+          {allPublishers.map((p) => (
+            <li>
+              <TagPill
+                label={p}
+                variant="topic"
+                size="sm"
+                href={`/journals?publisher=${encodeURIComponent(p)}`}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="entry-list-section">
+    <ul class="journal-list">
+      {sortedJournals.map((entry, i) => (
+        <li class="journal-card">
+          <a href={`/journals/${entry.id}`}>
+            <span class="journal-card-no" aria-hidden="true">№{(i + 1).toString().padStart(3, '0')}</span>
+            <header class="journal-card-header">
+              <p class="journal-card-meta">
+                <span class="journal-card-publisher">{entry.data.publisher}</span>
+                {entry.data.founded && (
+                  <span class="journal-card-founded">est. {entry.data.founded}</span>
+                )}
+              </p>
+              <h2 class="journal-card-title">
+                {entry.data.title}
+                {entry.data.abbreviation && (
+                  <span class="journal-card-abbr">({entry.data.abbreviation})</span>
+                )}
+              </h2>
+              {entry.data.title_zh && (
+                <p class="journal-card-title-zh">{entry.data.title_zh}</p>
+              )}
+            </header>
+            <p
+              class="journal-card-curator"
+              set:html={renderInlineMarkdown(entry.data.curator_note)}
+            />
+            <div class="journal-card-stats">
+              {entry.data.impact_factor != null && (
+                <span class="journal-stat">
+                  <span class="journal-stat-label">IF</span>
+                  <span class="journal-stat-value">{entry.data.impact_factor.toFixed(2)}</span>
+                  {entry.data.ranking_quartile && (
+                    <span class="journal-stat-quartile">{entry.data.ranking_quartile}</span>
+                  )}
+                </span>
+              )}
+            </div>
+            <ul class="journal-card-tags">
+              <li>
+                <TagPill
+                  label={entry.data.access_type}
+                  variant="status"
+                  status={accessStatus(entry.data.access_type)}
+                  size="sm"
+                />
+              </li>
+              <li>
+                <TagPill label={entry.data.accepts_bdsm} variant="reader" size="sm" />
+              </li>
+              {entry.data.topic_tags.slice(0, 2).map((tag) => (
+                <li>
+                  <TagPill label={tag} variant="topic" size="sm" />
+                </li>
+              ))}
+            </ul>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-hero-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .page-eyebrow-num {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .page-eyebrow-sep {
+    color: var(--ink-disabled);
+    font-weight: var(--fw-regular);
+  }
+
+  .page-eyebrow-name {
+    font-weight: var(--fw-semibold);
+  }
+
+  .page-title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-5);
+  }
+
+  .page-title-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .page-description {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-7);
+  }
+
+  .page-description :global(strong) {
+    color: var(--ink-heading);
+    font-weight: var(--fw-semibold);
+  }
+
+  .page-search {
+    max-width: 100%;
+  }
+
+  .page-toolbar {
+    padding: var(--space-5);
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-toolbar-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+    min-width: 7em;
+  }
+
+  .filter-tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .entry-list-section {
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .journal-list {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .journal-card a {
+    position: relative;
+    display: block;
+    padding: var(--space-5) var(--space-6);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    height: 100%;
+    transition: var(--transition-color), border-left-color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .journal-card a:hover {
+    border-color: var(--accent-primary);
+    border-left-color: var(--accent-primary);
+    transform: translateX(2px);
+  }
+
+  .journal-card-no {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-disabled);
+    letter-spacing: 0.04em;
+  }
+
+  .journal-card-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-2);
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .journal-card-publisher {
+    font-style: italic;
+  }
+
+  .journal-card-founded {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-disabled);
+  }
+
+  .journal-card-title {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-1);
+    color: var(--ink-heading);
+    font-family: var(--font-serif);
+  }
+
+  .journal-card-abbr {
+    font-family: var(--font-mono);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    font-weight: var(--fw-regular);
+    margin-left: var(--space-2);
+  }
+
+  .journal-card-title-zh {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+  }
+
+  .journal-card-curator {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: var(--space-3) 0 var(--space-4);
+    border-left: 3px solid var(--accent-citation);
+    padding-left: var(--space-4);
+  }
+
+  .journal-card-stats {
+    display: flex;
+    gap: var(--space-4);
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-mono);
+  }
+
+  .journal-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: var(--fs-caption);
+  }
+
+  .journal-stat-label {
+    color: var(--ink-meta);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+  }
+
+  .journal-stat-value {
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-heading);
+  }
+
+  .journal-stat-quartile {
+    font-size: 0.85em;
+    padding: 1px 6px;
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    color: var(--accent-citation);
+  }
+
+  .journal-card-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+</style>

@@ -19,6 +19,17 @@ const footerSections = [
       { href: '/glossary', label: '術語表' },
       { href: '/bibliography', label: '文獻指南' },
       { href: '/books', label: '書架清單' },
+      { href: '/journals', label: '期刊指南' },
+    ],
+  },
+  {
+    heading: 'Directory',
+    links: [
+      { href: '/counselors', label: '諮商資源' },
+      { href: '/legal', label: '法律資源' },
+      { href: '/campus-groups', label: '大學社團' },
+      { href: '/medical', label: '醫療資源' },
+      { href: '/resources', label: '外部資源' },
     ],
   },
   {
@@ -143,7 +154,7 @@ const footerSections = [
 
   .site-footer-nav {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-7);
   }
 

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 知情同意能力
 term_en: Consent capacity
 term_alt_zh: 同意能力; 同意適格性

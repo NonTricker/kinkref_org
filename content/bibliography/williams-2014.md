@@ -1,13 +1,14 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "From 'SSC' and 'RACK' to the '4Cs': Introducing a New Framework for Negotiating BDSM Participation"
-authors: "Williams, D. J.; Thomas, J. N.; Prior, E. E.; Walters, W."
+authors: "Williams, D. J.; Thomas, J. N.; Prior, E. E.; Christensen, M. C."
 year: 2014
 journal: "Electronic Journal of Human Sexuality"
 volume: "17"
-doi: "https://doi.org/10.5038/2375-0405.17.1.4"
+doi: null
+article_url: "http://www.ejhs.org/volume17/BDSM.html"
 access_type: open-access
-oa_type: gold
+oa_type: diamond
 preprint_url: null
 study_type: theoretical
 methodology_keywords:
@@ -32,6 +33,8 @@ curator_note: |
 caveats:
   - type: methodology
     note: "本文為理論論文，4Cs 框架的實證驗證仍有限。引用時應區分「框架本身的論述合理性」與「框架是否經實證驗證」。"
+  - type: dated
+    note: "本文發表於 Electronic Journal of Human Sexuality，該期刊未註冊 Crossref DOI 系統，引用時請使用文章 URL（http://www.ejhs.org/volume17/BDSM.html）。期刊已於 2014 年停刊，archives 可訪問。"
 
 replication_status: unknown
 

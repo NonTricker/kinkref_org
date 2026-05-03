@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "Screw the Roses, Send Me the Thorns: The Romance and Sexual Sorcery of Sadomasochism"
 title_zh: null
 author: "Miller, Philip; Devon, Molly"

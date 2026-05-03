@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 4Cs 框架
 term_en: 4Cs
 aliases_en: Caring, Communication, Consent, Caution

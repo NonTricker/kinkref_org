@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 同意之輪
 term_en: Wheel of Consent
 tagline: Betty Martin 的合意 4 象限框架。

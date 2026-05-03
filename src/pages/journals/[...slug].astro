@@ -1,0 +1,403 @@
+---
+/**
+ * Journal entry detail page — 期刊單頁
+ *
+ * 動態路由：/journals/[journal-slug]
+ * v0.4.0 新建（v1.3 schema → v1.4 同步）
+ */
+
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '@layouts/EntryLayout.astro';
+import TagPill from '@components/TagPill.astro';
+import { renderParagraphs, renderInlineMarkdown } from '@/lib/inline-markdown';
+
+export async function getStaticPaths() {
+  const journals = await getCollection('journals');
+  return journals.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+const paragraphsHtml = (text: string) => renderParagraphs(text);
+
+const pageTitle = data.title;
+const description = `${data.publisher}${data.founded ? ` · 創刊 ${data.founded}` : ''} · ${data.access_type}`;
+
+// 站方推薦引用格式
+const citationText = `${data.title}${data.abbreviation ? ` (${data.abbreviation})` : ''}. ${data.publisher}. ${data.website}`;
+
+// access type → status pill
+function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
+  if (at === 'diamond-oa' || at === 'gold-oa') return 'oa';
+  if (at === 'paywalled') return 'paywalled';
+  return 'translated';
+}
+---
+
+<EntryLayout
+  title={pageTitle}
+  description={description}
+  collection="journals"
+  eyebrow="期刊條目 · Journal Entry"
+  contributor={data.contributor}
+  lastReviewed={data.last_reviewed}
+  citationText={citationText}
+>
+  {/* Journal metadata block */}
+  <section class="journal-meta" aria-label="期刊資訊">
+    <dl>
+      <div class="journal-meta-row">
+        <dt>期刊全名</dt>
+        <dd>{data.title}</dd>
+      </div>
+      {data.title_zh && (
+        <div class="journal-meta-row"><dt>中文譯名</dt><dd>{data.title_zh}</dd></div>
+      )}
+      {data.abbreviation && (
+        <div class="journal-meta-row">
+          <dt>縮寫</dt>
+          <dd><code>{data.abbreviation}</code></dd>
+        </div>
+      )}
+      <div class="journal-meta-row">
+        <dt>出版社</dt>
+        <dd>{data.publisher}</dd>
+      </div>
+      {data.founded && (
+        <div class="journal-meta-row"><dt>創刊年</dt><dd>{data.founded}</dd></div>
+      )}
+      <div class="journal-meta-row">
+        <dt>主要語言</dt>
+        <dd>{data.language}</dd>
+      </div>
+      {data.issn_print && (
+        <div class="journal-meta-row"><dt>ISSN（紙本）</dt><dd><code>{data.issn_print}</code></dd></div>
+      )}
+      {data.issn_online && (
+        <div class="journal-meta-row"><dt>ISSN（線上）</dt><dd><code>{data.issn_online}</code></dd></div>
+      )}
+      <div class="journal-meta-row">
+        <dt>官網</dt>
+        <dd><a href={data.website} target="_blank" rel="noopener noreferrer">{data.website}</a></dd>
+      </div>
+      <div class="journal-meta-row">
+        <dt>取得方式</dt>
+        <dd>
+          <TagPill
+            label={data.access_type}
+            variant="status"
+            status={accessStatus(data.access_type)}
+            size="sm"
+          />
+          {data.oa_apc_usd && <span class="journal-apc">APC ${data.oa_apc_usd} USD</span>}
+        </dd>
+      </div>
+      <div class="journal-meta-row">
+        <dt>BDSM 接受度</dt>
+        <dd><TagPill label={data.accepts_bdsm} variant="reader" size="sm" /></dd>
+      </div>
+    </dl>
+  </section>
+
+  {/* Stats — IF + quartile + acceptance rate + review time */}
+  {(data.impact_factor != null || data.acceptance_rate_pct != null || data.review_time_weeks) && (
+    <section class="journal-stats-section" aria-label="期刊指標">
+      <h2>期刊指標</h2>
+      <div class="journal-stats-grid">
+        {data.impact_factor != null && (
+          <div class="journal-stat-block">
+            <p class="journal-stat-label">Impact Factor</p>
+            <p class="journal-stat-value">{data.impact_factor.toFixed(2)}</p>
+            <p class="journal-stat-meta">
+              {data.impact_factor_year && `${data.impact_factor_year} · `}
+              {data.impact_factor_source}
+              {data.ranking_quartile && ` · ${data.ranking_quartile}`}
+            </p>
+          </div>
+        )}
+        {data.acceptance_rate_pct != null && (
+          <div class="journal-stat-block">
+            <p class="journal-stat-label">接受率</p>
+            <p class="journal-stat-value">{data.acceptance_rate_pct}%</p>
+          </div>
+        )}
+        {data.review_time_weeks && (
+          <div class="journal-stat-block">
+            <p class="journal-stat-label">審稿時間</p>
+            <p class="journal-stat-value">{data.review_time_weeks}<span class="journal-stat-unit"> 週</span></p>
+          </div>
+        )}
+        {data.typical_article_length && (
+          <div class="journal-stat-block">
+            <p class="journal-stat-label">典型篇幅</p>
+            <p class="journal-stat-value journal-stat-value-text">{data.typical_article_length}</p>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {/* Scope */}
+  <section class="journal-section">
+    <h2>收錄範圍</h2>
+    {paragraphsHtml(data.scope).map((html) => <p set:html={html} />)}
+  </section>
+
+  {/* Abstract zh */}
+  <section class="journal-section">
+    <h2>中文簡介</h2>
+    {paragraphsHtml(data.abstract_zh).map((html) => <p set:html={html} />)}
+  </section>
+
+  {/* Curator note */}
+  <section class="journal-section">
+    <h2 class="curator-heading">策展人註</h2>
+    <p class="curator-note" set:html={renderInlineMarkdown(data.curator_note)} />
+  </section>
+
+  {/* BDSM history */}
+  {data.bdsm_history && (
+    <section class="journal-section">
+      <h2>BDSM 研究歷史</h2>
+      {paragraphsHtml(data.bdsm_history).map((html) => <p set:html={html} />)}
+    </section>
+  )}
+
+  {/* Submission policy */}
+  {data.submission_url && (
+    <section class="journal-section">
+      <h2>投稿選項</h2>
+      <p>
+        <a href={data.submission_url} target="_blank" rel="noopener noreferrer" class="journal-cta">
+          前往期刊投稿系統 →
+        </a>
+      </p>
+    </section>
+  )}
+
+  {/* Caveats */}
+  {data.caveats && data.caveats.length > 0 && (
+    <section class="journal-section">
+      <h2>注意事項</h2>
+      <ul class="caveat-list">
+        {data.caveats.map((caveat) => (
+          <li class="caveat-item">
+            <span class="caveat-type">{caveat.type}</span>
+            <span class="caveat-note" set:html={renderInlineMarkdown(caveat.note)} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {/* Tags */}
+  <section class="journal-section">
+    <h2>標籤</h2>
+    <div class="tag-group">
+      <p class="tag-group-label">主題</p>
+      <ul class="tag-pills">
+        {data.topic_tags.map((tag) => <li><TagPill label={tag} variant="topic" /></li>)}
+      </ul>
+    </div>
+    <div class="tag-group">
+      <p class="tag-group-label">讀者</p>
+      <ul class="tag-pills">
+        {data.reader_tags.map((tag) => <li><TagPill label={tag} variant="reader" /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <div class="journal-body">
+    <Content />
+  </div>
+</EntryLayout>
+
+<style>
+  .journal-meta {
+    background: var(--bg-subtle);
+    padding: var(--space-7);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-9);
+  }
+
+  .journal-meta dl {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .journal-meta-row {
+    display: grid;
+    grid-template-columns: 8em 1fr;
+    gap: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .journal-meta-row dt {
+    color: var(--ink-meta);
+    font-weight: var(--fw-medium);
+  }
+
+  .journal-meta-row dd {
+    margin: 0;
+  }
+
+  .journal-meta-row a {
+    color: var(--accent-primary);
+    word-break: break-all;
+  }
+
+  .journal-meta-row code {
+    font-family: var(--font-mono);
+    font-size: 0.95em;
+    background: var(--bg-elevated);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .journal-apc {
+    margin-left: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
+  .journal-stats-section {
+    margin-bottom: var(--space-9);
+  }
+
+  .journal-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .journal-stat-block {
+    padding: var(--space-5);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    background: var(--bg-elevated);
+  }
+
+  .journal-stat-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-2);
+  }
+
+  .journal-stat-value {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    color: var(--ink-heading);
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .journal-stat-value-text {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+  }
+
+  .journal-stat-unit {
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    font-weight: var(--fw-regular);
+  }
+
+  .journal-stat-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: var(--space-2) 0 0;
+  }
+
+  .journal-section {
+    margin-bottom: var(--space-9);
+  }
+
+  .curator-heading {
+    color: var(--accent-citation);
+  }
+
+  .curator-note {
+    font-style: italic;
+    border-left: 3px solid var(--accent-citation);
+    padding-left: var(--space-5);
+    color: var(--ink-body);
+  }
+
+  .journal-cta {
+    display: inline-block;
+    padding: var(--space-3) var(--space-5);
+    background: var(--accent-primary);
+    color: var(--bg-base);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: var(--fw-medium);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-color);
+  }
+
+  .journal-cta:hover {
+    background: var(--ink-heading);
+  }
+
+  .caveat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .caveat-item {
+    padding: var(--space-4);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-body-sm);
+  }
+
+  .caveat-type {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin-right: var(--space-3);
+  }
+
+  .tag-group {
+    margin-bottom: var(--space-5);
+  }
+
+  .tag-group-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+  }
+
+  .tag-pills {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .journal-body:empty {
+    display: none;
+  }
+</style>

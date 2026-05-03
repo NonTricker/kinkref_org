@@ -276,6 +276,208 @@ const bibliography = defineCollection({
 });
 
 // ──────────────────────────────────────────────────────
+// Journals collection (v1.3 新增)
+// ──────────────────────────────────────────────────────
+
+const accessTypeJournalEnum = z.enum(['diamond-oa', 'gold-oa', 'hybrid', 'paywalled']);
+const acceptsBdsmEnum = z.enum([
+  'yes-frequent',
+  'yes-occasional',
+  'yes-but-rare',
+  'unclear',
+  'unknown',
+]);
+
+const journals = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '!**/README.md'], base: './content/journals' }),
+  schema: z.object({
+    schema_version: z.string(),
+    title: z.string(),
+    title_zh: z.string().nullish(),
+    abbreviation: z.string().nullish(),
+    issn_print: z.string().nullish(),
+    issn_online: z.string().nullish(),
+    publisher: z.string(),
+    founded: z.number().nullish(),
+    website: z.string().url(),
+    language: z.string(),
+    scope: z.string(),
+    accepts_bdsm: acceptsBdsmEnum,
+    bdsm_history: z.string().nullish(),
+    access_type: accessTypeJournalEnum,
+    oa_apc_usd: z.number().nullish(),
+    impact_factor: z.number().nullish(),
+    impact_factor_year: z.number().nullish(),
+    impact_factor_source: z
+      .enum(['JCR', 'Scopus', 'journal-self-reported', 'other'])
+      .nullish(),
+    ranking_quartile: z.enum(['Q1', 'Q2', 'Q3', 'Q4']).nullish(),
+    submission_url: z.string().url().nullish(),
+    review_time_weeks: z.string().nullish(),
+    acceptance_rate_pct: z.number().nullish(),
+    typical_article_length: z.string().nullish(),
+    abstract_zh: z.string(),
+    curator_note: z.string(),
+    caveats: z.array(caveatSchema).nullish(),
+    citations: z.array(citationSchema).nullish(),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    contributor: z.string(),
+    contributor_note: z.string().nullish(),
+    reviewer: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
+// Counselors collection (v1.3 新增)
+// 收錄原則：listing_consent: true、self-attestation 為主、12 個月 re-verify
+// ──────────────────────────────────────────────────────
+
+const counselors = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '!**/README.md'], base: './content/counselors' }),
+  schema: z.object({
+    schema_version: z.string(),
+    name: z.string(),
+    pronouns: z.string().nullish(),
+    credentials: z.array(z.string()),
+    license_number: z.string().nullish(),
+    specialty: z.array(z.string()),
+    kink_friendly_statement: z.string(),
+    location: z.string(),
+    service_modes: z.array(z.enum(['in-person', 'online', 'hybrid'])),
+    languages: z.array(z.string()),
+    contact_email: z.string().email().nullish(),
+    contact_website: z.string().url().nullish(),
+    listing_consent: z.boolean(),
+    self_attestation: z.boolean(),
+    last_verified: z.coerce.date(),
+    verification_method: z.enum([
+      'direct-contact',
+      'public-page-confirmed',
+      'peer-referred',
+    ]),
+    caveats: z.array(caveatSchema).nullish(),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    contributor: z.string(),
+    contributor_note: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
+// Legal collection (v1.3 新增)
+// ──────────────────────────────────────────────────────
+
+const legal = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '!**/README.md'], base: './content/legal' }),
+  schema: z.object({
+    schema_version: z.string(),
+    entry_type: z.enum(['lawyer', 'law-firm', 'legal-aid', 'statute-reference']),
+    name: z.string(),
+    bar_admission: z.string().nullish(),
+    specialty: z.array(z.string()),
+    location: z.string().nullish(),
+    service_modes: z.array(z.string()).nullish(),
+    languages: z.array(z.string()).nullish(),
+    contact_email: z.string().email().nullish(),
+    contact_phone: z.string().nullish(),
+    contact_website: z.string().url().nullish(),
+    statute_url: z.string().url().nullish(),
+    description: z.string(),
+    bdsm_relevance: z.string().nullish(),
+    listing_consent: z.boolean(),
+    self_attestation: z.boolean(),
+    last_verified: z.coerce.date(),
+    caveats: z.array(caveatSchema).nullish(),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    contributor: z.string(),
+    contributor_note: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
+// Campus Groups collection (v1.3 新增)
+// ──────────────────────────────────────────────────────
+
+const campusGroups = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '!**/README.md'], base: './content/campus-groups' }),
+  schema: z.object({
+    schema_version: z.string(),
+    name: z.string(),
+    name_en: z.string().nullish(),
+    university: z.string(),
+    university_en: z.string().nullish(),
+    department_affiliation: z.string().nullish(),
+    official_status: z.enum(['registered', 'unregistered', 'informal-group']),
+    recruitment_open: z.boolean(),
+    recruitment_period: z.string().nullish(),
+    recruitment_requirements: z.string().nullish(),
+    focus_areas: z.array(z.string()),
+    bdsm_engagement_level: z.enum([
+      'core-focus',
+      'partial-focus',
+      'friendly-but-not-focus',
+    ]),
+    contact_email: z.string().email().nullish(),
+    contact_social: z.string().url().nullish(),
+    description: z.string(),
+    listing_consent: z.boolean(),
+    last_verified: z.coerce.date(),
+    caveats: z.array(caveatSchema).nullish(),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    contributor: z.string(),
+    contributor_note: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date().nullish(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
+// Medical collection (v1.3 新增)
+// 含緊急/支持熱線（hotline / support-org），可不需 explicit consent
+// ──────────────────────────────────────────────────────
+
+const medical = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '!**/README.md'], base: './content/medical' }),
+  schema: z.object({
+    schema_version: z.string(),
+    entry_type: z.enum(['physician', 'clinic', 'hotline', 'support-org']),
+    name: z.string(),
+    pronouns: z.string().nullish(),
+    credentials: z.array(z.string()).nullish(),
+    medical_specialty: z.array(z.string()).nullish(),
+    kink_friendly_statement: z.string().nullish(),
+    services_offered: z.array(z.string()),
+    location: z.string().nullish(),
+    contact_phone: z.string().nullish(),
+    contact_email: z.string().email().nullish(),
+    contact_website: z.string().url().nullish(),
+    languages: z.array(z.string()).nullish(),
+    available_hours: z.string().nullish(),
+    description: z.string(),
+    bdsm_relevance: z.string().nullish(),
+    cost: z.enum(['free', 'subsidized', 'private-rate', 'varies']).nullish(),
+    listing_consent: z.boolean(),
+    last_verified: z.coerce.date(),
+    caveats: z.array(caveatSchema).nullish(),
+    topic_tags: z.array(topicTagEnum).min(1).max(4),
+    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    contributor: z.string(),
+    contributor_note: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date().nullish(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
 // Export
 // ──────────────────────────────────────────────────────
 
@@ -283,4 +485,9 @@ export const collections = {
   glossary,
   books,
   bibliography,
+  journals,       // v1.3
+  counselors,     // v1.3
+  legal,          // v1.3
+  campusGroups,   // v1.3（folder: campus-groups）
+  medical,        // v1.3
 };

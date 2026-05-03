@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 個人責任知情同意 kink
 term_en: PRICK
 aliases_en: Personal Responsibility Informed Consensual Kink

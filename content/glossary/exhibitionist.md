@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 暴露者
 term_en: Exhibitionist
 tagline: 在合意脈絡下從被觀看自身性活動或親密狀態中獲得愉悅的人。

@@ -1,13 +1,13 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "Extreme Rituals in a BDSM Context: The Physiological and Psychological Effects of the 'Dance of Souls'"
-authors: "Klement, K. R.; Lee, E. M.; Ambler, J. K.; Hanson, S. A.; Comber, E.; Wietting, D.; Wagner, M. F.; Burns, V. R.; Cutler, B.; Cutler, N.; Sagarin, B. J."
+authors: "Klement, K. R.; Lee, E. M.; Ambler, J. K.; Hanson, S. A.; Comber, E.; Wietting, D.; Wagner, M. F.; Burns, V. R.; Cutler, B.; Cutler, N.; Reid, E.; Sagarin, B. J."
 year: 2017
-journal: "Journal of Sex Research"
-volume: "54"
-issue: "4-5"
-pages: "470-485"
-doi: "https://doi.org/10.1080/00224499.2016.1234596"
+journal: "Culture, Health & Sexuality"
+volume: "19"
+issue: "4"
+pages: "453-469"
+doi: "https://doi.org/10.1080/13691058.2016.1234648"
 access_type: paywalled
 study_type: quantitative
 methodology_keywords:
@@ -15,7 +15,7 @@ methodology_keywords:
   - hormonal-measurement
   - pre-post-design
   - psychometric-assessment
-sample_size: "26 名儀式參與者"
+sample_size: "Dance of Souls 儀式參與者（小樣本現場研究）"
 sample_population: "美國 'Dance of Souls' 儀式參與者，含 hook pull 與 flesh hook suspension 等高強度 practice"
 translation_status: abstract-only
 topic_tags: [neuroscience, practice-specific, methodology]

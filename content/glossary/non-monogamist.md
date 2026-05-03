@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 非單偶者
 term_en: Non-monogamist
 aliases_en: ENM (Ethical Non-Monogamist); CNM (Consensual Non-Monogamist)

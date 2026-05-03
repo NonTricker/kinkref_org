@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "Consent vs. Coercion: BDSM Interactions Highlight a Fine but Immutable Line"
 authors: "Pitagora, D."
 year: 2013
@@ -7,7 +7,7 @@ journal: "The New School Psychology Bulletin"
 volume: "10"
 issue: "1"
 pages: "27-36"
-doi: "https://doi.org/10.5038/nspb.10.1.5"
+doi: "https://doi.org/10.1037/e543732013-004"
 access_type: open-access
 oa_type: gold
 preprint_url: null

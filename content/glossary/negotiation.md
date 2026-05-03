@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 協商
 term_en: Negotiation
 term_alt_zh: 場前協商; 事前協商

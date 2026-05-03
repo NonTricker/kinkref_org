@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 貶低者
 term_en: Degrader
 tagline: 在合意 D/s 動態中執行貶低、羞辱類言語或行為的主動方。

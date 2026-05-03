@@ -1,6 +1,6 @@
 # Detection Rules for kinkref.org self-check
-# 版本: 1.2
-# 對應 schema: CONTENT_SCHEMA.md v1.3
+# 版本: 1.3
+# 對應 schema: CONTENT_SCHEMA.md v1.4
 # 最後更新: 2026-05-03
 #
 # 此檔案是 self-check.py 與 quality-scan.py 的外部規則庫。
@@ -9,7 +9,7 @@
 
 # ─── Schema 結構規則 ─────────────────────────────────────
 schema:
-  current_version: "1.3"
+  current_version: "1.4"
 
   required_fields:
     glossary:
@@ -48,7 +48,7 @@ schema:
       - authors
       - year
       - journal
-      - doi
+      # v1.4: doi 從必填移除（doi 或 article_url 至少一個，由 conditional_required 處理）
       - access_type
       - study_type
       - translation_status
@@ -60,6 +60,12 @@ schema:
       - contributor
       - created_date
       - last_reviewed
+
+    # v1.4: 條件必填（at-least-one of fields）
+    paper_conditional_required:
+      - fields: [doi, article_url]
+        rule: at-least-one
+        note: "論文條目必須有 doi 或 article_url 之一"
 
     # v1.3 新增 5 個 content type
     journal:

@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "The New Bottom Book"
 title_zh: null
 author: "Hardy, Janet W.; Easton, Dossie"

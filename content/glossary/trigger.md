@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 觸發點
 term_en: Trigger
 term_alt_zh: 觸發物; 觸發機制

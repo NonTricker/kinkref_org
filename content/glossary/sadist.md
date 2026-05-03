@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 施虐者
 term_en: Sadist
 term_alt_zh: S; 抖S

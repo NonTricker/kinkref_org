@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 飼主
 term_en: Owner
 term_alt_zh: 主人（在 petplay 脈絡）

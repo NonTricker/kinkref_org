@@ -1,0 +1,507 @@
+---
+/**
+ * Resources — 外部資源頁
+ *
+ * v0.4.0 新建（依 BDSMWebsite/EXTERNAL_RESOURCES_CONTENT.md）
+ *
+ * 7 個 sections（按順序）：
+ *   1. Hero + Disclaimer
+ *   2. § 活動公告與行事曆（外部）
+ *   3. § 線上工具
+ *   4. § 學術資料庫
+ *   5. § 圈內參考站（暫不放任何條目，主人決定）
+ *   6. § 緊急/支持資源（公開政府專線）— 113 / 1995 / 1925
+ *   7. § 站方 Directory（站內延伸）
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const pageTitle = '外部資源 · External Resources';
+const pageDescription =
+  '本頁列出 kinkref.org 精選的公開可訪問外部資源連結，含活動行事曆、線上工具、學術資料庫、圈內參考站、緊急支持熱線。本頁性質為指路導覽，不背書任何特定資源。';
+
+interface ExternalLink {
+  title: string;
+  desc: string;
+  url: string;
+  badge?: string;
+}
+
+const calendars: ExternalLink[] = [
+  {
+    title: 'bdsmer 小白板',
+    desc: '台灣 BDSM 圈的公開資訊聚合板。',
+    url: 'https://bdsmer.link/',
+    badge: '行事曆',
+  },
+  {
+    title: 'smertw 行事曆',
+    desc: '台灣 BDSM 圈的活動行事曆。',
+    url: 'https://todo.smertw.com/',
+    badge: '行事曆',
+  },
+];
+
+const tools: ExternalLink[] = [
+  {
+    title: 'bdsmtest.org',
+    desc: '26 個 BDSM archetype 的線上自測平台。本站 Glossary 多數條目對應此測試的 archetype。',
+    url: 'https://bdsmtest.org/',
+    badge: '測試',
+  },
+  {
+    title: 'Unpaywall',
+    desc: '查找付費論文是否有合法 OA 版本的工具。',
+    url: 'https://unpaywall.org/',
+    badge: 'OA 工具',
+  },
+];
+
+const databases: ExternalLink[] = [
+  {
+    title: 'PsyArXiv',
+    desc: '心理學預印本平台（含未發表/未審查論文）。',
+    url: 'https://psyarxiv.com/',
+    badge: '預印本',
+  },
+  {
+    title: 'SSRN',
+    desc: '社會科學預印本平台。',
+    url: 'https://www.ssrn.com/',
+    badge: '預印本',
+  },
+  {
+    title: 'Open Library',
+    desc: '免費線上書籍借閱（含 BDSM 相關學術書）。',
+    url: 'https://openlibrary.org/',
+    badge: '書籍借閱',
+  },
+  {
+    title: 'WorldCat',
+    desc: '圖書館館藏查詢（找書借書用）。',
+    url: 'https://www.worldcat.org/',
+    badge: '館藏查詢',
+  },
+  {
+    title: 'DOAJ',
+    desc: 'Directory of Open Access Journals（OA 期刊全文目錄）。',
+    url: 'https://doaj.org/',
+    badge: 'OA 目錄',
+  },
+];
+
+interface Hotline {
+  name: string;
+  desc: string;
+  phone: string;
+  hours: string;
+}
+
+const hotlines: Hotline[] = [
+  {
+    name: '113 婦幼保護專線',
+    desc: '衛福部 24 小時家暴/性侵害/兒少保護專線。',
+    phone: '113',
+    hours: '24 小時',
+  },
+  {
+    name: '1995 自殺防治專線',
+    desc: '24 小時免費安心專線。',
+    phone: '1995',
+    hours: '24 小時',
+  },
+  {
+    name: '1925 安心專線',
+    desc: '衛福部 24 小時心理諮詢免費專線。',
+    phone: '1925',
+    hours: '24 小時',
+  },
+];
+
+interface InternalDir {
+  title: string;
+  desc: string;
+  href: string;
+  status: '待填' | '進行中' | '可用';
+}
+
+const internalDirs: InternalDir[] = [
+  { title: '期刊指南', desc: '15 本性學、心理學期刊指南（IF / OA / submission policy）。', href: '/journals', status: '可用' },
+  { title: '諮商資源', desc: 'Kink-friendly 諮商師 directory（自薦 + 審核）。', href: '/counselors', status: '待填' },
+  { title: '法律資源', desc: '律師、法律扶助、相關法規連結。', href: '/legal', status: '待填' },
+  { title: '大學社團', desc: '校園 kink-friendly 社團 directory。', href: '/campus-groups', status: '待填' },
+  { title: '醫療資源', desc: 'Kink-friendly 醫師、診所、緊急熱線。', href: '/medical', status: '部分待填' as '待填' },
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-num">10</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-name">Resources</span>
+      </p>
+      <h1 class="page-title">外部資源</h1>
+      <hr class="page-title-rule" aria-hidden="true" />
+      <p class="page-description">{pageDescription}</p>
+    </div>
+  </section>
+
+  <section class="disclaimer-section" aria-label="關於本頁列表">
+    <div class="disclaimer-inner">
+      <p class="disclaimer-eyebrow">⚠️ 關於本頁列表</p>
+      <p>
+        kinkref.org <strong>不背書、不推薦特定資源</strong>，亦不對外部資源的內容、政策、安全性負責。
+        對立或競爭關係的資源<strong>全部列出</strong>，排序按字母順序或註冊日期，不按推薦度。
+        讀者應自行判斷各資源的可信度、適用性與當前狀態。
+      </p>
+      <p>
+        如發現外部連結失效、資源已停止運作、或有誤入站方判定的「圈內政治偏袒」，
+        請來信 <a href="mailto:curator@kinkref.org">curator@kinkref.org</a> 告知。
+      </p>
+    </div>
+  </section>
+
+  <article class="resources-page">
+    {/* §1 活動行事曆 */}
+    <section class="resource-section" id="calendars">
+      <header>
+        <h2>§ 活動公告與行事曆</h2>
+        <p class="section-intro">
+          台灣圈內活動的公告板與行事曆。本站不自建活動主檔（見 SPEC §6），列出公開資訊聚合站作為指路。
+          收錄標準：<strong>對外公開、聚合多方活動的資訊聚合站</strong>，不列特定俱樂部/工作室的內部公告。
+        </p>
+      </header>
+      <ul class="resource-list">
+        {calendars.map((item) => (
+          <li class="resource-card">
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              {item.badge && <span class="resource-badge">{item.badge}</span>}
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+              <span class="resource-url">{item.url} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* §2 線上工具 */}
+    <section class="resource-section" id="tools">
+      <header>
+        <h2>§ 線上工具</h2>
+        <p class="section-intro">對讀者有用的線上工具與測試。</p>
+      </header>
+      <ul class="resource-list">
+        {tools.map((item) => (
+          <li class="resource-card">
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              {item.badge && <span class="resource-badge">{item.badge}</span>}
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+              <span class="resource-url">{item.url} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* §3 學術資料庫 */}
+    <section class="resource-section" id="databases">
+      <header>
+        <h2>§ 學術資料庫（OA 平台）</h2>
+        <p class="section-intro">
+          學術論文的開放取用平台。本站 Bibliography 與 Books 條目的引用來源大多可從這些平台取得。
+        </p>
+      </header>
+      <ul class="resource-list">
+        {databases.map((item) => (
+          <li class="resource-card">
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              {item.badge && <span class="resource-badge">{item.badge}</span>}
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+              <span class="resource-url">{item.url} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* §4 圈內參考站 — 暫不放 */}
+    <section class="resource-section" id="community">
+      <header>
+        <h2>§ 圈內參考站</h2>
+        <p class="section-intro">
+          中文圈與國際圈的相關資源站。kinkref.org 與這些站獨立運作，列出僅為讀者導覽便利。
+        </p>
+      </header>
+      <div class="empty-stub">
+        <p>本區段目前暫無條目。若你維護或推薦相關站點，歡迎來信
+          <a href="mailto:curator@kinkref.org">curator@kinkref.org</a>。
+        </p>
+      </div>
+    </section>
+
+    {/* §5 緊急熱線 */}
+    <section class="resource-section" id="hotlines">
+      <header>
+        <h2>§ 緊急 / 支持資源（公開政府專線）</h2>
+        <p class="section-intro">
+          台灣公開可訪問的緊急服務專線。kinkref.org 不替代專業判斷，僅做指路。
+        </p>
+      </header>
+      <ul class="hotline-list">
+        {hotlines.map((h) => (
+          <li class="hotline-card">
+            <p class="hotline-phone">
+              <a href={`tel:${h.phone}`}>{h.phone}</a>
+              <span class="hotline-hours">{h.hours}</span>
+            </p>
+            <h3>{h.name}</h3>
+            <p>{h.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* §6 站內 Directory */}
+    <section class="resource-section" id="internal">
+      <header>
+        <h2>§ 站方 Directory（站內延伸）</h2>
+        <p class="section-intro">
+          kinkref.org 站內維護的 directory 連結。除「期刊指南」已上線外，多數仍在
+          <strong>待填階段</strong>，歡迎符合條件的對象主動聯絡
+          <a href="mailto:curator@kinkref.org">curator@kinkref.org</a>。
+        </p>
+      </header>
+      <ul class="resource-list">
+        {internalDirs.map((d) => (
+          <li class="resource-card">
+            <a href={d.href}>
+              <span
+                class:list={[
+                  'resource-badge',
+                  'resource-badge--internal',
+                  d.status === '可用' ? 'resource-badge--ok' : 'resource-badge--pending',
+                ]}
+              >{d.status}</span>
+              <h3>{d.title}</h3>
+              <p>{d.desc}</p>
+              <span class="resource-url">{d.href} →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+  .page-hero-inner { max-width: var(--content-width-index); margin: 0 auto; }
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .page-eyebrow-num { font-family: var(--font-mono); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+  .page-eyebrow-sep { color: var(--ink-disabled); }
+  .page-eyebrow-name { font-weight: var(--fw-semibold); }
+  .page-title { font-size: var(--fs-h1); font-weight: var(--fw-semibold); line-height: var(--lh-tight); margin: 0 0 var(--space-5); }
+  .page-title-rule { width: 64px; height: 1px; background: var(--accent-primary); border: 0; margin: 0 0 var(--space-6); }
+  .page-description { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-meta); margin: 0; }
+
+  /* Disclaimer block — 醒目 callout */
+  .disclaimer-section {
+    padding: var(--space-7) var(--space-5);
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+  .disclaimer-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-7);
+    border-left: 3px solid var(--accent-primary);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+  }
+  .disclaimer-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    font-weight: var(--fw-semibold);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-4);
+  }
+  .disclaimer-inner p {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-3);
+  }
+  .disclaimer-inner p:last-child { margin-bottom: 0; }
+  .disclaimer-inner strong { color: var(--ink-heading); }
+  .disclaimer-inner a { color: var(--accent-primary); }
+
+  .resources-page {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-12);
+  }
+
+  .resource-section {
+    margin-bottom: var(--space-11);
+    scroll-margin-top: 80px;
+  }
+  .resource-section header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+  .resource-section h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 var(--space-3);
+  }
+  .section-intro {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+  .section-intro strong { color: var(--ink-heading); }
+  .section-intro a { color: var(--accent-primary); }
+
+  .resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-4);
+  }
+  .resource-card a {
+    position: relative;
+    display: block;
+    padding: var(--space-5) var(--space-6);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    height: 100%;
+    transition: var(--transition-color), border-left-color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+  .resource-card a:hover {
+    border-color: var(--accent-primary);
+    border-left-color: var(--accent-primary);
+    transform: translateX(2px);
+  }
+  .resource-badge {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-citation);
+    margin: 0 0 var(--space-2);
+    padding: 1px 6px;
+    border: 1px solid var(--accent-citation);
+    border-radius: var(--radius-sm);
+  }
+  .resource-badge--internal { color: var(--ink-meta); border-color: var(--ink-meta); }
+  .resource-badge--ok { color: var(--status-oa); border-color: var(--status-oa); }
+  .resource-badge--pending { color: var(--ink-disabled); border-color: var(--ink-disabled); }
+  .resource-card h3 {
+    font-size: var(--fs-h4);
+    margin: 0 0 var(--space-2);
+    color: var(--ink-heading);
+    font-family: var(--font-serif);
+    font-weight: var(--fw-semibold);
+  }
+  .resource-card p {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-3);
+  }
+  .resource-url {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    word-break: break-all;
+  }
+
+  .empty-stub {
+    padding: var(--space-7);
+    background: var(--bg-subtle);
+    border: 1px dashed var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    color: var(--ink-meta);
+  }
+  .empty-stub p { margin: 0; }
+  .empty-stub a { color: var(--accent-primary); }
+
+  .hotline-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  .hotline-card {
+    padding: var(--space-6);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+  }
+  .hotline-phone {
+    margin: 0 0 var(--space-3);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+  }
+  .hotline-phone a {
+    font-size: var(--fs-display);
+    font-weight: var(--fw-bold);
+    color: var(--accent-primary);
+    text-decoration: none;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .hotline-hours {
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+  }
+  .hotline-card h3 {
+    font-size: var(--fs-h4);
+    font-family: var(--font-serif);
+    margin: 0 0 var(--space-2);
+    color: var(--ink-heading);
+  }
+  .hotline-card p {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0;
+  }
+</style>

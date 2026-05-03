@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 title: "新・恋愛のようなSM術"
 title_zh: 新・戀愛般的 SM 術
 author: "蒼月流"

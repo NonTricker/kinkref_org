@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 縛師
 term_en: Rigger
 term_alt_zh: 繩師; 綁手

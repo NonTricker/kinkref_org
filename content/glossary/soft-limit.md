@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: 軟性限制
 term_en: Soft limit
 term_alt_zh: 可協商界線

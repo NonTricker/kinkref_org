@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: BDSM
 term_en: BDSM
 aliases_en: B/D, D/s, S/M

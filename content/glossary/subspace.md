@@ -1,5 +1,5 @@
 ---
-schema_version: "1.3"
+schema_version: "1.4"
 term_zh: Subspace
 term_en: Subspace
 term_alt_zh: Sub 空間; 順從者意識狀態
