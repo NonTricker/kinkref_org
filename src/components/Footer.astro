@@ -138,13 +138,13 @@ const footerSections = [
           </ul>
         </div>
 
-        <div class="crew-block">
+        <div class="crew-block crew-block--agents">
           <p class="crew-block-heading">
             <span>AI 工作組</span>
             <span class="crew-block-heading-sep" aria-hidden="true">·</span>
             <span class="crew-block-heading-en">Agents</span>
           </p>
-          <ul class="crew-list">
+          <ul class="crew-list crew-list--two-col">
             {
               agentCrew.map((member) => (
                 <li class="crew-item">
@@ -289,10 +289,11 @@ const footerSections = [
     color: color-mix(in srgb, var(--ink-inverse) 30%, transparent);
   }
 
-  /* 兩欄結構：人類團隊（左）+ AI 工作組（右）。寬螢幕並排，行動上下堆疊 */
+  /* 兩欄結構：人類團隊（左）+ AI 工作組（右）。寬螢幕並排，行動上下堆疊
+     v0.5.12：human 區自適（auto），剩餘空間全給 agents 區放兩列 */
   .crew-grid {
     display: grid;
-    grid-template-columns: 1fr 2.4fr;
+    grid-template-columns: auto 1fr;
     gap: var(--space-7) var(--space-9);
   }
 
@@ -327,6 +328,13 @@ const footerSections = [
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+  }
+
+  /* AI 工作組變體：兩列排（v0.5.12 執政官指示） */
+  .crew-list--two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2) var(--space-7);
   }
 
   .crew-item {
@@ -369,6 +377,11 @@ const footerSections = [
   /* 行動版：兩欄堆疊為單欄 */
   @media (max-width: 720px) {
     .crew-grid {
+      grid-template-columns: 1fr;
+    }
+
+    /* AI 工作組兩列在窄螢幕也降回單列 */
+    .crew-list--two-col {
       grid-template-columns: 1fr;
     }
 
