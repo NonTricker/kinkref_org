@@ -1,8 +1,12 @@
 /**
  * Astro Content Collections — Schema Definitions
  *
- * Mirror of docs/CONTENT_SCHEMA.md (v1.1).
- * Three collections: glossary / books / bibliography (papers).
+ * Mirror of docs/CONTENT_SCHEMA.md (v1.4).
+ * Three collections currently active: glossary / books / bibliography (papers).
+ *
+ * v1.3 新增 5 個 type 的 schema 定義（journals / counselors / legal / campus-groups / medical）
+ *      待織法者整合，見 BDSMWebsite/HANDOFF_TO_WEAVER_2026-05-03.md。
+ * v1.4 修正：bibliography 中 doi 改為選填 + 新增 article_url + refine 驗證「doi 或 article_url 至少一個」。
  *
  * Content SSOT 位於 repo 根目錄 `content/`，
  * 透過 Content Layer `glob` loader 讀入。
@@ -123,6 +127,7 @@ const glossary = defineCollection({
     topic_tags: z.array(topicTagEnum).min(1).max(4),
     reader_tags: z.array(readerTagEnum).min(1).max(3),
     contributor: z.string(),
+    contributor_note: z.string().nullish(),  // v1.2 新增
     reviewer: z.string().nullish(),
     created_date: z.coerce.date(),
     last_reviewed: z.coerce.date(),
@@ -190,6 +195,7 @@ const books = defineCollection({
     audience_warning: z.array(z.string()).nullish(),
     citations: z.array(citationSchema).nullish(),
     contributor: z.string(),
+    contributor_note: z.string().nullish(),  // v1.2 新增
     reviewer: z.string().nullish(),
     created_date: z.coerce.date(),
     last_reviewed: z.coerce.date(),
@@ -202,17 +208,20 @@ const books = defineCollection({
 
 const bibliography = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/bibliography' }),
-  schema: z.object({
-    schema_version: z.string(),
-    title: z.string(),
-    authors: z.string(),
-    year: z.number(),
-    journal: z.string(),
-    volume: z.string().nullish(),
-    issue: z.string().nullish(),
-    pages: z.string().nullish(),
-    doi: z.string(),
-    access_type: z.enum(['open-access', 'paywalled', 'preprint-available']),
+  schema: z
+    .object({
+      schema_version: z.string(),
+      title: z.string(),
+      authors: z.string(),
+      year: z.number(),
+      journal: z.string(),
+      volume: z.string().nullish(),
+      issue: z.string().nullish(),
+      pages: z.string().nullish(),
+      // v1.4: doi 改選填，新增 article_url（給無 Crossref DOI 的論文，如 EJHS、學位論文等）
+      doi: z.string().nullish(),
+      article_url: z.string().url().nullish(),
+      access_type: z.enum(['open-access', 'paywalled', 'preprint-available']),
     oa_type: z.enum(['gold', 'green', 'bronze', 'hybrid', 'diamond']).nullish(),
     preprint_url: z.string().url().nullish(),
     study_type: z.enum([
@@ -252,10 +261,18 @@ const bibliography = defineCollection({
     corrigenda: z.string().url().nullish(),
     citations: z.array(citationSchema).nullish(),
     contributor: z.string(),
+    contributor_note: z.string().nullish(),
     reviewed_by: z.string().nullish(),
     created_date: z.coerce.date(),
     last_reviewed: z.coerce.date(),
-  }),
+  })
+    .refine(
+      (data) => Boolean(data.doi) || Boolean(data.article_url),
+      {
+        message: 'paper 條目必須有 doi 或 article_url 至少一個（v1.4）',
+        path: ['doi'],
+      }
+    ),
 });
 
 // ──────────────────────────────────────────────────────

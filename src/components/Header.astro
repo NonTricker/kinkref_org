@@ -46,9 +46,9 @@ function isActive(href: string): boolean {
                 href={item.href}
                 class:list={['site-nav-link', { 'is-active': isActive(item.href) }]}
                 aria-current={isActive(item.href) ? 'page' : undefined}
+                title={item.en}
               >
-                <span class="site-nav-zh">{item.label}</span>
-                <span class="site-nav-en">{item.en}</span>
+                {item.label}
               </a>
             </li>
           ))
@@ -176,39 +176,65 @@ function isActive(href: string): boolean {
     margin: 0;
     padding: 0;
     display: flex;
-    gap: var(--space-6);
+    gap: var(--space-2);
     flex-wrap: wrap;
+    align-items: stretch;
   }
 
+  /* 純中文 nav — 書頁標籤 (tab) 感
+     - 統一 padding 讓視覺重量一致（不用 fixed width，避免短中文周邊空蕩）
+     - active / hover 用 baseline rule grow 取代純色變化
+     - 雙語識別已在 page hero 的 eyebrow 編號（01 · Glossary 等）內顯示，nav 不再重複
+  */
   .site-nav-link {
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-3);
     text-decoration: none;
     color: var(--ink-body);
     font-family: var(--font-sans);
-    line-height: 1.2;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    letter-spacing: 0.02em;
+    line-height: 1.4;
     transition: var(--transition-color);
   }
 
-  .site-nav-zh {
-    font-size: var(--fs-ui);
-    font-weight: var(--fw-medium);
+  /* baseline rule — active / hover 時從 center grow 出來 */
+  .site-nav-link::after {
+    content: '';
+    position: absolute;
+    left: var(--space-3);
+    right: var(--space-3);
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent-primary);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .site-nav-en {
-    font-size: var(--fs-eyebrow);
-    color: var(--ink-meta);
-    letter-spacing: var(--ls-eyebrow);
-    text-transform: uppercase;
+  .site-nav-link:hover {
+    color: var(--accent-primary);
   }
 
-  .site-nav-link:hover,
+  .site-nav-link:hover::after {
+    transform: scaleX(0.7);
+  }
+
   .site-nav-link.is-active {
     color: var(--accent-primary);
   }
 
-  .site-nav-link.is-active .site-nav-en {
-    color: var(--accent-primary);
+  .site-nav-link.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .site-nav-link:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
   }
 
   .theme-toggle {

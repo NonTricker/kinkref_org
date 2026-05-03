@@ -25,9 +25,15 @@ const data = entry.data;
 /** Render frontmatter 字串為含 inline markdown 的 HTML 段落陣列。 */
 const paragraphsHtml = (text: string) => renderParagraphs(text);
 
+// APA citation — v1.4 schema 中 doi 改選填，fallback 到 article_url 或省略
+const apaTrail = data.doi
+  ? `. ${data.doi}`
+  : data.article_url
+    ? `. ${data.article_url}`
+    : '';
 const apaCitation = `${data.authors} (${data.year}). ${data.title}. ${data.journal}${
   data.volume ? `, ${data.volume}` : ''
-}${data.issue ? `(${data.issue})` : ''}${data.pages ? `, ${data.pages}` : ''}. ${data.doi}`;
+}${data.issue ? `(${data.issue})` : ''}${data.pages ? `, ${data.pages}` : ''}${apaTrail}`;
 
 const accessStatus =
   data.access_type === 'open-access'
@@ -55,10 +61,18 @@ const description = data.curator_note;
       <div class="paper-meta-row"><dt>年份</dt><dd>{data.year}</dd></div>
       <div class="paper-meta-row"><dt>期刊</dt><dd><em>{data.journal}</em></dd></div>
       {data.volume && <div class="paper-meta-row"><dt>卷期</dt><dd>{data.volume}{data.issue && `(${data.issue})`}{data.pages && `, ${data.pages}`}</dd></div>}
-      <div class="paper-meta-row">
-        <dt>DOI</dt>
-        <dd><a href={`https://doi.org/${data.doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}`} target="_blank" rel="noopener noreferrer">{data.doi}</a></dd>
-      </div>
+      {data.doi && (
+        <div class="paper-meta-row">
+          <dt>DOI</dt>
+          <dd><a href={`https://doi.org/${data.doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}`} target="_blank" rel="noopener noreferrer">{data.doi}</a></dd>
+        </div>
+      )}
+      {data.article_url && (
+        <div class="paper-meta-row">
+          <dt>原文連結</dt>
+          <dd><a href={data.article_url} target="_blank" rel="noopener noreferrer">線上閱讀</a></dd>
+        </div>
+      )}
       <div class="paper-meta-row">
         <dt>取得方式</dt>
         <dd><TagPill label={data.access_type} variant="status" status={accessStatus} size="sm" /></dd>
