@@ -29,6 +29,41 @@ const apaCitation = `${data.author} (${data.year}). ${data.title}. ${data.publis
   data.isbn ? ` ISBN: ${data.isbn}` : ''
 }`;
 
+// JSON-LD: Book（schema.org/Book）
+const authorList = data.author
+  .split(/[,&]\s*/)
+  .map((a: string) => a.trim())
+  .filter((a: string) => a.length > 0)
+  .map((name: string) => ({ '@type': 'Person', name }));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Book',
+  '@id': `https://kinkref.org/books/${entry.id}#book`,
+  name: data.title,
+  ...(data.title_zh && { alternateName: data.title_zh }),
+  description: data.curator_note,
+  ...(data.abstract_zh && { abstract: data.abstract_zh }),
+  author: authorList,
+  publisher: { '@type': 'Organization', name: data.publisher },
+  datePublished: String(data.year),
+  inLanguage: data.language,
+  url: `https://kinkref.org/books/${entry.id}`,
+  ...(data.isbn && { isbn: data.isbn }),
+  ...(data.isbn && { identifier: { '@type': 'PropertyValue', propertyID: 'isbn', value: data.isbn } }),
+  bookFormat: 'https://schema.org/Hardcover',
+  // 中譯本 metadata（如有）
+  ...(data.has_zh_translation && {
+    workTranslation: {
+      '@type': 'Book',
+      inLanguage: 'zh-Hant-TW',
+      ...(data.translator && { translator: { '@type': 'Person', name: data.translator } }),
+      ...(data.publisher_zh && { publisher: { '@type': 'Organization', name: data.publisher_zh } }),
+      ...(data.year_zh_translation && { datePublished: String(data.year_zh_translation) }),
+    },
+  }),
+};
+
 const pageTitle = data.title_zh ? `${data.title_zh}（${data.title}）` : data.title;
 const description = data.curator_note;
 ---
@@ -41,6 +76,7 @@ const description = data.curator_note;
   contributor={data.contributor}
   lastReviewed={data.last_reviewed}
   citationText={apaCitation}
+  jsonLd={jsonLd}
 >
   <section class="book-meta" aria-label="書目資訊">
     <dl>

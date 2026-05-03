@@ -37,7 +37,7 @@ const footerSections = [
     links: [
       { href: '/about', label: '關於' },
       { href: '/contribute', label: '貢獻' },
-      { href: 'https://github.com/NonTricker/kinkref_org', label: 'GitHub', external: true },
+      { href: 'https://github.com/NonTricker/kinkref_org', label: 'GitHub', external: true, me: true },
     ],
   },
   {
@@ -68,18 +68,28 @@ const footerSections = [
             <div class="site-footer-section">
               <h2 class="site-footer-heading">{section.heading}</h2>
               <ul>
-                {section.links.map((link) => (
-                  <li>
-                    <a
-                      href={link.href}
-                      {...('external' in link && link.external
-                        ? { target: '_blank', rel: 'noopener noreferrer' }
-                        : {})}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {section.links.map((link) => {
+                  const isExternal = 'external' in link && link.external;
+                  const isMe = 'me' in link && link.me;
+                  // rel 組合：external 用 noopener noreferrer；rel=me（IndieWeb 身分串連）用於 GitHub link
+                  const relTokens = [
+                    isExternal && 'noopener',
+                    isExternal && 'noreferrer',
+                    isMe && 'me',
+                  ].filter(Boolean);
+                  const rel = relTokens.length > 0 ? relTokens.join(' ') : undefined;
+                  return (
+                    <li>
+                      <a
+                        href={link.href}
+                        {...(isExternal ? { target: '_blank' } : {})}
+                        {...(rel ? { rel } : {})}
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))

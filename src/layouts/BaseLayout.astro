@@ -18,6 +18,10 @@ interface Props {
   ogType?: 'website' | 'article';
   noindex?: boolean;
   canonical?: string;
+  /** Per-page JSON-LD structured data（如 DefinedTerm / ScholarlyArticle / Book / Periodical） */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Per-page OG image（覆蓋 default） */
+  ogImage?: string;
 }
 
 const {
@@ -26,12 +30,58 @@ const {
   ogType = 'website',
   noindex = false,
   canonical,
+  jsonLd,
+  ogImage,
 } = Astro.props;
 
 const SITE_NAME = 'Kink Reference';
 const SITE_URL = 'https://kinkref.org';
 const fullTitle = title === SITE_NAME ? title : `${title} — ${SITE_NAME}`;
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE_URL).toString();
+
+// Default OG image（主人生圖後放 /og-default.png；尚未生成前指向 favicon）
+const ogImageURL = ogImage
+  ? new URL(ogImage, SITE_URL).toString()
+  : new URL('/og-default.png', SITE_URL).toString();
+
+// 站級 JSON-LD（WebSite + Organization + SearchAction）— 永遠注入
+const siteSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}#website`,
+      name: SITE_NAME,
+      alternateName: 'kinkref.org · 中文 BDSM 學術策展',
+      url: SITE_URL,
+      description,
+      inLanguage: 'zh-Hant-TW',
+      license: 'https://creativecommons.org/licenses/by-sa/4.0/',
+      publisher: { '@id': `${SITE_URL}#organization` },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${SITE_URL}/glossary?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}#organization`,
+      name: 'Kink Reference Editorial Collective',
+      alternateName: 'kinkref',
+      url: SITE_URL,
+      sameAs: ['https://github.com/NonTricker/kinkref_org'],
+    },
+  ],
+};
+
+// Per-page schema（如有）跟站級 schema 並列輸出
+const allSchemas = jsonLd
+  ? [siteSchema, ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd])]
+  : [siteSchema];
 ---
 
 <!doctype html>
@@ -54,11 +104,38 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE_URL).toString
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:locale" content="zh_TW" />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Kink Reference · 中文 BDSM 學術策展" />
 
-    {/* Twitter Card — 中性 summary，不放圖（站方無情色意象） */}
-    <meta name="twitter:card" content="summary" />
+    {/* Twitter Card — Summary Large Image（含 og:image） */}
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    {/* P2：rel="me" 身分串連（IndieWeb / Google Identity Graph）
+        反向連結需要在 GitHub user profile / repo README 加回 kinkref.org
+        才能完成 Identity Graph 的雙向認證。 */}
+    <link rel="me" href="https://github.com/NonTricker" />
+    <link rel="me" href="https://github.com/NonTricker/kinkref_org" />
+
+    {/* P3：theme-color + application-name + hreflang */}
+    <meta name="theme-color" content="#7A1D1D" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#161A18" media="(prefers-color-scheme: dark)" />
+    <meta name="application-name" content="Kink Reference" />
+    <meta name="apple-mobile-web-app-title" content="Kink Reference" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="alternate" hreflang="zh-Hant-TW" href={canonicalURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
+    {/* JSON-LD Structured Data — Schema.org（站級 + per-page）
+        執政官 v0.5.0 SEO 全武裝：給 Google Rich Snippets / Knowledge Panel 用 */}
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(allSchemas.length === 1 ? allSchemas[0] : allSchemas)}
+    />
 
     {/* Web fonts — Bunny Fonts CDN（GDPR 友善，不被 Google 追蹤）
         v0.4.2：載入站方 typography stack

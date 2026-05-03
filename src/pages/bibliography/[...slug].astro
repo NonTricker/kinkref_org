@@ -35,6 +35,40 @@ const apaCitation = `${data.authors} (${data.year}). ${data.title}. ${data.journ
   data.volume ? `, ${data.volume}` : ''
 }${data.issue ? `(${data.issue})` : ''}${data.pages ? `, ${data.pages}` : ''}${apaTrail}`;
 
+// JSON-LD: ScholarlyArticle（schema.org/ScholarlyArticle）
+// authors 欄位拆解：「Wismeijer, A. A. J., & van Assen, M. A. L. M.」→ array
+const authorList = data.authors
+  .split(/[,&]\s*/)
+  .map((a: string) => a.trim())
+  .filter((a: string) => a.length > 0)
+  .map((name: string) => ({ '@type': 'Person', name }));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  '@id': `https://kinkref.org/bibliography/${entry.id}#article`,
+  headline: data.title,
+  name: data.title,
+  ...(data.original_abstract && { abstract: data.original_abstract }),
+  description: data.curator_note,
+  author: authorList,
+  datePublished: String(data.year),
+  inLanguage: 'en',
+  url: `https://kinkref.org/bibliography/${entry.id}`,
+  ...(data.doi && { sameAs: data.doi.startsWith('http') ? data.doi : `https://doi.org/${data.doi}` }),
+  ...(data.doi && { identifier: { '@type': 'PropertyValue', propertyID: 'doi', value: data.doi } }),
+  ...(data.article_url && !data.doi && { sameAs: data.article_url }),
+  isPartOf: {
+    '@type': 'Periodical',
+    name: data.journal,
+    ...(data.volume && { volumeNumber: data.volume }),
+    ...(data.issue && { issueNumber: data.issue }),
+  },
+  ...(data.pages && { pagination: data.pages }),
+  isAccessibleForFree: data.access_type === 'open-access',
+  license: 'https://kinkref.org/about#license',
+};
+
 const accessStatus =
   data.access_type === 'open-access'
     ? 'oa'
@@ -54,6 +88,7 @@ const description = data.curator_note;
   contributor={data.contributor}
   lastReviewed={data.last_reviewed}
   citationText={apaCitation}
+  jsonLd={jsonLd}
 >
   <section class="paper-meta" aria-label="論文資訊">
     <dl>

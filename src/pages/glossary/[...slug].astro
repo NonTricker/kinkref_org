@@ -49,6 +49,28 @@ const description = data.tagline;
 
 // 簡易 APA 引用格式
 const citationText = `${data.contributor} (${data.created_date.getFullYear()}). ${data.term_zh} (${data.term_en}). Kink Reference. https://kinkref.org/glossary/${entry.id}`;
+
+// JSON-LD: DefinedTerm（給 Google Rich Snippets / Knowledge Panel）
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  '@id': `https://kinkref.org/glossary/${entry.id}#term`,
+  name: data.term_en,
+  alternateName: [data.term_zh, ...(data.aliases_en ? [data.aliases_en] : [])].filter(Boolean),
+  description: data.tagline,
+  url: `https://kinkref.org/glossary/${entry.id}`,
+  inLanguage: ['zh-Hant-TW', 'en'],
+  inDefinedTermSet: {
+    '@type': 'DefinedTermSet',
+    '@id': 'https://kinkref.org/glossary#set',
+    name: 'Kink Reference Glossary',
+    url: 'https://kinkref.org/glossary',
+  },
+  ...(data.first_source_doi && { sameAs: [data.first_source_doi] }),
+  termCode: entry.id,
+  dateCreated: data.created_date.toISOString().slice(0, 10),
+  dateModified: data.last_reviewed.toISOString().slice(0, 10),
+};
 ---
 
 <EntryLayout
@@ -60,6 +82,7 @@ const citationText = `${data.contributor} (${data.created_date.getFullYear()}). 
   contributor={data.contributor}
   lastReviewed={data.last_reviewed}
   citationText={citationText}
+  jsonLd={jsonLd}
 >
   {/* Term metadata block */}
   <section class="term-meta" aria-label="術語對照">

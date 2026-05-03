@@ -28,7 +28,7 @@ const allAcceptsBdsm = [...new Set(allJournals.map((j) => j.data.accepts_bdsm))]
 const allPublishers = [...new Set(allJournals.map((j) => j.data.publisher))].sort();
 
 const pageTitle = '投稿地圖 · Journals';
-const pageDescription = `${allJournals.length} 本性學、心理學、跨學科期刊指南。涵蓋本站已引用的核心平台（**ASB / JSR / JSM**）+ 主流性學期刊（Sexualities、SRSP、Psychology & Sexuality）+ 心理學 BDSM-friendly 期刊（PID / Frontiers / PLOS ONE / SOGD）。每本附 IF、OA 狀態、scope、submission policy 與站方策展註。`;
+const pageDescription = `給 BDSM 研究者的投稿地圖，**策展持續擴充**。涵蓋本站已引用的核心平台（**ASB、JSR、JSM、IJSH、EJHS、NSPB**）+ 主流性學期刊（**Sexualities、SRSP、Psychology & Sexuality、JSMT、Sexual Medicine**）+ 心理學 BDSM-friendly 期刊（**PID、Frontiers、PLOS ONE、SOGD**）。每本附 IF、OA 狀態、scope、submission policy 與站方策展註——協助研究者判斷「這篇研究適合投哪個期刊」「這個期刊接受什麼類型的 BDSM 研究」。`;
 const metaDescription = stripInlineMarkdown(pageDescription);
 
 // access_type → status pill 對應

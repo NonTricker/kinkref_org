@@ -36,6 +36,8 @@ interface Props {
   lastReviewed?: Date;
   /** 條目 contributor 圈名 */
   contributor?: string;
+  /** Per-page JSON-LD（DefinedTerm / ScholarlyArticle / Book / Periodical 等） */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
@@ -47,6 +49,7 @@ const {
   citationText,
   lastReviewed,
   contributor,
+  jsonLd,
 } = Astro.props;
 
 const collectionLabel: Record<Props['collection'], string> = {
@@ -80,7 +83,7 @@ const formattedDate = lastReviewed
   : null;
 ---
 
-<BaseLayout title={title} description={description} ogType="article">
+<BaseLayout title={title} description={description} ogType="article" jsonLd={jsonLd}>
   <article class="entry">
     <nav class="entry-breadcrumb" aria-label="麵包屑">
       <a href="/">首頁</a>

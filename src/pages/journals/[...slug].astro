@@ -31,6 +31,36 @@ const description = `${data.publisher}${data.founded ? ` · 創刊 ${data.founde
 // 站方推薦引用格式
 const citationText = `${data.title}${data.abbreviation ? ` (${data.abbreviation})` : ''}. ${data.publisher}. ${data.website}`;
 
+// JSON-LD: Periodical（schema.org/Periodical）
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Periodical',
+  '@id': `https://kinkref.org/journals/${entry.id}#periodical`,
+  name: data.title,
+  ...(data.title_zh && { alternateName: data.title_zh }),
+  ...(data.abbreviation && { alternativeHeadline: data.abbreviation }),
+  description: data.curator_note,
+  ...(data.abstract_zh && { abstract: data.abstract_zh }),
+  publisher: { '@type': 'Organization', name: data.publisher },
+  ...(data.founded && { foundingDate: String(data.founded) }),
+  inLanguage: data.language,
+  url: data.website,
+  // ISSN（schema.org/Periodical 支援多 ISSN）
+  ...(data.issn_print || data.issn_online
+    ? {
+        issn: [data.issn_print, data.issn_online].filter(Boolean) as string[],
+      }
+    : {}),
+  // identifier 也加 ISSN（給結構化檢索）
+  ...(data.issn_online && {
+    identifier: { '@type': 'PropertyValue', propertyID: 'issn', value: data.issn_online },
+  }),
+  // 站方紀錄連結
+  mainEntityOfPage: `https://kinkref.org/journals/${entry.id}`,
+  // OA 標記（給 Rich Snippet 識別）
+  isAccessibleForFree: data.access_type === 'diamond-oa' || data.access_type === 'gold-oa',
+};
+
 // access type → status pill
 function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
   if (at === 'diamond-oa' || at === 'gold-oa') return 'oa';
@@ -47,6 +77,7 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
   contributor={data.contributor}
   lastReviewed={data.last_reviewed}
   citationText={citationText}
+  jsonLd={jsonLd}
 >
   {/* Journal metadata block */}
   <section class="journal-meta" aria-label="期刊資訊">
