@@ -35,6 +35,8 @@ caveats:
     note: "本文為理論論文，4Cs 框架的實證驗證仍有限。引用時應區分「框架本身的論述合理性」與「框架是否經實證驗證」。"
   - type: dated
     note: "本文發表於 Electronic Journal of Human Sexuality，該期刊未註冊 Crossref DOI 系統，引用時請使用文章 URL（http://www.ejhs.org/volume17/BDSM.html）。期刊已於 2014 年停刊，archives 可訪問。"
+  - type: source-limited
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
 
 replication_status: unknown
 

@@ -36,6 +36,8 @@ caveats:
     note: "本文為理論論述，無實證資料。引用時建議搭配實證研究（如 Wismeijer 2013）相互佐證。"
   - type: cultural-context
     note: "論文以美國法律與臨床語境為主，台灣讀者引用時需考慮台灣的法律框架差異。"
+  - type: source-limited
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
 
 replication_status: unknown
 

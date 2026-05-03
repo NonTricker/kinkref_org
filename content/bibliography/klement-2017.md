@@ -36,6 +36,8 @@ caveats:
     note: "樣本來自特定儀式社群，研究結果不適合推論到一般 BDSM 場景的生理反應。"
   - type: cultural-context
     note: "'Dance of Souls' 儀式有特定的美國加州 fetish 文化脈絡，跨文化引用時需注意儀式形式的差異。"
+  - type: source-limited
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
 
 replication_status: unknown
 

@@ -38,6 +38,8 @@ caveats:
     note: "本文針對 DSM-IV-TR，DSM-5（2013）後續做了部分修訂（如 paraphilic disorder 與 paraphilia 的區分）。引用時需注意時間脈絡。"
   - type: methodology
     note: "本文為理論論證，無實證資料。引用時應以論述脈絡為主，並輔以實證文獻（如 Wismeijer 2013、Connolly 2006）支持。"
+  - type: source-limited
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
 
 replication_status: unknown
 

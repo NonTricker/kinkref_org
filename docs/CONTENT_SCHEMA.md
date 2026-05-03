@@ -1,7 +1,7 @@
 # Content Schema — kinkref.org
 
 > **給**：內容策展人、貢獻者、工程師
-> **版本**：v1.4
+> **版本**：v1.7
 > **最後更新**：2026-05-03
 > **變更紀錄**：見[附錄 A](#附錄-a變更紀錄)
 
@@ -177,7 +177,23 @@ caveats:
     note: "資料蒐集時間為 2010 年代初，部分變項可能已不適用當代社群"
 ```
 
-`type` enum：`methodology` / `cultural-context` / `dated` / `controversy` / `legal-context`
+`type` 開放枚舉（常用值）：
+
+| type | 用途 |
+|------|------|
+| `methodology` | 研究方法論限制（樣本偏誤、測量工具等）|
+| `cultural-context` | 文化語境差異提醒 |
+| `dated` | 出版年代久遠,部分內容可能已過時 |
+| `controversy` | 學術爭議立場 |
+| `legal-context` | 法律語境（特定法域限定）|
+| `scope` | 主題範疇提醒（如 polyamory 非 BDSM 主軸）|
+| `difficulty` | 閱讀難度提醒（如哲學門檻高）|
+| `tier-classification` | Tier 2 鄰接基石標示（見 EDITORIAL §6.9）|
+| `harmful-framework` | 歷史性有害框架警告（如病理化分類）|
+| `posthumous` | 死後出版注記 |
+| `volume-scope` | 多卷本中特定卷的範圍說明 |
+| **`source-verified`** | **本條目 abstract_zh 基於全文閱讀撰寫**（v1.7 新增）|
+| **`source-limited`** | **本條目 abstract_zh 僅基於公開 abstract / metadata 撰寫,尚未取得全文**（v1.7 新增）|
 
 ### 4.4 `audience_warning`（敏感內容提示）
 
