@@ -10,6 +10,7 @@ import { getCollection, render } from 'astro:content';
 import EntryLayout from '@layouts/EntryLayout.astro';
 import TagPill from '@components/TagPill.astro';
 import { renderParagraphs, renderInlineMarkdown } from '@/lib/inline-markdown';
+import { caveatLabel } from '@/lib/caveat-labels';
 
 export async function getStaticPaths() {
   const journals = await getCollection('journals');
@@ -220,7 +221,7 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
       <ul class="caveat-list">
         {data.caveats.map((caveat) => (
           <li class="caveat-item">
-            <span class="caveat-type">{caveat.type}</span>
+            <span class="caveat-type">{caveatLabel(caveat.type)}</span>
             <span class="caveat-note" set:html={renderInlineMarkdown(caveat.note)} />
           </li>
         ))}

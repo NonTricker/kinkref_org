@@ -9,6 +9,12 @@ import { getCollection, render } from 'astro:content';
 import EntryLayout from '@layouts/EntryLayout.astro';
 import TagPill from '@components/TagPill.astro';
 import { renderParagraphs, renderInlineMarkdown } from '@/lib/inline-markdown';
+import {
+  caveatLabel,
+  caveatTone,
+  pickTrustSignal,
+  pickWarnings,
+} from '@/lib/caveat-labels';
 
 export async function getStaticPaths() {
   const books = await getCollection('books');
@@ -66,6 +72,10 @@ const jsonLd = {
 
 const pageTitle = data.title_zh ? `${data.title_zh}（${data.title}）` : data.title;
 const description = data.curator_note;
+
+// v0.7.1：拆 caveats — trust signal 抽到 meta bar，學術警告留「注意事項」
+const trustSignal = pickTrustSignal(data.caveats);
+const warnings = pickWarnings(data.caveats);
 ---
 
 <EntryLayout
@@ -106,6 +116,18 @@ const description = data.curator_note;
       {data.translator && <div class="book-meta-row"><dt>譯者</dt><dd>{data.translator}</dd></div>}
       {data.out_of_print && (
         <div class="book-meta-row"><dt>狀態</dt><dd><TagPill label="絕版" variant="reader" size="sm" /></dd></div>
+      )}
+      {trustSignal && (
+        <div class={`book-meta-row book-meta-row--trust book-meta-row--trust-${caveatTone(trustSignal.type) ?? 'neutral'}`}>
+          <dt>策展深度</dt>
+          <dd>
+            <span class="trust-mark" aria-hidden="true">
+              {caveatTone(trustSignal.type) === 'positive' ? '✓' : '⚠'}
+            </span>
+            <span class="trust-label">{caveatLabel(trustSignal.type)}</span>
+            <span class="trust-note" set:html={renderInlineMarkdown(trustSignal.note)} />
+          </dd>
+        </div>
       )}
     </dl>
   </section>
@@ -158,13 +180,13 @@ const description = data.curator_note;
   }
 
   {
-    data.caveats && data.caveats.length > 0 && (
+    warnings.length > 0 && (
       <section class="book-section">
         <h2>注意事項</h2>
         <ul class="caveat-list">
-          {data.caveats.map((caveat) => (
+          {warnings.map((caveat) => (
             <li class="caveat-item">
-              <span class="caveat-type">{caveat.type}</span>
+              <span class="caveat-type">{caveatLabel(caveat.type)}</span>
               <span class="caveat-note" set:html={renderInlineMarkdown(caveat.note)} />
             </li>
           ))}
@@ -223,6 +245,42 @@ const description = data.curator_note;
 
   .book-meta-row dd {
     margin: 0;
+  }
+
+  /* v0.7.1 trust signal row（book） */
+  .book-meta-row--trust dd {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .trust-mark {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+  }
+
+  .book-meta-row--trust-positive .trust-mark,
+  .book-meta-row--trust-positive .trust-label {
+    color: var(--status-oa, #2d7a3d);
+  }
+
+  .book-meta-row--trust-negative .trust-mark,
+  .book-meta-row--trust-negative .trust-label {
+    color: var(--accent-citation);
+  }
+
+  .trust-label {
+    font-weight: var(--fw-medium);
+    color: var(--ink-body);
+  }
+
+  .trust-note {
+    color: var(--ink-meta);
+    font-size: var(--fs-caption);
+    flex-basis: 100%;
+    margin-top: 2px;
   }
 
   .book-section {

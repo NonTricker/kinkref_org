@@ -9,6 +9,12 @@ import { getCollection, render } from 'astro:content';
 import EntryLayout from '@layouts/EntryLayout.astro';
 import TagPill from '@components/TagPill.astro';
 import { renderParagraphs, renderInlineMarkdown } from '@/lib/inline-markdown';
+import {
+  caveatLabel,
+  caveatTone,
+  pickTrustSignal,
+  pickWarnings,
+} from '@/lib/caveat-labels';
 
 export async function getStaticPaths() {
   const papers = await getCollection('bibliography');
@@ -78,6 +84,11 @@ const accessStatus =
 
 const pageTitle = data.title;
 const description = data.curator_note;
+
+// v0.7.1：拆分 caveats — trust signal (source-verified/limited) 抽到 meta bar，
+// 學術警告 (methodology / dated / etc.) 留在「注意事項」section。
+const trustSignal = pickTrustSignal(data.caveats);
+const warnings = pickWarnings(data.caveats);
 ---
 
 <EntryLayout
@@ -124,6 +135,18 @@ const description = data.curator_note;
       {data.sample_size && <div class="paper-meta-row"><dt>樣本</dt><dd>{data.sample_size}{data.sample_population && ` · ${data.sample_population}`}</dd></div>}
       <div class="paper-meta-row"><dt>難度</dt><dd>{data.difficulty}</dd></div>
       <div class="paper-meta-row"><dt>翻譯進度</dt><dd>{data.translation_status}</dd></div>
+      {trustSignal && (
+        <div class={`paper-meta-row paper-meta-row--trust paper-meta-row--trust-${caveatTone(trustSignal.type) ?? 'neutral'}`}>
+          <dt>策展深度</dt>
+          <dd>
+            <span class="trust-mark" aria-hidden="true">
+              {caveatTone(trustSignal.type) === 'positive' ? '✓' : '⚠'}
+            </span>
+            <span class="trust-label">{caveatLabel(trustSignal.type)}</span>
+            <span class="trust-note" set:html={renderInlineMarkdown(trustSignal.note)} />
+          </dd>
+        </div>
+      )}
     </dl>
   </section>
 
@@ -138,13 +161,13 @@ const description = data.curator_note;
   </section>
 
   {
-    data.caveats && data.caveats.length > 0 && (
+    warnings.length > 0 && (
       <section class="paper-section">
         <h2>注意事項</h2>
         <ul class="caveat-list">
-          {data.caveats.map((caveat) => (
+          {warnings.map((caveat) => (
             <li class="caveat-item">
-              <span class="caveat-type">{caveat.type}</span>
+              <span class="caveat-type">{caveatLabel(caveat.type)}</span>
               <span class="caveat-note" set:html={renderInlineMarkdown(caveat.note)} />
             </li>
           ))}
@@ -217,6 +240,51 @@ const description = data.curator_note;
   .paper-meta-row a {
     color: var(--accent-primary);
     word-break: break-all;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     v0.7.1：策展深度 trust signal row（從 caveats 抽出）
+     視覺：跟其他 meta-row 同 grid 結構，但 dd 內帶 mark + label + note
+     ────────────────────────────────────────────────────── */
+  .paper-meta-row--trust dd {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .trust-mark {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+  }
+
+  .paper-meta-row--trust-positive .trust-mark {
+    color: var(--status-oa, #2d7a3d); /* 全文閱讀 = 綠色 ✓ */
+  }
+
+  .paper-meta-row--trust-negative .trust-mark {
+    color: var(--accent-citation); /* 公開摘要 = 青銅 ⚠（提醒但不警告） */
+  }
+
+  .trust-label {
+    font-weight: var(--fw-medium);
+    color: var(--ink-body);
+  }
+
+  .paper-meta-row--trust-positive .trust-label {
+    color: var(--status-oa, #2d7a3d);
+  }
+
+  .paper-meta-row--trust-negative .trust-label {
+    color: var(--accent-citation);
+  }
+
+  .trust-note {
+    color: var(--ink-meta);
+    font-size: var(--fs-caption);
+    flex-basis: 100%;
+    margin-top: 2px;
   }
 
   .paper-section {
