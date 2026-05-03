@@ -34,7 +34,7 @@ out_of_print: false
 book_type: popular
 
 topic_tags: [relationship-dynamics, consent, identity, history]
-reader_tags: [practitioner, researcher, beginner, media]
+reader_tags: [practitioner, researcher, beginner]
 difficulty: entry
 
 abstract_zh: |
@@ -47,11 +47,7 @@ abstract_zh: |
   本書與 BDSM 圈的關聯主要體現在合意倫理框架的論述:Easton 自身的 Society of Janus 背景使本書對協商、邊界、合意的處理方式深度影響了 1990 年代後的圈內語言。
 
 curator_note: |
-  策展人註(Tier 1 核心書架):本書聚焦於 polyamory 與 ethical non-monogamy,BDSM 為附帶討論而非主軸。但本書對「合意倫理框架」「協商實務」「邊界協商」的論述,深度形塑了 1990 年代後英語圈 BDSM 圈的合意語言。建議搭配同作者群的 The New Topping Book / The New Bottom Book 對讀,可看出 Easton-Hardy 寫作脈絡中合意倫理如何同時應用在多重關係與 BDSM 兩個面向。
-
-  **適合讀者**:對 polyamory 有興趣的實踐者、想理解圈內合意倫理語言的研究者、媒體與臨床工作者。
-
-  **注意**:本書非學術論文,而是實踐者寫給實踐者的指南,引用學術論點時建議搭配 Wismeijer 2013 等實證研究佐證。書中關於 polyamory 的部分內容超出本站「BDSM 學術轉譯」的核心範疇,但因合意倫理論述的奠基地位仍列入核心書架。
+  (Tier 1 核心書架) 本書聚焦於 polyamory 與 ethical non-monogamy,BDSM 為附帶討論而非主軸,但對合意框架、協商實務、邊界協商的論述深度形塑了 1990 年代後英語圈 BDSM 圈的合意語言。建議搭配同作者群的 The New Topping Book / The New Bottom Book 對讀,觀察 Easton-Hardy 寫作脈絡中合意倫理如何同時應用在多重關係與 BDSM 兩個面向。書中 polyamory 部分超出本站 BDSM 學術核心範疇,但因合意倫理論述的奠基地位仍列入核心書架。本書為實踐者指南而非學術論文,引用學術論點時建議搭配實證研究(如 Wismeijer 2013)佐證。
 
 access_links:
   - type: amazon

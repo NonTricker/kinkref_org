@@ -161,7 +161,10 @@ const accessLinkSchema = z.object({
     'library',
     'publisher',
     'archive-org',
+    'archive', // v1.6：archive-org 的別名（內容團隊偏好簡稱）
+    'gutenberg', // v1.6：Project Gutenberg 公版電子書平台
     'wikipedia', // v1.5：學術書目常引 wikipedia 條目作 quick overview
+    'review', // v1.6：書評 link（學術書評 / journal review / Goodreads 等）
     'other',
   ]),
   url: z.string().url(),
