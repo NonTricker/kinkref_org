@@ -45,7 +45,49 @@ function isActive(href: string): boolean {
       </span>
     </a>
 
-    <nav class="site-nav" aria-label="主要導航">
+    <button
+      type="button"
+      id="mobile-nav-toggle"
+      class="action-btn mobile-nav-toggle"
+      aria-label="切換主選單"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      title="主選單"
+    >
+      <svg
+        class="hamburger-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <line x1="3" y1="6" x2="17" y2="6" />
+        <line x1="3" y1="10" x2="17" y2="10" />
+        <line x1="3" y1="14" x2="17" y2="14" />
+      </svg>
+      <svg
+        class="close-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <line x1="5" y1="5" x2="15" y2="15" />
+        <line x1="15" y1="5" x2="5" y2="15" />
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="主要導航">
       <ul>
         {
           navItems.map((item) => (
@@ -111,6 +153,47 @@ function isActive(href: string): boolean {
       } catch {
         /* no-op */
       }
+    });
+  })();
+</script>
+
+<script is:inline>
+  /* 手機版主選單 toggle —— 切 [data-mobile-nav-open] on <html>，
+     CSS 對應切 nav drawer 的展開狀態。
+     點擊 nav-link 後自動關閉（避免下一頁載入時 drawer 還開著）。 */
+  (function () {
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const nav = document.getElementById('site-nav');
+    if (!toggle || !nav) return;
+
+    const root = document.documentElement;
+
+    const setOpen = (open) => {
+      if (open) {
+        root.setAttribute('data-mobile-nav-open', '');
+      } else {
+        root.removeAttribute('data-mobile-nav-open');
+      }
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = root.hasAttribute('data-mobile-nav-open');
+      setOpen(!isOpen);
+    });
+
+    // 點 nav-link 後關閉 drawer
+    nav.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target instanceof HTMLAnchorElement) {
+        setOpen(false);
+      }
+    });
+
+    // viewport 從窄變寬時自動關（避免桌機尺寸還停在 mobile drawer 狀態）
+    const mq = window.matchMedia('(min-width: 721px)');
+    mq.addEventListener('change', (ev) => {
+      if (ev.matches) setOpen(false);
     });
   })();
 </script>
@@ -319,13 +402,119 @@ function isActive(href: string): boolean {
     display: block;
   }
 
+  /* ──────────────────────────────────────────────────────
+     Hamburger toggle — 桌面預設隱藏，手機才顯示
+     v0.6.1：手機版主選單收進 drawer
+     ────────────────────────────────────────────────────── */
+  .mobile-nav-toggle {
+    display: none;
+  }
+
+  .mobile-nav-toggle .close-icon {
+    display: none;
+  }
+
+  /* 展開狀態：hamburger icon 切 close icon */
+  :global([data-mobile-nav-open]) .mobile-nav-toggle .hamburger-icon {
+    display: none;
+  }
+
+  :global([data-mobile-nav-open]) .mobile-nav-toggle .close-icon {
+    display: block;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Mobile responsive
+     ────────────────────────────────────────────────────── */
   @media (max-width: 720px) {
     .site-header-inner {
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
       flex-wrap: wrap;
     }
 
+    /* 站名手機簡化：英文行隱藏（brand 識別由中文行 + monogram 承擔） */
+    .site-brand {
+      gap: var(--space-3);
+      flex: 1 1 auto;
+      min-width: 0; /* 允許 brand text 在窄螢幕收縮 */
+    }
+
+    .site-brand-monogram {
+      width: 36px !important;
+      height: 36px !important;
+    }
+
+    .site-brand-en {
+      display: none;
+    }
+
+    .site-brand-zh {
+      font-size: var(--fs-body-sm);
+      flex-wrap: wrap;
+      row-gap: 0;
+    }
+
+    /* hamburger button 顯示 */
+    .mobile-nav-toggle {
+      display: inline-flex;
+      order: 99; /* 把 hamburger 推到右邊最末 */
+    }
+
+    /* GitHub + theme toggle 維持可見，靠 hamburger 左 */
+    .site-actions {
+      order: 98;
+      gap: var(--space-1);
+    }
+
+    /* nav 預設隱藏（drawer），全寬展開 */
+    .site-nav {
+      order: 100; /* 在 hamburger 之後 = 換行下方 */
+      flex: 1 1 100%;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 220ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 展開狀態：max-height 解鎖（用足夠大的數值蓋掉所有 nav 內容） */
+    :global([data-mobile-nav-open]) .site-nav {
+      max-height: 480px;
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--rule-fine);
+    }
+
     .site-nav ul {
-      gap: var(--space-4);
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .site-nav ul li {
+      width: 100%;
+    }
+
+    /* drawer 內 nav-link：較大觸控目標 + 列表感 */
+    .site-nav-link {
+      display: flex;
+      width: 100%;
+      padding: var(--space-3) var(--space-2);
+      font-size: var(--fs-body);
+      border-bottom: 1px solid color-mix(in srgb, var(--rule-fine) 60%, transparent);
+    }
+
+    .site-nav ul li:last-child .site-nav-link {
+      border-bottom: 0;
+    }
+
+    /* drawer 內不要 baseline rule grow（畫面已是 row 結構） */
+    .site-nav-link::after {
+      display: none;
+    }
+
+    /* drawer 內 active 用左 border 取代底線 */
+    .site-nav-link.is-active {
+      border-left: 2px solid var(--accent-primary);
+      padding-left: calc(var(--space-2) - 2px + var(--space-2));
     }
   }
 </style>
