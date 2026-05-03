@@ -154,7 +154,8 @@ const pillars = [
 
 <style>
   .hero {
-    padding: var(--space-12) var(--space-5) var(--space-11);
+    /* v0.5.7：留白稍壓縮（執政官指示「有點空」） */
+    padding: var(--space-10) var(--space-5) var(--space-9);
     border-bottom: 1px solid var(--rule-fine);
   }
 
@@ -180,11 +181,12 @@ const pillars = [
   }
 
   .hero-tagline {
-    font-size: var(--fs-body);
+    /* v0.5.7：字升一階至 19px（首頁 scope，不影響其他頁面 var(--fs-body) 17px 紀律） */
+    font-size: 1.1875rem;
     line-height: var(--lh-body);
     color: var(--ink-meta);
-    max-width: 50ch;
-    margin: 0 0 var(--space-9);
+    max-width: 52ch;
+    margin: 0 0 var(--space-8);
   }
 
   .hero-search {
@@ -194,7 +196,8 @@ const pillars = [
   .pillars,
   .recent,
   .position {
-    padding: var(--space-11) var(--space-5);
+    /* v0.5.7：section padding 壓縮一階 */
+    padding: var(--space-10) var(--space-5);
     border-bottom: 1px solid var(--rule-fine);
   }
 
@@ -207,7 +210,8 @@ const pillars = [
 
   .section-heading {
     font-size: var(--fs-h2);
-    margin: 0 0 var(--space-9);
+    /* v0.5.7：標題與內容間距壓緊 */
+    margin: 0 0 var(--space-7);
   }
 
   /* 內容四柱：永遠單行，太窄則橫向 scroll（不 wrap）
@@ -331,7 +335,8 @@ const pillars = [
 
   .recent-cta,
   .position-cta {
-    margin-top: var(--space-9);
+    /* v0.5.7：CTA 距離壓緊 */
+    margin-top: var(--space-7);
   }
 
   .recent-cta a,

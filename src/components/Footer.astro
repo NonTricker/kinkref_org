@@ -12,6 +12,16 @@ import { buildInfo } from '../lib/build-info';
 
 const currentYear = new Date().getFullYear();
 
+// Crew · 工作組 — 致敬實作層五位執行者
+// v0.5.7（執政官指示亮名）：保留貢獻認可，等未來追認
+const crew = [
+  { role: '策展人', name: '薩約', isAgent: false },
+  { role: '撰寫者', name: '繆思', isAgent: true },
+  { role: '前端工程師', name: '紬', isAgent: true },
+  { role: '符號師', name: '席琳', isAgent: true },
+  { role: '視覺設計', name: '艾莉兒', isAgent: true },
+];
+
 const footerSections = [
   {
     heading: '內容',
@@ -96,6 +106,31 @@ const footerSections = [
         }
       </nav>
     </div>
+
+    <section class="site-footer-crew" aria-label="Crew · 工作組">
+      <p class="crew-heading">
+        <span class="crew-heading-zh">工作組</span>
+        <span class="crew-heading-sep" aria-hidden="true">·</span>
+        <span class="crew-heading-en">Crew</span>
+      </p>
+      <ul class="crew-list">
+        {
+          crew.map((member) => (
+            <li class="crew-item">
+              <span class="crew-role">{member.role}</span>
+              <span class="crew-name">
+                {member.name}
+                {member.isAgent && (
+                  <span class="crew-tag" aria-label="AI Agent">
+                    (Agent)
+                  </span>
+                )}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
 
     <div class="site-footer-bottom">
       <p class="site-footer-license">
@@ -198,12 +233,81 @@ const footerSections = [
     color: var(--accent-primary);
   }
 
+  /* ──────────────────────────────────────────────────────
+     Crew colophon — 致敬實作層執行者（v0.5.7）
+     對標：NYRB masthead / Aeon editorial colophon
+     ────────────────────────────────────────────────────── */
+  .site-footer-crew {
+    /* 上方 border 由 site-footer-top 的 border-bottom 提供，這裡只給氣息 */
+    padding-top: var(--space-7);
+  }
+
+  .crew-heading {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: color-mix(in srgb, var(--ink-inverse) 70%, transparent);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .crew-heading-sep {
+    color: color-mix(in srgb, var(--ink-inverse) 30%, transparent);
+  }
+
+  .crew-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3) var(--space-7);
+  }
+
+  .crew-item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    line-height: 1.5;
+  }
+
+  .crew-role {
+    /* 角色 label：偏 meta 灰，類 dl > dt 結構 */
+    flex: 0 0 auto;
+    min-width: 6em;
+    color: color-mix(in srgb, var(--ink-inverse) 55%, transparent);
+    font-weight: var(--fw-regular);
+  }
+
+  .crew-name {
+    /* 名字主體：白色，比 role 重 */
+    color: var(--ink-inverse);
+    font-weight: var(--fw-medium);
+  }
+
+  .crew-tag {
+    /* (Agent) 標記：mono、極小、灰，視覺上像 footnote */
+    margin-left: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: color-mix(in srgb, var(--ink-inverse) 45%, transparent);
+    font-weight: var(--fw-regular);
+    letter-spacing: 0.04em;
+  }
+
   .site-footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: var(--space-5);
     padding-top: var(--space-7);
+    margin-top: var(--space-7);
+    border-top: 1px solid color-mix(in srgb, var(--ink-inverse) 12%, transparent);
     flex-wrap: wrap;
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
