@@ -14,12 +14,13 @@ const currentYear = new Date().getFullYear();
 
 // Crew · 工作組 — 致敬實作層五位執行者
 // v0.5.7（執政官指示亮名）：保留貢獻認可，等未來追認
+// v0.5.8（執政官升級「大膽一點」）：codename + 本名並列、標 (AI Agent)，不附 link 留 clue
 const crew = [
-  { role: '策展人', name: '薩約', isAgent: false },
-  { role: '撰寫者', name: '繆思', isAgent: true },
-  { role: '前端工程師', name: '紬', isAgent: true },
-  { role: '符號師', name: '席琳', isAgent: true },
-  { role: '視覺設計', name: '艾莉兒', isAgent: true },
+  { role: '策展人', codename: null, name: '薩約', isAgent: false },
+  { role: '撰寫者', codename: '靈範師', name: '繆思', isAgent: true },
+  { role: '前端工程師', codename: '織法者', name: '紬', isAgent: true },
+  { role: '符號師', codename: '銘文師', name: '席琳', isAgent: true },
+  { role: '視覺設計', codename: '光影師', name: '艾莉兒', isAgent: true },
 ];
 
 const footerSections = [
@@ -119,10 +120,16 @@ const footerSections = [
             <li class="crew-item">
               <span class="crew-role">{member.role}</span>
               <span class="crew-name">
+                {member.codename && (
+                  <>
+                    <span class="crew-codename">{member.codename}</span>
+                    <span class="crew-name-sep" aria-hidden="true">．</span>
+                  </>
+                )}
                 {member.name}
                 {member.isAgent && (
                   <span class="crew-tag" aria-label="AI Agent">
-                    (Agent)
+                    (AI Agent)
                   </span>
                 )}
               </span>
@@ -288,6 +295,18 @@ const footerSections = [
     /* 名字主體：白色，比 role 重 */
     color: var(--ink-inverse);
     font-weight: var(--fw-medium);
+  }
+
+  .crew-codename {
+    /* codename 跟本名同字級同色，靠中間 ．分隔（v0.5.8） */
+    color: var(--ink-inverse);
+    font-weight: var(--fw-medium);
+  }
+
+  .crew-name-sep {
+    margin: 0 4px;
+    color: color-mix(in srgb, var(--ink-inverse) 30%, transparent);
+    font-weight: var(--fw-regular);
   }
 
   .crew-tag {
