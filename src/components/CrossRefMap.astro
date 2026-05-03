@@ -122,17 +122,39 @@ const ariaLabel = `詞彙地圖：當前術語 ${currentTermEn}（${currentTermZ
       })
     }
   </svg>
+
+  {/* ──────────────────────────────────────────────────────
+      Mobile alternative — 手機 ≤720px 時 SVG 隱藏，改用純 list 排版
+      （v0.6.3：避免手機因 SVG min-width 480px 觸發橫向 scroll）
+      ────────────────────────────────────────────────────── */}
+  <div class="cross-ref-list" aria-hidden="true">
+    <div class="list-current">
+      <span class="list-current-en">{currentTermEn}</span>
+      <span class="list-current-zh">{currentTermZh}</span>
+    </div>
+    {related.length > 0 && (
+      <ul class="list-branches">
+        {related.map((node) => (
+          <li class="list-branch">
+            <a href={`/glossary/${node.slug}`} class="list-branch-link">
+              <span class="list-branch-en">{node.termEn}</span>
+              <span class="list-branch-zh">{node.termZh}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
 </figure>
 
 <style>
   /* ──────────────────────────────────────────────────────
-     Container — Mobile RWD：≥480 顯示完整，< 480 允許橫向 scroll
+     Container — v0.6.3：桌面顯示 SVG 樹狀圖，
+     手機 ≤720px 切純 HTML list（避免橫向 scroll）
      ────────────────────────────────────────────────────── */
   .cross-ref-map {
     margin: var(--space-7) 0 0;
     padding: 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .cross-ref-svg {
@@ -142,6 +164,11 @@ const ariaLabel = `詞彙地圖：當前術語 ${currentTermEn}（${currentTermZ
     max-width: 720px;
     height: auto;
     margin: 0 auto;
+  }
+
+  /* Mobile list 預設隱藏（桌面只顯示 SVG）*/
+  .cross-ref-list {
+    display: none;
   }
 
   /* ──────────────────────────────────────────────────────
@@ -221,5 +248,107 @@ const ariaLabel = `詞彙地圖：當前術語 ${currentTermEn}（${currentTermZ
     .branch-zh {
       transition: none;
     }
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Mobile (≤720px) — SVG 隱藏，list 啟用
+     v0.6.3：避免 SVG min-width 480px 在小手機 viewport 觸發橫向 scroll
+     ────────────────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .cross-ref-svg {
+      display: none;
+    }
+
+    .cross-ref-list {
+      display: block;
+      /* aria-hidden="true" 是因為桌面用 SVG aria-label，避免重複朗讀 */
+    }
+  }
+
+  /* mobile list — current node：對標 SVG box，紅邊框 + 中央文字 */
+  .list-current {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-4) var(--space-5);
+    background: var(--bg-base);
+    border: 1px solid var(--accent-primary);
+    text-align: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .list-current-en {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink-heading);
+    letter-spacing: -0.1px;
+  }
+
+  .list-current-zh {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-meta);
+  }
+
+  /* mobile list — branches：縮排 list + 左側書脊感 */
+  .list-branches {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 var(--space-4);
+    border-left: 1px solid var(--rule-tree);
+  }
+
+  .list-branch {
+    margin: 0;
+    padding: var(--space-2) 0 var(--space-2) var(--space-3);
+    position: relative;
+  }
+
+  /* 每個 branch 左側橫線 mark（呼應桌面 SVG 的 trunk-branch 連線視覺） */
+  .list-branch::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: var(--space-2);
+    height: 1px;
+    background: var(--rule-tree);
+    transform: translateY(-50%);
+  }
+
+  .list-branch-link {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    text-decoration: none;
+    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .list-branch-en {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-body);
+    letter-spacing: 0.1px;
+  }
+
+  .list-branch-zh {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--ink-meta);
+  }
+
+  .list-branch-link:hover .list-branch-en,
+  .list-branch-link:hover .list-branch-zh,
+  .list-branch-link:focus-visible .list-branch-en,
+  .list-branch-link:focus-visible .list-branch-zh {
+    color: var(--accent-primary);
+  }
+
+  .list-branch-link:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
   }
 </style>
