@@ -27,7 +27,7 @@ const allAccessTypes = [...new Set(allJournals.map((j) => j.data.access_type))].
 const allAcceptsBdsm = [...new Set(allJournals.map((j) => j.data.accepts_bdsm))].sort();
 const allPublishers = [...new Set(allJournals.map((j) => j.data.publisher))].sort();
 
-const pageTitle = '期刊指南 · Journals';
+const pageTitle = '投稿地圖 · Journals';
 const pageDescription = `${allJournals.length} 本性學、心理學、跨學科期刊指南。涵蓋本站已引用的核心平台（**ASB / JSR / JSM**）+ 主流性學期刊（Sexualities、SRSP、Psychology & Sexuality）+ 心理學 BDSM-friendly 期刊（PID / Frontiers / PLOS ONE / SOGD）。每本附 IF、OA 狀態、scope、submission policy 與站方策展註。`;
 const metaDescription = stripInlineMarkdown(pageDescription);
 
@@ -47,7 +47,7 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
         <span class="page-eyebrow-sep" aria-hidden="true">·</span>
         <span class="page-eyebrow-name">Journals</span>
       </p>
-      <h1 class="page-title">期刊指南</h1>
+      <h1 class="page-title">投稿地圖</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
       <div class="page-search">

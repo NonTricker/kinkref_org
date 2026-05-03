@@ -1,6 +1,6 @@
 {
   "name": "kinkref",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "private": true,
   "type": "module",
   "description": "Curated index of academic literature in Traditional Chinese — kinkref.org",
