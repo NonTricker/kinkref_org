@@ -68,9 +68,9 @@ const pillars = [
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-eyebrow">Kink Reference · 中文 BDSM 學術策展</p>
-      <h1 class="hero-title">學術轉譯，不是介紹站。</h1>
+      <h1 class="hero-title">學術轉譯，而非介紹媒合。</h1>
       <p class="hero-tagline">
-        台灣中文圈唯一的 BDSM 學術文獻策展、術語索引與期刊投稿地圖。
+        台灣中文圈專注 BDSM 學術文獻策展、術語索引與期刊投稿地圖。
         中英對照、註明來源、結構化貢獻、開源授權。
       </p>
       <div class="hero-search">
@@ -210,10 +210,21 @@ const pillars = [
     margin: 0 0 var(--space-9);
   }
 
+  /* 內容四柱：永遠單行，太窄則橫向 scroll（不 wrap）
+     執政官 v0.4.9：寧可滾輪也不要兩行的視覺斷裂感 */
   .pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-7);
+    display: flex;
+    gap: var(--space-5);
+    overflow-x: auto;
+    padding-bottom: var(--space-3); /* 預留 scrollbar 視覺空間 */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* flex-grow 1 讓寬螢幕均分；flex-basis 220px 最小寬；不縮（shrink 0）強制單行 */
+  .pillar-card {
+    flex: 1 0 220px;
+    scroll-snap-align: start;
   }
 
   .pillar-card {
