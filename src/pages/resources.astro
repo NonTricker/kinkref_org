@@ -1,148 +1,135 @@
 ---
 /**
- * Resources — 外部資源頁
+ * Resources — 整合資源頁（v0.5.0 重做）
  *
- * v0.4.0 新建（依 BDSMWebsite/EXTERNAL_RESOURCES_CONTENT.md）
+ * 執政官 2026-05-03 08:47 指示：5 個 directory 合一頁 + 分隔線
+ * 每 section 含：既有條目（如有）+ 開放申請告示（站方不背書聲明）
  *
- * 7 個 sections（按順序）：
- *   1. Hero + Disclaimer
- *   2. § 活動公告與行事曆（外部）
- *   3. § 線上工具
- *   4. § 學術資料庫
- *   5. § 圈內參考站（暫不放任何條目，主人決定）
- *   6. § 緊急/支持資源（公開政府專線）— 113 / 1995 / 1925
- *   7. § 站方 Directory（站內延伸）
+ * Sections（按順序）：
+ *   §1 心理資源（counselors）
+ *   §2 法律資源（legal）
+ *   §3 社團資源（campus-groups）
+ *   §4 醫療資源（medical）+ 公開緊急熱線（113 / 1995 / 1925）
+ *   §5 其他資源（外部）— 行事曆 / 線上工具 / 學術資料庫
  */
 
+import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-const pageTitle = '外部資源 · External Resources';
+const allCounselors = await getCollection('counselors');
+const allLegal = await getCollection('legal');
+const allCampusGroups = await getCollection('campusGroups');
+const allMedical = await getCollection('medical');
+
+const pageTitle = '資源 · Resources';
 const pageDescription =
-  '本頁列出 kinkref.org 精選的公開可訪問外部資源連結，含活動行事曆、線上工具、學術資料庫、圈內參考站、緊急支持熱線。本頁性質為指路導覽，不背書任何特定資源。';
+  '心理、法律、社團、醫療、其他類別的整合資源頁。本站不為任何個人或組織專業能力背書 ── 收錄條目均具名 + 提供執業執照，由收錄者自我背書。站方僅提供格式化整理與連結，不收任何費用（無償）。';
 
-interface ExternalLink {
-  title: string;
-  desc: string;
-  url: string;
-  badge?: string;
+// 公開緊急熱線（公開政府服務，無需 listing_consent）
+const hotlines = [
+  { name: '113 婦幼保護專線', desc: '衛福部 24 小時家暴/性侵害/兒少保護專線。', phone: '113', hours: '24 小時' },
+  { name: '1995 自殺防治專線', desc: '24 小時免費安心專線。', phone: '1995', hours: '24 小時' },
+  { name: '1925 安心專線', desc: '衛福部 24 小時心理諮詢免費專線。', phone: '1925', hours: '24 小時' },
+];
+
+// 行事曆（預先收錄的公開資訊聚合站）
+const calendars = [
+  { title: 'bdsmer 小白板', desc: '台灣 BDSM 圈的公開資訊聚合板。', url: 'https://bdsmer.link/' },
+  { title: 'smertw 行事曆', desc: '台灣 BDSM 圈的活動行事曆。', url: 'https://todo.smertw.com/' },
+];
+
+const tools = [
+  { title: 'bdsmtest.org', desc: '26 個 BDSM archetype 的線上自測平台。本站 Glossary 多數條目對應此測試的 archetype。', url: 'https://bdsmtest.org/' },
+  { title: 'Unpaywall', desc: '查找付費論文是否有合法 OA 版本的工具。', url: 'https://unpaywall.org/' },
+];
+
+const databases = [
+  { title: 'PsyArXiv', desc: '心理學預印本平台（含未發表/未審查論文）。', url: 'https://psyarxiv.com/' },
+  { title: 'SSRN', desc: '社會科學預印本平台。', url: 'https://www.ssrn.com/' },
+  { title: 'Open Library', desc: '免費線上書籍借閱（含 BDSM 相關學術書）。', url: 'https://openlibrary.org/' },
+  { title: 'WorldCat', desc: '圖書館館藏查詢（找書借書用）。', url: 'https://www.worldcat.org/' },
+  { title: 'DOAJ', desc: 'Directory of Open Access Journals（OA 期刊全文目錄）。', url: 'https://doaj.org/' },
+];
+
+interface ApplyCriteria {
+  title: string;          // section 標題（中文）
+  applyType: string;      // 申請主旨用（如「諮商師自薦」）
+  criteria: string[];     // 收錄基準
+  readme: string;         // GitHub README 連結
 }
 
-const calendars: ExternalLink[] = [
-  {
-    title: 'bdsmer 小白板',
-    desc: '台灣 BDSM 圈的公開資訊聚合板。',
-    url: 'https://bdsmer.link/',
-    badge: '行事曆',
+const applyConfigs = {
+  counselors: {
+    title: '心理資源',
+    applyType: '諮商師自薦',
+    criteria: [
+      '具備諮商心理師、臨床心理師或精神科醫師等專業執照',
+      '提供有效執業執照字號（站方公開 verify）',
+      '明確同意被列在站上（listing_consent: true）',
+      '具 kink-friendly 工作經驗或受過相關訓練',
+      '每 12 個月主動 re-verify 聯絡資訊與執照狀態',
+    ],
+    readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/counselors/README.md',
   },
-  {
-    title: 'smertw 行事曆',
-    desc: '台灣 BDSM 圈的活動行事曆。',
-    url: 'https://todo.smertw.com/',
-    badge: '行事曆',
+  legal: {
+    title: '法律資源',
+    applyType: '律師/法律扶助自薦',
+    criteria: [
+      '具備中華民國律師資格或法律扶助組織官方身分',
+      '提供律師證號或組織立案證明',
+      '明確同意被列在站上',
+      '專長領域與 BDSM 圈相關議題（性別法、刑法、勞動法等）',
+      '每 12 個月主動 re-verify',
+    ],
+    readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/legal/README.md',
   },
-];
-
-const tools: ExternalLink[] = [
-  {
-    title: 'bdsmtest.org',
-    desc: '26 個 BDSM archetype 的線上自測平台。本站 Glossary 多數條目對應此測試的 archetype。',
-    url: 'https://bdsmtest.org/',
-    badge: '測試',
+  campusGroups: {
+    title: '社團資源',
+    applyType: '社團官方申請',
+    criteria: [
+      '正式登記或穩定運作的大學社團',
+      '社團官方代表（非個人社員）申請',
+      '社團聚焦範圍含性別 / 性教育 / kink 議題',
+      '提供社團官方聯絡管道（email 或社群帳號）',
+      '每年新學期主動 re-verify',
+    ],
+    readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/campus-groups/README.md',
   },
-  {
-    title: 'Unpaywall',
-    desc: '查找付費論文是否有合法 OA 版本的工具。',
-    url: 'https://unpaywall.org/',
-    badge: 'OA 工具',
+  medical: {
+    title: '醫療資源',
+    applyType: '醫師/診所自薦',
+    criteria: [
+      '具醫師執照或診所立案證明',
+      '提供醫師字號或診所統編',
+      '明確同意被列在站上',
+      '提供 kink-friendly 服務（性健康檢查、傷口處置、心理支持等）',
+      '每 6 個月主動 re-verify',
+    ],
+    readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/medical/README.md',
   },
-];
-
-const databases: ExternalLink[] = [
-  {
-    title: 'PsyArXiv',
-    desc: '心理學預印本平台（含未發表/未審查論文）。',
-    url: 'https://psyarxiv.com/',
-    badge: '預印本',
+  other: {
+    title: '其他資源',
+    applyType: '外部資源推薦',
+    criteria: [
+      '對外公開、可長期訪問的資源',
+      '與 BDSM 圈或學術研究主題相關',
+      '非個別俱樂部 / 工作室的內部公告頁',
+      '對立或競爭關係的資源全部列出，不評價',
+    ],
+    readme: '',
   },
-  {
-    title: 'SSRN',
-    desc: '社會科學預印本平台。',
-    url: 'https://www.ssrn.com/',
-    badge: '預印本',
-  },
-  {
-    title: 'Open Library',
-    desc: '免費線上書籍借閱（含 BDSM 相關學術書）。',
-    url: 'https://openlibrary.org/',
-    badge: '書籍借閱',
-  },
-  {
-    title: 'WorldCat',
-    desc: '圖書館館藏查詢（找書借書用）。',
-    url: 'https://www.worldcat.org/',
-    badge: '館藏查詢',
-  },
-  {
-    title: 'DOAJ',
-    desc: 'Directory of Open Access Journals（OA 期刊全文目錄）。',
-    url: 'https://doaj.org/',
-    badge: 'OA 目錄',
-  },
-];
-
-interface Hotline {
-  name: string;
-  desc: string;
-  phone: string;
-  hours: string;
-}
-
-const hotlines: Hotline[] = [
-  {
-    name: '113 婦幼保護專線',
-    desc: '衛福部 24 小時家暴/性侵害/兒少保護專線。',
-    phone: '113',
-    hours: '24 小時',
-  },
-  {
-    name: '1995 自殺防治專線',
-    desc: '24 小時免費安心專線。',
-    phone: '1995',
-    hours: '24 小時',
-  },
-  {
-    name: '1925 安心專線',
-    desc: '衛福部 24 小時心理諮詢免費專線。',
-    phone: '1925',
-    hours: '24 小時',
-  },
-];
-
-interface InternalDir {
-  title: string;
-  desc: string;
-  href: string;
-  status: '待填' | '進行中' | '可用';
-}
-
-const internalDirs: InternalDir[] = [
-  { title: '期刊指南', desc: '15 本性學、心理學期刊指南（IF / OA / submission policy）。', href: '/journals', status: '可用' },
-  { title: '諮商資源', desc: 'Kink-friendly 諮商師 directory（自薦 + 審核）。', href: '/counselors', status: '待填' },
-  { title: '法律資源', desc: '律師、法律扶助、相關法規連結。', href: '/legal', status: '待填' },
-  { title: '大學社團', desc: '校園 kink-friendly 社團 directory。', href: '/campus-groups', status: '待填' },
-  { title: '醫療資源', desc: 'Kink-friendly 醫師、診所、緊急熱線。', href: '/medical', status: '部分待填' as '待填' },
-];
+} satisfies Record<string, ApplyCriteria>;
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <section class="page-hero">
     <div class="page-hero-inner">
       <p class="page-eyebrow">
-        <span class="page-eyebrow-num">10</span>
+        <span class="page-eyebrow-num">06</span>
         <span class="page-eyebrow-sep" aria-hidden="true">·</span>
         <span class="page-eyebrow-name">Resources</span>
       </p>
-      <h1 class="page-title">外部資源</h1>
+      <h1 class="page-title">資源</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description">{pageDescription}</p>
     </div>
@@ -154,104 +141,175 @@ const internalDirs: InternalDir[] = [
       <p>
         kinkref.org <strong>不背書、不推薦特定資源</strong>，亦不對外部資源的內容、政策、安全性負責。
         對立或競爭關係的資源<strong>全部列出</strong>，排序按字母順序或註冊日期，不按推薦度。
-        讀者應自行判斷各資源的可信度、適用性與當前狀態。
       </p>
       <p>
-        如發現外部連結失效、資源已停止運作、或有誤入站方判定的「圈內政治偏袒」，
-        請來信 <a href="mailto:curator@kinkref.org">curator@kinkref.org</a> 告知。
+        所有收錄條目均**具名 + 提供執業執照或組織立案證明**，由收錄者自我背書其專業內容。
+        站方僅提供格式化整理與連結，**不收任何費用**（無償）。
+      </p>
+      <p>
+        如發現外部連結失效或有資源已停止運作，請來信
+        <a href="mailto:curator@kinkref.org">curator@kinkref.org</a> 告知。
       </p>
     </div>
   </section>
 
   <article class="resources-page">
-    {/* §1 活動行事曆 */}
-    <section class="resource-section" id="calendars">
-      <header>
-        <h2>§ 活動公告與行事曆</h2>
-        <p class="section-intro">
-          台灣圈內活動的公告板與行事曆。本站不自建活動主檔（見 SPEC §6），列出公開資訊聚合站作為指路。
-          收錄標準：<strong>對外公開、聚合多方活動的資訊聚合站</strong>，不列特定俱樂部/工作室的內部公告。
-        </p>
+    {/* §1 心理資源 */}
+    <section class="resource-section" id="counselors">
+      <header class="section-header">
+        <p class="section-num">§1</p>
+        <h2>{applyConfigs.counselors.title}</h2>
       </header>
-      <ul class="resource-list">
-        {calendars.map((item) => (
-          <li class="resource-card">
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              {item.badge && <span class="resource-badge">{item.badge}</span>}
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-              <span class="resource-url">{item.url} ↗</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+
+      {allCounselors.length === 0 ? (
+        <p class="section-empty">本區段目前無收錄條目。</p>
+      ) : (
+        <ul class="entry-list">
+          {allCounselors.map((entry) => (
+            <li class="entry-card">
+              <article>
+                <h3>{entry.data.name}</h3>
+                <p class="meta">{entry.data.credentials.join('、')} · {entry.data.location}</p>
+                <p>{entry.data.kink_friendly_statement.slice(0, 150)}…</p>
+                {entry.data.contact_email && (
+                  <p><a href={`mailto:${entry.data.contact_email}`}>{entry.data.contact_email}</a></p>
+                )}
+              </article>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <aside class="apply-card" aria-label="開放申請收錄">
+        <p class="apply-eyebrow">📨 開放申請收錄</p>
+        <p class="apply-intro">
+          本目錄為<strong>自薦 + 同意收錄</strong>性質。本站不為任何個人專業能力背書 ──
+          收錄條目均<strong>具名 + 提供執業執照</strong>，由收錄者自我背書。
+          站方僅提供格式化整理與連結，<strong>不收任何費用</strong>（無償）。
+        </p>
+        <p class="apply-criteria-label">收錄基準：</p>
+        <ul class="apply-criteria">
+          {applyConfigs.counselors.criteria.map((c) => <li>{c}</li>)}
+        </ul>
+        <p class="apply-cta">
+          申請：來信
+          <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.counselors.applyType}]`}>
+            curator@kinkref.org
+          </a>
+          ，主旨「[{applyConfigs.counselors.applyType}]」，附上身分證明文件與專業說明。
+        </p>
+      </aside>
     </section>
 
-    {/* §2 線上工具 */}
-    <section class="resource-section" id="tools">
-      <header>
-        <h2>§ 線上工具</h2>
-        <p class="section-intro">對讀者有用的線上工具與測試。</p>
+    <hr class="section-divider" aria-hidden="true" />
+
+    {/* §2 法律資源 */}
+    <section class="resource-section" id="legal">
+      <header class="section-header">
+        <p class="section-num">§2</p>
+        <h2>{applyConfigs.legal.title}</h2>
       </header>
-      <ul class="resource-list">
-        {tools.map((item) => (
-          <li class="resource-card">
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              {item.badge && <span class="resource-badge">{item.badge}</span>}
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-              <span class="resource-url">{item.url} ↗</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+
+      {allLegal.length === 0 ? (
+        <p class="section-empty">本區段目前無收錄條目。</p>
+      ) : (
+        <ul class="entry-list">
+          {allLegal.map((entry) => (
+            <li class="entry-card">
+              <article>
+                <p class="entry-type">{entry.data.entry_type}</p>
+                <h3>{entry.data.name}</h3>
+                <p class="meta">{entry.data.specialty.join('、')}</p>
+                <p>{entry.data.description.slice(0, 150)}…</p>
+              </article>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <aside class="apply-card" aria-label="開放申請收錄">
+        <p class="apply-eyebrow">📨 開放申請收錄</p>
+        <p class="apply-intro">
+          本目錄收錄<strong>具名律師、法律扶助組織</strong>。站方不提供法律意見、不背書個人能力。
+          收錄條目均提供律師證號或組織立案證明。<strong>無償</strong>列入。
+        </p>
+        <p class="apply-criteria-label">收錄基準：</p>
+        <ul class="apply-criteria">
+          {applyConfigs.legal.criteria.map((c) => <li>{c}</li>)}
+        </ul>
+        <p class="apply-cta">
+          申請：來信
+          <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.legal.applyType}]`}>
+            curator@kinkref.org
+          </a>
+          ，主旨「[{applyConfigs.legal.applyType}]」。
+        </p>
+      </aside>
     </section>
 
-    {/* §3 學術資料庫 */}
-    <section class="resource-section" id="databases">
-      <header>
-        <h2>§ 學術資料庫（OA 平台）</h2>
-        <p class="section-intro">
-          學術論文的開放取用平台。本站 Bibliography 與 Books 條目的引用來源大多可從這些平台取得。
-        </p>
+    <hr class="section-divider" aria-hidden="true" />
+
+    {/* §3 社團資源 */}
+    <section class="resource-section" id="campus-groups">
+      <header class="section-header">
+        <p class="section-num">§3</p>
+        <h2>{applyConfigs.campusGroups.title}</h2>
       </header>
-      <ul class="resource-list">
-        {databases.map((item) => (
-          <li class="resource-card">
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              {item.badge && <span class="resource-badge">{item.badge}</span>}
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-              <span class="resource-url">{item.url} ↗</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+
+      {allCampusGroups.length === 0 ? (
+        <p class="section-empty">本區段目前無收錄條目。</p>
+      ) : (
+        <ul class="entry-list">
+          {allCampusGroups.map((entry) => (
+            <li class="entry-card">
+              <article>
+                <p class="meta">{entry.data.university}</p>
+                <h3>{entry.data.name}</h3>
+                <p class="meta">
+                  {entry.data.official_status} · {entry.data.bdsm_engagement_level}
+                </p>
+                <p>{entry.data.description.slice(0, 150)}…</p>
+              </article>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <aside class="apply-card" aria-label="開放申請收錄">
+        <p class="apply-eyebrow">📨 開放申請收錄</p>
+        <p class="apply-intro">
+          本目錄僅收錄<strong>正式登記或穩定運作的大學社團</strong>，由社團官方代表（非個人社員）申請。
+          <strong>個別社員不會被列出</strong>（避免身分曝光）。<strong>無償</strong>列入。
+        </p>
+        <p class="apply-criteria-label">收錄基準：</p>
+        <ul class="apply-criteria">
+          {applyConfigs.campusGroups.criteria.map((c) => <li>{c}</li>)}
+        </ul>
+        <p class="apply-cta">
+          申請：來信
+          <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.campusGroups.applyType}]`}>
+            curator@kinkref.org
+          </a>
+          ，主旨「[{applyConfigs.campusGroups.applyType}]」。
+        </p>
+      </aside>
     </section>
 
-    {/* §4 圈內參考站 — 暫不放 */}
-    <section class="resource-section" id="community">
-      <header>
-        <h2>§ 圈內參考站</h2>
-        <p class="section-intro">
-          中文圈與國際圈的相關資源站。kinkref.org 與這些站獨立運作，列出僅為讀者導覽便利。
-        </p>
-      </header>
-      <div class="empty-stub">
-        <p>本區段目前暫無條目。若你維護或推薦相關站點，歡迎來信
-          <a href="mailto:curator@kinkref.org">curator@kinkref.org</a>。
-        </p>
-      </div>
-    </section>
+    <hr class="section-divider" aria-hidden="true" />
 
-    {/* §5 緊急熱線 */}
-    <section class="resource-section" id="hotlines">
-      <header>
-        <h2>§ 緊急 / 支持資源（公開政府專線）</h2>
-        <p class="section-intro">
-          台灣公開可訪問的緊急服務專線。kinkref.org 不替代專業判斷，僅做指路。
-        </p>
+    {/* §4 醫療資源 + 緊急熱線 */}
+    <section class="resource-section" id="medical">
+      <header class="section-header">
+        <p class="section-num">§4</p>
+        <h2>{applyConfigs.medical.title}</h2>
       </header>
+
+      <p class="section-intro-text">
+        含台灣公開可訪問的緊急服務專線（政府服務，無需自薦）+ 自薦的 kink-friendly 醫師、診所。
+      </p>
+
+      {/* 公開熱線（永遠顯示） */}
+      <h3 class="subsection-heading">公開緊急熱線</h3>
       <ul class="hotline-list">
         {hotlines.map((h) => (
           <li class="hotline-card">
@@ -259,41 +317,123 @@ const internalDirs: InternalDir[] = [
               <a href={`tel:${h.phone}`}>{h.phone}</a>
               <span class="hotline-hours">{h.hours}</span>
             </p>
-            <h3>{h.name}</h3>
+            <h4>{h.name}</h4>
             <p>{h.desc}</p>
           </li>
         ))}
       </ul>
+
+      {/* 自薦醫師/診所（如有） */}
+      {allMedical.length > 0 && (
+        <>
+          <h3 class="subsection-heading">自薦 Kink-Friendly 醫師 / 診所</h3>
+          <ul class="entry-list">
+            {allMedical.map((entry) => (
+              <li class="entry-card">
+                <article>
+                  <p class="entry-type">{entry.data.entry_type}</p>
+                  <h3>{entry.data.name}</h3>
+                  {entry.data.contact_phone && (
+                    <p class="meta">{entry.data.contact_phone}</p>
+                  )}
+                  <p>{entry.data.description.slice(0, 150)}…</p>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      <aside class="apply-card" aria-label="開放申請收錄">
+        <p class="apply-eyebrow">📨 開放申請收錄</p>
+        <p class="apply-intro">
+          自薦醫師/診所須提供醫師字號或診所統編，<strong>具名 + 自我背書專業</strong>。
+          站方不背書個人能力，僅提供格式化整理。<strong>無償</strong>列入。
+        </p>
+        <p class="apply-criteria-label">收錄基準：</p>
+        <ul class="apply-criteria">
+          {applyConfigs.medical.criteria.map((c) => <li>{c}</li>)}
+        </ul>
+        <p class="apply-cta">
+          申請：來信
+          <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.medical.applyType}]`}>
+            curator@kinkref.org
+          </a>
+          ，主旨「[{applyConfigs.medical.applyType}]」。
+        </p>
+      </aside>
     </section>
 
-    {/* §6 站內 Directory */}
-    <section class="resource-section" id="internal">
-      <header>
-        <h2>§ 站方 Directory（站內延伸）</h2>
-        <p class="section-intro">
-          kinkref.org 站內維護的 directory 連結。除「期刊指南」已上線外，多數仍在
-          <strong>待填階段</strong>，歡迎符合條件的對象主動聯絡
-          <a href="mailto:curator@kinkref.org">curator@kinkref.org</a>。
-        </p>
+    <hr class="section-divider" aria-hidden="true" />
+
+    {/* §5 其他資源 */}
+    <section class="resource-section" id="other">
+      <header class="section-header">
+        <p class="section-num">§5</p>
+        <h2>{applyConfigs.other.title}</h2>
       </header>
-      <ul class="resource-list">
-        {internalDirs.map((d) => (
-          <li class="resource-card">
-            <a href={d.href}>
-              <span
-                class:list={[
-                  'resource-badge',
-                  'resource-badge--internal',
-                  d.status === '可用' ? 'resource-badge--ok' : 'resource-badge--pending',
-                ]}
-              >{d.status}</span>
-              <h3>{d.title}</h3>
-              <p>{d.desc}</p>
-              <span class="resource-url">{d.href} →</span>
+
+      <p class="section-intro-text">
+        外部公開資源：活動行事曆、線上工具、學術資料庫。
+      </p>
+
+      <h3 class="subsection-heading">活動行事曆</h3>
+      <ul class="link-list">
+        {calendars.map((item) => (
+          <li class="link-card">
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              <h4>{item.title}</h4>
+              <p>{item.desc}</p>
+              <span class="link-url">{item.url} ↗</span>
             </a>
           </li>
         ))}
       </ul>
+
+      <h3 class="subsection-heading">線上工具</h3>
+      <ul class="link-list">
+        {tools.map((item) => (
+          <li class="link-card">
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              <h4>{item.title}</h4>
+              <p>{item.desc}</p>
+              <span class="link-url">{item.url} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="subsection-heading">學術資料庫（OA 平台）</h3>
+      <ul class="link-list">
+        {databases.map((item) => (
+          <li class="link-card">
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              <h4>{item.title}</h4>
+              <p>{item.desc}</p>
+              <span class="link-url">{item.url} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <aside class="apply-card" aria-label="開放申請收錄">
+        <p class="apply-eyebrow">📨 推薦其他資源</p>
+        <p class="apply-intro">
+          若你維護或推薦其他相關公開資源（站方除外、可長期訪問），歡迎來信。站方依本站
+          <strong>議題邊界 + 不背書</strong>原則評估後決定是否收錄。
+        </p>
+        <p class="apply-criteria-label">收錄基準：</p>
+        <ul class="apply-criteria">
+          {applyConfigs.other.criteria.map((c) => <li>{c}</li>)}
+        </ul>
+        <p class="apply-cta">
+          推薦：來信
+          <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.other.applyType}]`}>
+            curator@kinkref.org
+          </a>
+          。
+        </p>
+      </aside>
     </section>
   </article>
 </BaseLayout>
@@ -322,7 +462,6 @@ const internalDirs: InternalDir[] = [
   .page-title-rule { width: 64px; height: 1px; background: var(--accent-primary); border: 0; margin: 0 0 var(--space-6); }
   .page-description { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-meta); margin: 0; }
 
-  /* Disclaimer block — 醒目 callout */
   .disclaimer-section {
     padding: var(--space-7) var(--space-5);
     background: var(--bg-subtle);
@@ -362,104 +501,165 @@ const internalDirs: InternalDir[] = [
   }
 
   .resource-section {
-    margin-bottom: var(--space-11);
+    margin-bottom: var(--space-9);
     scroll-margin-top: 80px;
   }
-  .resource-section header {
+
+  /* Section header — 「§1」編號 + 標題 */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
     margin-bottom: var(--space-6);
-    padding-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
     border-bottom: 1px solid var(--rule-fine);
   }
-  .resource-section h2 {
-    font-size: var(--fs-h2);
-    margin: 0 0 var(--space-3);
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    color: var(--accent-primary);
+    margin: 0;
+    letter-spacing: 0.02em;
   }
-  .section-intro {
+  .section-header h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+  }
+
+  .section-divider {
+    border: 0;
+    border-top: 1px solid var(--rule-section);
+    margin: var(--space-11) 0;
+  }
+
+  .section-intro-text {
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     color: var(--ink-meta);
-    margin: 0;
+    margin: 0 0 var(--space-5);
   }
-  .section-intro strong { color: var(--ink-heading); }
-  .section-intro a { color: var(--accent-primary); }
-
-  .resource-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--space-4);
-  }
-  .resource-card a {
-    position: relative;
-    display: block;
-    padding: var(--space-5) var(--space-6);
-    background: var(--bg-elevated);
-    border: 1px solid var(--rule-fine);
-    border-left: 3px solid transparent;
-    border-radius: var(--radius-sm);
-    text-decoration: none;
-    color: var(--ink-body);
-    height: 100%;
-    transition: var(--transition-color), border-left-color var(--transition-fast),
-      transform var(--transition-fast);
-  }
-  .resource-card a:hover {
-    border-color: var(--accent-primary);
-    border-left-color: var(--accent-primary);
-    transform: translateX(2px);
-  }
-  .resource-badge {
-    display: inline-block;
-    font-family: var(--font-sans);
-    font-size: var(--fs-eyebrow);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-eyebrow);
-    color: var(--accent-citation);
-    margin: 0 0 var(--space-2);
-    padding: 1px 6px;
-    border: 1px solid var(--accent-citation);
-    border-radius: var(--radius-sm);
-  }
-  .resource-badge--internal { color: var(--ink-meta); border-color: var(--ink-meta); }
-  .resource-badge--ok { color: var(--status-oa); border-color: var(--status-oa); }
-  .resource-badge--pending { color: var(--ink-disabled); border-color: var(--ink-disabled); }
-  .resource-card h3 {
-    font-size: var(--fs-h4);
-    margin: 0 0 var(--space-2);
-    color: var(--ink-heading);
-    font-family: var(--font-serif);
-    font-weight: var(--fw-semibold);
-  }
-  .resource-card p {
-    font-size: var(--fs-body-sm);
-    line-height: var(--lh-body);
-    color: var(--ink-body);
-    margin: 0 0 var(--space-3);
-  }
-  .resource-url {
-    font-family: var(--font-mono);
-    font-size: var(--fs-caption);
-    color: var(--ink-meta);
-    word-break: break-all;
-  }
-
-  .empty-stub {
+  .section-empty {
     padding: var(--space-7);
     background: var(--bg-subtle);
     border: 1px dashed var(--rule-fine);
     border-radius: var(--radius-sm);
     text-align: center;
     color: var(--ink-meta);
+    margin: 0 0 var(--space-7);
   }
-  .empty-stub p { margin: 0; }
-  .empty-stub a { color: var(--accent-primary); }
 
+  .subsection-heading {
+    font-family: var(--font-sans);
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+    margin: var(--space-7) 0 var(--space-4);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+  }
+
+  /* Entry list (collection-based: counselors/legal/campus/medical) */
+  .entry-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-7);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-4);
+  }
+  .entry-card article {
+    padding: var(--space-5) var(--space-6);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+  }
+  .entry-card h3 {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-2);
+    color: var(--ink-heading);
+  }
+  .entry-card .meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-2);
+  }
+  .entry-type {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-2);
+  }
+  .entry-card p {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: var(--space-2) 0 0;
+  }
+  .entry-card a { color: var(--accent-primary); }
+
+  /* Apply card — 開放申請告示（每 section 末尾） */
+  .apply-card {
+    padding: var(--space-6) var(--space-7);
+    background: var(--bg-subtle);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid var(--accent-citation);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-5);
+  }
+  .apply-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    font-weight: var(--fw-semibold);
+    color: var(--accent-citation);
+    margin: 0 0 var(--space-4);
+  }
+  .apply-intro {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-4);
+  }
+  .apply-intro strong { color: var(--ink-heading); }
+  .apply-criteria-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+    font-weight: var(--fw-medium);
+  }
+  .apply-criteria {
+    list-style: disc;
+    padding-left: var(--space-6);
+    margin: 0 0 var(--space-5);
+  }
+  .apply-criteria li {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin-bottom: var(--space-2);
+  }
+  .apply-cta {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0;
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--rule-fine);
+  }
+  .apply-cta a { color: var(--accent-primary); }
+
+  /* Hotline cards */
   .hotline-list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 var(--space-7);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: var(--space-4);
@@ -492,7 +692,7 @@ const internalDirs: InternalDir[] = [
     text-transform: uppercase;
     letter-spacing: var(--ls-eyebrow);
   }
-  .hotline-card h3 {
+  .hotline-card h4 {
     font-size: var(--fs-h4);
     font-family: var(--font-serif);
     margin: 0 0 var(--space-2);
@@ -503,5 +703,51 @@ const internalDirs: InternalDir[] = [
     line-height: var(--lh-body);
     color: var(--ink-body);
     margin: 0;
+  }
+
+  /* External link cards (calendars / tools / databases) */
+  .link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-7);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-4);
+  }
+  .link-card a {
+    display: block;
+    padding: var(--space-5) var(--space-6);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    height: 100%;
+    transition: var(--transition-color), border-left-color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+  .link-card a:hover {
+    border-color: var(--accent-primary);
+    border-left-color: var(--accent-primary);
+    transform: translateX(2px);
+  }
+  .link-card h4 {
+    font-size: var(--fs-h4);
+    font-family: var(--font-serif);
+    margin: 0 0 var(--space-2);
+    color: var(--ink-heading);
+  }
+  .link-card p {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-3);
+  }
+  .link-url {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    word-break: break-all;
   }
 </style>
