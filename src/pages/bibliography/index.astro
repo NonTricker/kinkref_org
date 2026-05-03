@@ -27,7 +27,7 @@ const allAccessTypes = [...new Set(allPapers.map((p) => p.data.access_type))].so
 const pageTitle = '文獻指南 · Bibliography';
 // pageDescription 含 inline markdown，visible 端 render 成 HTML；
 // metaDescription 為去除 markup 後的純文字，給 <meta> / OG / Twitter card 用。
-const pageDescription = `${allPapers.length} 篇學術論文的中文摘要與索引。首批聚焦三條主軸：**去病理化**（Wismeijer 2013、Connolly 2006、Moser-Kleinplatz 2006）、**同意框架歷史**（Williams 4Cs、Pitagora 同意 vs 脅迫）、**BDSM 神經科學**（Sagarin 2009、Klement 2017）。所有條目附 DOI 與 OA 狀態。`;
+const pageDescription = `BDSM 學術論文的中文摘要與索引，**策展持續擴充**。聚焦三條主軸：**去病理化**（Wismeijer 2013、Connolly 2006、Moser-Kleinplatz 2006）、**同意框架歷史**（Williams 4Cs、Pitagora 同意 vs 脅迫）、**BDSM 神經科學**（Sagarin 2009、Klement 2017）。所有條目附 DOI 或 article URL、OA 狀態、研究類型、樣本資訊與站方策展導讀。中文摘要為**策展視角重寫**，非機翻原文——讓讀者直接看到「這篇論文對你有什麼用」。`;
 const metaDescription = stripInlineMarkdown(pageDescription);
 ---
 

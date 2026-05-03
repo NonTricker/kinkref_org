@@ -25,7 +25,7 @@ const sortedTerms = allTerms.sort((a, b) =>
 const allTopicTags = [...new Set(allTerms.flatMap((entry) => entry.data.topic_tags))].sort();
 
 const pageTitle = '術語表 · Glossary';
-const pageDescription = `${allTerms.length} 個 BDSM 學術術語的中英對照與辨析。剛測完 bdsmtest 想搜 archetype？想理解 sub vs M、pet vs slave 等圈內微分？每個條目附對偶辨析、爭議標註與圈內用法說明。`;
+const pageDescription = `BDSM 學術術語的中英對照與辨析，**策展持續擴充**。剛測完 bdsmtest 想搜 archetype？想理解 sub vs M、pet vs slave 等圈內微分？每個條目附對偶辨析、爭議標註、DSM 區別、圈內用法說明，並標明翻譯哲學選擇（如「奴僕」為何不譯為「奴隸」）。`;
 const metaDescription = stripInlineMarkdown(pageDescription);
 ---
 

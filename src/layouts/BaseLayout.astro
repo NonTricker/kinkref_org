@@ -60,6 +60,20 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE_URL).toString
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
 
+    {/* Web fonts — Bunny Fonts CDN（GDPR 友善，不被 Google 追蹤）
+        v0.4.2：載入站方 typography stack
+        - IBM Plex Serif: 英文襯線（標題 / 學術書院氣）
+        - Noto Serif TC: 中文襯線（標題 + body）
+        - Noto Sans TC: 中文無襯線（UI / nav / metadata）
+        - Inter: 英文無襯線（UI / 標籤）
+        - JetBrains Mono: 等寬（DOI / IF / 編號）
+        Per-character fallback：英字 IBM Plex / 中字 Noto Serif TC */}
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.bunny.net/css?family=ibm-plex-serif:400,600,700&family=noto-serif-tc:400,600,700&family=noto-sans-tc:400,500,600&family=inter:400,500,600&family=jetbrains-mono:400,500&display=swap"
+    />
+
     {/* Favicon — 由光影師提供 */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />

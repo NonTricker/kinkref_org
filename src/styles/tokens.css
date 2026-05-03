@@ -79,10 +79,15 @@
 
   /* ──────────────────────────────────────────────────────
      TYPOGRAPHY — Font Family
+     v0.4.2：升級 B 方案 — IBM Plex Serif 為英文襯線（學術書院氣質），
+     中英文字符自動 per-character fallback：
+       英文字 → IBM Plex Serif（拉丁字符）
+       中文字 → Noto Serif TC（IBM Plex 不含中文，瀏覽器自動跳下一個）
      ────────────────────────────────────────────────────── */
-  --font-serif: "Noto Serif TC", "Source Serif 4", "Charter",
+  --font-serif: "IBM Plex Serif", "Noto Serif TC",
+                "Source Serif 4", "Charter",
                 "Iowan Old Style", "Songti TC", serif;
-  --font-sans:  "Noto Sans TC", "Inter", -apple-system,
+  --font-sans:  "Inter", "Noto Sans TC", -apple-system,
                 BlinkMacSystemFont, "PingFang TC",
                 "Microsoft JhengHei", sans-serif;
   --font-mono:  "JetBrains Mono", "Menlo", "Consolas",
