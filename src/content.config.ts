@@ -141,7 +141,8 @@ const glossary = defineCollection({
 
 const editionSchema = z.object({
   version: z.string(),
-  year: z.number(),
+  // v1.5：年份允許 null（早期譯本年份不可考時用 null + note 註明）
+  year: z.number().nullish(),
   isbn: z.string().nullish(),
   note: z.string().nullish(),
 });
@@ -160,6 +161,7 @@ const accessLinkSchema = z.object({
     'library',
     'publisher',
     'archive-org',
+    'wikipedia', // v1.5：學術書目常引 wikipedia 條目作 quick overview
     'other',
   ]),
   url: z.string().url(),
@@ -185,7 +187,8 @@ const books = defineCollection({
     out_of_print: z.boolean().nullish(),
     book_type: z.enum(['academic', 'popular', 'fiction', 'memoir', 'reference']),
     topic_tags: z.array(topicTagEnum).min(1).max(4),
-    reader_tags: z.array(readerTagEnum).min(1).max(3),
+    // v1.5：books reader_tags max 從 3 提到 5（綜合性著作如 ethical-slut 跨 4 群讀者）
+    reader_tags: z.array(readerTagEnum).min(1).max(5),
     difficulty: z.enum(['entry', 'intermediate', 'advanced']),
     abstract_zh: z.string(),
     curator_note: z.string(),

@@ -18,6 +18,15 @@ updates:
         patterns:
           - "prettier*"
           - "@types/*"
+    # 忽略高風險 major bump（chain reaction 風險高，需人工評估時機）
+    # Patch / minor 仍會自動開 PR
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "astro"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /

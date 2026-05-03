@@ -399,4 +399,35 @@ const pillars = [
       grid-template-columns: 1fr;
     }
   }
+
+  /* ──────────────────────────────────────────────────────
+     v0.6.2：手機版四柱改 2x2 grid，避免橫向 scroll
+     桌面維持 flex 單行 + horizontal scroll if needed（執政官 v0.4.9 指示）
+     ────────────────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+      overflow-x: visible;
+      padding-bottom: 0;
+      scroll-snap-type: none;
+    }
+
+    .pillar-card {
+      flex: none; /* override flex 1 0 220px */
+      scroll-snap-align: none;
+      padding: var(--space-5);
+    }
+
+    /* 手機版 description 在 2x2 緊湊 layout 下太擠，隱藏 */
+    .pillar-description {
+      display: none;
+    }
+
+    /* 手機版 pillar-count 改為單行緊湊：數字 + 單位 inline */
+    .pillar-count-num {
+      font-size: var(--fs-h3);
+    }
+  }
 </style>
