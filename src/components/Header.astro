@@ -5,6 +5,8 @@
  * 結構：站名 + 主要導航 + Search 入口 + Theme toggle（將由光影師細修）。
  */
 
+import KrMonogram from '@components/KrMonogram.astro';
+
 const navItems = [
   { href: '/glossary', label: '術語表', en: 'Glossary' },
   { href: '/bibliography', label: '文獻指南', en: 'Bibliography' },
@@ -27,7 +29,7 @@ function isActive(href: string): boolean {
   <div class="site-header-inner">
     <a href="/" class="site-brand" aria-label="Kink Reference 首頁">
       <span class="site-brand-mark" aria-hidden="true">
-        <span class="site-brand-mark-letter">K</span><span class="site-brand-mark-letter">R</span>
+        <KrMonogram size={48} class="site-brand-monogram" />
       </span>
       <span class="site-brand-text">
         <span class="site-brand-zh">
@@ -141,23 +143,19 @@ function isActive(href: string): boolean {
     /* Decision: Wordmark 升級採 B+D 混合（手調字距 + baseline rule + sub-locale） */
   }
 
-  /* KR Monogram — 兩字母手調字距 + 底部 hairline baseline rule */
+  /* KR Monogram — V5.7 SVG (銘文師席琳 2026-05-03)
+     11 elements: K stem + R stem + R bowl + K leg + R leg + K upper arm
+                 + 左 cuff + 右 cuff + 連結 line + 兩側 hairlines。
+     fill="currentColor" 跟隨 .site-brand-mark color，dark mode 自動切換。 */
   .site-brand-mark {
-    font-family: var(--font-serif);
-    font-size: 1.625rem; /* 26px — 比 fs-h3 (20px) 略大，但小於 fs-h2 (26px) 等同壓在 H2 重量 */
-    font-weight: var(--fw-bold);
-    color: var(--accent-primary);
-    line-height: 1;
     display: inline-flex;
-    align-items: baseline;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--accent-primary);
-    /* small-caps 字距：兩字母之間留 0.04em 呼吸（Tiempos / IBM Plex Serif 風） */
-    letter-spacing: 0.04em;
+    align-items: center;
+    color: var(--accent-primary);
+    line-height: 0;
   }
 
-  .site-brand-mark-letter {
-    font-feature-settings: "ss01" on; /* serif stylistic set 若字體支援 */
+  .site-brand-monogram {
+    display: block;
   }
 
   .site-brand-text {
