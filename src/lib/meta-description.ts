@@ -41,6 +41,28 @@ export function glossaryDescription(opts: {
   return `${opts.termZh}（${opts.termEn}）的定義與辨析。${flattenForMeta(opts.tagline)}｜kinkref.org 學術策展`;
 }
 
+/**
+ * v0.7.3：study_type 英文 enum → 中文 mapping（脈流師 non-blocking 建議）
+ * 對齊 src/content.config.ts bibliography schema 的 study_type z.enum
+ * 找不到的 fallback 顯示原值（schema 未來擴充時不崩）。
+ */
+const STUDY_TYPE_ZH: Record<string, string> = {
+  quantitative: '量化研究',
+  qualitative: '質性研究',
+  'mixed-methods': '混合方法',
+  theoretical: '理論分析',
+  review: '文獻回顧',
+  'systematic-review': '系統性回顧',
+  'meta-analysis': '後設分析',
+  'case-study': '個案研究',
+  ethnography: '民族誌',
+  commentary: '評論',
+};
+
+function studyTypeLabel(type: string): string {
+  return STUDY_TYPE_ZH[type] ?? type;
+}
+
 /** Bibliography entry meta description */
 export function bibliographyDescription(opts: {
   title: string;
@@ -49,7 +71,7 @@ export function bibliographyDescription(opts: {
   studyType: string;
   abstractZh: string;
 }): string {
-  return `${opts.title} — ${opts.authors}（${opts.year}）${opts.studyType} 中文摘要。${metaSlice(opts.abstractZh, 40)}…｜kinkref.org`;
+  return `${opts.title} — ${opts.authors}（${opts.year}）${studyTypeLabel(opts.studyType)} 中文摘要。${metaSlice(opts.abstractZh, 40)}…｜kinkref.org`;
 }
 
 /** Book entry meta description */
