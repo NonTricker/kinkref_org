@@ -2,15 +2,18 @@
 /**
  * About — 站方立場、治理、聯絡
  *
- * v0.2.0 / schema 1.2：
- * - §編輯立場 加 AI-augmented 透明
- * - §治理模型 → 角色 重寫為「站方角色（三角色 card）」+「外部貢獻者」
- *   三角色：kinkref（站方）/ 繆思 Muse（AI 心理學家 Agent）/ 策展人：薩約（人類審校）
- * - §聯絡 改用 curator@kinkref.org + GitHub Security Advisory
- * - §版本 升 v0.2.0
+ * v0.6.0 / schema 1.4（2026-05-03）：
+ * - §定位 重寫：擴展為「國際學術知識 × 台灣文化的統合轉譯」三層工作
+ * - §起源 新增：缺位（圈內活動 vs 開放社群平台）+ 時機（亞太禁羈年會 2026）
+ * - §方法論實驗 新增：AI-Augmented 學術策展 + 開源協作（含 reflective aside）
  *
- * 內容來源：靈範師（Muse）ABOUT_CONTENT_V1.2.md
- * 整合：織法者（紬）— 2026-05-02
+ * v0.2.0 / schema 1.2（2026-05-02 既有）：
+ * - §編輯立場 加 AI-augmented 透明
+ * - §治理模型 → 站方角色（kinkref / 繆思 Muse / 策展人：薩約）
+ * - §聯絡 改用 curator@kinkref.org + GitHub Security Advisory
+ *
+ * 內容來源：靈範師（Muse）ABOUT_CONTENT_V1.3.md
+ * 整合：織法者（紬）— 2026-05-03
  */
 
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -37,20 +40,80 @@ const SCHEMA_VERSION = '1.4';
     <section class="about-section" id="position">
       <h2>定位</h2>
       <p>
-        本站是<strong>轉譯派 (Translator-Curator)</strong>—— 英文 BDSM
-        學術文獻的中文摘要與索引站。台灣中文圈完全沒有結構化的 BDSM
-        學術入口，本站填補這個缺口。
+        本站是<strong>轉譯派 (Translator-Curator)</strong>——「轉譯」一詞兼含「轉化」與「翻接」，
+        重點不是把外文文獻直譯成中文，而是進行<strong>國際學術知識 × 台灣文化的統合轉譯</strong>。
       </p>
-      <p>本站不是：</p>
+      <p>具體含三層工作：</p>
+      <ol class="numbered-stack">
+        <li>
+          <strong>多源轉譯</strong>：核心為英文學術文獻，亦涵蓋日文、中文圈、台灣原生的學術與實踐作品。
+        </li>
+        <li>
+          <strong>跨文化適配</strong>：每個條目附策展註、翻譯哲學選擇（如「奴僕」為何不譯為「奴隸」）、
+          文化適配說明（哪些概念在台灣語境需重新詮釋）。
+        </li>
+        <li>
+          <strong>雙向轉譯</strong>：把國際學術帶入中文圈；也把台灣圈內的實踐觀察結構化、給研究者引用。
+        </li>
+      </ol>
+
+      <h3>本站不是</h3>
       <ul>
         <li>介紹站（不做通識教育）</li>
         <li>橋樑站（不做圈內外橋接）</li>
         <li>論壇（不做社群互動）</li>
         <li>全域知識庫（不做全方位百科）</li>
       </ul>
+
       <p>
         完整定位見
         <a href="https://github.com/NonTricker/kinkref_org/blob/main/docs/PROJECT_SPEC.md" target="_blank" rel="noopener noreferrer">PROJECT_SPEC.md</a>。
+      </p>
+    </section>
+
+    <section class="about-section" id="origin">
+      <h2>起源</h2>
+
+      <h3>為什麼台灣需要這個站</h3>
+      <p>台灣中文圈的 BDSM 知識入口長期處於兩種狀態：</p>
+      <p>
+        <strong>第一種</strong>：圈內活動與社群（Discord 群組、Plurk 圈、Threads、線下聚會、年會）。
+        這些空間有豐富的口傳知識與經驗，但<strong>進入前缺乏結構化的閱讀地圖</strong>——新手沒有中性入口，
+        研究者無法快速建立文獻譜系。
+      </p>
+      <p>
+        <strong>第二種</strong>：開放社群平台（Dcard、Threads 等）。是現有的次選入口，但常見問題包括：
+      </p>
+      <ul>
+        <li><strong>術語誤用</strong>：Top/Bottom、Dom/Sub 等概念被當作同義詞混用，使讀者無法理解圈內微分</li>
+        <li><strong>跨文化錯置</strong>：許多概念直接從中國中文圈轉譯，未對應台灣語境</li>
+        <li><strong>核心概念被話術稀釋</strong>：「合意」「同意」「協商」等核心倫理框架被簡化或挪用</li>
+        <li><strong>議題不分層</strong>：圈內政治、實踐安全、學術論述被混在同一個頻道</li>
+      </ul>
+      <p><strong>結果</strong>：</p>
+      <ul>
+        <li>圈內人想嚴肅引用學術文獻時找不到中文索引</li>
+        <li>圈外研究者、臨床工作者、媒體想了解 BDSM 沒有結構化資源</li>
+        <li>新手想理解自己的 archetype（剛測完 bdsmtest.org）只能在零散貼文中拼湊</li>
+      </ul>
+
+      <h3>時機</h3>
+      <p>2026 年是台灣 BDSM 學術社群的轉捩點：</p>
+      <ul>
+        <li>
+          <strong>亞太禁羈年會 2026</strong>（第二屆）即將舉辦，台灣繩縛社群與更廣的 BDSM 學術圈正在累積能量
+        </li>
+        <li>
+          <strong>圈內研究者增加</strong>：有意以 BDSM 為主題進行學術研究、撰寫論文的圈內人比過去多
+        </li>
+        <li>
+          <strong>去病理化文獻成熟</strong>：Wismeijer (2013)、Connolly (2006)、Moser & Kleinplatz (2006)
+          等核心去病理化研究已存在多年，但中文圈缺乏系統介紹
+        </li>
+      </ul>
+      <p class="conclusion-arrow">
+        → kinkref.org 是這個時機點上的<strong>結構性嘗試</strong>：給學術社群一個共用的中文索引基地，
+        讓圈內研究者在引用、寫作、教學時有可信賴的基礎。
       </p>
     </section>
 
@@ -151,6 +214,63 @@ const SCHEMA_VERSION = '1.4';
         <li>站方立場 / 治理說明</li>
         <li>任何「安全操作指引」性質內容</li>
       </ul>
+    </section>
+
+    <section class="about-section" id="methodology">
+      <h2>方法論實驗</h2>
+      <p>
+        本站除了內容轉譯，也是兩種<strong>結構性方法論實驗</strong>的場域。
+      </p>
+
+      <h3>1. AI-Augmented 學術策展（透明標示）</h3>
+      <p>
+        本站建置 AI 心理學家 Agent「<strong>繆思（Muse）</strong>」作為條目初稿的生成者。
+        每個條目的 frontmatter 透明標示：
+      </p>
+      <pre class="frontmatter-quote"><code>contributor: kinkref
+contributor_note: 「本條目由 AI 心理學家 Agent 繆思（Muse）生成」</code></pre>
+      <p>
+        策展人薩約對實質介入過的條目（如翻譯哲學決策、圈內微分洞察）額外標示 <code>reviewer</code>。
+      </p>
+      <p>
+        站方不假裝內容為純人工撰寫，也不隱藏 AI 的角色——而是把「AI 如何參與學術內容生產」
+        這個當代學術倫理問題開放給讀者檢視。
+      </p>
+
+      <h3>2. 開源文化下的學術協作</h3>
+      <ul>
+        <li>
+          <strong>授權</strong>：CC-BY-SA 4.0（內容可自由引用、改作、傳播）
+        </li>
+        <li>
+          <strong>公開 repo</strong>：所有內容存放在 GitHub，commit history 公開可審
+        </li>
+        <li>
+          <strong>Schema-driven</strong>：每個條目嚴格對齊 v1.4 schema（含必填欄位、enum 驗證、跨條目引用驗證）
+        </li>
+        <li>
+          <strong>自動化品質掃描</strong>：<code>quality-scan.py</code> 工具確保所有條目對齊翻譯哲學原則、
+          避免 AI 塑膠句式、避免議題禁區
+        </li>
+        <li>
+          <strong>社群 PR 投稿</strong>：接受外部投稿，並提供 OPSEC 指引保護圈內貢獻者身分
+        </li>
+      </ul>
+      <p class="conclusion-arrow">
+        → kinkref.org 嘗試的是「<strong>學術 rigor + 開源協作 + AI-augmented</strong>」三軸並行的模式，
+        這在台灣中文圈是少見的嘗試。
+      </p>
+
+      <aside class="about-aside" aria-label="補述">
+        <h3>為什麼把這寫在 About 頁</h3>
+        <p>讀者有權知道：</p>
+        <ul>
+          <li>內容如何被生產（AI 初稿 + 人類審校）</li>
+          <li>是否能參與或修正（PR 開放）</li>
+          <li>引用本站時知道引用的是什麼（schema 公開）</li>
+        </ul>
+        <p>學術轉譯站的可信度不來自隱藏方法，而來自<strong>透明展示方法</strong>。</p>
+      </aside>
     </section>
 
     <section class="about-section" id="license">
@@ -284,6 +404,84 @@ const SCHEMA_VERSION = '1.4';
     background: var(--bg-subtle);
     padding: 0.1em 0.35em;
     border-radius: 2px;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     v0.6.0：v1.3 內容升級配套樣式
+     - .numbered-stack       §定位「三層工作」清單
+     - pre.frontmatter-quote §方法論實驗 frontmatter YAML 引用
+     - p.conclusion-arrow    每節結尾「→」結論段
+     - aside.about-aside     §方法論實驗 reflective 補述
+     ────────────────────────────────────────────────────── */
+
+  /* §定位「三層工作」— 編號 list 加重的編輯感 */
+  .numbered-stack {
+    list-style: decimal;
+    padding-left: var(--space-6);
+    counter-reset: layer;
+  }
+
+  .numbered-stack li {
+    margin-bottom: var(--space-3);
+    line-height: var(--lh-body);
+  }
+
+  /* §方法論實驗 frontmatter YAML 引用區
+     對標：學術論文「引用方塊」邊框 + monospace */
+  .frontmatter-quote {
+    background: var(--bg-subtle);
+    border: 1px solid var(--rule-fine);
+    border-left: 2px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-5);
+    margin: var(--space-4) 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-body-sm);
+    line-height: 1.6;
+  }
+
+  .frontmatter-quote code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--ink-body);
+    font-size: 1em;
+  }
+
+  /* 結論箭頭段 — 每節收尾用，視覺上跟一般 paragraph 略有區隔 */
+  .conclusion-arrow {
+    margin-top: var(--space-5);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--accent-primary);
+    color: var(--ink-body);
+    line-height: var(--lh-body);
+  }
+
+  /* §方法論實驗 reflective 補述 — aside 形式
+     左側書脊 + 縮排 + 字略小，跟主敘事區隔 */
+  .about-aside {
+    margin: var(--space-7) 0 var(--space-4);
+    padding-left: var(--space-5);
+    border-left: 2px solid color-mix(in srgb, var(--accent-primary) 40%, transparent);
+    color: var(--ink-meta);
+  }
+
+  .about-aside h3 {
+    margin-top: 0;
+    font-style: italic;
+    font-weight: var(--fw-regular);
+    color: var(--ink-meta);
+    font-size: var(--fs-h4);
+  }
+
+  .about-aside p,
+  .about-aside li {
+    font-size: var(--fs-body-sm);
+  }
+
+  .about-aside ul {
+    padding-left: var(--space-5);
   }
 
   /* 站方三角色 — 三欄卡片（DESIGN.md §6 Level 5 浮起層） */
