@@ -29,6 +29,11 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
+// v0.8.0：對應的中文全文翻譯（如有）
+// translations slug naming：{paper-slug}-zh
+const allTranslations = await getCollection('translations');
+const translation = allTranslations.find((t) => t.id === `${entry.id}-zh`);
+
 /** Render frontmatter 字串為含 inline markdown 的 HTML 段落陣列。 */
 const paragraphsHtml = (text: string) => renderParagraphs(text);
 
@@ -143,6 +148,19 @@ const warnings = pickWarnings(data.caveats);
       {data.sample_size && <div class="paper-meta-row"><dt>樣本</dt><dd>{data.sample_size}{data.sample_population && ` · ${data.sample_population}`}</dd></div>}
       <div class="paper-meta-row"><dt>難度</dt><dd>{data.difficulty}</dd></div>
       <div class="paper-meta-row"><dt>翻譯進度</dt><dd>{data.translation_status}</dd></div>
+      {translation && (
+        <div class="paper-meta-row paper-meta-row--translation">
+          <dt>中文翻譯</dt>
+          <dd>
+            <a href={`/translations/${translation.id}`} class="translation-link">
+              <span class="translation-mark" aria-hidden="true">譯</span>
+              <span>閱讀全文中譯</span>
+              <span class="translation-arrow" aria-hidden="true">→</span>
+            </a>
+            <span class="translation-meta-note">譯者：{translation.data.translator}</span>
+          </dd>
+        </div>
+      )}
       {trustSignal && (
         <div class={`paper-meta-row paper-meta-row--trust paper-meta-row--trust-${caveatTone(trustSignal.type) ?? 'neutral'}`}>
           <dt>策展深度</dt>
@@ -248,6 +266,58 @@ const warnings = pickWarnings(data.caveats);
   .paper-meta-row a {
     color: var(--accent-primary);
     word-break: break-all;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     v0.8.0：中文翻譯 cross-link row（如有對應 translation）
+     視覺：紅色「譯」字方塊 + 連結，直接吸引讀者注意「這篇有全文中譯」
+     ────────────────────────────────────────────────────── */
+  .paper-meta-row--translation dd {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .translation-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: var(--fw-medium);
+    transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .translation-link:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .translation-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: var(--accent-primary);
+    color: var(--ink-inverse, #fff);
+    font-family: var(--font-serif);
+    font-size: 12px;
+    font-weight: var(--fw-bold);
+    border-radius: 2px;
+    line-height: 1;
+  }
+
+  .translation-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.95em;
+  }
+
+  .translation-meta-note {
+    color: var(--ink-meta);
+    font-size: var(--fs-caption);
   }
 
   /* ──────────────────────────────────────────────────────

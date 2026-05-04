@@ -17,6 +17,12 @@ import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown
 
 const allPapers = await getCollection('bibliography');
 
+// v0.8.0：建立「有翻譯」slug Set，用於卡片角落 marker
+const allTranslations = await getCollection('translations');
+const translatedSlugs = new Set(
+  allTranslations.map((t) => t.id.replace(/-zh$/, ''))
+);
+
 const sortedPapers = allPapers.sort((a, b) => b.data.year - a.data.year);
 
 // 收集篩選器來源（去重 + 排序）
@@ -109,6 +115,9 @@ const metaDescription = stripInlineMarkdown(pageDescription);
             {sortedPapers.map((entry, i) => (
               <li class="paper-card">
                 <a href={`/bibliography/${entry.id}`}>
+                  {translatedSlugs.has(entry.id) && (
+                    <span class="paper-card-translated" aria-label="含中文全文翻譯" title="含中文全文翻譯">譯</span>
+                  )}
                   <span class="paper-card-no" aria-hidden="true">№{(i + 1).toString().padStart(3, '0')}</span>
                   <header class="paper-card-header">
                     <p class="paper-card-meta">
@@ -363,6 +372,27 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     letter-spacing: 0.06em;
     color: var(--ink-disabled);
     line-height: 1;
+  }
+
+  /* v0.8.0：左上角「譯」marker — 標示卡片有對應中文全文翻譯
+     與右上 №001 paper-trail 編號 mirror 對位（呼應 glossary pin 設計） */
+  .paper-card-translated {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: var(--accent-primary);
+    color: var(--ink-inverse, #fff);
+    font-family: var(--font-serif);
+    font-size: 12px;
+    font-weight: var(--fw-bold);
+    border-radius: 2px;
+    line-height: 1;
+    z-index: 1;
   }
 
   .paper-card-header {

@@ -1,0 +1,345 @@
+---
+/**
+ * Translation full-text page — 全文中譯詳情頁
+ *
+ * 動態路由：/translations/[slug]（slug 含 -zh suffix）
+ *
+ * 對應關係：translations/{slug}.md ↔ bibliography/{slug去掉-zh}.md
+ *
+ * v0.8.0：靈範師（內容團隊）翻譯了 5 篇 CC BY 授權的開源學術論文，
+ *         本頁呈現完整中譯，與 bibliography entry 並行（後者為策展摘要）。
+ */
+
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const all = await getCollection('translations');
+  return all.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+// 對應的 bibliography slug：去掉 -zh suffix
+const bibliographySlug = entry.id.replace(/-zh$/, '');
+const bibliographyURL = `/bibliography/${bibliographySlug}`;
+
+const pageTitle = `${data.title}（中文翻譯）`;
+const description = `${data.title} — ${data.original_title}（${data.authors}, ${data.year}）${data.journal} 全文中譯。譯者：${data.translator}｜kinkref.org`;
+
+// JSON-LD: TranslationOfWork（schema.org/CreativeWork variant）
+// 站方對 Google 表明：這是某篇 ScholarlyArticle 的 translation
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  '@id': `https://kinkref.org/translations/${entry.id}#translation`,
+  name: data.title,
+  alternateName: data.original_title,
+  inLanguage: 'zh-Hant-TW',
+  translationOfWork: {
+    '@type': 'ScholarlyArticle',
+    name: data.original_title,
+    author: data.authors,
+    datePublished: String(data.year),
+    isPartOf: { '@type': 'Periodical', name: data.journal },
+    sameAs: `https://doi.org/${data.doi}`,
+  },
+  translator: { '@type': 'Person', name: data.translator },
+  dateCreated: data.translation_date.toISOString().slice(0, 10),
+  license: 'https://creativecommons.org/licenses/by-sa/4.0/',
+  url: `https://kinkref.org/translations/${entry.id}`,
+  isBasedOn: `https://doi.org/${data.doi}`,
+};
+---
+
+<BaseLayout title={pageTitle} description={description} jsonLd={jsonLd}>
+  <article class="translation">
+    <nav class="translation-breadcrumb" aria-label="麵包屑">
+      <a href="/">首頁</a>
+      <span aria-hidden="true">/</span>
+      <a href="/bibliography">文獻指南</a>
+      <span aria-hidden="true">/</span>
+      <a href={bibliographyURL}>{bibliographySlug}</a>
+      <span aria-hidden="true">/</span>
+      <span class="translation-breadcrumb-current">中文翻譯</span>
+    </nav>
+
+    <header class="translation-header">
+      <p class="translation-eyebrow">全文中譯 · Full-text Translation</p>
+      <h1 class="translation-title">{data.title}</h1>
+      <p class="translation-original">{data.original_title}</p>
+    </header>
+
+    <section class="translation-meta" aria-label="翻譯資訊">
+      <dl>
+        <div class="translation-meta-row"><dt>原文作者</dt><dd>{data.authors}</dd></div>
+        <div class="translation-meta-row"><dt>期刊</dt><dd><em>{data.journal}</em></dd></div>
+        <div class="translation-meta-row"><dt>年份</dt><dd>{data.year}</dd></div>
+        {data.volume && (
+          <div class="translation-meta-row">
+            <dt>卷期</dt>
+            <dd>{data.volume}{data.issue && `(${data.issue})`}{data.pages && `, ${data.pages}`}</dd>
+          </div>
+        )}
+        <div class="translation-meta-row">
+          <dt>DOI</dt>
+          <dd>
+            <a
+              href={`https://doi.org/${data.doi.replace(/^https?:\/\/(dx\.)?doi\.org\//, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >{data.doi}</a>
+          </dd>
+        </div>
+        <div class="translation-meta-row"><dt>原文授權</dt><dd>{data.license}</dd></div>
+        <div class="translation-meta-row"><dt>譯者</dt><dd>{data.translator}</dd></div>
+        <div class="translation-meta-row">
+          <dt>翻譯日期</dt>
+          <dd><time datetime={data.translation_date.toISOString().slice(0, 10)}>{data.translation_date.toISOString().slice(0, 10)}</time></dd>
+        </div>
+      </dl>
+
+      <p class="translation-license-note">{data.note}</p>
+
+      <p class="translation-back">
+        <a href={bibliographyURL}>← 回 {bibliographySlug} 策展條目（中文摘要 + 策展人導讀）</a>
+      </p>
+    </section>
+
+    <hr class="translation-rule" aria-hidden="true" />
+
+    <div class="translation-body">
+      <Content />
+    </div>
+
+    <footer class="translation-footer">
+      <p class="translation-back">
+        <a href={bibliographyURL}>← 回 {bibliographySlug} 策展條目</a>
+      </p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .translation {
+    max-width: var(--content-width-prose);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .translation-breadcrumb {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin-bottom: var(--space-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .translation-breadcrumb a {
+    color: var(--ink-meta);
+    text-decoration: none;
+    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .translation-breadcrumb a:hover {
+    color: var(--accent-primary);
+  }
+
+  .translation-breadcrumb-current {
+    color: var(--ink-body);
+  }
+
+  .translation-header {
+    margin-bottom: var(--space-7);
+  }
+
+  .translation-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .translation-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-tight);
+    color: var(--ink-heading);
+    margin: 0 0 var(--space-3);
+  }
+
+  .translation-original {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body);
+    font-style: italic;
+    color: var(--ink-meta);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .translation-meta {
+    background: var(--bg-subtle);
+    padding: var(--space-6) var(--space-7);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-7);
+  }
+
+  .translation-meta dl {
+    margin: 0 0 var(--space-5);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .translation-meta-row {
+    display: grid;
+    grid-template-columns: 7em 1fr;
+    gap: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .translation-meta-row dt {
+    color: var(--ink-meta);
+    font-weight: var(--fw-medium);
+  }
+
+  .translation-meta-row dd {
+    margin: 0;
+  }
+
+  .translation-meta-row a {
+    color: var(--accent-primary);
+    word-break: break-all;
+  }
+
+  .translation-license-note {
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule-fine);
+    line-height: 1.6;
+  }
+
+  .translation-back {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .translation-back a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: var(--fw-medium);
+  }
+
+  .translation-back a:hover {
+    text-decoration: underline;
+  }
+
+  .translation-rule {
+    border: 0;
+    border-top: 1px solid var(--rule-fine);
+    margin: var(--space-7) 0;
+  }
+
+  /* Body — 純長文閱讀 layout，跟 prose 段落一致紀律 */
+  .translation-body {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+  }
+
+  .translation-body :global(h1),
+  .translation-body :global(h2),
+  .translation-body :global(h3),
+  .translation-body :global(h4) {
+    font-family: var(--font-serif);
+    color: var(--ink-heading);
+    line-height: var(--lh-tight);
+    margin-top: var(--space-7);
+    margin-bottom: var(--space-3);
+  }
+
+  .translation-body :global(h1) {
+    font-size: var(--fs-h2);
+    /* h1 在頁面已存在，body markdown 裡的 h1 視為 section 標題降級 */
+  }
+
+  .translation-body :global(h2) {
+    font-size: var(--fs-h3);
+  }
+
+  .translation-body :global(h3) {
+    font-size: var(--fs-h4);
+  }
+
+  .translation-body :global(p) {
+    margin: 0 0 var(--space-4);
+  }
+
+  .translation-body :global(ul),
+  .translation-body :global(ol) {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-7);
+  }
+
+  .translation-body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .translation-body :global(blockquote) {
+    margin: var(--space-5) 0;
+    padding: 0 var(--space-5);
+    border-left: 3px solid var(--accent-primary);
+    color: var(--ink-meta);
+    font-style: italic;
+  }
+
+  .translation-body :global(strong) {
+    color: var(--ink-heading);
+    font-weight: var(--fw-semibold);
+  }
+
+  .translation-body :global(em) {
+    font-style: italic;
+  }
+
+  .translation-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: var(--accent-citation);
+    background: var(--bg-subtle);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+
+  .translation-body :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--rule-fine);
+    margin: var(--space-7) 0;
+  }
+
+  .translation-body :global(sup) {
+    font-size: 0.75em;
+    color: var(--ink-meta);
+  }
+
+  .translation-footer {
+    margin-top: var(--space-9);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule-fine);
+  }
+</style>

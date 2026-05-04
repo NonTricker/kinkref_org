@@ -484,6 +484,33 @@ const medical = defineCollection({
 });
 
 // ──────────────────────────────────────────────────────
+// Translations collection (v1.8) — 全文中譯
+// ──────────────────────────────────────────────────────
+// 對應 bibliography 條目的中文全文翻譯（CC BY 授權的開源學術論文）。
+// File naming convention：translations/{paper-slug}-zh.md
+//   去掉 -zh suffix 即對應 content/bibliography/{paper-slug}.md
+//
+// frontmatter 對齊內容團隊（繆思 Muse）的標準翻譯格式。
+const translations = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './content/translations' }),
+  schema: z.object({
+    title: z.string(), // 中文翻譯標題
+    original_title: z.string(), // 英文原題
+    authors: z.string(),
+    journal: z.string(),
+    year: z.number(),
+    volume: z.union([z.number(), z.string()]).nullish(),
+    issue: z.union([z.number(), z.string()]).nullish(),
+    pages: z.string().nullish(),
+    doi: z.string(),
+    license: z.string(), // 原文授權（如 CC BY 4.0）
+    translator: z.string(), // 翻譯者署名
+    translation_date: z.coerce.date(),
+    note: z.string(), // 翻譯授權聲明
+  }),
+});
+
+// ──────────────────────────────────────────────────────
 // Export
 // ──────────────────────────────────────────────────────
 
@@ -496,4 +523,5 @@ export const collections = {
   legal,          // v1.3
   campusGroups,   // v1.3（folder: campus-groups）
   medical,        // v1.3
+  translations,   // v1.8 全文中譯
 };
