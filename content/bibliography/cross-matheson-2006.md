@@ -24,7 +24,7 @@ difficulty: advanced
 abstract_zh: |
   本研究以三個獨立 study 實證檢驗解釋 SM 的四大理論框架:(1) 精神分析模型(SM 源於童年創傷)、(2) 精神病理/醫學模型(SM 是精神疾病)、(3) 激進女性主義模型(SM 是厭女與暴力的再現)、(4) 逃離自我模型(SM 是逃避日常自我意識的機制)。
 
-  結果:**四個框架全部不被支持**。Study 3 進一步提出「權力(power)」才是 SM 的核心動力——SM 的吸引力來自對權力動態的探索,而非創傷重演、精神異常、厭女、或逃避。
+  結果:**四個框架全部不被支持**。Study 3 進一步提出「權力(power)」才是 SM 的核心動力——SM 的吸引力來自對權力動態的探索，而非創傷重演、精神異常、厭女、或逃避。
 
   本研究在 BDSM 文獻中少見地**同時挑戰四個既有理論**,是「SM 不是病態、不是厭女、不是逃避、不是創傷」這個多重否定的最強單篇實證。
 
@@ -33,11 +33,11 @@ curator_note: |
 
 caveats:
   - type: methodology
-    note: "三個 study 方法論各異,部分 study 的樣本量需查閱原文確認。"
+    note: "三個 study 方法論各異，部分 study 的樣本量需查閱原文確認。"
   - type: cultural-context
-    note: "加拿大(Ottawa)樣本,台灣讀者引用時需考慮文化差異。"
+    note: "加拿大(Ottawa)樣本，台灣讀者引用時需考慮文化差異。"
   - type: source-limited
-    note: "本條目 abstract_zh 基於公開 abstract 與 longlist metadata 撰寫,尚未取得全文(ResearchGate preprint 可取得)"
+    note: "本條目 abstract_zh 基於公開 abstract 與 longlist metadata 撰寫，尚未取得全文(ResearchGate preprint 可取得)"
 
 citations:
   - type: internal-paper

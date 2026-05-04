@@ -21,16 +21,16 @@ difficulty: intermediate
 abstract_zh: |
   本研究是**中國本土最具學術 rigor 的 BDSM 質性研究**,由中國科學院心理研究所的梁婉櫻、張玉清執行,51 位中國 sadomasochists 深度訪談。
 
-  研究提出「經驗—行為與幻想」(Experience—Behaviors and Fantasies)模型,將 SM 行為與幻想分為 spirit(精神)/ punishment(懲罰)/ sex(性)/ canine(犬化)/ excretion(排泄)五類,並發現這些類別與家庭教養方式、性經驗具 partial correlation。
+  研究提出「經驗—行為與幻想」(Experience—Behaviors and Fantasies)模型，將 SM 行為與幻想分為 spirit(精神)/ punishment(懲罰)/ sex(性)/ canine(犬化)/ excretion(排泄)五類，並發現這些類別與家庭教養方式、性經驗具 partial correlation。
 
   本研究的價值在於**極稀有的中國本土 BDSM 學術研究**,作者來自中國最高學術機構之一(中科院心理所)。OA 訪問友善(PMC free, Wiley 平台),中文圈讀者對方法論的親切度高。
 
 curator_note: |
-  中國 anchor——中文圈目前最具學術 rigor 的本土 SM 質性研究。五類行為/幻想分類框架可作為未來中文圈 BDSM 分類研究的起點。OA + 中科院背景增加機構可信度。建議與 Li 2024(中國 n=3310 量化)並列引用,形成「中國 BDSM 質性 + 量化」雙重支撐。
+  中國 anchor——中文圈目前最具學術 rigor 的本土 SM 質性研究。五類行為/幻想分類框架可作為未來中文圈 BDSM 分類研究的起點。OA + 中科院背景增加機構可信度。建議與 Li 2024(中國 n=3310 量化)並列引用，形成「中國 BDSM 質性 + 量化」雙重支撐。
 
 caveats:
   - type: cultural-context
-    note: "中國樣本,台灣讀者引用時需留意兩岸 BDSM 社群結構與法律框架差異。"
+    note: "中國樣本，台灣讀者引用時需留意兩岸 BDSM 社群結構與法律框架差異。"
   - type: source-verified
     note: "本條目 abstract_zh 基於全文閱讀撰寫(PDF 存於 internal/papers/)"
 

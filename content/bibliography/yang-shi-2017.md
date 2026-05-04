@@ -26,16 +26,16 @@ abstract_zh: |
 
   核心發現:24 歲以下群體對 BDSM 的態度顯著比 25-40 歲與 41 歲以上群體**更不負面**,推測與近年性/性別教育的落實相關。這個年齡效應為台灣 BDSM 去污名化論述提供了 empirical baseline。
 
-  本研究是任何台灣 BDSM 論述想量化 stigma 時的**必引文獻**——提供了台灣民眾對 BDSM 態度的 baseline 數據,對教育政策制定和媒體報導的學術支撐具有直接 reference 價值。
+  本研究是任何台灣 BDSM 論述想量化 stigma 時的**必引文獻**——提供了台灣民眾對 BDSM 態度的 baseline 數據，對教育政策制定和媒體報導的學術支撐具有直接 reference 價值。
 
 curator_note: |
   台灣 BDSM 態度的 empirical baseline——任何想用數據說明「台灣社會對 BDSM 的態度」的論述都應引用這篇。24 歲以下更不負面的發現對性教育政策有直接 implication。建議與楊豪 2021 並列引用。
 
 caveats:
   - type: cultural-context
-    note: "台灣本土研究,直接適用於台灣語境。"
+    note: "台灣本土研究，直接適用於台灣語境。"
   - type: source-limited
-    note: "本條目 abstract_zh 基於公開 abstract 與 longlist metadata 撰寫,尚未取得全文(華藝付費,台灣機構可取得)"
+    note: "本條目 abstract_zh 基於公開 abstract 與 longlist metadata 撰寫，尚未取得全文(華藝付費，台灣機構可取得)"
 
 citations:
   - type: internal-term

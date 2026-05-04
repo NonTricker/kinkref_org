@@ -36,7 +36,7 @@ caveats:
   - type: dated
     note: "資料蒐集於 2006 年前後，當時的臨床量表標準與當代實踐略有差異，引用時建議搭配近期研究（如 Wismeijer 2013）相互佐證。"
   - type: source-limited
-    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫，尚未基於全文閱讀深度補強"
 
 replication_status: replicated
 

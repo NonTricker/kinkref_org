@@ -37,7 +37,7 @@ caveats:
   - type: methodology
     note: "現場研究無法控制場景強度與類型，激素變化的解讀需考慮場景多樣性帶來的雜訊。"
   - type: source-limited
-    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫，尚未基於全文閱讀深度補強"
 
 replication_status: partially-replicated
 

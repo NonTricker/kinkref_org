@@ -37,7 +37,7 @@ caveats:
   - type: cultural-context
     note: "'Dance of Souls' 儀式有特定的美國加州 fetish 文化脈絡，跨文化引用時需注意儀式形式的差異。"
   - type: source-limited
-    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫，尚未基於全文閱讀深度補強"
 
 replication_status: unknown
 

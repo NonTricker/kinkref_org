@@ -37,7 +37,7 @@ caveats:
   - type: cultural-context
     note: "歐洲樣本，台灣讀者引用時需考慮文化差異。"
   - type: source-limited
-    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫,尚未基於全文閱讀深度補強"
+    note: "本條目 abstract_zh 基於公開 abstract 與 metadata 撰寫，尚未基於全文閱讀深度補強"
 
 replication_status: partially-replicated
 
