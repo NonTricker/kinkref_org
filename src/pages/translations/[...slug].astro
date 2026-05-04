@@ -257,21 +257,15 @@ const jsonLd = {
     margin: var(--space-7) 0;
   }
 
-  /* Body — 純長文閱讀 layout，跟 prose 段落一致紀律
-     v0.8.8：wrapper 撐 1024px，但 prose 段落仍限 65ch 保持閱讀寬度 */
+  /* Body — 純長文閱讀 layout
+     v0.8.9：段落跟 wrapper 一樣 1024px 全寬（執政官指示）
+       理由：wrapper 1024px + 段落 65ch 視覺「上寬下窄」斷裂感更強
+       翻譯頁採全寬，跟上方 meta bar 視覺對齊 */
   .translation-body {
     font-family: var(--font-serif);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     color: var(--ink-body);
-  }
-
-  /* prose 元素 65ch 紀律（標題不限） */
-  .translation-body :global(p),
-  .translation-body :global(li),
-  .translation-body :global(blockquote) {
-    max-width: 65ch;
-    max-width: var(--content-width-prose);
   }
 
   .translation-body :global(h1),
