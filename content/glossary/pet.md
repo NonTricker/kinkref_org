@@ -2,7 +2,8 @@
 schema_version: "1.4"
 term_zh: 寵物
 term_en: Pet
-aliases_en: puppy; kitten; bunny; pony
+aliases_en: puppy; kitten; bunny; pony; K9; K8
+term_alt_zh: 寵物; 狗奴; 貓奴; 犬; K9; K8
 tagline: 在 petplay 動態中以存在式歸屬被接納的一方。
 definition: |
   Pet 是 BDSM 關係中，於 petplay（寵物扮演）動態下擔任被照顧、被接納方的角色。動物角色扮演（puppy、kitten、bunny、pony 等）是常見表現形式，但**並非嚴格必要**：許多 Owner/Pet 動態的核心並不在動物意象，而在被照顧與被接納的關係本身。
@@ -23,7 +24,7 @@ disambiguation:
       圈內可能出現同時具有 Slave 與 Pet 屬性的角色——前者面向特定情境（侍奉、責任承擔），後者面向其他情境（撒嬌、被接納）。這類組合需要在協商階段明確區分情境，避免動態混淆。
 
 usage_notes: |
-  在台灣中文圈，「寵物」是常見的中文翻譯。實踐中，Pet 一方常使用對應動物形象的稱呼（如「小狗」「小貓」），互動道具（玩具、項圈、零食）視動物形象而異。
+  在台灣中文圈，「寵物」是常見的中文翻譯。實踐中，Pet 一方常使用對應動物形象的稱呼（如「小狗」「小貓」），互動道具（玩具、項圈、零食）視動物形象而異。在中文 BDSM 圈，「K9」是 canine（犬）的英文諧音，用以指稱犬型 Pet play；「K8」則是中文圈從 K9 延伸出的約定俗成用法，指稱貓型 Pet play——語源不是英文而是中文圈的類推創造。
 
 related_terms: [owner, slave, submissive, daddy-mommy]
 

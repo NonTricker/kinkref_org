@@ -1,8 +1,8 @@
 # AGENTS.md — AI Agent 協作指引
 
 > **給**：所有讀取此 repo 的 AI agent（Claude、GPT、Gemini、Cursor、Copilot 等）
-> **版本**：v1.1
-> **最後更新**：2026-05-03
+> **版本**：v1.2
+> **最後更新**：2026-05-04
 > **License**：CC-BY-SA 4.0
 
 ---
@@ -11,10 +11,14 @@
 
 你正在閱讀 **kinkref.org** 的原始碼。
 
-- **這是什麼**：台灣 BDSM 學術轉譯站。英文 BDSM 學術文獻的中文摘要與索引
-- **誰在維護**：一位獨立策展人（圈名身分），社群可透過 PR 貢獻
+- **這是什麼**：中文 BDSM 學術轉譯站。定位為「**國際學術知識 × 台灣文化的統合轉譯**」——
+  核心為英文學術文獻，亦涵蓋日文、中文圈、台灣原生的學術與實踐作品；
+  含策展註、翻譯哲學選擇、文化適配說明
+- **誰在維護**：策展人薩約（公開角色），AI 心理學家 Agent 繆思（Muse）負責條目初稿生成；
+  社群可透過 GitHub PR / Issue 投稿
 - **它不是**：論壇、社群平台、安全指引站、情色站
-- **它的責任**：把英文學術內容變成中文圈研究者、臨床工作者、入門者能用的資源
+- **它的責任**：把國際學術內容轉譯為中文圈研究者、臨床工作者、入門者能用的資源；
+  並透明標示策展深度與 AI 參與
 - **它的禁區**：個人推薦、安全指引、未成年內容、操作教學、窒息實踐建議
 
 如果你在協助使用者貢獻內容，請完整讀完本文件再行動。
@@ -97,6 +101,31 @@
 7. 如果使用者表示「這篇論文是我自己寫的」，**不要在 PR 中聲明這件事**（保留 plausible deniability）
 
 完整 OPSEC 流程見 [`CONTRIBUTING.md`](./CONTRIBUTING.md) § 3。
+
+---
+
+### 2.5 合意至上鐵律（v1.2 新增）
+
+🔴 **撰寫條目涉及 D/s 動態、權力結構、Kink 形式時**，必須對齊站方第 5 條編輯立場：
+
+> **合意至上，不訂定模範**
+
+本站不定義「健康的 Kink」或「正確的 D/s 形式」。依存型、拯救者型、不對等的權力結構——
+只要雙方知情且積極同意，都是有效的 Kink 形式。
+
+**對措辭的影響**：
+
+| ❌ 避免 | ✅ 替代 |
+|--------|--------|
+| 「健康的 D/s 關係」 | 「合意的 D/s 動態」 |
+| 「不健康的動態模式」 | 「圈內對此模式看法分歧」 |
+| 「正確的 Dom 應該……」 | 「常見的觀點認為……」 |
+| 「依存是不健康的」 | 「依存型動態在知情同意下可以是 D/s 的一種形式」 |
+| 「你應該追求……的關係」 | 「這是一種可能的動態形式」 |
+
+**核心**：站方呈現多元的動態可能性，不評判讀者的選擇。**唯一的邊界是合意，不是形式。**
+
+詳見 [關於本站 § 編輯立場](https://kinkref.org/about#editorial)。
 
 ---
 
@@ -202,7 +231,30 @@
 7. 標記 translation_url 指向站內全文翻譯頁
 ```
 
-### 4.3 翻譯品質要求
+### 4.3 全文翻譯 collection（v0.8.0 新增）
+
+對於 CC BY 授權的 OA 論文全文翻譯，本站有專屬 collection 與路由：
+
+```
+content/translations/{paper-slug}-zh.md   ← 翻譯檔案
+src/pages/translations/[...slug].astro    ← 動態路由 → /translations/{slug}-zh
+```
+
+**對應規則**：translation slug 去掉 `-zh` suffix = 對應 bibliography slug
+（例：`translations/li-2024-zh.md` ↔ `bibliography/li-2024.md`）
+
+**Frontmatter 必填欄位**（見 `src/content.config.ts` translations schema）：
+- `title` 中文翻譯標題 / `original_title` 英文原題
+- `authors` / `journal` / `year` / `doi`
+- `license` 原文授權（必為 CC BY 系列）
+- `translator` 譯者署名（如「AI 心理學家 Agent 繆思（Muse）」）
+- `translation_date` / `note`（翻譯授權聲明）
+
+**站內呈現**：
+- bibliography 詳情頁 meta bar 自動顯示「中文翻譯 → 閱讀全文中譯」cross-link
+- bibliography index 卡片左上角紅底白字「譯」marker
+
+### 4.4 翻譯品質要求
 
 - 不直譯，重新用中文讀者視角組織
 - 學術術語對照 glossary，不可隨意翻譯
@@ -228,21 +280,22 @@ kinkref_org/                       ← repo root
 │   └── CONTENT_SCHEMA.md          ← 資料結構規範
 │
 ├── content/                       ← Markdown SSOT（PR 主戰場）
-│   ├── glossary/                  ← 術語條目（51+ 條）
-│   ├── bibliography/              ← 論文摘要（v1.4 doi 改選填，加 article_url）
-│   ├── books/                     ← 書摘
-│   ├── journals/                  ← 期刊條目（v1.3 新增，投稿地圖用）
+│   ├── glossary/                  ← 術語條目（55+ 條）
+│   ├── bibliography/              ← 論文摘要（34+ 條，v1.4 doi 改選填，加 article_url）
+│   ├── books/                     ← 書摘（15+ 本）
+│   ├── journals/                  ← 期刊條目（15+ 本，v1.3 投稿地圖用）
+│   ├── translations/              ← OA 論文全文中譯（v1.8 新增，5+ 篇 CC BY）
 │   ├── counselors/                ← 諮商師 directory（v1.3，listing_consent 必填）
 │   ├── legal/                     ← 法律資源 directory（v1.3）
 │   ├── campus-groups/             ← 大學社團 directory（v1.3）
 │   └── medical/                   ← 醫療資源 directory（v1.3，含公開緊急熱線）
 │
 ├── src/                           ← Astro 應用碼
-│   ├── pages/                     ← 含 /journals/ /resources（5-section 整合頁）
-│   ├── layouts/                   ← BaseLayout 含 SEO 全套（JSON-LD / OG / rel=me）
+│   ├── pages/                     ← 含 /journals/ /resources / /translations/ /qa
+│   ├── layouts/                   ← BaseLayout 含 SEO 全套（JSON-LD / OG / rel=me / FAQPage in /qa）
 │   ├── components/                ← 含 KrMonogram.astro / CrossRefMap / AgeGate
-│   ├── content.config.ts          ← Astro Content Collections 設定（zod schema v1.4）
-│   ├── lib/                       ← inline-markdown helper / build-info
+│   ├── content.config.ts          ← Astro Content Collections 設定（zod schema v1.8）
+│   ├── lib/                       ← inline-markdown / build-info / caveat-labels / meta-description
 │   └── styles/                    ← tokens.css + global.css（純 CSS Variables，無 Tailwind）
 │
 ├── public/                        ← 靜態資源
@@ -360,6 +413,19 @@ kinkref_org/                       ← repo root
 
 ## 11. 版本歷史
 
+### v1.2（2026-05-04）
+
+- §0 站定位升級：對齊 v1.3 about「國際學術知識 × 台灣文化的統合轉譯」（不再限於英文）
+- §0 維護者：策展人薩約已公開亮名，移除「圈名身分」隱稱
+- 加 §2.5 **合意至上鐵律**（對應 about §編輯立場第 5 條 v1.4 新增）
+- 加 §4.3 **全文翻譯 collection**（v0.8.0 translations/ 路由 + slug 對應規則）
+- §5 Repo 結構：
+  - 補 `content/translations/` collection
+  - 補 `src/pages/translations/` 與 `/qa` 路由
+  - 補 `src/lib/caveat-labels` 與 `meta-description` helper
+  - schema 標註升 v1.8（含 caveat type 擴充 + translations）
+  - 條目數量更新（glossary 55+ / bibliography 34+ / books 15+ / journals 15+）
+
 ### v1.1（2026-05-03）
 
 - 加 §2.3 **AI-augmented 透明鐵律**（`contributor` = `kinkref` / `contributor_note` 標 AI 來源 / `reviewer` = `策展人：薩約`）
@@ -374,5 +440,5 @@ kinkref_org/                       ← repo root
 
 ---
 
-*AGENTS.md v1.1 — kinkref.org maintainers, 2026-05-03*
+*AGENTS.md v1.2 — kinkref.org maintainers, 2026-05-04*
 *本文件採 CC-BY-SA 4.0 授權，歡迎其他開源專案借鑑此格式撰寫自己的 AGENTS.md。*
