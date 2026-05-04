@@ -127,7 +127,10 @@ const jsonLd = {
 
 <style>
   .translation {
-    max-width: var(--content-width-prose);
+    /* v0.8.8：對齊全站 1024px wrapper（執政官 v0.3.x 全頁一致紀律）
+       長文段落用 :global(.translation-body p) 限 65ch 保持閱讀紀律 */
+    max-width: 1024px;
+    max-width: var(--content-width-index);
     margin: 0 auto;
     padding: var(--space-9) var(--space-5) var(--space-11);
   }
@@ -254,12 +257,21 @@ const jsonLd = {
     margin: var(--space-7) 0;
   }
 
-  /* Body — 純長文閱讀 layout，跟 prose 段落一致紀律 */
+  /* Body — 純長文閱讀 layout，跟 prose 段落一致紀律
+     v0.8.8：wrapper 撐 1024px，但 prose 段落仍限 65ch 保持閱讀寬度 */
   .translation-body {
     font-family: var(--font-serif);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     color: var(--ink-body);
+  }
+
+  /* prose 元素 65ch 紀律（標題不限） */
+  .translation-body :global(p),
+  .translation-body :global(li),
+  .translation-body :global(blockquote) {
+    max-width: 65ch;
+    max-width: var(--content-width-prose);
   }
 
   .translation-body :global(h1),
