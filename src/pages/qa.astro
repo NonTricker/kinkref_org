@@ -2,23 +2,108 @@
 /**
  * QA — 常見問題
  *
- * v0.8.1：靈範師（內容團隊）QA_CONTENT_DRAFT.md 整合。
- * 6 題以 native HTML accordion（details/summary）呈現，無 JS 依賴。
- * Q1/Q2 default open（靈範師建議）。
- *
- * 跟首頁 FAQPage Schema 互補：
- *   - 首頁 schema 用短版 A（給 Google SERP rich snippet）
- *   - 本頁用 long-form A（給讀者完整論述 + bibliography 引用）
- * 兩套並存不衝突，Google 會擇相關 page surface。
+ * v0.8.2：Single source of truth 整合。
+ *   - 合併 SEO query 工單（4 題學術辨析）+ 內容團隊 QA Draft（6 題站方說明）
+ *   - 10 題分兩組：學術概念辨析 / 關於本站
+ *   - FAQPage Schema 注入本頁（從首頁搬過來——schema 對應的就是 FAQ 頁面）
+ *   - 短 A 給 schema（SERP rich snippet 友善）+ 長 A 給 UI（讀者完整論述）
+ *   - 純 HTML accordion（details/summary），無 JS
+ *   - 每組首題 default open
  */
 
 import BaseLayout from '@layouts/BaseLayout.astro';
 
 const pageTitle = '常見問題 · QA';
-const description = 'kinkref.org 常見問題：BDSM 心理健康學界共識、合意至上立場、AI-augmented 透明標示、新手閱讀路徑、社群參與方式｜學術 rigor + 直接、不迴避、有態度但不說教';
+const description = 'kinkref.org 常見問題：BDSM 心理健康學界共識、術語辨析（sub/M、dom/master、safe word）、合意至上立場、AI-augmented 透明標示、新手閱讀路徑、社群參與方式｜學術 rigor + 直接、不迴避';
+
+/* ──────────────────────────────────────────────────────
+   schema source — 短 A 對應 long UI Q（保證 question 文字一致）
+   每個 Q 的 long UI 答案在 template 部分手寫（含 link / strong 等 markup），
+   schema 用 shortAnswer 純文字版（150-250 chars，符合 Google rich snippet 偏好）。
+   ────────────────────────────────────────────────────── */
+const qaItems = [
+  // ── Group A：學術概念辨析 ──
+  {
+    num: 'Q1',
+    group: 'academic',
+    question: 'BDSM 是心理疾病嗎？',
+    shortAnswer: '不是。當代學術研究一致指出 BDSM 實踐者的心理健康水準與一般人相當或更佳（Wismeijer 2013 / Brown 2020 / Richters 2008）。DSM-5 已將 paraphilia 與 paraphilic disorder 明確區分——單純的 BDSM 興趣或實踐不構成精神疾病診斷。',
+  },
+  {
+    num: 'Q2',
+    group: 'academic',
+    question: 'sub 跟 M 有什麼不同？',
+    shortAnswer: 'sub（submissive，順從者）強調權力動態（D/s 軸線），M（masochist，受虐者）強調痛感體驗（S/M 軸線）。圈內微分為「sub 不一定 M、M 不一定 sub」——一個人可以喜歡服從但不喜歡疼痛，也可以喜歡疼痛但不接受權力交換。',
+  },
+  {
+    num: 'Q3',
+    group: 'academic',
+    question: 'dom 跟 master 差在哪？',
+    shortAnswer: 'dom（dominant）是泛稱「掌控位置」，可用於各種 D/s 互動，從單次 scene 到長期關係皆可。master 是更深層、長期、儀式化的權力動態角色，常與「奴僕（slave / servant）」對偶，含義更指向 ownership 與 total power exchange（TPE）的關係結構。',
+  },
+  {
+    num: 'Q4',
+    group: 'academic',
+    question: 'safe word 怎麼設定？',
+    shortAnswer: 'safe word 是合意框架的核心工具，常用三段式（如紅黃綠燈，紅停 / 黃慢 / 綠繼續）讓 bottom 在過程中明確表達狀態。設定原則：易發音、易記憶、與情境無關（不會誤觸）；任何一方喊出後，行動即停止並進入 aftercare。',
+  },
+
+  // ── Group B：關於本站 ──
+  {
+    num: 'Q5',
+    group: 'station',
+    question: '你們的立場是什麼？',
+    shortAnswer: '合意至上，不訂定模範。本站不定義「健康的 Kink」或「正確的 D/s 形式」。依存型、拯救者型、不對等的權力結構——只要雙方知情且積極同意，都是有效的 Kink 形式。唯一的邊界是合意，不是形式。',
+  },
+  {
+    num: 'Q6',
+    group: 'station',
+    question: 'BDSM 的學術研究都在研究什麼？',
+    shortAnswer: '當代 BDSM 學術研究主要分三大主軸：(1) 去病理化研究（Wismeijer、Connolly、Moser-Kleinplatz 等實證與理論文獻）；(2) 合意框架與協商實務（同意、negotiation、aftercare、SSC vs RACK）；(3) 神經科學與生理學（subspace、痛感與愉悅的生理機轉）。kinkref.org 文獻指南收錄 34 篇核心論文中文摘要。',
+  },
+  {
+    num: 'Q7',
+    group: 'station',
+    question: '為什麼用 AI 寫內容？',
+    shortAnswer: '本站建置 AI 心理學家 Agent「繆思（Muse）」作為條目初稿生成者，每個條目透明標示 contributor 與 contributor_note。策展人薩約對實質介入過的條目額外標示 reviewer。站方不假裝內容為純人工，也不隱藏 AI 的角色——而是把學術倫理問題開放檢視。',
+  },
+  {
+    num: 'Q8',
+    group: 'station',
+    question: '為什麼不收《五十道陰影》？',
+    shortAnswer: '《五十道陰影》是流行文化現象，不是學術或實踐參考文獻。本站書架採三層分類（Tier 1 核心 / Tier 2 鄰接基石 / Tier 3 不收），《五十道陰影》屬 Tier 3。本站策展邊界是：學術 rigor + 與 BDSM 直接相關 + 對中文圈讀者有策展價值。',
+  },
+  {
+    num: 'Q9',
+    group: 'station',
+    question: '我剛測完 bdsmtest.org，接下來該看什麼？',
+    shortAnswer: '建議閱讀路徑：(1) 先看 archetype 對應的術語條目（如 submissive）理解學術定義；(2) 看 disambiguation 辨析段落，分清自己跟相近概念的差異；(3) 看 BDSM 總條目了解三組對偶結構；(4) 進文獻指南找學術論文，書架找入門讀物。archetype 是工具，不是標籤。',
+  },
+  {
+    num: 'Q10',
+    group: 'station',
+    question: '我可以怎麼參與？',
+    shortAnswer: '所有內容以 CC BY-SA 4.0 授權，可自由引用與改作（標明出處）。接受 GitHub PR / Issue 投稿——圈內實踐觀察、翻譯校正、文獻補充都歡迎。圈內貢獻者 OPSEC 指引已備妥，確保不被迫公開身分。',
+  },
+] as const;
+
+// FAQPage JSON-LD — 從 qaItems 自動 mapped
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': 'https://kinkref.org/qa#faq',
+  mainEntity: qaItems.map((q) => ({
+    '@type': 'Question',
+    name: q.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: q.shortAnswer,
+    },
+  })),
+};
 ---
 
-<BaseLayout title={pageTitle} description={description}>
+<BaseLayout title={pageTitle} description={description} jsonLd={faqSchema}>
   <article class="qa-page">
     <header class="qa-header">
       <p class="page-eyebrow">
@@ -33,190 +118,341 @@ const description = 'kinkref.org 常見問題：BDSM 心理健康學界共識、
       </p>
     </header>
 
-    <div class="qa-list">
-      <details open class="qa-item">
-        <summary class="qa-summary">
-          <span class="qa-summary-num">Q1</span>
-          <span class="qa-summary-text">BDSM 是心理疾病嗎？</span>
-          <span class="qa-summary-mark" aria-hidden="true"></span>
-        </summary>
-        <div class="qa-answer">
-          <p class="qa-tldr"><strong>不是。</strong></p>
-          <p>當代學術研究一致指出，BDSM 實踐者的心理健康水準與一般人相當或更佳：</p>
-          <ul>
-            <li>
-              <strong>Wismeijer &amp; van Assen (2013)</strong> 以 902 位 BDSM 實踐者與 434 位對照組比較，
-              發現實踐者在多項人格與幸福感指標上優於或不劣於對照組
-            </li>
-            <li>
-              <strong>Richters et al. (2008)</strong> 使用澳洲全國代表性樣本，
-              發現 BDSM 參與者的心理 distress 不高於一般人口
-            </li>
-            <li>
-              <strong>Brown, Barker &amp; Rahman (2020)</strong> 的 PRISMA 系統性回顧（60 篇研究整合）
-              確認精神病理模型與精神分析模型幾乎不被支持
-            </li>
-          </ul>
-          <p>
-            DSM-5 已將 paraphilia（性偏好）與 paraphilic disorder（性偏好障礙症）明確區分——
-            單純的 BDSM 興趣或實踐不構成精神疾病診斷。
-          </p>
-          <p class="qa-related">
-            延伸閱讀：
-            <a href="/bibliography/wismeijer-2013">Wismeijer 2013</a>
-            <span aria-hidden="true">·</span>
-            <a href="/bibliography/brown-barker-rahman-2020">Brown 2020</a>
-            <span aria-hidden="true">·</span>
-            <a href="/bibliography/richters-2008">Richters 2008</a>
-          </p>
-        </div>
-      </details>
+    {/* ── Group A: 學術概念辨析 ── */}
+    <section class="qa-group" aria-labelledby="qa-group-academic">
+      <h2 class="qa-group-heading" id="qa-group-academic">
+        <span class="qa-group-num">A</span>
+        <span class="qa-group-text">學術概念辨析</span>
+      </h2>
 
-      <details open class="qa-item">
-        <summary class="qa-summary">
-          <span class="qa-summary-num">Q2</span>
-          <span class="qa-summary-text">你們的立場是什麼？</span>
-          <span class="qa-summary-mark" aria-hidden="true"></span>
-        </summary>
-        <div class="qa-answer">
-          <p class="qa-tldr"><strong>合意至上，不訂定模範。</strong></p>
-          <p>
-            本站不定義「健康的 Kink」或「正確的 D/s 形式」。
-            依存型、拯救者型、不對等的權力結構——只要雙方知情且積極同意，都是有效的 Kink 形式。
-          </p>
-          <p>
-            BDSM 圈是探索自身慾望與身份的社交合法空間。我們呈現多元的動態可能性，不評判讀者的選擇。
-          </p>
-          <p class="qa-punchline">
-            <strong>唯一的邊界是合意，不是形式。</strong>
-          </p>
-          <p class="qa-related">
-            詳見：<a href="/about#editorial">關於本站 — 編輯立場</a>
-          </p>
-        </div>
-      </details>
+      <div class="qa-list">
+        <details open class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[0].num}</span>
+            <span class="qa-summary-text">{qaItems[0].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p class="qa-tldr"><strong>不是。</strong></p>
+            <p>當代學術研究一致指出，BDSM 實踐者的心理健康水準與一般人相當或更佳：</p>
+            <ul>
+              <li>
+                <strong>Wismeijer &amp; van Assen (2013)</strong> 以 902 位 BDSM 實踐者與 434 位對照組比較，
+                發現實踐者在多項人格與幸福感指標上優於或不劣於對照組
+              </li>
+              <li>
+                <strong>Richters et al. (2008)</strong> 使用澳洲全國代表性樣本，
+                發現 BDSM 參與者的心理 distress 不高於一般人口
+              </li>
+              <li>
+                <strong>Brown, Barker &amp; Rahman (2020)</strong> 的 PRISMA 系統性回顧（60 篇研究整合）
+                確認精神病理模型與精神分析模型幾乎不被支持
+              </li>
+            </ul>
+            <p>
+              DSM-5 已將 paraphilia（性偏好）與 paraphilic disorder（性偏好障礙症）明確區分——
+              單純的 BDSM 興趣或實踐不構成精神疾病診斷。
+            </p>
+            <p class="qa-related">
+              延伸閱讀：
+              <a href="/bibliography/wismeijer-2013">Wismeijer 2013</a>
+              <span aria-hidden="true">·</span>
+              <a href="/bibliography/brown-barker-rahman-2020">Brown 2020</a>
+              <span aria-hidden="true">·</span>
+              <a href="/bibliography/richters-2008">Richters 2008</a>
+            </p>
+          </div>
+        </details>
 
-      <details class="qa-item">
-        <summary class="qa-summary">
-          <span class="qa-summary-num">Q3</span>
-          <span class="qa-summary-text">為什麼用 AI 寫內容？</span>
-          <span class="qa-summary-mark" aria-hidden="true"></span>
-        </summary>
-        <div class="qa-answer">
-          <p>
-            本站建置 AI 心理學家 Agent「<strong>繆思（Muse）</strong>」作為條目初稿的生成者。
-            每個條目的 frontmatter 透明標示：
-          </p>
-          <ul>
-            <li><code>contributor: kinkref</code>（站方歸屬）</li>
-            <li><code>contributor_note: 「本條目由 AI 心理學家 Agent 繆思（Muse）生成」</code></li>
-          </ul>
-          <p>
-            策展人薩約對實質介入過的條目額外標示 <code>reviewer</code>。
-          </p>
-          <p>
-            站方不假裝內容為純人工撰寫，也不隱藏 AI 的角色——而是把「AI 如何參與學術內容生產」
-            這個當代學術倫理問題開放給讀者檢視。
-          </p>
-          <p class="qa-related">
-            詳見：<a href="/about#methodology">關於本站 — 方法論實驗</a>
-          </p>
-        </div>
-      </details>
-
-      <details class="qa-item">
-        <summary class="qa-summary">
-          <span class="qa-summary-num">Q4</span>
-          <span class="qa-summary-text">為什麼不收《五十道陰影》？</span>
-          <span class="qa-summary-mark" aria-hidden="true"></span>
-        </summary>
-        <div class="qa-answer">
-          <p>
-            《五十道陰影》（Fifty Shades of Grey）是流行文化現象，不是學術或實踐參考文獻。
-          </p>
-          <p>
-            本站書架採三層分類（Tier 1 核心 / Tier 2 鄰接基石 / Tier 3 不收），
-            《五十道陰影》屬於 Tier 3——流行文化作品不收入書架。
-            但本站會在「BDSM 媒體再現」相關條目中，將其作為批評性對照案例引用。
-          </p>
-          <p>
-            本站的策展邊界是：<strong>有學術 rigor + 與 BDSM 直接相關 + 對中文圈讀者有策展價值</strong>。
-            流行文化作品通常不符合第一條標準。
-          </p>
-        </div>
-      </details>
-
-      <details class="qa-item">
-        <summary class="qa-summary">
-          <span class="qa-summary-num">Q5</span>
-          <span class="qa-summary-text">我剛測完 bdsmtest.org，接下來該看什麼？</span>
-          <span class="qa-summary-mark" aria-hidden="true"></span>
-        </summary>
-        <div class="qa-answer">
-          <p>歡迎你。這裡可以是你的下一步。</p>
-          <p><strong>建議閱讀路徑：</strong></p>
-          <ol>
-            <li>
-              <strong>先看你的 archetype 對應的術語條目</strong>——
-              例如你測出偏向 submissive，就看
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[1].num}</span>
+            <span class="qa-summary-text">{qaItems[1].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p class="qa-tldr"><strong>軸線不同：sub 是權力動態，M 是痛感體驗。</strong></p>
+            <p>
+              <strong>sub（submissive，順從者）</strong>強調權力動態——願意把控制權交給對方（D/s 軸線）。
+              <strong>M（masochist，受虐者）</strong>強調痛感體驗——從疼痛或羞辱中獲得感官或情緒的滿足（S/M 軸線）。
+            </p>
+            <p>
+              圈內微分為：<strong>sub 不一定 M、M 不一定 sub</strong>——一個人可以喜歡服從但不喜歡疼痛，
+              也可以喜歡疼痛但不接受權力交換。BDSM 的三組對偶概念（B/D、D/s、S/M）是各自獨立的軸線，
+              讀者可以混搭。
+            </p>
+            <p class="qa-related">
+              延伸閱讀：
               <a href="/glossary/submissive">submissive</a>
-              條目，理解這個詞在學術上的精確定義
-            </li>
-            <li>
-              <strong>看 disambiguation（辨析）</strong>——
-              每個條目都有「vs」辨析段落，幫你理解自己的 archetype 跟相近概念的差異
-              （例如 submissive ≠ masochist）
-            </li>
-            <li>
-              <strong>看 BDSM 總條目</strong>——
-              <a href="/glossary/bdsm">BDSM</a>
-              條目解釋三組對偶概念（D/s、S/M、B/D）的結構
-            </li>
-            <li>
-              <strong>如果想深入</strong>——
-              從 <a href="/bibliography">文獻指南</a> 找學術論文，
-              從 <a href="/books">書架</a> 找入門讀物
-            </li>
-          </ol>
-          <p>
-            記住：archetype 是認識自己的工具，不是標籤。
-            你不需要「符合」任何 archetype 的全部描述。
-          </p>
-        </div>
-      </details>
+              <span aria-hidden="true">·</span>
+              <a href="/glossary/masochist">masochist</a>
+              <span aria-hidden="true">·</span>
+              <a href="/glossary/bdsm">BDSM 三組對偶概念</a>
+            </p>
+          </div>
+        </details>
 
-      <details class="qa-item">
-        <summary class="qa-summary">
-          <span class="qa-summary-num">Q6</span>
-          <span class="qa-summary-text">我可以怎麼參與？</span>
-          <span class="qa-summary-mark" aria-hidden="true"></span>
-        </summary>
-        <div class="qa-answer">
-          <ul>
-            <li>
-              <strong>引用、轉載</strong>：所有內容以 CC BY-SA 4.0 授權，
-              可自由引用與改作（請標明出處）
-            </li>
-            <li>
-              <strong>投稿補完</strong>：接受 GitHub PR / Issue 投稿。
-              圈內實踐觀察、翻譯校正、文獻補充都歡迎
-            </li>
-            <li>
-              <strong>圈內貢獻者 OPSEC 指引</strong>：
-              我們提供身分保護指引，確保圈內貢獻者不被迫公開身分
-            </li>
-          </ul>
-          <p class="qa-related">
-            GitHub:
-            <a href="https://github.com/NonTricker/kinkref_org" target="_blank" rel="noopener noreferrer">
-              github.com/NonTricker/kinkref_org
-            </a>
-            <span aria-hidden="true">·</span>
-            <a href="/contribute">貢獻參與</a>
-          </p>
-        </div>
-      </details>
-    </div>
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[2].num}</span>
+            <span class="qa-summary-text">{qaItems[2].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p class="qa-tldr"><strong>強度與儀式感不同：dom 是泛稱，master 含 ownership 意味。</strong></p>
+            <p>
+              <strong>dom（dominant）</strong>是泛稱「掌控位置」，可用於各種 D/s 互動，
+              從單次 scene 到長期關係皆可，沒有特定的儀式化要求。
+            </p>
+            <p>
+              <strong>master</strong>是更深層、長期、儀式化的權力動態角色，
+              常與「奴僕（slave / servant）」對偶，含義更指向 ownership
+              與 total power exchange（TPE，總體權力交換）的關係結構。
+            </p>
+            <p>
+              簡單說：所有 master 都是 dom，但不是所有 dom 都是 master。
+              選用哪個自稱通常反映實踐者對關係深度與儀式感的取向。
+            </p>
+            <p class="qa-related">
+              延伸閱讀：
+              <a href="/glossary/dominant">dominant</a>
+              <span aria-hidden="true">·</span>
+              <a href="/glossary/master">master</a>
+              <span aria-hidden="true">·</span>
+              <a href="/glossary/slave">slave</a>
+            </p>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[3].num}</span>
+            <span class="qa-summary-text">{qaItems[3].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p class="qa-tldr"><strong>三段式（紅黃綠燈）+ 易發音 + 與情境無關 + 喊出即停。</strong></p>
+            <p>
+              safe word 是合意框架的核心工具，常用<strong>三段式（紅黃綠燈）</strong>讓 bottom 在過程中明確表達狀態：
+            </p>
+            <ul>
+              <li><strong>紅</strong>：立刻停止所有動作，進入 aftercare</li>
+              <li><strong>黃</strong>：放慢、減弱強度，但不完全停</li>
+              <li><strong>綠</strong>：可以繼續、可以加強</li>
+            </ul>
+            <p>設定原則：</p>
+            <ul>
+              <li><strong>易發音</strong>——緊張或進入 subspace 時仍能說出</li>
+              <li><strong>易記憶</strong>——不需要思考</li>
+              <li><strong>與情境無關</strong>——不會跟 scene 內容混淆而誤觸（避免用「不要」「停下」這類常見台詞）</li>
+            </ul>
+            <p>
+              <strong>任何一方</strong>喊出 safe word 後，所有行動即停止並進入 aftercare。
+              top 也可以喊 safe word——不只是 bottom 的工具。
+            </p>
+            <p class="qa-related">
+              延伸閱讀：
+              <a href="/glossary/safe-word">safe word</a>
+              <span aria-hidden="true">·</span>
+              <a href="/glossary/consent">consent</a>
+              <span aria-hidden="true">·</span>
+              <a href="/glossary/aftercare">aftercare</a>
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    {/* ── Group B: 關於本站 ── */}
+    <section class="qa-group" aria-labelledby="qa-group-station">
+      <h2 class="qa-group-heading" id="qa-group-station">
+        <span class="qa-group-num">B</span>
+        <span class="qa-group-text">關於本站</span>
+      </h2>
+
+      <div class="qa-list">
+        <details open class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[4].num}</span>
+            <span class="qa-summary-text">{qaItems[4].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p class="qa-tldr"><strong>合意至上，不訂定模範。</strong></p>
+            <p>
+              本站不定義「健康的 Kink」或「正確的 D/s 形式」。
+              依存型、拯救者型、不對等的權力結構——只要雙方知情且積極同意，都是有效的 Kink 形式。
+            </p>
+            <p>
+              BDSM 圈是探索自身慾望與身份的社交合法空間。我們呈現多元的動態可能性，不評判讀者的選擇。
+            </p>
+            <p class="qa-punchline">
+              <strong>唯一的邊界是合意，不是形式。</strong>
+            </p>
+            <p class="qa-related">
+              詳見：<a href="/about#editorial">關於本站 — 編輯立場</a>
+            </p>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[5].num}</span>
+            <span class="qa-summary-text">{qaItems[5].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p class="qa-tldr"><strong>三大主軸：去病理化、合意框架、神經科學與生理學。</strong></p>
+            <p>當代 BDSM 學術研究主要分三條軸線：</p>
+            <ol>
+              <li>
+                <strong>去病理化研究</strong>：以實證或理論論述支持「BDSM 不是病」的學術立場。
+                代表文獻：<a href="/bibliography/wismeijer-2013">Wismeijer 2013</a>、
+                <a href="/bibliography/connolly-2006">Connolly 2006</a>、
+                <a href="/bibliography/moser-kleinplatz-2006">Moser &amp; Kleinplatz 2006</a>
+              </li>
+              <li>
+                <strong>合意框架與協商實務</strong>：探討同意（consent）、協商（negotiation）、
+                aftercare、SSC vs RACK 等倫理框架的形成與爭議
+              </li>
+              <li>
+                <strong>神經科學與生理學</strong>：研究 subspace、痛感與愉悅的生理機轉
+                （如 <a href="/bibliography/sagarin-2009">Sagarin 2009</a>、
+                <a href="/bibliography/klement-2017">Klement 2017</a>）
+              </li>
+            </ol>
+            <p>
+              kinkref.org 文獻指南目前收錄 <strong>34 篇核心論文中文摘要</strong>，
+              涵蓋上述三軸主要研究。
+            </p>
+            <p class="qa-related">
+              詳見：<a href="/bibliography">文獻指南</a>
+            </p>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[6].num}</span>
+            <span class="qa-summary-text">{qaItems[6].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p>
+              本站建置 AI 心理學家 Agent「<strong>繆思（Muse）</strong>」作為條目初稿的生成者。
+              每個條目的 frontmatter 透明標示：
+            </p>
+            <ul>
+              <li><code>contributor: kinkref</code>（站方歸屬）</li>
+              <li><code>contributor_note: 「本條目由 AI 心理學家 Agent 繆思（Muse）生成」</code></li>
+            </ul>
+            <p>
+              策展人薩約對實質介入過的條目額外標示 <code>reviewer</code>。
+            </p>
+            <p>
+              站方不假裝內容為純人工撰寫，也不隱藏 AI 的角色——而是把「AI 如何參與學術內容生產」
+              這個當代學術倫理問題開放給讀者檢視。
+            </p>
+            <p class="qa-related">
+              詳見：<a href="/about#methodology">關於本站 — 方法論實驗</a>
+            </p>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[7].num}</span>
+            <span class="qa-summary-text">{qaItems[7].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p>
+              《五十道陰影》（Fifty Shades of Grey）是流行文化現象，不是學術或實踐參考文獻。
+            </p>
+            <p>
+              本站書架採三層分類（Tier 1 核心 / Tier 2 鄰接基石 / Tier 3 不收），
+              《五十道陰影》屬於 Tier 3——流行文化作品不收入書架。
+              但本站會在「BDSM 媒體再現」相關條目中，將其作為批評性對照案例引用。
+            </p>
+            <p>
+              本站的策展邊界是：<strong>有學術 rigor + 與 BDSM 直接相關 + 對中文圈讀者有策展價值</strong>。
+              流行文化作品通常不符合第一條標準。
+            </p>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[8].num}</span>
+            <span class="qa-summary-text">{qaItems[8].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <p>歡迎你。這裡可以是你的下一步。</p>
+            <p><strong>建議閱讀路徑：</strong></p>
+            <ol>
+              <li>
+                <strong>先看你的 archetype 對應的術語條目</strong>——
+                例如你測出偏向 submissive，就看
+                <a href="/glossary/submissive">submissive</a>
+                條目，理解這個詞在學術上的精確定義
+              </li>
+              <li>
+                <strong>看 disambiguation（辨析）</strong>——
+                每個條目都有「vs」辨析段落，幫你理解自己的 archetype 跟相近概念的差異
+                （例如 submissive ≠ masochist）
+              </li>
+              <li>
+                <strong>看 BDSM 總條目</strong>——
+                <a href="/glossary/bdsm">BDSM</a>
+                條目解釋三組對偶概念（D/s、S/M、B/D）的結構
+              </li>
+              <li>
+                <strong>如果想深入</strong>——
+                從 <a href="/bibliography">文獻指南</a> 找學術論文，
+                從 <a href="/books">書架</a> 找入門讀物
+              </li>
+            </ol>
+            <p>
+              記住：archetype 是認識自己的工具，不是標籤。
+              你不需要「符合」任何 archetype 的全部描述。
+            </p>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-summary">
+            <span class="qa-summary-num">{qaItems[9].num}</span>
+            <span class="qa-summary-text">{qaItems[9].question}</span>
+            <span class="qa-summary-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="qa-answer">
+            <ul>
+              <li>
+                <strong>引用、轉載</strong>：所有內容以 CC BY-SA 4.0 授權，
+                可自由引用與改作（請標明出處）
+              </li>
+              <li>
+                <strong>投稿補完</strong>：接受 GitHub PR / Issue 投稿。
+                圈內實踐觀察、翻譯校正、文獻補充都歡迎
+              </li>
+              <li>
+                <strong>圈內貢獻者 OPSEC 指引</strong>：
+                我們提供身分保護指引，確保圈內貢獻者不被迫公開身分
+              </li>
+            </ul>
+            <p class="qa-related">
+              GitHub:
+              <a href="https://github.com/NonTricker/kinkref_org" target="_blank" rel="noopener noreferrer">
+                github.com/NonTricker/kinkref_org
+              </a>
+              <span aria-hidden="true">·</span>
+              <a href="/contribute">貢獻參與</a>
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
 
     <footer class="qa-footer">
       <p>
@@ -287,8 +523,42 @@ const description = 'kinkref.org 常見問題：BDSM 心理健康學界共識、
   }
 
   /* ──────────────────────────────────────────────────────
+     Group heading — A / B 分組標題（v0.8.2 新增）
+     ────────────────────────────────────────────────────── */
+  .qa-group {
+    margin-bottom: var(--space-9);
+  }
+
+  .qa-group:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .qa-group-heading {
+    margin: 0 0 var(--space-5);
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .qa-group-num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-primary);
+    font-weight: var(--fw-semibold);
+    padding: 2px 8px;
+    border: 1px solid var(--accent-primary);
+    border-radius: 2px;
+    line-height: 1;
+  }
+
+  /* ──────────────────────────────────────────────────────
      Accordion list — native <details>/<summary>
-     設計：summary 紅色 chevron / 開合切換 / 對標學術站
      ────────────────────────────────────────────────────── */
   .qa-list {
     display: flex;
@@ -344,7 +614,7 @@ const description = 'kinkref.org 常見問題：BDSM 心理健康學界共識、
     flex: 1 1 auto;
   }
 
-  /* Chevron mark — closed: → / open: ↓ via CSS */
+  /* Chevron mark — closed: + / open: - via CSS */
   .qa-summary-mark {
     flex: 0 0 auto;
     width: 1em;
@@ -378,7 +648,6 @@ const description = 'kinkref.org 常見問題：BDSM 心理健康學界共識、
     transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Open state — vertical bar 隱藏，視覺變成 「-」 */
   .qa-item[open] .qa-summary-mark::after {
     transform: translateX(-50%) scaleY(0);
   }
