@@ -19,10 +19,12 @@ bdsm_history: |
 
 access_type: hybrid
 oa_apc_usd: 4380
-impact_factor: 2.56
+impact_factor: 3.3
 impact_factor_year: 2024
 impact_factor_source: JCR
-ranking_quartile: Q2
+ranking_quartile: "Q1 (Urology)"
+society: "ISSM (International Society for Sexual Medicine)"
+review_type: "Double-anonymized"
 
 submission_url: "https://academic.oup.com/jsm/pages/General_Instructions"
 review_time_weeks: 8-16
@@ -50,7 +52,8 @@ reader_tags: [researcher, clinical]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # Journal of Sexual Medicine

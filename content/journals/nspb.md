@@ -17,6 +17,8 @@ bdsm_history: |
   NSPB 是 BDSM 與性少數研究的友善平台之一。本站收錄的 **Pitagora (2013)**「Consent vs. Coercion: BDSM Interactions」即發表於本期刊。期刊歷史上收錄多篇 BDSM、polyamory、性少數心理學論述。
 
 access_type: diamond-oa
+oa_license: "CC BY 4.0"
+trust_level: "低（學生期刊，但 Pitagora 2013 被引用 120+）"
 
 submission_url: "https://www.nspb.net/index.php/nspb/about/submissions"
 review_time_weeks: 8-12
@@ -39,7 +41,8 @@ reader_tags: [researcher, educator]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # The New School Psychology Bulletin

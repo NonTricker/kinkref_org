@@ -17,7 +17,8 @@ bdsm_history: |
   PLOS ONE 收錄多篇 BDSM、polyamory、性少數研究。期刊的「不以主題重要性篩選」立場讓它對非主流性學主題友善——只要方法論嚴謹、研究倫理符合，都有發表空間。對 replication studies 與 null findings 也歡迎，這對早期 BDSM 研究的累積有結構性意義。
 
 access_type: gold-oa
-oa_apc_usd: 2477
+oa_license: "CC BY（可全文翻譯）"
+oa_apc_usd: "1931-2382"
 impact_factor: 2.6
 impact_factor_year: 2024
 impact_factor_source: JCR
@@ -40,7 +41,8 @@ reader_tags: [researcher, clinical]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # PLOS ONE

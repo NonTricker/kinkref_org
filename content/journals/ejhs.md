@@ -17,6 +17,9 @@ bdsm_history: |
   EJHS 在其活躍期是 BDSM 學術論述的重要平台。本站收錄的 **Williams, Thomas, Prior & Walters (2014)** 「From SSC and RACK to the 4Cs」即發表於本期刊。期刊歷史上累積了相當規模的 kink、polyamory、同意框架、性少數實踐等主題的開放取用論文。
 
 access_type: diamond-oa
+ceased_year: 2015
+ceased_note: "已停刊 ~2015；域名 ejhs.org DNS 已死，Wayback Machine 已存檔"
+trust_level: "低（但 Williams et al. 2014 4Cs 論文被引用 150+）"
 
 abstract_zh: |
   **Electronic Journal of Human Sexuality（EJHS）** 是早期開放取用學術期刊的代表之一，由 Institute for Advanced Study of Human Sexuality 主辦，1998 年至 2014 年共發行 17 卷。期刊是 diamond OA（讀者作者皆免費），對 BDSM 與性少數議題持開放立場。
@@ -40,7 +43,8 @@ reader_tags: [researcher]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # Electronic Journal of Human Sexuality（已停刊）

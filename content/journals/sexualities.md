@@ -18,10 +18,12 @@ bdsm_history: |
   Sexualities 對 BDSM、kink、SM 議題長期友善。期刊歷史上收錄多篇 BDSM 民族誌、社群動態、權力分析的論文。Newmahr 等學者的相關研究脈絡與本期刊有密切連結（雖然 Newmahr 2011 民族誌出版為書，但相關短文常見於此類期刊）。
 
 access_type: hybrid
-impact_factor: 2.1
+impact_factor: 2.3
 impact_factor_year: 2024
 impact_factor_source: JCR
 ranking_quartile: Q1
+h_index: 76
+special_issues: "2021 BDSM Studies special issue (guest editor: Brandy Simula)"
 
 submission_url: "https://journals.sagepub.com/author-instructions/sex"
 review_time_weeks: 12-20
@@ -40,7 +42,8 @@ reader_tags: [researcher, educator]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # Sexualities

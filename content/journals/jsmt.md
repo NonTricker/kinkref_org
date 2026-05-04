@@ -18,9 +18,10 @@ bdsm_history: |
   JSMT 雖以臨床治療為主軸，但在 BDSM 議題上對「kink-aware therapy」（kink 友善治療）的論述有顯著貢獻。期刊歷史上收錄多篇關於諮商師如何理解 BDSM 客戶、避免病理化、處理 BDSM 相關親密關係議題的文獻。
 
 access_type: hybrid
-impact_factor: 2.1
+impact_factor: 2.5
 impact_factor_year: 2024
 impact_factor_source: JCR
+editorial_orientation: "偏臨床治療取向"
 
 submission_url: "https://www.tandfonline.com/action/authorSubmission?journalCode=usmt20"
 review_time_weeks: 10-16
@@ -39,7 +40,8 @@ reader_tags: [clinical, researcher]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # Journal of Sex & Marital Therapy

@@ -17,7 +17,10 @@ bdsm_history: |
   Sexual Medicine 作為 JSM 的 OA 姊妹刊，編輯方針對 BDSM 相關研究的接受度與 JSM 相當。雖然 BDSM 不是核心題材，但量化、臨床、生物醫學取向的研究有發表空間。
 
 access_type: gold-oa
+oa_license: "逐篇不同: CC BY / CC BY-NC / CC BY-NC-ND"
 oa_apc_usd: 2475
+society: "ISSM (International Society for Sexual Medicine)"
+relation: "JSM 的 OA 姊妹刊"
 impact_factor: 2.0
 impact_factor_year: 2024
 impact_factor_source: JCR
@@ -43,7 +46,8 @@ reader_tags: [researcher, clinical]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # Sexual Medicine（OA）

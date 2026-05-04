@@ -285,8 +285,10 @@ const bibliography = defineCollection({
 // Journals collection (v1.3 新增)
 // ──────────────────────────────────────────────────────
 
-const accessTypeJournalEnum = z.enum(['diamond-oa', 'gold-oa', 'hybrid', 'paywalled']);
+// v1.9：subscription 加入 enum（學術出版業用「訂閱制」比 paywalled 更精確）
+const accessTypeJournalEnum = z.enum(['diamond-oa', 'gold-oa', 'hybrid', 'paywalled', 'subscription']);
 const acceptsBdsmEnum = z.enum([
+  'yes', // v1.9：未細分頻率時的通用值（內容團隊偏好簡稱）
   'yes-frequent',
   'yes-occasional',
   'yes-but-rare',
@@ -311,13 +313,16 @@ const journals = defineCollection({
     accepts_bdsm: acceptsBdsmEnum,
     bdsm_history: z.string().nullish(),
     access_type: accessTypeJournalEnum,
-    oa_apc_usd: z.number().nullish(),
+    // v1.9：oa_apc_usd 接受 number 或 string——某些期刊有範圍 APC（如 "1931-2382"）
+    oa_apc_usd: z.union([z.number(), z.string()]).nullish(),
     impact_factor: z.number().nullish(),
     impact_factor_year: z.number().nullish(),
     impact_factor_source: z
       .enum(['JCR', 'Scopus', 'journal-self-reported', 'other'])
       .nullish(),
-    ranking_quartile: z.enum(['Q1', 'Q2', 'Q3', 'Q4']).nullish(),
+    // v1.9：放寬 ranking_quartile 至 z.string()——同期刊在不同 subject category
+    // 可有不同 quartile（如「Q1 (Urology)」），strict enum 太窄
+    ranking_quartile: z.string().nullish(),
     submission_url: z.string().url().nullish(),
     review_time_weeks: z.string().nullish(),
     acceptance_rate_pct: z.number().nullish(),

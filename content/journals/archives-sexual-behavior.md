@@ -19,9 +19,14 @@ bdsm_history: |
 
 access_type: hybrid
 impact_factor: 3.8
+impact_factor_note: "5-year: 3.8 / 2-year: 3.1"
 impact_factor_year: 2024
 impact_factor_source: JCR
+citescore: 5.2
 ranking_quartile: Q1
+h_index: 157
+society: "IASR (International Academy of Sex Research)"
+bdsm_positioning: "BDSM 學術研究的首要發表平台"
 
 submission_url: "https://www.editorialmanager.com/asbe/"
 review_time_weeks: 12-20
@@ -45,7 +50,8 @@ reader_tags: [researcher, clinical, educator]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # Archives of Sexual Behavior

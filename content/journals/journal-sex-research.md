@@ -18,9 +18,11 @@ bdsm_history: |
   JSR 是 BDSM 研究的常見發表平台。期刊歷史上收錄涉及 BDSM 的量化、質性、神經科學、民族誌等多種研究取向，包括 BDSM 與性傾向、人格、伴侶動態、社群文化等主題。
 
 access_type: hybrid
-impact_factor: 2.7
-impact_factor_year: 2026
+impact_factor: 3.4
+impact_factor_year: 2024
 impact_factor_source: JCR
+ranking_quartile: Q1
+society: "SSSS (Society for the Scientific Study of Sexuality)"
 
 submission_url: "https://www.tandfonline.com/action/authorSubmission?journalCode=hjsr20"
 review_time_weeks: 10-16
@@ -39,7 +41,8 @@ reader_tags: [researcher, clinical, educator]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 created_date: 2026-05-03
-last_reviewed: 2026-05-03
+last_reviewed: 2026-05-04
+reviewer: "策展人：薩約"
 ---
 
 # The Journal of Sex Research
