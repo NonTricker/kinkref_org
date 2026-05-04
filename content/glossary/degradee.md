@@ -19,7 +19,7 @@ disambiguation:
       Submissive 是順從角色的通用稱謂，Degradee 是特定 practice 的接受者。一個 Submissive 可以選擇是否接受 degradation，並非所有 sub 都喜歡此 practice。
 
 controversies: |
-  Degradation play 接受方對自身需求的識別至關重要。一個常見的擔憂是：Degradee 是否「真的喜歡被貶低」，還是「只是接受了不健康的自我貶低」？圈內共識傾向以下立場：(1) 區分情慾愉悅與真實自我貶低需要時間與自我認識；(2) 場景前後的情緒狀態變化是重要指標；(3) 若場景後出現情緒下沉、自我懷疑加劇等現象，應重新評估動態的健康度。
+  Degradation play 接受方對自身需求的識別至關重要。一個常見的擔憂是：Degradee 是否「真的喜歡被貶低」，還是「只是在接受自我貶低」？圈內常見的觀察方式包括：(1) 區分情慾愉悅與非情慾脈絡的自我貶低需要時間與自我認識；(2) 場景前後的情緒狀態變化是重要的自我觀察指標；(3) 若場景後出現持續性的情緒下沉或自我懷疑加劇，實踐者可考慮與伴侶重新協商動態的方向。
 
 usage_notes: |
   在台灣中文圈，「被貶低者」「被羞辱者」是常見的中文翻譯。Degradee 的 aftercare 通常包含明確的「你是被尊重的、剛才是場景內的演出」等再確認語言，協助 Degradee 從場景情緒中過渡回平等狀態。
@@ -34,6 +34,7 @@ topic_tags: [identity, relationship-dynamics, harm-reduction]
 reader_tags: [practitioner, researcher, clinical]
 contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
+reviewer: "策展人：薩約"
 created_date: 2026-05-02
 last_reviewed: 2026-05-02
 ---

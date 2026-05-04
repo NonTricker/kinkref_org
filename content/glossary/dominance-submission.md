@@ -27,7 +27,9 @@ disambiguation:
       Master/Slave 是 D/s 的**進階形式**——通常指 24/7 或 TPE 強度下、權力交換深度涵蓋全方位生活的長期結構。所有 Master/Slave 關係都是 D/s，但不是所有 D/s 都到 Master/Slave 強度。
 
 usage_notes: |
-  在台灣中文圈，「D/s」「主從動態」是常見的中文翻譯。實踐者在自我介紹時常說「我有 D/s 動態」「我們的關係是 D/s 結構」——這個措辭強調**關係的整體框架**而非特定 practice。場景型的 D/s 可能僅在特定時段成立（如「我們週末是 D/s，平日是平等情侶」），這需要雙方明確協商邊界。
+  在台灣中文圈，「D/s」「主從動態」是常見的中文翻譯。實踐者在自我介紹時常說「我有 D/s 動態」「我們的關係是 D/s 結構」——這個措辭強調關係的整體框架而非特定 practice。場景型的 D/s 可能僅在特定時段成立（如「我們週末是 D/s，平日是平等情侶」），這需要雙方明確協商邊界。
+
+  D/s 的權力不對等是這個動態的特徵，不是缺陷——以主流親密關係的「平等」標準衡量 D/s 在方法論上不成立，因為 D/s 本就是合意建立的不平等結構。在實踐者的論述中，dominant 的主導權力並非天然擁有，而是 submissive 在合意框架中主動「授權（authorize）」的結果——D/s 中的權力來源是 sub 的賦予，不是 Dom 的奪取。
 
 related_terms: [dominant, submissive, master, slave, sadism-masochism, bondage-discipline, tpe, 24-7-dynamic, bdsm]
 

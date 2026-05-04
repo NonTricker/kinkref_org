@@ -1,0 +1,504 @@
+---
+/**
+ * QA — 常見問題
+ *
+ * v0.8.1：靈範師（內容團隊）QA_CONTENT_DRAFT.md 整合。
+ * 6 題以 native HTML accordion（details/summary）呈現，無 JS 依賴。
+ * Q1/Q2 default open（靈範師建議）。
+ *
+ * 跟首頁 FAQPage Schema 互補：
+ *   - 首頁 schema 用短版 A（給 Google SERP rich snippet）
+ *   - 本頁用 long-form A（給讀者完整論述 + bibliography 引用）
+ * 兩套並存不衝突，Google 會擇相關 page surface。
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const pageTitle = '常見問題 · QA';
+const description = 'kinkref.org 常見問題：BDSM 心理健康學界共識、合意至上立場、AI-augmented 透明標示、新手閱讀路徑、社群參與方式｜學術 rigor + 直接、不迴避、有態度但不說教';
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <article class="qa-page">
+    <header class="qa-header">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-name">QA</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-zh">常見問題</span>
+      </p>
+      <h1 class="qa-title">常見問題</h1>
+      <hr class="qa-title-rule" aria-hidden="true" />
+      <p class="qa-intro">
+        為讀者解答最常見的疑問。語氣直接、不迴避，有態度但不說教。
+      </p>
+    </header>
+
+    <div class="qa-list">
+      <details open class="qa-item">
+        <summary class="qa-summary">
+          <span class="qa-summary-num">Q1</span>
+          <span class="qa-summary-text">BDSM 是心理疾病嗎？</span>
+          <span class="qa-summary-mark" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-answer">
+          <p class="qa-tldr"><strong>不是。</strong></p>
+          <p>當代學術研究一致指出，BDSM 實踐者的心理健康水準與一般人相當或更佳：</p>
+          <ul>
+            <li>
+              <strong>Wismeijer &amp; van Assen (2013)</strong> 以 902 位 BDSM 實踐者與 434 位對照組比較，
+              發現實踐者在多項人格與幸福感指標上優於或不劣於對照組
+            </li>
+            <li>
+              <strong>Richters et al. (2008)</strong> 使用澳洲全國代表性樣本，
+              發現 BDSM 參與者的心理 distress 不高於一般人口
+            </li>
+            <li>
+              <strong>Brown, Barker &amp; Rahman (2020)</strong> 的 PRISMA 系統性回顧（60 篇研究整合）
+              確認精神病理模型與精神分析模型幾乎不被支持
+            </li>
+          </ul>
+          <p>
+            DSM-5 已將 paraphilia（性偏好）與 paraphilic disorder（性偏好障礙症）明確區分——
+            單純的 BDSM 興趣或實踐不構成精神疾病診斷。
+          </p>
+          <p class="qa-related">
+            延伸閱讀：
+            <a href="/bibliography/wismeijer-2013">Wismeijer 2013</a>
+            <span aria-hidden="true">·</span>
+            <a href="/bibliography/brown-barker-rahman-2020">Brown 2020</a>
+            <span aria-hidden="true">·</span>
+            <a href="/bibliography/richters-2008">Richters 2008</a>
+          </p>
+        </div>
+      </details>
+
+      <details open class="qa-item">
+        <summary class="qa-summary">
+          <span class="qa-summary-num">Q2</span>
+          <span class="qa-summary-text">你們的立場是什麼？</span>
+          <span class="qa-summary-mark" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-answer">
+          <p class="qa-tldr"><strong>合意至上，不訂定模範。</strong></p>
+          <p>
+            本站不定義「健康的 Kink」或「正確的 D/s 形式」。
+            依存型、拯救者型、不對等的權力結構——只要雙方知情且積極同意，都是有效的 Kink 形式。
+          </p>
+          <p>
+            BDSM 圈是探索自身慾望與身份的社交合法空間。我們呈現多元的動態可能性，不評判讀者的選擇。
+          </p>
+          <p class="qa-punchline">
+            <strong>唯一的邊界是合意，不是形式。</strong>
+          </p>
+          <p class="qa-related">
+            詳見：<a href="/about#editorial">關於本站 — 編輯立場</a>
+          </p>
+        </div>
+      </details>
+
+      <details class="qa-item">
+        <summary class="qa-summary">
+          <span class="qa-summary-num">Q3</span>
+          <span class="qa-summary-text">為什麼用 AI 寫內容？</span>
+          <span class="qa-summary-mark" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-answer">
+          <p>
+            本站建置 AI 心理學家 Agent「<strong>繆思（Muse）</strong>」作為條目初稿的生成者。
+            每個條目的 frontmatter 透明標示：
+          </p>
+          <ul>
+            <li><code>contributor: kinkref</code>（站方歸屬）</li>
+            <li><code>contributor_note: 「本條目由 AI 心理學家 Agent 繆思（Muse）生成」</code></li>
+          </ul>
+          <p>
+            策展人薩約對實質介入過的條目額外標示 <code>reviewer</code>。
+          </p>
+          <p>
+            站方不假裝內容為純人工撰寫，也不隱藏 AI 的角色——而是把「AI 如何參與學術內容生產」
+            這個當代學術倫理問題開放給讀者檢視。
+          </p>
+          <p class="qa-related">
+            詳見：<a href="/about#methodology">關於本站 — 方法論實驗</a>
+          </p>
+        </div>
+      </details>
+
+      <details class="qa-item">
+        <summary class="qa-summary">
+          <span class="qa-summary-num">Q4</span>
+          <span class="qa-summary-text">為什麼不收《五十道陰影》？</span>
+          <span class="qa-summary-mark" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-answer">
+          <p>
+            《五十道陰影》（Fifty Shades of Grey）是流行文化現象，不是學術或實踐參考文獻。
+          </p>
+          <p>
+            本站書架採三層分類（Tier 1 核心 / Tier 2 鄰接基石 / Tier 3 不收），
+            《五十道陰影》屬於 Tier 3——流行文化作品不收入書架。
+            但本站會在「BDSM 媒體再現」相關條目中，將其作為批評性對照案例引用。
+          </p>
+          <p>
+            本站的策展邊界是：<strong>有學術 rigor + 與 BDSM 直接相關 + 對中文圈讀者有策展價值</strong>。
+            流行文化作品通常不符合第一條標準。
+          </p>
+        </div>
+      </details>
+
+      <details class="qa-item">
+        <summary class="qa-summary">
+          <span class="qa-summary-num">Q5</span>
+          <span class="qa-summary-text">我剛測完 bdsmtest.org，接下來該看什麼？</span>
+          <span class="qa-summary-mark" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-answer">
+          <p>歡迎你。這裡可以是你的下一步。</p>
+          <p><strong>建議閱讀路徑：</strong></p>
+          <ol>
+            <li>
+              <strong>先看你的 archetype 對應的術語條目</strong>——
+              例如你測出偏向 submissive，就看
+              <a href="/glossary/submissive">submissive</a>
+              條目，理解這個詞在學術上的精確定義
+            </li>
+            <li>
+              <strong>看 disambiguation（辨析）</strong>——
+              每個條目都有「vs」辨析段落，幫你理解自己的 archetype 跟相近概念的差異
+              （例如 submissive ≠ masochist）
+            </li>
+            <li>
+              <strong>看 BDSM 總條目</strong>——
+              <a href="/glossary/bdsm">BDSM</a>
+              條目解釋三組對偶概念（D/s、S/M、B/D）的結構
+            </li>
+            <li>
+              <strong>如果想深入</strong>——
+              從 <a href="/bibliography">文獻指南</a> 找學術論文，
+              從 <a href="/books">書架</a> 找入門讀物
+            </li>
+          </ol>
+          <p>
+            記住：archetype 是認識自己的工具，不是標籤。
+            你不需要「符合」任何 archetype 的全部描述。
+          </p>
+        </div>
+      </details>
+
+      <details class="qa-item">
+        <summary class="qa-summary">
+          <span class="qa-summary-num">Q6</span>
+          <span class="qa-summary-text">我可以怎麼參與？</span>
+          <span class="qa-summary-mark" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-answer">
+          <ul>
+            <li>
+              <strong>引用、轉載</strong>：所有內容以 CC BY-SA 4.0 授權，
+              可自由引用與改作（請標明出處）
+            </li>
+            <li>
+              <strong>投稿補完</strong>：接受 GitHub PR / Issue 投稿。
+              圈內實踐觀察、翻譯校正、文獻補充都歡迎
+            </li>
+            <li>
+              <strong>圈內貢獻者 OPSEC 指引</strong>：
+              我們提供身分保護指引，確保圈內貢獻者不被迫公開身分
+            </li>
+          </ul>
+          <p class="qa-related">
+            GitHub:
+            <a href="https://github.com/NonTricker/kinkref_org" target="_blank" rel="noopener noreferrer">
+              github.com/NonTricker/kinkref_org
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href="/contribute">貢獻參與</a>
+          </p>
+        </div>
+      </details>
+    </div>
+
+    <footer class="qa-footer">
+      <p>
+        <a href="/about">完整站方立場 →</a>
+        <span aria-hidden="true">·</span>
+        <a href="/">回首頁</a>
+      </p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .qa-page {
+    max-width: var(--content-width-prose);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Header — 對齊 about / index 頁的 page-hero 風格
+     ────────────────────────────────────────────────────── */
+  .qa-header {
+    margin-bottom: var(--space-9);
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .page-eyebrow-sep {
+    color: var(--ink-disabled);
+    font-weight: var(--fw-regular);
+  }
+
+  .page-eyebrow-zh {
+    font-weight: var(--fw-semibold);
+  }
+
+  .qa-title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-5);
+  }
+
+  .qa-title-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .qa-intro {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Accordion list — native <details>/<summary>
+     設計：summary 紅色 chevron / 開合切換 / 對標學術站
+     ────────────────────────────────────────────────────── */
+  .qa-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .qa-item {
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .qa-item:first-child {
+    border-top: 1px solid var(--rule-fine);
+  }
+
+  .qa-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: var(--space-5) 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+    line-height: 1.4;
+    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .qa-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .qa-summary::marker {
+    display: none;
+  }
+
+  .qa-summary:hover {
+    color: var(--accent-primary);
+  }
+
+  .qa-summary-num {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    color: var(--accent-primary);
+    letter-spacing: 0.06em;
+  }
+
+  .qa-summary-text {
+    flex: 1 1 auto;
+  }
+
+  /* Chevron mark — closed: → / open: ↓ via CSS */
+  .qa-summary-mark {
+    flex: 0 0 auto;
+    width: 1em;
+    height: 1em;
+    position: relative;
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .qa-summary-mark::before,
+  .qa-summary-mark::after {
+    content: '';
+    position: absolute;
+    background: var(--accent-primary);
+    border-radius: 1px;
+  }
+
+  .qa-summary-mark::before {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+
+  .qa-summary-mark::after {
+    top: 0;
+    left: 50%;
+    width: 1.5px;
+    height: 100%;
+    transform: translateX(-50%);
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Open state — vertical bar 隱藏，視覺變成 「-」 */
+  .qa-item[open] .qa-summary-mark::after {
+    transform: translateX(-50%) scaleY(0);
+  }
+
+  .qa-answer {
+    padding: 0 0 var(--space-7);
+    color: var(--ink-body);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+  }
+
+  .qa-tldr {
+    margin: 0 0 var(--space-4);
+    font-size: var(--fs-body);
+    color: var(--ink-heading);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--accent-primary);
+  }
+
+  .qa-answer p {
+    margin: 0 0 var(--space-3);
+  }
+
+  .qa-answer ul,
+  .qa-answer ol {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-7);
+  }
+
+  .qa-answer li {
+    margin-bottom: var(--space-2);
+    line-height: var(--lh-body);
+  }
+
+  .qa-answer code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: var(--accent-citation);
+    background: var(--bg-subtle);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+
+  .qa-answer a {
+    color: var(--accent-primary);
+    text-underline-offset: 2px;
+  }
+
+  .qa-punchline {
+    margin: var(--space-4) 0;
+    padding: var(--space-4) var(--space-5);
+    background: var(--bg-subtle);
+    border-left: 3px solid var(--accent-primary);
+    color: var(--ink-heading);
+    font-size: var(--fs-body);
+  }
+
+  .qa-related {
+    margin-top: var(--space-5);
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--rule-fine);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .qa-related a {
+    color: var(--accent-primary);
+    text-decoration: none;
+  }
+
+  .qa-related a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .qa-related span[aria-hidden] {
+    color: var(--ink-disabled);
+  }
+
+  .qa-footer {
+    margin-top: var(--space-9);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule-fine);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .qa-footer p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .qa-footer a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: var(--fw-medium);
+  }
+
+  .qa-footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .qa-footer span[aria-hidden] {
+    color: var(--ink-disabled);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qa-summary,
+    .qa-summary-mark,
+    .qa-summary-mark::after {
+      transition: none;
+    }
+  }
+</style>

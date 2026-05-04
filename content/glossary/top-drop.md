@@ -21,7 +21,7 @@ disambiguation:
       Top-drop 是場景結束後的延遲反應，與場景中即時的不適（如生理疲勞、操作失誤後的擔憂）不同。後者可在場景中暫停處理，前者則需後續照護。
 
 usage_notes: |
-  在台灣中文圈，top-drop 多以原文使用，「Top 落差」是書面翻譯。實踐中，Top-drop 的識別與處理常被低估——top 可能因「應該堅強」的文化預設而隱藏自身需求。健康的關係動態中，雙方都應主動討論彼此的 drop 模式與照護偏好。
+  在台灣中文圈，top-drop 多以原文使用，「Top 落差」是書面翻譯。實踐中，Top-drop 的識別與處理常被低估——top 可能因「應該堅強」的文化預設而隱藏自身需求。在實踐中，雙方可主動討論彼此的 drop 模式與照護偏好。
 
 related_terms: [aftercare, sub-drop, topspace, scene]
 

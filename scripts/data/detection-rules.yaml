@@ -635,6 +635,15 @@ required_caveats:
     required_in_tagline:
       - 成年
 
+  ddlg:
+    note: "DDlg 動態涉及年齡扮演,必須有保護聲明"
+    required_fields:
+      - caveats
+      - audience_warning
+    required_caveats_types:
+      - legal-context
+      - cultural-context
+
   degrader:
     note: "與 emotional abuse 的界線需澄清"
     required_fields:

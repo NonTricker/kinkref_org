@@ -2,7 +2,7 @@
 schema_version: "1.4"
 term_zh: 爹地 / 媽咪
 term_en: Daddy / Mommy
-aliases_en: Daddy Dom; Mommy Dom; CG (Caregiver)
+aliases_en: Daddy Dom; Mommy Dom; CG (Caregiver); CGL; CGl
 term_alt_zh: 爹; 媽; 老爹; 老媽
 tagline: 在成年人之間進行的照顧/權威 D/s 動態中的主導方角色。
 definition: |
