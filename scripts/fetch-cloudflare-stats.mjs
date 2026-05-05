@@ -48,7 +48,7 @@ const query = `{
     accounts(filter: { accountTag: "${CF_ACCOUNT_ID}" }) {
       topPaths: rumPageloadEventsAdaptiveGroups(
         filter: { datetime_geq: "${start}", datetime_leq: "${end}" }
-        limit: 20
+        limit: 40
         orderBy: [count_DESC]
       ) {
         count
@@ -108,6 +108,14 @@ try {
     .filter((p) => !p.path.startsWith('/glossary/') || p.path === '/glossary/')
     .slice(0, 5);
 
+  // Top content entries (bibliography + books + journals 個別條目，不含 index)
+  const contentCollections = ['/bibliography/', '/books/', '/journals/'];
+  const contentPaths = allPaths
+    .filter((p) =>
+      contentCollections.some((c) => p.path.startsWith(c) && p.path !== c)
+    )
+    .slice(0, 5);
+
   // Parse countries
   const countries = account.topCountries.map((c) => ({
     code: c.dimensions.countryName,
@@ -121,6 +129,7 @@ try {
     period: { start: start.slice(0, 10), end: end.slice(0, 10) },
     totalPageviews: totalViews,
     topGlossary: glossaryPaths,
+    topContent: contentPaths,
     topOther: otherPaths,
     countries,
   };
