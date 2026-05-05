@@ -11,9 +11,11 @@ message: >-
 
 title: "Kink Reference (kinkref.org)"
 abstract: >-
-  繁體中文 BDSM 學術翻譯與策展站。內容含術語表 (Glossary)、
-  學術文獻索引 (Bibliography) 與書目導讀 (Books) 三大支柱，
-  以中性、可查證、可批判的編輯立場服務華語讀者。
+  繁體中文 BDSM 學術轉譯與策展站。定位為「國際學術知識 × 台灣文化
+  的統合轉譯」，內容含術語表 (Glossary)、學術文獻索引 (Bibliography)、
+  書目導讀 (Books)、期刊投稿地圖 (Journals)、OA 論文全文中譯 (Translations)
+  與常見問題 (QA) 六大區塊。以中性、可查證、可批判的編輯立場服務華語讀者。
+  AI-augmented 產製流程完全透明標示。
 
 type: dataset
 
@@ -33,15 +35,18 @@ keywords:
   - kink
   - reference
   - glossary
+  - bibliography
   - academic-translation
   - traditional-chinese
   - taiwan
   - sexology
   - sexuality-studies
+  - AI-augmented
+  - open-source
 
 # 首版上線日期（v0.1.0 公開測試版）
 date-released: "2026-05-02"
-version: "0.1.0"
+version: "0.9.1"
 
 # 個別條目的引用建議：
 #   每個術語/書目/論文頁面都會顯示專屬的 APA 風格引用區塊（見 EntryLayout.astro）。

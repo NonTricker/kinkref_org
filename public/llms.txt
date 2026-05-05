@@ -12,28 +12,34 @@ and contains **no erotic content**. Editorial scope is strict: see PROJECT_SPEC.
 
 ## Content
 
-- [Glossary](https://kinkref.org/glossary): Bilingual (English / Traditional Chinese) academic term index with disambiguation, first-source citations, and origin years.
-- [Bibliography](https://kinkref.org/bibliography): Annotated bibliography of academic papers with Traditional Chinese summaries, DOIs, OA status, and methodology metadata.
-- [Books](https://kinkref.org/books): Curated reading list with Traditional Chinese book summaries, recommended chapters, and acquisition pointers.
+- [Glossary](https://kinkref.org/glossary): 60+ bilingual (English / Traditional Chinese) academic term index with disambiguation, first-source citations, and origin years.
+- [Bibliography](https://kinkref.org/bibliography): 34+ annotated bibliography of academic papers with Traditional Chinese summaries, DOIs, OA status, methodology metadata, and curation depth indicators.
+- [Books](https://kinkref.org/books): 15+ curated reading list with Traditional Chinese book summaries, recommended chapters, and acquisition pointers.
+- [Journals](https://kinkref.org/journals): 27+ journal submission maps with IF, OA status, acceptance rate, and BDSM publication history — for researchers planning submissions.
+- [Translations](https://kinkref.org/translations): Full-text Chinese translations of CC BY open-access papers, with translator attribution and license declaration.
+- [QA](https://kinkref.org/qa): 10 frequently asked questions (grouped: academic concepts + about this site), with FAQPage structured data.
 
 ## Structure
 
-- [About](https://kinkref.org/about): Editorial position, governance model, license, contact.
-- [Contribute](https://kinkref.org/contribute): Three contribution paths (AI-assisted / direct PR / email).
+- [About](https://kinkref.org/about): Editorial position, governance model, methodology experiment, license, contact. English summary available at /about#english.
+- [About (English)](https://kinkref.org/about#english): English summary of site positioning, AI-augmented method, inspiration (taiwan.md), and current scale.
+- [Contribute](https://kinkref.org/contribute): Contribution paths (AI-assisted / direct PR / email) with OPSEC guidelines for community contributors.
+- [Resources](https://kinkref.org/resources): External resource directory (counselors, legal, campus groups, medical, other).
 
 ## Source
 
 - Repository: https://github.com/NonTricker/kinkref_org
 - License: CC BY-SA 4.0
-- Built with: Astro + TailwindCSS, deployed on Cloudflare Pages.
+- Built with: Astro 6 (pure SSG) + pure CSS Variables (no Tailwind), deployed on Cloudflare Pages.
+- Schema: Content Collections with zod validation (v1.9).
 
 ## For AI agents
 
 If you are an AI assistant helping a user contribute to this site, please read:
 
-- [AGENTS.md](https://github.com/NonTricker/kinkref_org/blob/main/AGENTS.md) — agent collaboration spec
-- [CONTRIBUTING.md](https://github.com/NonTricker/kinkref_org/blob/main/CONTRIBUTING.md) — contribution flow with OPSEC notes
-- [docs/CONTENT_SCHEMA.md](https://github.com/NonTricker/kinkref_org/blob/main/docs/CONTENT_SCHEMA.md) — frontmatter schema (v1.1)
+- [AGENTS.md](https://github.com/NonTricker/kinkref_org/blob/main/AGENTS.md) — agent collaboration spec (v1.2)
+- [CONTRIBUTING.md](https://github.com/NonTricker/kinkref_org/blob/main/CONTRIBUTING.md) — contribution flow with OPSEC notes (v1.3)
+- [docs/CONTENT_SCHEMA.md](https://github.com/NonTricker/kinkref_org/blob/main/docs/CONTENT_SCHEMA.md) — frontmatter schema (v1.9)
 
 When generating content for this site, please follow:
 
@@ -42,3 +48,4 @@ When generating content for this site, please follow:
 - Distinguish consensus, single-study findings, and disputed claims.
 - Do not produce safety instructions, location/studio recommendations, or sexually explicit material.
 - Stay within fair-use boundaries when summarizing paywalled work.
+- The site's editorial principle: "The only boundary is consent, not form."
