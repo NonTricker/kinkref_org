@@ -3,7 +3,7 @@ schema_version: "1.4"
 term_zh: 寵物
 term_en: Pet
 aliases_en: puppy; kitten; bunny; pony; K9; K8
-term_alt_zh: 寵物; 狗奴; 貓奴; 犬; K9; K8
+term_alt_zh: 寵物; 狗奴; 貓奴; 犬; K9; K8; 寵調; 犬調; 貓調
 tagline: 在 petplay 動態中以存在式歸屬被接納的一方。
 definition: |
   Pet 是 BDSM 關係中，於 petplay（寵物扮演）動態下擔任被照顧、被接納方的角色。動物角色扮演（puppy、kitten、bunny、pony 等）是常見表現形式，但**並非嚴格必要**：許多 [Owner（飼主）](/glossary/owner)/Pet 動態的核心並不在動物意象，而在被照顧與被接納的關係本身。
@@ -26,6 +26,8 @@ disambiguation:
 usage_notes: |
   在台灣中文圈，「寵物」是常見的中文翻譯。實踐中，Pet 一方常使用對應動物形象的稱呼（如「小狗」「小貓」），互動道具（玩具、項圈、零食）視動物形象而異。在中文 BDSM 圈，「K9」是 canine（犬）的英文諧音，用以指稱犬型 Pet play；「K8」則是中文圈從 K9 延伸出的約定俗成用法，指稱貓型 Pet play——語源不是英文而是中文圈的類推創造。
 
+  在中文圈，「寵調」「犬調」「貓調」是 Pet play 與調教（[Training（調教）](/glossary/training-discipline)）交叉的用語——描述主導方對寵物角色進行行為塑造的過程。犬調強調犬化行為（爬行、吠叫、口銜物品等），貓調較少見但指貓化行為（撒嬌、抓扒等）。
+
 related_terms: [owner, slave, submissive, daddy-mommy]
 
 external_references:
@@ -40,7 +42,7 @@ contributor: "kinkref"
 contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
 reviewer: "策展人：薩約"
 created_date: 2026-05-02
-last_reviewed: 2026-05-02
+last_reviewed: 2026-05-05
 ---
 
 # Pet（寵物）

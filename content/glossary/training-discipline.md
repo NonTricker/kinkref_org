@@ -3,7 +3,7 @@ schema_version: "1.4"
 term_zh: 調教
 term_en: Training / Discipline
 aliases_en: Training; Discipline; Conditioning
-term_alt_zh: 訓練; 管教; 教導
+term_alt_zh: 訓練; 管教; 教導; 小圈; 純管教圈
 tagline: D/s 動態中主導方對順從方進行行為塑造的過程。
 definition: |
   調教是 BDSM 中 [Dominant（支配者）](/glossary/dominant) 對 [Submissive（順從者）](/glossary/submissive) 進行行為塑造、習慣建立、規則內化的過程。涵蓋從基礎禮儀（如稱呼方式、跪姿、回應格式）到深層行為模式的重塑——透過正向強化（獎勵）、漸進式引導、重複練習等方式，讓 sub 逐步將 Dom 設定的規則轉化為身體記憶與心理預設。
@@ -25,6 +25,8 @@ disambiguation:
 
 usage_notes: |
   在台灣中文圈，「調教」是最常用的口語——圈內說「調教一個 sub」「接受調教」是標準用法。「訓練」較正式，「管教」帶有更強的紀律意味。在中國 BDSM 圈，「調教」有時與「SP」（spanking）混用，但嚴格來說調教的範疇比 SP 寬得多——SP 是一種具體實踐，調教是一個框架性概念。搜尋「調教」的讀者可能帶著日本 AV / 動漫的印象，條目的 definition 已在此做出區分。
+
+  在台灣與中國中文圈，「管教圈」或「小圈」是以 spanking 與行為管教為主的社群——通常不涉及全面的 D/s 權力交換或 S/M 痛苦遊戲。許多人進入 BDSM 的第一步就是管教圈。「純管教」的定位與完整的 BDSM 動態有所區隔，但兩者的參與者有大量重疊。
 
 related_terms: [dominant, submissive, dominance-submission, protocol, scene]
 
