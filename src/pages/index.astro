@@ -152,11 +152,15 @@ const pillars = [
           var el = document.getElementById('readers-flags');
           var src = document.getElementById('readers-source');
           if (!el) return;
-          el.textContent = d.countries
-            .slice(0, 7)
-            .map(function (c) { return (FLAGS[c.code] || '') + ' ' + (NAMES[c.code] || c.code); })
-            .join('  ·  ');
-          if (src) src.textContent = '截至 ' + (d.generated || '').slice(0, 10) + ' · Cloudflare Web Analytics';
+          el.innerHTML = d.countries
+            .slice(0, 5)
+            .map(function (c) {
+              return (FLAGS[c.code] || '') + ' ' + (NAMES[c.code] || c.code) +
+                ' <span class="readers-count">' + c.views.toLocaleString() + '</span>';
+            })
+            .join('  <span class="readers-sep">\u00b7</span>  ');
+          if (src) src.innerHTML = '\u622a\u81f3 ' + (d.generated || '').slice(0, 10) +
+            ' \u00b7 <a href="/dashboard">\u67e5\u770b\u5b8c\u6574\u6578\u64da \u2192</a>';
         })
         .catch(function () { /* no-op */ });
     })();
@@ -459,6 +463,27 @@ const pillars = [
     font-size: var(--fs-caption);
     color: var(--ink-disabled);
     margin: 0;
+  }
+
+  .readers-source :global(a) {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: var(--fw-medium);
+  }
+
+  .readers-source :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  :global(.readers-count) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global(.readers-sep) {
+    color: var(--ink-disabled);
   }
 
   @media (max-width: 640px) {

@@ -144,9 +144,15 @@ const footerSections = [
 
         <div class="crew-block crew-block--agents">
           <p class="crew-block-heading">
-            <span>AI 工作組</span>
-            <span class="crew-block-heading-sep" aria-hidden="true">·</span>
-            <span class="crew-block-heading-en">Agents</span>
+            <a href="/about#methodology" class="crew-block-heading-link">
+              <span>AI 工作組</span>
+              <span class="crew-block-heading-sep" aria-hidden="true">·</span>
+              <span class="crew-block-heading-en">Agents</span>
+            </a>
+          </p>
+          <p class="crew-block-desc">
+            條目初稿由 AI Agent 團隊生成，策展人審校。完全透明標示，不假裝人工。
+            <span class="crew-block-desc-en">First-drafted by AI agents, human-curated. Fully transparent.</span>
           </p>
           <ul class="crew-list crew-list--two-col">
             {
@@ -326,6 +332,33 @@ const footerSections = [
 
   .crew-block-heading-en {
     color: color-mix(in srgb, var(--ink-inverse) 60%, transparent);
+  }
+
+  .crew-block-heading-link {
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .crew-block-heading-link:hover {
+    color: var(--accent-primary);
+  }
+
+  .crew-block-desc {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: color-mix(in srgb, var(--ink-inverse) 55%, transparent);
+    margin: 0 0 var(--space-3);
+    line-height: 1.5;
+  }
+
+  .crew-block-desc-en {
+    display: block;
+    font-style: italic;
+    margin-top: 2px;
+    color: color-mix(in srgb, var(--ink-inverse) 45%, transparent);
   }
 
   /* 每個 list 改為單欄 flex column —— 每行自己一個 row，
