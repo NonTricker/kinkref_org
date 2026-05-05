@@ -200,6 +200,11 @@ const applyConfigs = {
           <p class="community-resource-credit">
             整理：臺灣 BDSMer 友善之助人工作者資源網（長裙富翁 發起）
           </p>
+          <p class="community-resource-cta">
+            若您在「禁羈友善助人者名單」上，並願意公開列在 kinkref 心理資源，歡迎來信
+            <a href="mailto:curator@kinkref.org?subject=[禁羈名單轉介] 您的姓名/化名">curator@kinkref.org</a>，
+            主旨「[禁羈名單轉介] 您的姓名/化名」。我們確認名單後即可上線。
+          </p>
         </div>
       </aside>
 
@@ -686,6 +691,25 @@ const applyConfigs = {
   }
 
   /* 致謝 */
+  .community-resource-cta {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: var(--space-4) 0 0;
+    padding-top: var(--space-3);
+    border-top: 1px dashed color-mix(in srgb, var(--rule-fine) 60%, transparent);
+  }
+
+  .community-resource-cta a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: var(--fw-medium);
+  }
+
+  .community-resource-cta a:hover {
+    text-decoration: underline;
+  }
+
   .resources-acknowledgments {
     margin-top: var(--space-9);
     padding-top: var(--space-7);
