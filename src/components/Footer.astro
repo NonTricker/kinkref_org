@@ -150,10 +150,6 @@ const footerSections = [
               <span class="crew-block-heading-en">Agents</span>
             </a>
           </p>
-          <p class="crew-block-desc">
-            條目初稿由 AI Agent 團隊生成，策展人審校。完全透明標示，不假裝人工。
-            <span class="crew-block-desc-en">First-drafted by AI agents, human-curated. Fully transparent.</span>
-          </p>
           <ul class="crew-list crew-list--two-col">
             {
               agentCrew.map((member) => (
@@ -283,13 +279,13 @@ const footerSections = [
      對標：NYRB masthead / Aeon editorial colophon
      v0.5.9：拆「人類團隊」+「AI 工作組」兩塊，未來各自能擴
      ────────────────────────────────────────────────────── */
+  /* v0.9.4: footer 下半壓扁 */
   .site-footer-crew {
-    /* 上方 border 由 site-footer-top 的 border-bottom 提供，這裡只給氣息 */
-    padding-top: var(--space-7);
+    padding-top: var(--space-5);
   }
 
   .crew-heading {
-    margin: 0 0 var(--space-5);
+    margin: 0 0 var(--space-3);
     font-family: var(--font-sans);
     font-size: var(--fs-eyebrow);
     text-transform: uppercase;
@@ -313,7 +309,7 @@ const footerSections = [
   }
 
   .crew-block-heading {
-    margin: 0 0 var(--space-3);
+    margin: 0 0 var(--space-2);
     font-family: var(--font-sans);
     font-size: 11px;
     text-transform: uppercase;
@@ -435,8 +431,8 @@ const footerSections = [
 
   /* ── Citation block ── */
   .site-footer-citation {
-    margin-top: var(--space-7);
-    padding-top: var(--space-5);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
     border-top: 1px solid color-mix(in srgb, var(--ink-inverse) 12%, transparent);
   }
 
@@ -446,7 +442,7 @@ const footerSections = [
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: color-mix(in srgb, var(--ink-inverse) 50%, transparent);
-    margin: 0 0 var(--space-2);
+    margin: 0 0 var(--space-1);
   }
 
   .citation-block {
@@ -454,12 +450,12 @@ const footerSections = [
     font-size: 11px;
     color: color-mix(in srgb, var(--ink-inverse) 75%, transparent);
     background: color-mix(in srgb, var(--ink-inverse) 6%, transparent);
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-2) var(--space-4);
     border-radius: var(--radius-sm);
     margin: 0;
     white-space: pre-wrap;
     word-break: break-all;
-    line-height: 1.5;
+    line-height: 1.4;
     cursor: text;
     user-select: all;
   }
@@ -469,8 +465,8 @@ const footerSections = [
     justify-content: space-between;
     align-items: baseline;
     gap: var(--space-5);
-    padding-top: var(--space-7);
-    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    margin-top: var(--space-4);
     border-top: 1px solid color-mix(in srgb, var(--ink-inverse) 12%, transparent);
     flex-wrap: wrap;
     font-family: var(--font-sans);
@@ -498,8 +494,8 @@ const footerSections = [
      對標：Stanford SEP 的 build timestamp / Are.na 的 git hash
      ────────────────────────────────────────────────────── */
   .site-footer-build {
-    margin: var(--space-5) 0 0;
-    padding-top: var(--space-4);
+    margin: var(--space-3) 0 0;
+    padding-top: var(--space-3);
     border-top: 1px solid color-mix(in srgb, var(--ink-inverse) 12%, transparent);
     font-family: var(--font-mono);
     font-size: 11px;
