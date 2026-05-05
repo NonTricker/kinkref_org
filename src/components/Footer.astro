@@ -23,6 +23,8 @@ const humanCrew = [
 const agentCrew = [
   { role: '撰寫者', codename: '靈範師', name: '繆思' },
   { role: '前端工程師', codename: '織法者', name: '紬' },
+  { role: '資訊調研', codename: '天機星', name: '摩爾' },
+  { role: 'SEO 優化', codename: '脈流師', name: '維羅妮卡' },
   { role: '符號師', codename: '銘文師', name: '席琳' },
   { role: '視覺設計', codename: '光影師', name: '艾莉兒' },
 ];
@@ -163,6 +165,11 @@ const footerSections = [
         </div>
       </div>
     </section>
+
+    <div class="site-footer-citation" aria-label="引用格式">
+      <p class="citation-label">引用本站</p>
+      <pre class="citation-block">Kink Reference Editorial Collective ({currentYear}). Kink Reference. https://kinkref.org. CC BY-SA 4.0.</pre>
+    </div>
 
     <div class="site-footer-bottom">
       <p class="site-footer-license">
@@ -391,6 +398,37 @@ const footerSections = [
       /* 行動小螢幕允許折行（避免水平 scroll） */
       white-space: normal;
     }
+  }
+
+  /* ── Citation block ── */
+  .site-footer-citation {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid color-mix(in srgb, var(--ink-inverse) 12%, transparent);
+  }
+
+  .citation-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--ink-inverse) 50%, transparent);
+    margin: 0 0 var(--space-2);
+  }
+
+  .citation-block {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: color-mix(in srgb, var(--ink-inverse) 75%, transparent);
+    background: color-mix(in srgb, var(--ink-inverse) 6%, transparent);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.5;
+    cursor: text;
+    user-select: all;
   }
 
   .site-footer-bottom {
