@@ -181,8 +181,34 @@ const applyConfigs = {
         </ul>
       )}
 
+      <aside class="community-resource" aria-label="社群資源推薦">
+        <h3 class="community-resource-heading">社群資源推薦</h3>
+        <div class="community-resource-card">
+          <h4>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1zyTtdvSDtiKjAVUbcNXFGKP2IQ_0DleBmZwXZxLacTk/edit?gid=1534828108"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              臺灣 BDSMer 友善之助人工作者資源網
+            </a>
+          </h4>
+          <p class="community-resource-desc">
+            收錄 40+ 位經確認資格且本人同意公開的友善心理師名單。
+            名單由圈內實踐者發起整理，每位助人者均經發起人確認專業資格與收錄意願。
+          </p>
+          <p class="community-resource-credit">
+            發起整理：<a
+              href="https://x.com/heimlichkeiten"
+              target="_blank"
+              rel="noopener noreferrer"
+            >長裙富翁 @heimlichkeiten</a>
+          </p>
+        </div>
+      </aside>
+
       <aside class="apply-card" aria-label="開放申請收錄">
-        <p class="apply-eyebrow">📨 開放申請收錄</p>
+        <p class="apply-eyebrow">開放申請收錄</p>
         <p class="apply-intro">
           本目錄為<strong>自薦 + 同意收錄</strong>性質。本站不為任何個人專業能力背書 ──
           收錄條目均<strong>具名 + 提供執業執照</strong>，由收錄者自我背書。
@@ -604,6 +630,65 @@ const applyConfigs = {
   .entry-card a { color: var(--accent-primary); }
 
   /* Apply card — 開放申請告示（每 section 末尾） */
+  /* 社群資源推薦（外部名單 credit） */
+  .community-resource {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px dashed var(--rule-fine);
+  }
+
+  .community-resource-heading {
+    font-size: var(--fs-h4);
+    color: var(--ink-heading);
+    margin: 0 0 var(--space-4);
+  }
+
+  .community-resource-card {
+    padding: var(--space-5) var(--space-6);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+  }
+
+  .community-resource-card h4 {
+    margin: 0 0 var(--space-3);
+    font-size: var(--fs-body);
+  }
+
+  .community-resource-card h4 a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: var(--fw-semibold);
+  }
+
+  .community-resource-card h4 a:hover {
+    text-decoration: underline;
+  }
+
+  .community-resource-desc {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-3);
+  }
+
+  .community-resource-credit {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .community-resource-credit a {
+    color: var(--accent-primary);
+    text-decoration: none;
+  }
+
+  .community-resource-credit a:hover {
+    text-decoration: underline;
+  }
+
   .apply-card {
     padding: var(--space-6) var(--space-7);
     background: var(--bg-subtle);
