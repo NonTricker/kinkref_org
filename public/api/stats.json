@@ -1,10 +1,10 @@
 {
-  "generated": "2026-05-05T04:41:40.182Z",
+  "generated": "2026-05-05T05:19:39.718Z",
   "period": {
     "start": "2026-04-28",
     "end": "2026-05-05"
   },
-  "totalPageviews": 5597,
+  "totalPageviews": 5640,
   "topGlossary": [
     {
       "path": "/glossary/bdsm/",
@@ -27,14 +27,36 @@
       "views": 30
     }
   ],
+  "topContent": [
+    {
+      "path": "/bibliography/larva-rantala-2024/",
+      "views": 25
+    },
+    {
+      "path": "/books/xiaolin-shengwu-shengfu-benshi/",
+      "views": 18
+    },
+    {
+      "path": "/books/new-bottom-book/",
+      "views": 17
+    },
+    {
+      "path": "/books/cangyue-liu-shin-sm-jutsu/",
+      "views": 14
+    },
+    {
+      "path": "/books/foucault-lectures-sexuality/",
+      "views": 13
+    }
+  ],
   "topOther": [
     {
       "path": "/",
-      "views": 2607
+      "views": 2624
     },
     {
       "path": "/glossary/",
-      "views": 825
+      "views": 830
     },
     {
       "path": "/books/",
@@ -42,7 +64,7 @@
     },
     {
       "path": "/bibliography/",
-      "views": 348
+      "views": 350
     },
     {
       "path": "/journals/",
@@ -52,11 +74,11 @@
   "countries": [
     {
       "code": "TW",
-      "views": 2109
+      "views": 2145
     },
     {
       "code": "HK",
-      "views": 856
+      "views": 859
     },
     {
       "code": "US",
@@ -64,7 +86,7 @@
     },
     {
       "code": "JP",
-      "views": 563
+      "views": 566
     },
     {
       "code": "SG",
@@ -72,7 +94,7 @@
     },
     {
       "code": "CN",
-      "views": 267
+      "views": 268
     },
     {
       "code": "MY",
