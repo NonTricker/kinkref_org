@@ -25,7 +25,8 @@ quality-scan.py — kinkref.org 批次品質掃描器
 Inspired by:
     Taiwan.md's `quality-scan.sh` (v3.x) — 批次掃描架構、評分分級邏輯、
         中國用語 detection table 設計、baseline diff 機制、--worst/--json 介面
-    Taiwan.md's `self-check.sh` (v2)    — 投稿前自檢的分區報告格式
+    Zaious's `self-check.sh` (v2)        — 投稿前自檢的分區報告格式
+        （由開發者 Zaious 提供，非 Taiwan.md 官方工具）
 
 本腳本是 kinkref.org 領域的重新實作（YAML frontmatter / 跨條目驗證 /
 高敏感詞 caveats 強制等為 BDSM 站特有），但設計骨架致謝 Taiwan.md 社群協作
