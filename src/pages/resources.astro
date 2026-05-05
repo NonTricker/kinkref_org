@@ -195,14 +195,10 @@ const applyConfigs = {
           </h4>
           <p class="community-resource-desc">
             收錄 40+ 位經確認資格且本人同意公開的友善心理師名單。
-            名單由圈內實踐者發起整理，每位助人者均經發起人確認專業資格與收錄意願。
+            每位助人者均經整理小組確認專業資格與收錄意願。
           </p>
           <p class="community-resource-credit">
-            發起整理：<a
-              href="https://x.com/heimlichkeiten"
-              target="_blank"
-              rel="noopener noreferrer"
-            >長裙富翁 @heimlichkeiten</a>
+            整理：臺灣 BDSMer 友善之助人工作者資源網（長裙富翁 發起）
           </p>
         </div>
       </aside>
@@ -462,6 +458,15 @@ const applyConfigs = {
         </p>
       </aside>
     </section>
+
+    <footer class="resources-acknowledgments">
+      <h2>致謝</h2>
+      <p>
+        感謝<strong>臺灣 BDSMer 友善之助人工作者資源網</strong>（長裙富翁 發起）
+        在本站建立前即投入圈內友善助人者名單的整理工作。
+        本站 §1 心理資源的社群推薦連結即來自該名單。
+      </p>
+    </footer>
   </article>
 </BaseLayout>
 
@@ -680,13 +685,34 @@ const applyConfigs = {
     margin: 0;
   }
 
-  .community-resource-credit a {
-    color: var(--accent-primary);
-    text-decoration: none;
+  /* 致謝 */
+  .resources-acknowledgments {
+    margin-top: var(--space-9);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-fine);
+    max-width: var(--content-width-index);
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .community-resource-credit a:hover {
-    text-decoration: underline;
+  .resources-acknowledgments h2 {
+    font-size: var(--fs-h4);
+    color: var(--ink-meta);
+    font-weight: var(--fw-regular);
+    font-style: italic;
+    margin: 0 0 var(--space-3);
+  }
+
+  .resources-acknowledgments p {
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .resources-acknowledgments strong {
+    color: var(--ink-body);
+    font-weight: var(--fw-medium);
   }
 
   .apply-card {
