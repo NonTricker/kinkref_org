@@ -1,0 +1,565 @@
+---
+/**
+ * Dashboard — 站體數據
+ *
+ * v0.9.2：build-time collection counts + Cloudflare Web Analytics 即時數據
+ * 借鑑 taiwan.md dashboard 概念
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { buildInfo } from '../lib/build-info';
+// caveat helpers used for future curation depth breakdown
+// import { pickTrustSignal, pickWarnings } from '@/lib/caveat-labels';
+
+// Build-time collection counts
+const [allGlossary, allBibliography, allBooks, allJournals, allTranslations] = await Promise.all([
+  getCollection('glossary'),
+  getCollection('bibliography'),
+  getCollection('books'),
+  getCollection('journals'),
+  getCollection('translations'),
+]);
+
+const counts = {
+  glossary: allGlossary.length,
+  bibliography: allBibliography.length,
+  books: allBooks.length,
+  journals: allJournals.length,
+  translations: allTranslations.length,
+  total: allGlossary.length + allBibliography.length + allBooks.length + allJournals.length + allTranslations.length,
+};
+
+// Curation depth stats
+const verified = allBibliography.filter((e) =>
+  e.data.caveats?.some((c) => c.type === 'source-verified')
+).length;
+const limited = allBibliography.filter((e) =>
+  e.data.caveats?.some((c) => c.type === 'source-limited')
+).length;
+
+// Topic tag distribution
+const topicMap = new Map<string, number>();
+for (const e of allGlossary) {
+  for (const tag of e.data.topic_tags) {
+    topicMap.set(tag, (topicMap.get(tag) || 0) + 1);
+  }
+}
+const topTopics = [...topicMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+const maxTopicCount = topTopics[0]?.[1] || 1;
+
+// OA / Paywalled distribution
+const accessMap = new Map<string, number>();
+for (const e of allBibliography) {
+  const at = e.data.access_type;
+  accessMap.set(at, (accessMap.get(at) || 0) + 1);
+}
+
+// Recent updates
+const recentEntries = [...allGlossary, ...allBibliography, ...allBooks]
+  .sort((a, b) => b.data.last_reviewed.getTime() - a.data.last_reviewed.getTime())
+  .slice(0, 8);
+
+// Country name mapping
+const COUNTRY_NAMES: Record<string, string> = {
+  TW: '🇹🇼 Taiwan', HK: '🇭🇰 Hong Kong', US: '🇺🇸 United States',
+  JP: '🇯🇵 Japan', SG: '🇸🇬 Singapore', CN: '🇨🇳 China',
+  MY: '🇲🇾 Malaysia', CA: '🇨🇦 Canada', KR: '🇰🇷 Korea', GB: '🇬🇧 UK',
+  DE: '🇩🇪 Germany', FR: '🇫🇷 France', AU: '🇦🇺 Australia', VN: '🇻🇳 Vietnam',
+};
+
+// Read Cloudflare stats JSON (generated at build time by fetch-cloudflare-stats.mjs)
+let cfStats: any = null;
+try {
+  cfStats = await import('../../public/api/stats.json');
+} catch {
+  // stats.json not available — show without traffic data
+}
+
+const pageTitle = '站體數據 · Dashboard';
+const description = 'kinkref.org 站體規模、策展深度、主題分布、訪客地理、熱門條目即時數據。';
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <article class="dashboard">
+    <header class="dash-header">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-name">Dashboard</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-zh">站體數據</span>
+      </p>
+      <h1 class="dash-title">站體數據</h1>
+      <hr class="dash-rule" aria-hidden="true" />
+      <p class="dash-intro">
+        build-time 計算 + Cloudflare Web Analytics 即時數據。
+        概念借鑑 <a href="https://taiwan.md/" target="_blank" rel="noopener noreferrer">taiwan.md</a>。
+      </p>
+    </header>
+
+    {/* ── 規模 cards ── */}
+    <section class="dash-section" aria-labelledby="dash-scale">
+      <h2 id="dash-scale" class="dash-h2">📊 規模</h2>
+      <div class="scale-grid">
+        <div class="scale-card"><span class="scale-num">{counts.glossary}</span><span class="scale-label">術語</span></div>
+        <div class="scale-card"><span class="scale-num">{counts.bibliography}</span><span class="scale-label">論文</span></div>
+        <div class="scale-card"><span class="scale-num">{counts.books}</span><span class="scale-label">書架</span></div>
+        <div class="scale-card"><span class="scale-num">{counts.journals}</span><span class="scale-label">期刊</span></div>
+        <div class="scale-card"><span class="scale-num">{counts.translations}</span><span class="scale-label">翻譯</span></div>
+      </div>
+    </section>
+
+    {/* ── 國家流量 ── */}
+    {cfStats?.countries && (
+      <section class="dash-section" aria-labelledby="dash-geo">
+        <h2 id="dash-geo" class="dash-h2">🌏 訪客地理 <span class="dash-period">（近 7 天）</span></h2>
+        <div class="country-list">
+          {cfStats.countries.map((c: any) => {
+            const maxViews = cfStats.countries[0]?.views || 1;
+            const pct = Math.round((c.views / maxViews) * 100);
+            return (
+              <div class="country-row">
+                <span class="country-name">{COUNTRY_NAMES[c.code] || c.code}</span>
+                <div class="country-bar-wrap">
+                  <div class="country-bar" style={`width: ${pct}%`}></div>
+                </div>
+                <span class="country-views">{c.views.toLocaleString()}</span>
+              </div>
+            );
+          })}
+        </div>
+        <p class="dash-source">來源：Cloudflare Web Analytics · 截至 {cfStats.generated?.slice(0, 10)}</p>
+      </section>
+    )}
+
+    {/* ── 熱門術語 Top 5 ── */}
+    {cfStats?.topGlossary?.length > 0 && (
+      <section class="dash-section" aria-labelledby="dash-top-glossary">
+        <h2 id="dash-top-glossary" class="dash-h2">🔥 熱門術語 Top 5</h2>
+        <ol class="top-list">
+          {cfStats.topGlossary.map((p: any) => (
+            <li class="top-item">
+              <a href={p.path}>{p.path.replace('/glossary/', '').replace('/', '')}</a>
+              <span class="top-views">{p.views}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {/* ── 熱門其他 Top 5 ── */}
+    {cfStats?.topOther?.length > 0 && (
+      <section class="dash-section" aria-labelledby="dash-top-other">
+        <h2 id="dash-top-other" class="dash-h2">🔥 熱門頁面 Top 5</h2>
+        <ol class="top-list">
+          {cfStats.topOther.map((p: any) => {
+            const label = p.path === '/' ? '首頁' : p.path.replace(/\//g, '').replace('glossary', '術語表').replace('books', '書架清單').replace('bibliography', '文獻指南').replace('journals', '投稿地圖').replace('resources', '外部資源').replace('about', '關於本站');
+            return (
+              <li class="top-item">
+                <a href={p.path}>{label}</a>
+                <span class="top-views">{p.views}</span>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    )}
+
+    {/* ── 策展深度 ── */}
+    <section class="dash-section" aria-labelledby="dash-depth">
+      <h2 id="dash-depth" class="dash-h2">📖 策展深度</h2>
+      <div class="depth-grid">
+        <div class="depth-card depth-verified">
+          <span class="depth-mark">✓</span>
+          <span class="depth-num">{verified}</span>
+          <span class="depth-label">全文閱讀</span>
+          <span class="depth-pct">({Math.round(verified / counts.bibliography * 100)}%)</span>
+        </div>
+        <div class="depth-card depth-limited">
+          <span class="depth-mark">⚠</span>
+          <span class="depth-num">{limited}</span>
+          <span class="depth-label">公開摘要</span>
+          <span class="depth-pct">({Math.round(limited / counts.bibliography * 100)}%)</span>
+        </div>
+      </div>
+    </section>
+
+    {/* ── 主題分布 ── */}
+    <section class="dash-section" aria-labelledby="dash-topics">
+      <h2 id="dash-topics" class="dash-h2">🏷 主題分布 <span class="dash-period">（glossary top 8）</span></h2>
+      <div class="topic-list">
+        {topTopics.map(([tag, count]) => {
+          const pct = Math.round((count / maxTopicCount) * 100);
+          return (
+            <div class="topic-row">
+              <span class="topic-name">{tag}</span>
+              <div class="topic-bar-wrap">
+                <div class="topic-bar" style={`width: ${pct}%`}></div>
+              </div>
+              <span class="topic-count">{count}</span>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    {/* ── OA 比例 ── */}
+    <section class="dash-section" aria-labelledby="dash-oa">
+      <h2 id="dash-oa" class="dash-h2">📬 取得方式 <span class="dash-period">（bibliography）</span></h2>
+      <div class="oa-grid">
+        {[...accessMap.entries()].sort((a, b) => b[1] - a[1]).map(([type, count]) => (
+          <div class={`oa-card oa-${type}`}>
+            <span class="oa-num">{count}</span>
+            <span class="oa-label">{type}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* ── 最近更新 ── */}
+    <section class="dash-section" aria-labelledby="dash-recent">
+      <h2 id="dash-recent" class="dash-h2">🕰 最近更新</h2>
+      <ul class="recent-list">
+        {recentEntries.map((e) => {
+          const name = 'term_zh' in e.data ? (e.data as any).term_zh : ('title' in e.data ? (e.data as any).title : e.id);
+          const collection = 'term_zh' in e.data ? 'glossary' : ('authors' in e.data ? 'bibliography' : 'books');
+          return (
+            <li class="recent-item">
+              <a href={`/${collection}/${e.id}`}>{name}</a>
+              <time>{e.data.last_reviewed.toISOString().slice(0, 10)}</time>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    {/* ── Build info ── */}
+    <section class="dash-section dash-section--last" aria-labelledby="dash-build">
+      <h2 id="dash-build" class="dash-h2">⚙️ 建置</h2>
+      <p class="dash-build-info">
+        v{buildInfo.version} · #{buildInfo.gitHash} · built {buildInfo.buildDate}
+      </p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .dashboard {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .dash-header { margin-bottom: var(--space-9); }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .page-eyebrow-sep { color: var(--ink-disabled); }
+  .page-eyebrow-zh { font-weight: var(--fw-semibold); }
+
+  .dash-title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    margin: 0 0 var(--space-5);
+  }
+
+  .dash-rule {
+    width: 64px; height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .dash-intro {
+    font-size: var(--fs-body);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .dash-intro a {
+    color: var(--accent-primary);
+    text-decoration: none;
+  }
+
+  .dash-section {
+    margin-bottom: var(--space-9);
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .dash-section--last {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .dash-h2 {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-5);
+  }
+
+  .dash-period {
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    font-weight: var(--fw-regular);
+  }
+
+  .dash-source {
+    margin: var(--space-4) 0 0;
+    font-size: var(--fs-caption);
+    color: var(--ink-disabled);
+    font-family: var(--font-sans);
+  }
+
+  /* ── Scale cards ── */
+  .scale-grid {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .scale-card {
+    flex: 1 1 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-5) var(--space-4);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-align: center;
+  }
+
+  .scale-num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-display);
+    font-weight: var(--fw-bold);
+    color: var(--accent-primary);
+    line-height: 1;
+  }
+
+  .scale-label {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin-top: var(--space-2);
+  }
+
+  /* ── Country / Topic bars ── */
+  .country-list, .topic-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .country-row, .topic-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 60px;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .country-name, .topic-name {
+    color: var(--ink-body);
+    white-space: nowrap;
+  }
+
+  .country-bar-wrap, .topic-bar-wrap {
+    height: 8px;
+    background: var(--bg-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .country-bar {
+    height: 100%;
+    background: var(--accent-primary);
+    border-radius: 4px;
+    transition: width 300ms ease;
+  }
+
+  .topic-bar {
+    height: 100%;
+    background: var(--accent-citation);
+    border-radius: 4px;
+  }
+
+  .country-views, .topic-count {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Top lists ── */
+  .top-list {
+    list-style: decimal;
+    padding-left: var(--space-6);
+    margin: 0;
+  }
+
+  .top-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: var(--space-2) 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    border-bottom: 1px solid color-mix(in srgb, var(--rule-fine) 50%, transparent);
+  }
+
+  .top-item:last-child { border-bottom: 0; }
+
+  .top-item a {
+    color: var(--ink-body);
+    text-decoration: none;
+    font-weight: var(--fw-medium);
+  }
+
+  .top-item a:hover { color: var(--accent-primary); }
+
+  .top-views {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Depth cards ── */
+  .depth-grid {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .depth-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+  }
+
+  .depth-mark {
+    font-family: var(--font-mono);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+  }
+
+  .depth-verified .depth-mark { color: var(--status-oa, #2d7a3d); }
+  .depth-limited .depth-mark { color: var(--accent-citation); }
+
+  .depth-num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    color: var(--ink-heading);
+  }
+
+  .depth-label {
+    font-size: var(--fs-body-sm);
+    color: var(--ink-body);
+  }
+
+  .depth-pct {
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
+  /* ── OA grid ── */
+  .oa-grid {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .oa-card {
+    flex: 1 1 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-family: var(--font-sans);
+  }
+
+  .oa-num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+    color: var(--ink-heading);
+  }
+
+  .oa-label {
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin-top: var(--space-1);
+  }
+
+  /* ── Recent ── */
+  .recent-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .recent-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--rule-fine) 50%, transparent);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+  }
+
+  .recent-item:last-child { border-bottom: 0; }
+
+  .recent-item a {
+    color: var(--ink-body);
+    text-decoration: none;
+  }
+
+  .recent-item a:hover { color: var(--accent-primary); }
+
+  .recent-item time {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dash-build-info {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .country-row, .topic-row {
+      grid-template-columns: 100px 1fr 50px;
+    }
+
+    .depth-grid {
+      flex-direction: column;
+    }
+  }
+</style>

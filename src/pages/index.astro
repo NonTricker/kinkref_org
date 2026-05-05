@@ -125,6 +125,43 @@ const pillars = [
     </div>
   </section>
 
+  <section class="readers" aria-labelledby="readers-heading">
+    <div class="readers-inner">
+      <h2 id="readers-heading" class="section-heading">讀者來自</h2>
+      <p class="readers-flags" id="readers-flags"></p>
+      <p class="readers-source" id="readers-source"></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    /* 首頁國家 flags — 從 /api/stats.json 讀取（build-time 生成） */
+    (function () {
+      const FLAGS = {
+        TW: '🇹🇼', HK: '🇭🇰', US: '🇺🇸', JP: '🇯🇵', SG: '🇸🇬',
+        CN: '🇨🇳', MY: '🇲🇾', CA: '🇨🇦', KR: '🇰🇷', GB: '🇬🇧',
+        DE: '🇩🇪', FR: '🇫🇷', AU: '🇦🇺', VN: '🇻🇳',
+      };
+      const NAMES = {
+        TW: 'Taiwan', HK: 'Hong Kong', US: 'US', JP: 'Japan', SG: 'Singapore',
+        CN: 'China', MY: 'Malaysia', CA: 'Canada', KR: 'Korea', GB: 'UK',
+      };
+      fetch('/api/stats.json')
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d.countries) return;
+          var el = document.getElementById('readers-flags');
+          var src = document.getElementById('readers-source');
+          if (!el) return;
+          el.textContent = d.countries
+            .slice(0, 7)
+            .map(function (c) { return (FLAGS[c.code] || '') + ' ' + (NAMES[c.code] || c.code); })
+            .join('  ·  ');
+          if (src) src.textContent = '截至 ' + (d.generated || '').slice(0, 10) + ' · Cloudflare Web Analytics';
+        })
+        .catch(function () { /* no-op */ });
+    })();
+  </script>
+
   <section class="position" aria-labelledby="position-heading">
     <div class="position-inner">
       <h2 id="position-heading" class="section-heading">這個站是什麼，不是什麼</h2>
@@ -395,6 +432,33 @@ const pillars = [
   .position-card li {
     font-size: var(--fs-body-sm);
     line-height: var(--lh-body);
+  }
+
+  /* ── Readers / 國家 flags ── */
+  .readers {
+    padding: var(--space-9) var(--space-5);
+    border-bottom: 1px solid var(--rule-fine);
+    text-align: center;
+  }
+
+  .readers-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .readers-flags {
+    font-size: var(--fs-h4);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-3);
+    letter-spacing: 0.02em;
+    line-height: 2;
+  }
+
+  .readers-source {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-disabled);
+    margin: 0;
   }
 
   @media (max-width: 640px) {

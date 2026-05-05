@@ -1,0 +1,94 @@
+{
+  "generated": "2026-05-05T04:41:40.182Z",
+  "period": {
+    "start": "2026-04-28",
+    "end": "2026-05-05"
+  },
+  "totalPageviews": 5597,
+  "topGlossary": [
+    {
+      "path": "/glossary/bdsm/",
+      "views": 79
+    },
+    {
+      "path": "/glossary/dominance-submission/",
+      "views": 57
+    },
+    {
+      "path": "/glossary/bondage-discipline/",
+      "views": 42
+    },
+    {
+      "path": "/glossary/24-7-dynamic/",
+      "views": 33
+    },
+    {
+      "path": "/glossary/sadism-masochism/",
+      "views": 30
+    }
+  ],
+  "topOther": [
+    {
+      "path": "/",
+      "views": 2607
+    },
+    {
+      "path": "/glossary/",
+      "views": 825
+    },
+    {
+      "path": "/books/",
+      "views": 388
+    },
+    {
+      "path": "/bibliography/",
+      "views": 348
+    },
+    {
+      "path": "/journals/",
+      "views": 229
+    }
+  ],
+  "countries": [
+    {
+      "code": "TW",
+      "views": 2109
+    },
+    {
+      "code": "HK",
+      "views": 856
+    },
+    {
+      "code": "US",
+      "views": 734
+    },
+    {
+      "code": "JP",
+      "views": 563
+    },
+    {
+      "code": "SG",
+      "views": 269
+    },
+    {
+      "code": "CN",
+      "views": 267
+    },
+    {
+      "code": "MY",
+      "views": 155
+    },
+    {
+      "code": "CA",
+      "views": 148
+    },
+    {
+      "code": "KR",
+      "views": 104
+    },
+    {
+      "code": "GB",
+      "views": 94
+    }
+  ]
+}
