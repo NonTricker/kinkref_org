@@ -3,12 +3,12 @@ schema_version: "1.4"
 term_zh: 合意的非合意
 term_en: Consensual Non-Consent
 aliases_en: CNC; Rape Play; Ravishment Play
-term_alt_zh: CNC; 強制遊戲; 強暴遊戲; 強破; 綁架遊戲; 監禁遊戲; 危機少女; DID; Damsel in Distress
+term_alt_zh: CNC; 強制遊戲; 強暴遊戲; 強迫; 綁架遊戲; 監禁遊戲; 危機少女; DID; Damsel in Distress
 tagline: 雙方事前合意進行模擬非合意情境的 BDSM 實踐。
 definition: |
   CNC（Consensual Non-Consent）是雙方在**事前充分協商**的框架下，進行模擬非合意情境的 BDSM 實踐。「Consensual」是前提——所有「非合意」元素都是在合意框架內的角色扮演，不是真實的非合意行為。
 
-  常見的 CNC scenario 包括：模擬強暴（ravishment play）、綁架遊戲（kidnapping play）、監禁遊戲（captivity play）、強破（break-in play）、危機少女（DID, Damsel in Distress）。這些場景的共通點是：bottom 在場景中「表現出」不願意或抵抗，但這一切都在事前合意的劇本範圍內。
+  常見的 CNC scenario 包括：模擬強暴（ravishment play）、綁架遊戲（kidnapping play）、監禁遊戲（captivity play）、強迫（break-in play）、危機少女（DID, Damsel in Distress）。這些場景的共通點是：bottom 在場景中「表現出」不願意或抵抗，但這一切都在事前合意的劇本範圍內。
 
   CNC 的核心安全機制：(1) 事前協商明確的邊界與 scenario 範圍——哪些行為可以、哪些絕對不行 (2) [Safe Word（安全詞）](/glossary/safe-word) 作為終極退出機制——無論場景多「逼真」，安全詞一出場景立刻終止 (3) 「實踐中可以推進」這件事本身需要事前被明確同意——不是「沒說不行就是行」，而是「明確說了可以才是可以」。
 
@@ -31,7 +31,7 @@ disambiguation:
       DID 是 CNC 的一個常見 scenario——模擬「被困/被綁架/等待救援」的情境。DID 在日本 ACG 和中文圈有獨立的搜尋量，但本質上是 CNC 的子類。DID 的風險等級通常低於全面的 ravishment play，因為 scenario 較為結構化。
 
 usage_notes: |
-  台灣中文圈常直接用「CNC」三個字母，「合意的非合意」是書面翻譯。「強破」「綁架遊戲」是中文圈常見的 CNC 子類口語。「危機少女」「DID」在日系圈和中文圈有獨立使用——描述的是 CNC 場景中被困/等待救援的 scenario。EDITORIAL §4.2 已有 CNC 事前協商的詳細討論（站方內部參考）。
+  台灣中文圈常直接用「CNC」三個字母，「合意的非合意」是書面翻譯。「強迫」「綁架遊戲」是中文圈常見的 CNC 子類口語。「危機少女」「DID」在日系圈和中文圈有獨立使用——描述的是 CNC 場景中被困/等待救援的 scenario。EDITORIAL §4.2 已有 CNC 事前協商的詳細討論（站方內部參考）。
 
 related_terms: [rack, safe-word, consent-capacity, scene, negotiation, hard-limit, trigger]
 
