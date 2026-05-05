@@ -13,7 +13,7 @@ definition: |
 disambiguation:
   - vs: SSC / RACK / PRICK / 4Cs
     note: |
-      SSC、RACK、PRICK、4Cs 較聚焦於 BDSM 場景的同意條件，Wheel of Consent 是跨 kink 與非 kink 的通用框架，分析互動本身的結構。Wheel of Consent 可作為這些框架的補充工具。
+      [SSC（安全、理智、知情同意）](/glossary/ssc)、[RACK（共知風險的合意 kink）](/glossary/rack)、PRICK、[4Cs（4Cs 框架）](/glossary/4cs) 較聚焦於 BDSM 場景的同意條件，Wheel of Consent 是跨 kink 與非 kink 的通用框架，分析互動本身的結構。Wheel of Consent 可作為這些框架的補充工具。
   - vs: 「主動 / 被動」二元
     note: |
       Wheel of Consent 拆解了「主動 / 被動」的單一維度，加入「為誰受益」的維度。這讓「主動付出但實際為自己」「被動接受但其實是服務對方」等複雜情境可被區分。

@@ -6,7 +6,7 @@ aliases_en: little boy; little girl; little
 term_alt_zh: little; 男孩 little; 女孩 little
 tagline: 成年人 ageplay 中扮演較小精神年齡的角色。
 definition: |
-  Boy / Girl 是 BDSM 中 ageplay（年齡扮演）動態的下位方稱謂，指**成年參與者扮演自我認同精神年齡較小的一方**。最常見於 DDlg（Daddy Dom / little girl）與 MDlb（Mommy Dom / little boy）動態中，與 Daddy / Mommy 的權威照顧角色相對。
+  Boy / Girl 是 BDSM 中 ageplay（年齡扮演）動態的下位方稱謂，指**成年參與者扮演自我認同精神年齡較小的一方**。最常見於 DDlg（Daddy Dom / little girl）與 MDlb（Mommy Dom / little boy）動態中，與 [Daddy / Mommy（爹地 / 媽咪）](/glossary/daddy-mommy) 的權威照顧角色相對。
 
   Boy / Girl（在 ageplay 脈絡下）的核心是「自我認同精神年齡的釋放」。實踐者對自身精神年齡的認同涵蓋幼兒、小孩、middle 等不同光譜（從 0-3 歲到 6-15 歲不等），影響互動形式：玩具選擇、語言風格、互動內容（玩耍、繪本、撒嬌等）。
 
@@ -15,13 +15,13 @@ definition: |
 disambiguation:
   - vs: Submissive
     note: |
-      Boy / Girl 強調「自我認同精神年齡」的角色釋放；Submissive 強調「順從」的關係角色。一個 sub 可以同時是 Boy / Girl，也可以不是。「我是 sub 但沒有 girl 成份」是常見的圈內微分。
+      Boy / Girl 強調「自我認同精神年齡」的角色釋放；[Submissive（順從者）](/glossary/submissive) 強調「順從」的關係角色。一個 sub 可以同時是 Boy / Girl，也可以不是。「我是 sub 但沒有 girl 成份」是常見的圈內微分。
   - vs: Bottom
     note: |
-      Boy / Girl 是 ageplay 脈絡下的角色身分；Bottom 是場景中的動作接受方。兩者層次不同——一個 Bottom 不必然有 Girl 成份。
+      Boy / Girl 是 ageplay 脈絡下的角色身分；[Bottom（被動）](/glossary/bottom) 是場景中的動作接受方。兩者層次不同——一個 Bottom 不必然有 Girl 成份。
   - vs: Pet
     note: |
-      Boy / Girl 接受的是「培育型愛」——Daddy 期待 Little 成長、回應、漸進成熟，照顧中包含管教與期望；Pet 接受的是「接納型愛」——Owner 不對 Pet 強求成長，「存在就好、會回來就好」。Little 的順從朝精神依附深化，Pet 的歸屬保持鬆散的存在感。
+      Boy / Girl 接受的是「培育型愛」——Daddy 期待 Little 成長、回應、漸進成熟，照顧中包含管教與期望；[Pet（寵物）](/glossary/pet) 接受的是「接納型愛」——Owner 不對 Pet 強求成長，「存在就好、會回來就好」。Little 的順從朝精神依附深化，Pet 的歸屬保持鬆散的存在感。
   - vs: Slave
     note: |
       Boy / Girl 與 Slave 的順從深度都可達極深層，但方向不同——Slave 朝侍奉深化（以服務為生活主軸），Little 朝精神依附深化（以對 Daddy 的依附為核心）。兩者都比一般 Submissive 走得更深，但路徑不同。

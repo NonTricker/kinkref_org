@@ -6,7 +6,7 @@ aliases_en: Findom; Money Slavery; Cash Slavery
 term_alt_zh: ATM奴; ATM主; 金主; 錢奴; 財務支配; 飼養
 tagline: 以金錢控制或財務交付為核心的權力交換動態。
 definition: |
-  Financial Domination(Findom)是 BDSM 中以**金錢或財務控制作為權力交換媒介**的動態。主導方(Financial Dominant / Findomme)透過要求或接受金錢來行使控制，被動方(Money Slave / Pay Pig / ATM 奴)透過交出金錢來體驗順從或被支配的愉悅。
+  Financial Domination(Findom)是 BDSM 中以**金錢或財務控制作為權力交換媒介**的動態。主導方(Financial [Dominant（支配者）](/glossary/dominant) / Findomme)透過要求或接受金錢來行使控制，被動方(Money Slave / Pay Pig / ATM 奴)透過交出金錢來體驗順從或被支配的愉悅。
 
   Findom 的核心動力不是金錢本身，而是金錢作為**權力的具象化載體**——交出金錢 = 交出控制權。這與 D/s 中的其他權力交換形式(如行為控制、時間控制)在結構上同源，只是媒介不同。
 

@@ -5,7 +5,7 @@ term_en: Safe word
 term_alt_zh: 安全字; 安全暗號
 tagline: 在場景中用以暫停或終止互動的雙方共識訊號。
 definition: |
-  Safe word 是 BDSM 場景中由雙方協商建立的特殊詞彙或訊號，當任一方說出該詞，場景應立即暫停或終止。安全詞的存在讓 bottom（或 top）能在場景中即時撤回同意，是 BDSM 同意框架的核心機制之一。
+  Safe word 是 BDSM 場景中由雙方[協商（Negotiation）](/glossary/negotiation)建立的特殊詞彙或訊號，當任一方說出該詞，場景應立即暫停或終止。安全詞的存在讓 bottom（或 top）能在場景中即時撤回同意，是 BDSM 同意框架的核心機制之一。
 
   最常見的形式是紅黃綠三段系統：紅色（red）代表立即停止，黃色（yellow）代表減速、注意或檢查狀態，綠色（green）代表繼續或一切正常。實踐者也可使用其他單詞（如「pineapple」「banana」等中性詞），重點在於該詞在情境中不會被誤解。
 
@@ -14,7 +14,7 @@ definition: |
 disambiguation:
   - vs: Hard limit
     note: |
-      Safe word 是場景中即時撤回同意的機制，hard limit 是場景開始前就已協商不可踰越的界線。Hard limit 是設定，safe word 是執行。
+      Safe word 是場景中即時撤回同意的機制，hard limit 是場景開始前就已協商不可踰越的界線。[Hard limit（硬性限制）](/glossary/hard-limit) 是設定，safe word 是執行。
   - vs: Negotiation（協商）
     note: |
       協商是場景前建立同意框架，safe word 是場景中執行同意撤回的工具。完整的同意流程包含兩者。

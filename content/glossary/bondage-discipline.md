@@ -6,7 +6,7 @@ aliases_en: B/D; B&D; BD
 term_alt_zh: B/D; 束縛紀律動態
 tagline: BDSM 中關於身體束縛與行為紀律的合一動態。
 definition: |
-  Bondage and Discipline（B/D）是 BDSM 三組對偶概念之一，描述**身體束縛（bondage）與行為紀律（discipline）的合一動態**。B/D 的核心是**透過實體控制執行行為規訓**——束縛是工具，紀律是目的；束縛限制動作的可能性，紀律則設定哪些動作被允許、哪些被禁止、哪些需要被執行。
+  Bondage and Discipline（B/D）是 [BDSM](/glossary/bdsm) 三組對偶概念之一，描述**身體束縛（bondage）與行為紀律（discipline）的合一動態**。B/D 的核心是**透過實體控制執行行為規訓**——束縛是工具，紀律是目的；束縛限制動作的可能性，紀律則設定哪些動作被允許、哪些被禁止、哪些需要被執行。
 
   B/D 與另外兩組對偶概念（D/s 與 S/M）形成 BDSM 的三層結構：B/D 是**實體 / 規訓層**，D/s 是**心理 / 權力層**，S/M 是**身體 / 感官層**。三者可獨立或交織——可以有 B/D 而無痛苦（純粹的束縛美學或行為訓練），也可以有 B/D 而無權力轉移（雙方平等的束縛遊戲）。
 
@@ -26,7 +26,7 @@ disambiguation:
       繩縛是 B/D 中 Bondage 元素的**特定形式**，聚焦於繩這一媒介的技藝與美學。B/D 是更廣的概念，含繩、鎖、銬、籠等多種工具，且加上 Discipline 維度（行為規訓）。所有繩縛都涉及 Bondage，但繩縛通常不直接含 Discipline 部分。
   - vs: Protocol（單獨概念）
     note: |
-      Protocol 是 D/s 動態中的形式化互動規則，B/D 的 Discipline 與 Protocol 重疊但不等同——Discipline 強調「規訓的執行」（含可能的處罰），Protocol 強調「規則的存在」（不必然含執行機制）。
+      [Protocol](/glossary/protocol) 是 D/s 動態中的形式化互動規則，B/D 的 Discipline 與 Protocol 重疊但不等同——Discipline 強調「規訓的執行」（含可能的處罰），Protocol 強調「規則的存在」（不必然含執行機制）。
 
 usage_notes: |
   在台灣中文圈，「B/D」「BD」是常見稱呼，「束縛紀律」較少在日常對話中使用。實踐者常以 B/D 描述特定 practice 群（如綁縛、protocol 訓練、行為矯正等）。圈內的繩縛社群（Shibari、Western bondage）是 B/D 中 Bondage 元素的高度發展形式，但繩縛者不必然涉入 Discipline 維度——這是台灣中文圈值得注意的次文化分化。

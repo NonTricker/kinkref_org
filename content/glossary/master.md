@@ -6,11 +6,11 @@ aliases_en: Mistress; Sir; Ma'am
 term_alt_zh: Mistress; 主
 tagline: 在主奴或全權力交換結構下擔任承擔責任的長期主導方。
 definition: |
-  Master 是 BDSM 關係結構中，於長期權力交換（通常為 24/7 或 TPE）動態下擔任主導方的稱謂。Mistress 為女性形式，但兩者並無嚴格性別綁定，使用者依個人偏好選擇。
+  Master 是 BDSM 關係結構中，於長期權力交換（通常為 24/7 或 [TPE（全權力交換）](/glossary/tpe)）動態下擔任主導方的稱謂。Mistress 為女性形式，但兩者並無嚴格性別綁定，使用者依個人偏好選擇。
 
-  Master/slave 關係的核心**並非單向的「擁有」，而是雙向的責任結構**：Slave 以侍奉為日常生活的主要焦點，Master 的角色則包含**為 Slave 創造穩定且安全的環境**，讓侍奉得以最佳進行。這種結構通常涵蓋場景外的長期生活面向（除協商例外，如職場時段），與場景型 D/s 動態（僅在特定時段內成立）不同。
+  Master/slave 關係的核心**並非單向的「擁有」，而是雙向的責任結構**：[Slave（奴僕）](/glossary/slave) 以侍奉為日常生活的主要焦點，Master 的角色則包含**為 Slave 創造穩定且安全的環境**，讓侍奉得以最佳進行。這種結構通常涵蓋場景外的長期生活面向（除協商例外，如職場時段），與場景型 D/s 動態（僅在特定時段內成立）不同。
 
-  Master 一詞與 Dominant 並非同義：Dominant 是更通用的主導角色稱謂，可涵蓋場景型動態；Master 專指長期、深度權力交換結構下、且承擔對 Slave 全方位責任的角色。實踐中許多 Dominant 不使用 Master 一詞，因為這個詞蘊含的承諾強度與責任分量更高。
+  Master 一詞與 [Dominant（支配者）](/glossary/dominant) 並非同義：Dominant 是更通用的主導角色稱謂，可涵蓋場景型動態；Master 專指長期、深度權力交換結構下、且承擔對 Slave 全方位責任的角色。實踐中許多 Dominant 不使用 Master 一詞，因為這個詞蘊含的承諾強度與責任分量更高。
 
 disambiguation:
   - vs: Dominant
@@ -18,7 +18,7 @@ disambiguation:
       Dominant 是主導角色的通用稱謂，Master 專指 24/7 或 TPE 結構下的長期主導方，且帶有「為 Slave 創造侍奉環境」的責任面向。一個人可以是 Dominant 但非 Master，反之則較少見。
   - vs: Owner
     note: |
-      Master 與 Slave 的相處主軸是侍奉、命令、責任承擔；Owner 與 Pet 的相處主軸是照顧、接納、存在式歸屬。Master 對 Slave 有較強的期望與引導，Owner 對 Pet 則傾向接納其既有狀態。
+      Master 與 Slave 的相處主軸是侍奉、命令、責任承擔；[Owner（飼主）](/glossary/owner) 與 Pet 的相處主軸是照顧、接納、存在式歸屬。Master 對 Slave 有較強的期望與引導，Owner 對 Pet 則傾向接納其既有狀態。
   - vs: Daddy
     note: |
       Daddy 在 DDlg 動態中是「上位者照顧下位者」的培育型角色，重點在引導 Little 的成長；Master 在主奴結構中是「侍奉結構的承擔者」，重點在維持環境讓 Slave 的奉獻得以實現。

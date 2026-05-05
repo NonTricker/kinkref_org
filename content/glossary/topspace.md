@@ -5,7 +5,7 @@ term_en: Topspace
 term_alt_zh: Top 空間; 主導方意識狀態
 tagline: BDSM 場景中 top 可能進入的高度專注意識狀態。
 definition: |
-  Topspace 是 top 在高強度 BDSM 場景中**可能進入的特殊意識狀態**，特徵包括高度專注、時間感的「心流」式扭曲、對 sub 狀態的敏銳感知、決策與動作的流暢性、以及一種主動的「掌控」愉悅感。Topspace 與 Subspace 是場景中的對偶意識狀態，但內容與方向不同。
+  Topspace 是 top 在高強度 BDSM 場景中**可能進入的特殊意識狀態**，特徵包括高度專注、時間感的「心流」式扭曲、對 sub 狀態的敏銳感知、決策與動作的流暢性、以及一種主動的「掌控」愉悅感。Topspace 與 [Subspace](/glossary/subspace) 是場景中的對偶意識狀態，但內容與方向不同。
 
   Topspace 的神經機制涉及高度警覺與專注的腦區活動（前額葉、注意力相關神經系統）、可能的多巴胺活動、以及 top 對 sub 微觀反應（呼吸、肌肉張力、瞳孔變化）的快速處理。這種狀態與表演者的「flow state」、外科醫師的手術專注狀態在現象上有相似性。
 

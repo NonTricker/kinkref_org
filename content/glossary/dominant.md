@@ -15,13 +15,13 @@ definition: |
 disambiguation:
   - vs: Sadist
     note: |
-      Dominant 描述的是關係中的角色傾向（主導），Sadist 描述的是從施加痛苦中獲得愉悅的傾向。兩者可獨立存在或重疊。
+      Dominant 描述的是關係中的角色傾向（主導），[Sadist（施虐者）](/glossary/sadist) 描述的是從施加痛苦中獲得愉悅的傾向。兩者可獨立存在或重疊。
   - vs: Top
     note: |
-      Top 是場景中的「動作執行方」，Dominant 是關係或動態中的「主導角色」。Service top（執行方但非主導方）是兩者分離的典型案例。
+      [Top（主動）](/glossary/top) 是場景中的「動作執行方」，Dominant 是關係或動態中的「主導角色」。Service top（執行方但非主導方）是兩者分離的典型案例。
   - vs: Master
     note: |
-      Master 通常指 24/7 或 TPE（Total Power Exchange）結構下的長期權力交換對象，Dominant 是更通用、可涵蓋場景型動態的稱謂。
+      [Master（主人）](/glossary/master) 通常指 24/7 或 TPE（Total Power Exchange）結構下的長期權力交換對象，Dominant 是更通用、可涵蓋場景型動態的稱謂。
   - vs: 白騎士 / 拯救者情結
     note: |
       白騎士（White Knight）或拯救者情結（Savior Complex）描述的是主導方以「拯救對方」或「被需要」為核心動機的關係模式。圈內對此模式看法分歧——部分觀點將其與 D/s 區隔（認為 D/s 強調 submissive 的能動性），但也有觀點認為依存型動態在雙方知情同意下同樣是有效的 D/s 形式。本站遵循合意原則，不對特定動態形式做規範性判定。

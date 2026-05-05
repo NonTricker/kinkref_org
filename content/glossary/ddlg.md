@@ -17,10 +17,10 @@ disambiguation:
       DDlg 是 D/s 的一個支系，但比一般 D/s 更強調「照顧/被照顧」的情感面向。一般 D/s 的主軸是「決策權的協商性轉移」,DDlg 的主軸是「上位者培育、下位者依附」。
   - vs: Owner/Pet
     note: |
-      DDlg 的照顧哲學是培育型(Daddy 期待 Little 回應發展),Owner/Pet 的照顧哲學是接納型(Pet 來去自由、存在就好)。DDlg 的期望強度與管教介入通常高於 Owner/Pet。
+      DDlg 的照顧哲學是培育型(Daddy 期待 Little 回應發展),[Owner（飼主）](/glossary/owner)/[Pet（寵物）](/glossary/pet) 的照顧哲學是接納型(Pet 來去自由、存在就好)。DDlg 的期望強度與管教介入通常高於 Owner/Pet。
   - vs: Master/Slave
     note: |
-      Master/Slave 的深化方向是侍奉(以服務為生活主軸),DDlg 的深化方向是精神依附(以對 Daddy/Mommy 的依附為核心)。兩者可共存但主軸不同。
+      [Master（主人）](/glossary/master)/[Slave（奴僕）](/glossary/slave) 的深化方向是侍奉(以服務為生活主軸),DDlg 的深化方向是精神依附(以對 Daddy/Mommy 的依附為核心)。兩者可共存但主軸不同。
   - vs: ABDL
     note: |
       DDlg 是上位者照顧下位者的 D/s 動態,ABDL(Adult Baby / Diaper Lover)是幼齡行為偏好(紙尿褲、嬰兒物品)。DDlg 需要對偶(Daddy/Mommy + Little),ABDL 不一定需要投射對象。兩者可重疊但本質不同。

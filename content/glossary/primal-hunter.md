@@ -5,7 +5,7 @@ term_en: Primal (Hunter)
 aliases_en: Primal Hunter; Hunter
 tagline: primal play 中扮演本能驅動的捕獵方。
 definition: |
-  Primal (Hunter) 是 primal play（原始本能扮演）動態中扮演主動方的角色——捕獵、追逐、以本能驅動互動。Primal play 強調「無腳本、本能驅動」的場景風格，與 protocol-heavy 的儀式型 D/s 形成對比。
+  Primal (Hunter) 是 primal play（原始本能扮演）動態中扮演[主動（Top）](/glossary/top)方的角色——捕獵、追逐、以本能驅動互動。Primal play 強調「無腳本、本能驅動」的場景風格，與 protocol-heavy 的儀式型 D/s 形成對比。
 
   Primal Hunter 的角色通常包含：以動物性的姿態與本能行動、追逐 Primal Prey、在身體互動中保留動物本能的力度與直接性。Primal play 通常包含撕咬、抓握、撞擊、推倒等動作，需要雙方對身體強度有充分共識。
 
@@ -14,10 +14,10 @@ definition: |
 disambiguation:
   - vs: Sadist
     note: |
-      Sadist 從施加痛苦中獲得愉悅；Primal Hunter 從捕獵動態本身獲得愉悅，痛苦只是動態的副產品。一個 Primal Hunter 可以是也可以不是 Sadist。
+      [Sadist（施虐者）](/glossary/sadist) 從施加痛苦中獲得愉悅；Primal Hunter 從捕獵動態本身獲得愉悅，痛苦只是動態的副產品。一個 Primal Hunter 可以是也可以不是 Sadist。
   - vs: Dominant
     note: |
-      Dominant 是關係或動態的主導角色（通常包含設定框架、引導互動），Primal Hunter 是場景中的主動方但「以本能驅動」為特徵。Primal Hunter 在場景中刻意減少「設定」感。
+      [Dominant（支配者）](/glossary/dominant) 是關係或動態的主導角色（通常包含設定框架、引導互動），Primal Hunter 是場景中的主動方但「以本能驅動」為特徵。Primal Hunter 在場景中刻意減少「設定」感。
 
 caveats:
   - type: methodology

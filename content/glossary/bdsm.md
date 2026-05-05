@@ -6,9 +6,9 @@ aliases_en: B/D, D/s, S/M
 tagline: B&D / D&s / S&M 三組對偶概念的合稱與簡寫。
 definition: |
   BDSM 是當代用以涵蓋特定性傾向、實踐與關係結構的合稱，由三組對偶概念縮寫合成：
-  - **B&D**：Bondage & Discipline（束縛與紀律）
-  - **D&s**：Dominance & submission（支配與順從）
-  - **S&M**：Sadism & Masochism（施虐與受虐）
+  - **B&D**：Bondage & Discipline（[束縛與紀律（Bondage and Discipline）](/glossary/bondage-discipline)）
+  - **D&s**：Dominance & submission（[支配與順從（Dominance and submission）](/glossary/dominance-submission)）
+  - **S&M**：Sadism & Masochism（[施虐與受虐（Sadism and Masochism）](/glossary/sadism-masochism)）
 
   BDSM 並非指特定的單一行為或關係形式，而是一個**範疇集合**——涵蓋從輕度的角色扮演到深度的權力交換、從藝術性的繩縛到強烈的感官 play、從場景型的偶發互動到 24/7 的長期動態。實踐者通常只在這個集合中採用部分元素。
 
@@ -19,7 +19,7 @@ definition: |
 disambiguation:
   - vs: Kink
     note: |
-      Kink 是更廣的概念，涵蓋所有非主流的性傾向或實踐（包含 BDSM 但也包含 fetish、role play 等其他形式）。BDSM 是 Kink 的子集，特指這三組對偶概念涵蓋的範疇。
+      [Kink](/glossary/kink) 是更廣的概念，涵蓋所有非主流的性傾向或實踐（包含 BDSM 但也包含 fetish、role play 等其他形式）。BDSM 是 Kink 的子集，特指這三組對偶概念涵蓋的範疇。
   - vs: S&M
     note: |
       S&M 是 BDSM 的歷史前身之一，主要指 Sadism & Masochism。當代用法中，S&M 偶爾被用作 BDSM 的同義詞（特別在英語圈外），但精準用法上 S&M 僅是 BDSM 的子集。

@@ -7,7 +7,7 @@ tagline: 在 BDSM 場景中執行動作或施加感官的一方。
 definition: |
   Top 是 BDSM 場景中執行動作或施加感官刺激的一方，與 bottom（接受方）相對。Top 的角色是動作層次的描述，不直接蘊含關係中的權力結構或人格傾向。
 
-  Top 不必然是 Dominant（主導者）。一個典型的微分是 service top，即「擔任 Top 但服務 bottom 需求」的角色——動作由 Top 執行，但場景的方向性由 bottom 主導。同樣地，Top 不必然是 Sadist；以 sensation play、繩縛展示等非疼痛導向的場景，Top 的角色與 sadist 傾向無關。
+  Top 不必然是 [Dominant（支配者）](/glossary/dominant)（主導者）。一個典型的微分是 service top，即「擔任 Top 但服務 bottom 需求」的角色——動作由 Top 執行，但場景的方向性由 bottom 主導。同樣地，Top 不必然是 [Sadist（施虐者）](/glossary/sadist)；以 sensation play、繩縛展示等非疼痛導向的場景，Top 的角色與 sadist 傾向無關。
 
   Top 是在場景中啟動者與執行者，因此通常承擔較高的技術責任與安全把關責任，例如使用工具的安全、力道控制、觀察 bottom 狀態等。
 

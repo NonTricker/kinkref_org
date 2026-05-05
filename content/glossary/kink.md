@@ -5,7 +5,7 @@ term_en: Kink
 term_alt_zh: 性傾向; 非主流性實踐
 tagline: 涵蓋非主流性傾向、實踐與興趣的廣泛總稱。
 definition: |
-  Kink 是當代用以涵蓋**非主流性傾向、實踐或興趣**的廣泛總稱。Kink 比 BDSM 範圍更廣，涵蓋 BDSM 的所有元素，加上 fetish（戀物）、role play（角色扮演）、特定 fantasy（幻想）等其他 BDSM 框架未明確涵蓋的範疇。
+  Kink 是當代用以涵蓋**非主流性傾向、實踐或興趣**的廣泛總稱。Kink 比 [BDSM](/glossary/bdsm) 範圍更廣，涵蓋 BDSM 的所有元素，加上 fetish（戀物）、role play（角色扮演）、特定 fantasy（幻想）等其他 BDSM 框架未明確涵蓋的範疇。
 
   Kink 一詞的中性化是當代用法的特徵。Kink 不必然指向異常、病理或道德缺陷，而是描述偏離「主流標準性實踐」的傾向類型——這個「主流標準」本身是文化建構的，不同文化、不同年代有不同界線。
 

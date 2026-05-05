@@ -8,15 +8,15 @@ definition: |
 
   Degradation play 與情感虐待（emotional abuse）的本質區別在於：(1) 雙方知情同意；(2) 限定於協商範圍；(3) 場景外的關係保持平等與相互尊重；(4) 退場機制（如安全詞）隨時可用。
 
-  Degrader 的角色需要對 Degradee 的真實需求與底線有清楚理解。Degradation play 的言語可能觸及對方的真實 insecurity，這需要事前協商哪些詞彙允許、哪些絕對禁用，以避免造成真實心理傷害。
+  Degrader 的角色需要對 [Degradee（被貶低者）](/glossary/degradee) 的真實需求與底線有清楚理解。Degradation play 的言語可能觸及對方的真實 insecurity，這需要事前協商哪些詞彙允許、哪些絕對禁用，以避免造成真實心理傷害。
 
 disambiguation:
   - vs: Sadist
     note: |
-      Sadist 從施加痛苦中獲得愉悅，Degrader 從施加貶低中獲得愉悅。兩者可重疊但本質不同——一個 Degrader 不必然是 Sadist（不施加身體痛苦），反之亦然。
+      [Sadist（施虐者）](/glossary/sadist) 從施加痛苦中獲得愉悅，Degrader 從施加貶低中獲得愉悅。兩者可重疊但本質不同——一個 Degrader 不必然是 Sadist（不施加身體痛苦），反之亦然。
   - vs: Dominant
     note: |
-      Dominant 是關係中的主導角色，Degrader 是特定 practice 的執行者。一個 Dominant 可以選擇是否引入 degradation，並非所有 Dom 都從事此 practice。
+      [Dominant（支配者）](/glossary/dominant) 是關係中的主導角色，Degrader 是特定 practice 的執行者。一個 Dominant 可以選擇是否引入 degradation，並非所有 Dom 都從事此 practice。
 
 controversies: |
   Degradation play 與情感虐待（emotional abuse）的界線是 BDSM 倫理討論的重要議題。圈內主流共識是：(1) 場景中的合意貶低與場景外的平等尊重必須清楚分離；(2) 場景中觸及的言語不應在場景外延伸；(3) 場景外的人格貶低、孤立、控制等行為超出 degradation play 範疇，屬於 abuse。實踐者必須具備區分能力，避免兩者混淆。

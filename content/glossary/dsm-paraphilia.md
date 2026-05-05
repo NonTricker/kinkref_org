@@ -6,7 +6,7 @@ aliases_en: DSM-5; Paraphilia; Paraphilic Disorder
 term_alt_zh: DSM-5; 性偏好; 性偏好障礙症; 變態心理學分類
 tagline: 精神醫學對 BDSM 相關傾向的分類演變與去病理化。
 definition: |
-  DSM（Diagnostic and Statistical Manual of Mental Disorders）是美國精神醫學會（APA）出版的精神疾病診斷手冊，對全球精神醫學的臨床實務與研究框架有深遠影響。BDSM 相關傾向在 DSM 歷史中的分類演變，是理解 kink 去病理化進程的關鍵脈絡。
+  DSM（Diagnostic and Statistical Manual of Mental Disorders）是美國精神醫學會（APA）出版的精神疾病診斷手冊，對全球精神醫學的臨床實務與研究框架有深遠影響。[BDSM](/glossary/bdsm) 相關傾向在 DSM 歷史中的分類演變，是理解 kink 去病理化進程的關鍵脈絡。
 
   DSM-5（2013）做出了一個關鍵的概念區分：paraphilia（性偏好）不等於 paraphilic disorder（性偏好障礙症）。前者指對非典型性刺激的持續興趣——這本身不構成精神疾病；後者則需要額外滿足兩個條件之一：造成當事人「臨床顯著的痛苦或功能損傷」，或「對未同意者造成傷害」。
 

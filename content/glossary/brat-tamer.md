@@ -5,7 +5,7 @@ term_en: Brat tamer
 term_alt_zh: 馴服者
 tagline: 能享受並適度回應 Brat 行為的 Dom 風格。
 definition: |
-  Brat tamer 是 D/s 動態中的 Dom 風格之一，特徵是**能享受並適度回應 Brat（頑童）行為**。Brat tamer 不只是被動容忍 Brat 的調皮，而是主動把這類互動納入 D/s 動態的調味。
+  [Brat（頑童）](/glossary/brat) tamer 是 D/s 動態中的 Dom 風格之一，特徵是**能享受並適度回應 Brat（頑童）行為**。Brat tamer 不只是被動容忍 Brat 的調皮，而是主動把這類互動納入 D/s 動態的調味。
 
   Brat tamer 的角色通常包含：在不觸及底線的前提下給予 Brat 最大包容、把 Brat 的反抗轉化為溫情的管教或玩鬧、在 Brat 的試探中保持 Dom 的穩定權威。Brat tamer 與 Brat 的動態建立在雙方對「玩鬧 vs 真實衝突」的清楚分界上。
 

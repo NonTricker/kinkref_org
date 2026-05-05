@@ -9,7 +9,7 @@ definition: |
 
   繩縛在當代圈內常見的傳統包括日本 Shibari（亦稱 Kinbaku）、西方 Western bondage、以及融合多種傳統的當代風格。每個傳統有不同的繩結偏好、繩型結構與美學語彙，Rigger 通常會在某一傳統內深化技藝。
 
-  Rigger 是場景中的 Top（執行方），但不必然是 Dominant（主導者）。Rigger 與 Rope bunny 的動態可以是 D/s 結構（Rigger 主導），也可以是技藝展示（雙方各自展現繩縛美學）。
+  Rigger 是場景中的 [Top（主動）](/glossary/top)（執行方），但不必然是 [Dominant（支配者）](/glossary/dominant)（主導者）。Rigger 與 [Rope bunny（繩兔）](/glossary/rope-bunny) 的動態可以是 D/s 結構（Rigger 主導），也可以是技藝展示（雙方各自展現繩縛美學）。
 
 disambiguation:
   - vs: Top

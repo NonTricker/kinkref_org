@@ -14,7 +14,7 @@ definition: |
 disambiguation:
   - vs: Topspace
     note: |
-      Subspace 與 Topspace 是場景中的對偶意識狀態。Subspace 的特徵偏向被動接受、時間感模糊、語言減退；Topspace 偏向高度專注、流動的決策狀態、對 sub 反應的敏銳感知。
+      Subspace 與 [Topspace](/glossary/topspace) 是場景中的對偶意識狀態。Subspace 的特徵偏向被動接受、時間感模糊、語言減退；Topspace 偏向高度專注、流動的決策狀態、對 sub 反應的敏銳感知。
   - vs: 解離（dissociation）
     note: |
       Subspace 是「合意脈絡下的解離類狀態」，與創傷性解離（如 PTSD 中的解離）在現象上有相似但本質不同——前者是雙方協商下的探索，有 aftercare 與安全機制；後者是創傷反應，需要臨床處理。

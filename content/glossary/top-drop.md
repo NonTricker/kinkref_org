@@ -6,7 +6,7 @@ aliases_en: topdrop
 term_alt_zh: Top 落差; 主導方落差
 tagline: 場景後數小時至數日內 top 可能出現的情緒下沉現象。
 definition: |
-  Top-drop 是 BDSM 場景結束後，top（或 Dom）**在數小時至數日內可能出現的情緒下沉、心理疲憊或反思性低潮**。Top-drop 與 Sub-drop 是場景後情緒反應的對偶現象——兩者都源於高強度互動後的神經內分泌調節，只是出現於不同角色。
+  Top-drop 是 BDSM [場景（Scene）](/glossary/scene)結束後，top（或 Dom）**在數小時至數日內可能出現的情緒下沉、心理疲憊或反思性低潮**。Top-drop 與 [Sub-drop](/glossary/sub-drop) 是場景後情緒反應的對偶現象——兩者都源於高強度互動後的神經內分泌調節，只是出現於不同角色。
 
   Top-drop 的情緒內容常包含：對自己在場景中行為的反思（「我做得對嗎」「對方真的喜歡嗎」）、責任承擔後的疲憊、對親密互動結束的失落、或內疚感（特別在 sadism 或 degradation 場景後）。這些反應不必然意味著場景出問題，而是高強度體驗後的正常調節。
 

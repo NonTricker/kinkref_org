@@ -9,7 +9,7 @@ definition: |
 
   Trigger 的反應形式多樣：強烈的負面情緒（恐懼、悲傷、憤怒）、解離（dissociation）、生理反應（心跳加速、呼吸困難、僵直）、或不受控的記憶閃回（flashback）。這些反應與場景內的合意動態無關，是真實的心理反應。
 
-  在 BDSM 實踐中，理解 Trigger 是 Negotiation 的重要環節。雙方應在事前討論已知的 Trigger，將其列為 Hard limit 或在場景中設定避開機制。當場景中意外觸發未知 Trigger 時，安全詞或安全訊號是即時暫停的關鍵工具，並需立即進入 aftercare 流程。
+  在 BDSM 實踐中，理解 Trigger 是 [Negotiation（協商）](/glossary/negotiation) 的重要環節。雙方應在事前討論已知的 Trigger，將其列為 [Hard limit（硬性限制）](/glossary/hard-limit) 或在場景中設定避開機制。當場景中意外觸發未知 Trigger 時，[安全詞（Safe word）](/glossary/safe-word)或安全訊號是即時暫停的關鍵工具，並需立即進入 aftercare 流程。
 
 disambiguation:
   - vs: Hard limit

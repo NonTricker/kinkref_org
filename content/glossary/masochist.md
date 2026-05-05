@@ -7,7 +7,7 @@ tagline: 從在合意脈絡下接受痛苦或不適中獲得愉悅的人。
 definition: |
   Masochist 是在 BDSM 脈絡中，從接受身體或心理痛苦、不適或羞辱中獲得愉悅的人。痛苦的形式多樣，可能是物理性（撞擊、感官刺激、束縛）或心理性（協商過的言語動態），前提是接受方已知情同意。
 
-  Masochist 不必然在關係中擔任順從角色（submissive）。Masochist 與 Submissive 是兩個獨立的傾向維度，可以重疊但也可以分離。例如某人可能是 masochist 但非 submissive（在自己主導的協商下接受痛苦），或是 submissive 但非 masochist（想臣服於對方但不戀痛——這是常見的圈內微分描述）。
+  Masochist 不必然在關係中擔任順從角色（submissive）。Masochist 與 [Submissive（順從者）](/glossary/submissive) 是兩個獨立的傾向維度，可以重疊但也可以分離。例如某人可能是 masochist 但非 submissive（在自己主導的協商下接受痛苦），或是 submissive 但非 masochist（想臣服於對方但不戀痛——這是常見的圈內微分描述）。
 
   本術語必須與 DSM-5 中的 Sexual Masochism Disorder 區別：DSM 條件描述的是「造成顯著痛苦或功能損傷」的情境，而 BDSM 脈絡中的 Masochist 一詞描述的是合意框架內的傾向，兩者在臨床定義上不同。
 
@@ -17,7 +17,7 @@ disambiguation:
       Masochist 描述的是從接受痛苦中獲得愉悅的傾向，Submissive 描述的是關係中的順從角色。「想臣服但不戀痛」（sub 但非 M）是常見的圈內微分。
   - vs: Bottom
     note: |
-      Bottom 是場景中的動作接受方，Masochist 是傾向於從痛苦接受中獲得愉悅。Bottom 不必然是 Masochist。
+      [Bottom（被動）](/glossary/bottom) 是場景中的動作接受方，Masochist 是傾向於從痛苦接受中獲得愉悅。Bottom 不必然是 Masochist。
   - vs: DSM 中的 Sexual Masochism Disorder
     note: |
       DSM-5 的 Sexual Masochism Disorder 描述的是造成顯著痛苦或功能損傷的條件，與 BDSM 脈絡的合意 masochist 在臨床定義上不同。

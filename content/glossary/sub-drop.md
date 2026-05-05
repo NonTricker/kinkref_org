@@ -6,7 +6,7 @@ aliases_en: subdrop
 term_alt_zh: Sub 落差; 順從者落差
 tagline: 場景後數小時至數日內 sub 可能出現的情緒下沉現象。
 definition: |
-  Sub-drop 是 BDSM 場景結束後，sub **在數小時至數日內可能出現的情緒下沉、生理疲憊或心理低潮現象**。Sub-drop 並非場景失敗的徵兆，而是高強度體驗後的**生理與心理的反向調節反應**。
+  Sub-drop 是 BDSM [場景（Scene）](/glossary/scene)結束後，sub **在數小時至數日內可能出現的情緒下沉、生理疲憊或心理低潮現象**。Sub-drop 並非場景失敗的徵兆，而是高強度體驗後的**生理與心理的反向調節反應**。
 
   Sub-drop 的成因被假設與內啡肽（endorphin）、腎上腺素等神經傳導物質的場景後撤退有關——場景中體內這些物質達到高峰，場景後快速下降，造成情緒落差。對應的還有 HPA 軸（壓力反應系統）的回穩過程，期間實踐者可能感受到疲憊、悲傷、空虛、易哭等。
 
@@ -15,10 +15,10 @@ definition: |
 disambiguation:
   - vs: Aftercare
     note: |
-      Aftercare 是場景剛結束時的即時照護，Sub-drop 是場景後延遲性的情緒反應。完整的 aftercare 規劃應涵蓋即時（場景剛結束）與延遲（後續幾天）兩個時間框架。
+      [Aftercare](/glossary/aftercare) 是場景剛結束時的即時照護，Sub-drop 是場景後延遲性的情緒反應。完整的 aftercare 規劃應涵蓋即時（場景剛結束）與延遲（後續幾天）兩個時間框架。
   - vs: Top-drop
     note: |
-      Sub-drop 與 Top-drop 是同類型的場景後情緒下沉現象，分別出現於 sub 與 top 兩端。生理機制相似，但情緒內容可能不同（sub-drop 偏向被照顧的需求，top-drop 偏向責任承擔後的疲憊或反思）。
+      Sub-drop 與 [Top-drop](/glossary/top-drop) 是同類型的場景後情緒下沉現象，分別出現於 sub 與 top 兩端。生理機制相似，但情緒內容可能不同（sub-drop 偏向被照顧的需求，top-drop 偏向責任承擔後的疲憊或反思）。
   - vs: 場景中的負面情緒
     note: |
       Sub-drop 是場景結束後的延遲反應，與場景中即時的負面情緒（觸發 trigger、感官超載等）不同。後者應使用安全詞即時暫停，前者則需後續照護。

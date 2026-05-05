@@ -5,11 +5,11 @@ term_en: Slave
 term_alt_zh: 奴; 奴隸; 侍奉者; 性奴
 tagline: 在主奴或全權力交換結構下以侍奉為核心的長期角色。
 definition: |
-  Slave 是 BDSM 關係結構中，於長期權力交換（通常為 24/7 或 TPE）動態下以**侍奉（servitude）為核心**的角色。Slave 將個人能動性的某些範疇（依協商範圍）讓渡給 Master，將侍奉 Master 視為日常生活的主要焦點。
+  Slave 是 BDSM 關係結構中，於長期權力交換（通常為 24/7 或 [TPE（全權力交換）](/glossary/tpe)）動態下以**侍奉（servitude）為核心**的角色。Slave 將個人能動性的某些範疇（依協商範圍）讓渡給 [Master（主人）](/glossary/master)，將侍奉 Master 視為日常生活的主要焦點。
 
   在現代 BDSM 語境中，Slave 一詞的核心**不是「被擁有」的客體狀態，而是「主動侍奉」的奉獻型角色**。權力交換通常涵蓋 24/7 全方位的生活面向（除協商例外，如職場時段），但這種結構建立在事前充分協商與雙方明確同意的基礎上，且 Slave 仍持有 hard limit 與安全詞等退場機制。
 
-  Slave 一詞與 Submissive 並非同義：Submissive 是更通用的順從角色稱謂；Slave 專指長期、深度侍奉結構下的奉獻方，蘊含的承諾強度與生活滲透程度更高。
+  Slave 一詞與 [Submissive（順從者）](/glossary/submissive) 並非同義：Submissive 是更通用的順從角色稱謂；Slave 專指長期、深度侍奉結構下的奉獻方，蘊含的承諾強度與生活滲透程度更高。
 
 disambiguation:
   - vs: Submissive
@@ -17,7 +17,7 @@ disambiguation:
       Submissive 是順從角色的通用稱謂，可涵蓋場景型動態；Slave 專指 24/7 或 TPE 結構下、以侍奉為生活主軸的長期角色。一個人可以是 Submissive 但非 Slave，反之則較少見。
   - vs: Pet
     note: |
-      Slave 的相處主軸是侍奉、執行、責任承擔；Pet 的相處主軸是被照顧、存在式歸屬。Slave 通常需要主動完成 Master 的期望，Pet 較傾向被動接受 Owner 的接納。
+      Slave 的相處主軸是侍奉、執行、責任承擔；[Pet（寵物）](/glossary/pet) 的相處主軸是被照顧、存在式歸屬。Slave 通常需要主動完成 Master 的期望，Pet 較傾向被動接受 Owner 的接納。
   - vs: Little
     note: |
       Slave 強調的是侍奉結構下的奉獻角色，Little 強調的是精神年齡的角色釋放。Slave 的責任感較強（執行、不退縮），Little 的撒嬌與被引導特質較明顯。兩者的順從深度都可達極深層，但方向不同——Slave 朝侍奉深化，Little 朝精神依附深化。

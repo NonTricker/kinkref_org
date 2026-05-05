@@ -15,7 +15,7 @@ definition: |
 disambiguation:
   - vs: Voyeur
     note: |
-      Voyeur 的愉悅來自「觀看」本身,Cuckold 的愉悅來自「伴侶與他人互動」這個關係情境——即使不在場觀看，光是知道這件事發生也可能產生愉悅。
+      [Voyeur（偷窺者）](/glossary/voyeur) 的愉悅來自「觀看」本身,Cuckold 的愉悅來自「伴侶與他人互動」這個關係情境——即使不在場觀看，光是知道這件事發生也可能產生愉悅。
   - vs: Non-monogamist / Open Relationship
     note: |
       Non-monogamy 和 Open Relationship 是關係結構的選擇,Cuckold 是從特定情境中獲得情慾愉悅的傾向。兩者可共存但不等同——一段 open relationship 不必然有 cuckold 動態。

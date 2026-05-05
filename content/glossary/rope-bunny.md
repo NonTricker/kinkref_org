@@ -6,7 +6,7 @@ aliases_en: rope bottom; bunny
 term_alt_zh: 被縛者; 繩底
 tagline: 在繩縛場景中接受繩縛、被綁的一方。
 definition: |
-  Rope bunny 是繩縛場景中接受繩縛、被綁的一方，與 Rigger（繩師）相對。Rope bunny 的角色是被動承接，但同時保有主動撤回同意（如使用安全詞）的能動性，並在許多場景中參與繩型方向、節奏與限制的協商。
+  Rope bunny 是繩縛場景中接受繩縛、被綁的一方，與 [Rigger（縛師）](/glossary/rigger)（繩師）相對。Rope bunny 的角色是被動承接，但同時保有主動撤回同意（如使用安全詞）的能動性，並在許多場景中參與繩型方向、節奏與限制的協商。
 
   Rope bunny 在繩縛場景中可能體驗多種感官狀態：壓力、束縛感、特殊姿勢的肌肉感受、以及在懸吊（suspension）等進階場景中的失重體驗。被縛者也可能進入 subspace 或類似的意識狀態，這需要 Rigger 持續觀察生理與心理狀態。
 
@@ -15,10 +15,10 @@ definition: |
 disambiguation:
   - vs: Bottom
     note: |
-      Rope bunny 是繩縛 practice 的特定接受方稱謂，是 Bottom 的細分形式。
+      Rope bunny 是繩縛 practice 的特定接受方稱謂，是 [Bottom（被動）](/glossary/bottom) 的細分形式。
   - vs: Submissive
     note: |
-      Rope bunny 是動作層的接受者，Submissive 是關係或動態的順從角色。一個 Rope bunny 不必然是 Submissive。
+      Rope bunny 是動作層的接受者，[Submissive（順從者）](/glossary/submissive) 是關係或動態的順從角色。一個 Rope bunny 不必然是 Submissive。
   - vs: Rope top（替代稱呼）
     note: |
       Rope bottom 是 Rope bunny 的另一種稱呼，少了「bunny」隱含的可愛色彩。兩者所指相同，使用視個人偏好。

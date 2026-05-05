@@ -6,11 +6,11 @@ aliases_en: puppy; kitten; bunny; pony; K9; K8
 term_alt_zh: 寵物; 狗奴; 貓奴; 犬; K9; K8
 tagline: 在 petplay 動態中以存在式歸屬被接納的一方。
 definition: |
-  Pet 是 BDSM 關係中，於 petplay（寵物扮演）動態下擔任被照顧、被接納方的角色。動物角色扮演（puppy、kitten、bunny、pony 等）是常見表現形式，但**並非嚴格必要**：許多 Owner/Pet 動態的核心並不在動物意象，而在被照顧與被接納的關係本身。
+  Pet 是 BDSM 關係中，於 petplay（寵物扮演）動態下擔任被照顧、被接納方的角色。動物角色扮演（puppy、kitten、bunny、pony 等）是常見表現形式，但**並非嚴格必要**：許多 [Owner（飼主）](/glossary/owner)/Pet 動態的核心並不在動物意象，而在被照顧與被接納的關係本身。
 
   Pet 的核心是「**存在式歸屬**」：Pet 不需要透過特定行為或表現來證明自身價值，「存在就好、會回來就好」是這個動態的精神。Owner 提供必要照顧與接納，但不對 Pet 強求成長、改變或特定回應。這種關係結構帶有一種「被動接納」的愛的型態，與 Daddy 對 Little 的「主動培育」截然不同。
 
-  Pet 動態通常包含一些非性互動：項圈、遊戲、玩耍、陪伴等，可視協商範圍延伸到性層面或保持非性層面。Pet 的能動性形式與 Slave 不同：Pet 被允許更大的自由空間，互動性可低，來去較自由。
+  Pet 動態通常包含一些非性互動：項圈、遊戲、玩耍、陪伴等，可視協商範圍延伸到性層面或保持非性層面。Pet 的能動性形式與 [Slave（奴僕）](/glossary/slave) 不同：Pet 被允許更大的自由空間，互動性可低，來去較自由。
 
 disambiguation:
   - vs: Slave

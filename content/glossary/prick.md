@@ -5,7 +5,7 @@ term_en: PRICK
 aliases_en: Personal Responsibility Informed Consensual Kink
 tagline: 強調個人責任的當代 BDSM 同意框架。
 definition: |
-  PRICK（Personal Responsibility Informed Consensual Kink）是 BDSM 同意框架的進一步發展，作為 SSC 與 RACK 的延伸。PRICK 的核心主張是：每個參與者對自身的決定承擔最終責任，包括參與該 practice 的選擇、對風險的認識、以及對自身狀態的監測。
+  PRICK（Personal Responsibility Informed Consensual Kink）是 BDSM 同意框架的進一步發展，作為 [SSC（安全、理智、知情同意）](/glossary/ssc) 與 [RACK（共知風險的合意 kink）](/glossary/rack) 的延伸。PRICK 的核心主張是：每個參與者對自身的決定承擔最終責任，包括參與該 practice 的選擇、對風險的認識、以及對自身狀態的監測。
 
   PRICK 強調四個面向：Personal Responsibility（個人責任）、Informed（知情）、Consensual（同意）、Kink（在合意 kink 框架內）。這個框架特別適用於 edge play 等高風險 practice——當風險無法消除時，每個參與者必須清楚知道自己在做什麼決定。
 

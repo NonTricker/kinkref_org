@@ -7,9 +7,9 @@ tagline: 在 BDSM 場景中接受動作或感官的一方。
 definition: |
   Bottom 是 BDSM 場景中接受動作或感官刺激的一方，與 top（執行方）相對。Bottom 的角色是動作層次的描述，不直接蘊含關係中的權力結構或人格傾向。
 
-  Bottom 不必然是 Submissive（順從者）。Power bottom 是常見的微分：bottom 接受動作，但場景的方向性與節奏仍由 bottom 主導。同樣地，Bottom 不必然是 Masochist；以繩縛展示、感官 play 等非疼痛場景，Bottom 的角色與受虐傾向無關。
+  Bottom 不必然是 [Submissive（順從者）](/glossary/submissive)（順從者）。Power bottom 是常見的微分：bottom 接受動作，但場景的方向性與節奏仍由 bottom 主導。同樣地，Bottom 不必然是 [Masochist（受虐者）](/glossary/masochist)；以繩縛展示、感官 play 等非疼痛場景，Bottom 的角色與受虐傾向無關。
 
-  Bottom 雖然是接受方，但仍持有主動撤回同意（如使用安全詞）的能動性，並在許多場景中擔任場景方向、節奏與限制的協商者。
+  Bottom 雖然是接受方，但仍持有[主動（Top）](/glossary/top)撤回同意（如使用安全詞）的能動性，並在許多場景中擔任場景方向、節奏與限制的協商者。
 
 disambiguation:
   - vs: Submissive

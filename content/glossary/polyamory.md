@@ -15,7 +15,7 @@ definition: |
 disambiguation:
   - vs: Open relationship
     note: |
-      Polyamory 強調情感層面的多重連結（多重「伴侶」），Open relationship 通常強調性層面的開放（保留主要伴侶獨佔情感，但允許外部性互動）。實際運作有重疊區，但意圖與結構不同。
+      Polyamory 強調情感層面的多重連結（多重「伴侶」），[Open relationship（開放式關係）](/glossary/open-relationship) 通常強調性層面的開放（保留主要伴侶獨佔情感，但允許外部性互動）。實際運作有重疊區，但意圖與結構不同。
   - vs: Swinger
     note: |
       Swinger 是主要伴侶共同探索與他人的性互動的形式，情感連結通常維持在主要伴侶之間。Polyamory 則是與多人建立情感連結。

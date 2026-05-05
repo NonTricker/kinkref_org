@@ -5,7 +5,7 @@ term_en: Scene
 term_alt_zh: BDSM 場景
 tagline: 結構化的 BDSM 互動單位，含開場、進行、收場三段。
 definition: |
-  Scene 是 BDSM 中結構化的互動單位，指**雙方在協商後進行的特定 BDSM 活動段落**。一個 Scene 通常含三個階段：開場（establishment，建立框架、確認狀態）、進行（play，雙方協商過的活動本體）、收場（aftercare，事後照護與恢復）。
+  Scene 是 BDSM 中結構化的互動單位，指**雙方在[協商（Negotiation）](/glossary/negotiation)後進行的特定 BDSM 活動段落**。一個 Scene 通常含三個階段：開場（establishment，建立框架、確認狀態）、進行（play，雙方協商過的活動本體）、收場（aftercare，事後照護與恢復）。
 
   Scene 的時間範圍可短可長，從 30 分鐘的小型互動到數小時的深度動態都可能。場景內容由協商範圍決定，可包含繩縛、impact play、感官刺激、角色扮演、權力交換等多種形式。
 
