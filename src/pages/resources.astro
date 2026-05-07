@@ -1167,15 +1167,22 @@ const applyConfigs = {
     gap: var(--space-4);
   }
 
+  /* v0.10.2：grid item 等高 + flex column，把 source badge 推到底
+     避免 specialty tags 數量不同導致卡片高度落差 */
+  .counselor-card {
+    display: flex;
+  }
+
   .counselor-card a {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     padding: var(--space-5);
     background: var(--bg-elevated);
     border: 1px solid var(--rule-fine);
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: inherit;
-    height: 100%;
     transition: var(--transition-color);
   }
 
@@ -1231,8 +1238,8 @@ const applyConfigs = {
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
     color: var(--accent-primary);
-    margin: 0;
-    padding-top: var(--space-2);
+    margin: auto 0 0;          /* 推到卡底，等高邊界線一致 */
+    padding-top: var(--space-3);
     border-top: 1px solid var(--rule-fine);
   }
 </style>

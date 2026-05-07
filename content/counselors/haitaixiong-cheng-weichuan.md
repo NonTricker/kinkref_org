@@ -5,10 +5,10 @@ credentials:
   - 諮商心理師
 specialty:
   - Spanking
-  - TK（搔癢）
-  - DD/MD/LG/LB（Daddy/Mommy + Little 動態）
-  - DID（解離性身分認同）
-  - CBT（陰莖與睪丸刑罰）
+  - TK
+  - DD(MD)LG(LB)
+  - DID
+  - CBT
   - Fetish
   - Latex
   - 繩縛
