@@ -7,6 +7,12 @@
  * v1.3 新增 5 個 type 的 schema 定義（journals / counselors / legal / campus-groups / medical）
  *      待織法者整合，見 BDSMWebsite/HANDOFF_TO_WEAVER_2026-05-03.md。
  * v1.4 修正：bibliography 中 doi 改為選填 + 新增 article_url + refine 驗證「doi 或 article_url 至少一個」。
+ * v1.5 counselors collection 上線：
+ *      - license_number (string) → licenses (string[])，可表達多證號
+ *      - 新增 referral_source enum（禁羈名單 / 自薦），
+ *        ※ 禁羈名單與自薦皆為心理師主動同意收錄，差別僅在資格審查方
+ *      - 新增 contact_phone（內部備援，schema 收但前端不渲染）
+ *      - 新增 affiliation_extra（額外協會身份，需本人明確同意才填）
  *
  * Content SSOT 位於 repo 根目錄 `content/`，
  * 透過 Content Layer `glob` loader 讀入。
@@ -353,14 +359,46 @@ const counselors = defineCollection({
     name: z.string(),
     pronouns: z.string().nullish(),
     credentials: z.array(z.string()),
-    license_number: z.string().nullish(),
+    /**
+     * 證號（複數，v1.5）
+     * 範例：['諮心字 003363', '台灣性諮商學會性諮商師 23002']
+     * 政策：當事人主動提供才列；未列出 ≠ 未具備資格
+     */
+    licenses: z.array(z.string()).nullish(),
     specialty: z.array(z.string()),
     kink_friendly_statement: z.string(),
     location: z.string(),
+    /**
+     * 機構（v1.5）— location 是地區（縣市）；institution 是執業單位
+     * 多單位可在同一字串裡用 / 分隔，或前端 split 後 list
+     */
+    institution: z.string().nullish(),
     service_modes: z.array(z.enum(['in-person', 'online', 'hybrid'])),
     languages: z.array(z.string()),
     contact_email: z.string().email().nullish(),
     contact_website: z.string().url().nullish(),
+    /**
+     * 預約管道顯示文字（v1.5）— 例如「機構官方網站 / 官方 LINE @xxx」
+     * 給前端詳情頁顯示用，contact_website 是 URL，這個是描述
+     */
+    contact_method_label: z.string().nullish(),
+    /**
+     * 內部備援聯絡（手機）— v1.5 schema 收但前端不渲染。
+     * 原則：站方僅供 re-verify 緊急聯絡用。
+     */
+    contact_phone_internal: z.string().nullish(),
+    /**
+     * 額外協會 / 機構身份（v1.5）— 例如「道埕協會秘書長」
+     * Iron Law: 必須當事人明確同意公開才填，簽名檔附帶資訊不算同意
+     */
+    affiliation_extra: z.array(z.string()).nullish(),
+    /**
+     * 來源（v1.5）— 區分資格審查方
+     * - 禁羈名單：禁羈友善助人者資源網代審
+     * - 自薦：站方自行收件
+     * 兩者皆為心理師主動同意收錄
+     */
+    referral_source: z.enum(['禁羈名單', '自薦']).nullish(),
     listing_consent: z.boolean(),
     self_attestation: z.boolean(),
     last_verified: z.coerce.date(),

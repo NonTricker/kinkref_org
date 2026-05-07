@@ -15,11 +15,21 @@
 
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { seedShuffle, todaySeed } from '@/lib/seed-shuffle';
 
 const allCounselors = await getCollection('counselors');
 const allLegal = await getCollection('legal');
 const allCampusGroups = await getCollection('campusGroups');
 const allMedical = await getCollection('medical');
+
+// v0.10.0：以「今日日期」作 seed 進行確定性隨機洗牌
+// 同一天 build 結果一致；不同天 build 結果輪替
+// 避免「字母 / 註冊順序 = 隱性排名」的展示偏誤
+const seed = todaySeed();
+const shuffledCounselors = seedShuffle(allCounselors, seed);
+const shuffledLegal = seedShuffle(allLegal, seed);
+const shuffledCampusGroups = seedShuffle(allCampusGroups, seed);
+const shuffledMedical = seedShuffle(allMedical, seed);
 
 const pageTitle = '資源 · Resources';
 const pageDescription =
@@ -232,20 +242,43 @@ const applyConfigs = {
       {allCounselors.length === 0 ? (
         <p class="section-empty">本區段目前無收錄條目。</p>
       ) : (
-        <ul class="entry-list">
-          {allCounselors.map((entry) => (
-            <li class="entry-card">
-              <article>
-                <h3>{entry.data.name}</h3>
-                <p class="meta">{entry.data.credentials.join('、')} · {entry.data.location}</p>
-                <p>{entry.data.kink_friendly_statement.slice(0, 150)}…</p>
-                {entry.data.contact_email && (
-                  <p><a href={`mailto:${entry.data.contact_email}`}>{entry.data.contact_email}</a></p>
-                )}
-              </article>
-            </li>
-          ))}
-        </ul>
+        <>
+          <p class="shuffle-note">
+            排序為每次站台更新時隨機。本站不對個人專業能力進行排名或推薦。
+          </p>
+          <ul class="counselor-list">
+            {shuffledCounselors.map((entry) => (
+              <li class="counselor-card">
+                <a href={`/resources/counselors/${entry.id}`}>
+                  <h3 class="counselor-card-name">{entry.data.name}</h3>
+                  <p class="counselor-card-meta">
+                    <span>{entry.data.credentials.join('、')}</span>
+                    {entry.data.institution && <><span aria-hidden="true"> · </span><span>{entry.data.institution}</span></>}
+                    <span aria-hidden="true"> · </span>
+                    <span>{entry.data.location}</span>
+                  </p>
+                  {entry.data.specialty && entry.data.specialty.length > 0 && (
+                    <ul class="counselor-card-tags">
+                      {entry.data.specialty.slice(0, 3).map((s) => (
+                        <li>{s}</li>
+                      ))}
+                      {entry.data.specialty.length > 3 && (
+                        <li class="counselor-card-tag-more">+{entry.data.specialty.length - 3}</li>
+                      )}
+                    </ul>
+                  )}
+                  {entry.data.referral_source && (
+                    <p class="counselor-card-source">
+                      {entry.data.referral_source === '禁羈名單'
+                        ? '經臺灣 BDSMer 友善之助人工作者資源網認證'
+                        : '當事人自薦'}
+                    </p>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
 
       <aside class="community-resource" aria-label="社群資源推薦">
@@ -323,7 +356,7 @@ const applyConfigs = {
         <p class="section-empty">本區段目前無收錄條目。</p>
       ) : (
         <ul class="entry-list">
-          {allLegal.map((entry) => (
+          {shuffledLegal.map((entry) => (
             <li class="entry-card">
               <article>
                 <p class="entry-type">{entry.data.entry_type}</p>
@@ -377,7 +410,7 @@ const applyConfigs = {
         <p class="section-empty">本區段目前無收錄條目。</p>
       ) : (
         <ul class="entry-list">
-          {allCampusGroups.map((entry) => (
+          {shuffledCampusGroups.map((entry) => (
             <li class="entry-card">
               <article>
                 <p class="meta">{entry.data.university}</p>
@@ -453,7 +486,7 @@ const applyConfigs = {
         <>
           <h3 class="subsection-heading">自薦 Kink-Friendly 醫師 / 診所</h3>
           <ul class="entry-list">
-            {allMedical.map((entry) => (
+            {shuffledMedical.map((entry) => (
               <li class="entry-card">
                 <article>
                   <p class="entry-type">{entry.data.entry_type}</p>
@@ -1057,5 +1090,101 @@ const applyConfigs = {
     font-size: var(--fs-caption);
     color: var(--ink-meta);
     word-break: break-all;
+  }
+
+  /* ──────────────────────────────────────────────────────
+     Counselor list — 精簡卡片
+     - 不顯示 statement 全文（→ 詳情頁）
+     - 不顯示 email（→ 詳情頁）
+     - 顯示：姓名 / 職稱 + 機構 + 地區 / topic tags 前 3 / source badge
+     ────────────────────────────────────────────────────── */
+
+  .shuffle-note {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+  }
+
+  .counselor-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .counselor-card a {
+    display: block;
+    padding: var(--space-5);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    transition: var(--transition-color);
+  }
+
+  .counselor-card a:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .counselor-card a:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+
+  .counselor-card-name {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+    margin: 0 0 var(--space-2);
+  }
+
+  .counselor-card-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+    line-height: 1.5;
+  }
+
+  .counselor-card-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .counselor-card-tags li {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-body);
+    padding: 2px var(--space-2);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-pill);
+  }
+
+  .counselor-card-tag-more {
+    color: var(--ink-meta) !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .counselor-card-source {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--accent-primary);
+    margin: 0;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--rule-fine);
   }
 </style>
