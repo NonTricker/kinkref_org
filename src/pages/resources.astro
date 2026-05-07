@@ -32,8 +32,12 @@ const shuffledCampusGroups = seedShuffle(allCampusGroups, seed);
 const shuffledMedical = seedShuffle(allMedical, seed);
 
 const pageTitle = '資源 · Resources';
+// pageDescription 維持「立場 + 收費 + 自我背書」短版，給 SEO meta description
+// 用（搜尋引擎需要完整脈絡）；前端 hero 顯示另起 pageHeroDescription（純功能介紹）
 const pageDescription =
-  '心理、法律、社團、醫療、其他類別的整合資源頁。本站不為任何個人或組織專業能力背書 ── 收錄條目均具名 + 提供執業執照，由收錄者自我背書。站方僅提供格式化整理與連結，不收任何費用（無償）。';
+  '心理、法律、社團、醫療、其他類別的整合資源頁。本站不為任何個人或組織專業能力背書，收錄條目均具名並由收錄者自我背書，站方僅提供格式化整理與連結，不收任何費用（無償）。';
+const pageHeroDescription =
+  '整合心理諮商、法律、社團、醫療資源的外部索引，附開放申請收錄入口。';
 
 // 公開緊急熱線（公開政府服務，無需 listing_consent）
 const hotlines = [
@@ -200,8 +204,8 @@ const applyConfigs = {
       </p>
       <h1 class="page-title">資源</h1>
       <hr class="page-title-rule" aria-hidden="true" />
-      <p class="page-description">{pageDescription}</p>
-      <p class="page-description-en" lang="en">External resources — crisis hotlines, kink-aware therapists, legal aid, campus groups, and medical professionals. All listings are self-endorsed; kinkref.org does not endorse or recommend.</p>
+      <p class="page-description">{pageHeroDescription}</p>
+      <p class="page-description-en" lang="en">External resources index — counseling, legal, campus groups, and medical, with open self-application paths.</p>
     </div>
   </section>
 
