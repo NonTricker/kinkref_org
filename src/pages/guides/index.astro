@@ -74,7 +74,7 @@ const breadcrumbSchema = {
   <section class="page-hero">
     <div class="page-hero-inner">
       <p class="page-eyebrow">
-        <span class="page-eyebrow-num">06</span>
+        <span class="page-eyebrow-num">05</span>
         <span class="page-eyebrow-sep" aria-hidden="true">·</span>
         <span class="page-eyebrow-name">Guides</span>
       </p>
@@ -118,13 +118,69 @@ const breadcrumbSchema = {
 
 <style>
   .page-hero {
-    max-width: var(--content-width-index);
-    margin: 0 auto;
-    padding: var(--space-9) var(--space-5) var(--space-7);
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
   }
 
   .page-hero-inner {
-    max-width: var(--content-width-prose);
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-4);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .page-eyebrow-num {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .page-eyebrow-sep {
+    color: var(--ink-disabled);
+    font-weight: var(--fw-regular);
+  }
+
+  .page-eyebrow-name {
+    font-weight: var(--fw-semibold);
+  }
+
+  .page-title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-5);
+  }
+
+  .page-title-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .page-description {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .page-description :global(strong) {
+    color: var(--ink-heading);
+    font-weight: var(--fw-semibold);
   }
 
   .guides-list {
