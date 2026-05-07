@@ -42,7 +42,11 @@ export function seedShuffle<T>(arr: readonly T[], seed: number | string): T[] {
   const out = arr.slice();
   for (let i = out.length - 1; i > 0; i--) {
     const j = Math.floor(rand() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
+    // i, j 都在 [0, length) 範圍內，index 必有值；non-null assert 滿足
+    // tsconfig 的 noUncheckedIndexedAccess
+    const tmp = out[i]!;
+    out[i] = out[j]!;
+    out[j] = tmp;
   }
   return out;
 }
