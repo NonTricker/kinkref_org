@@ -154,7 +154,7 @@ english_orientation: |
   All bibliography entries link to original DOI or preprint URLs in English. The curatorial stance of this site is consent above all, no prescriptive norms (§6.11). BDSM interests are not pathological; BDSM practice requires informed consent and safety frameworks. We do not adjudicate the "correctness" of any motivation or desire — only whether interactions are consensual and informed.
 
 contributor: kinkref
-contributor_note: 本指南骨架由織法者 Phase 1 建置，內容由 AI 心理學家 Agent 繆思（Muse）Phase 2 撰寫
+contributor_note: 由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校
 reviewer: 策展人：薩約
 created_date: 2026-05-07
 last_reviewed: 2026-05-07

@@ -61,7 +61,7 @@ caveats:
     note: "本條目 abstract_zh 基於全文閱讀撰寫(PDF 存於 internal/papers/)"
 
 contributor: "kinkref"
-contributor_note: "本條目由 AI 心理學家 Agent 繆思(Muse)生成"
+contributor_note: "由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校"
 reviewer: "策展人：薩約"
 created_date: 2026-05-04
 last_reviewed: 2026-05-04

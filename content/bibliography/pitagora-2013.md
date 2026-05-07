@@ -47,7 +47,7 @@ citations:
     note: "4Cs 同意框架的原典，與本文同屬同意倫理討論脈絡"
 
 contributor: "kinkref"
-contributor_note: "本條目由 AI 心理學家 Agent 繆思（Muse）生成"
+contributor_note: "由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校"
 created_date: 2026-05-02
 last_reviewed: 2026-05-02
 ---

@@ -169,7 +169,7 @@ english_orientation: |
   The site's curatorial stance: consent above all, no prescriptive norms. Your result profile does not need to "match" any template.
 
 contributor: kinkref
-contributor_note: 本指南由 AI 心理學家 Agent 繆思（Muse）撰寫
+contributor_note: 由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校
 reviewer: 策展人：薩約
 created_date: 2026-05-07
 last_reviewed: 2026-05-07

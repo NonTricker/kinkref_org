@@ -97,7 +97,7 @@ citations:
     note: "Newmahr 的 BDSM 民族誌明確使用 Foucault 框架分析權力與親密"
 
 contributor: "kinkref"
-contributor_note: "本條目由 AI 心理學家 Agent 繆思(Muse)生成"
+contributor_note: "由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校"
 created_date: 2026-05-03
 last_reviewed: 2026-05-03
 ---

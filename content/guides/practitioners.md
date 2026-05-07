@@ -178,7 +178,7 @@ english_orientation: |
   If you read Mandarin, the curatorial notes provide Taiwan-specific community context, cross-cultural translation decisions, and controversies sections that English-only sources do not cover. The site's stance is "consent above all, no prescriptive norms" — this guide presents diverse dynamics without endorsing any particular model.
 
 contributor: kinkref
-contributor_note: 本指南骨架由織法者 Phase 1 建置，內容由 AI 心理學家 Agent 繆思（Muse）Phase 2 撰寫
+contributor_note: 由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校
 reviewer: 策展人：薩約
 created_date: 2026-05-07
 last_reviewed: 2026-05-07

@@ -33,7 +33,7 @@ related_terms: [daddy-mommy, boy-girl, dominance-submission, owner, pet, master,
 topic_tags: [relationship-dynamics, identity]
 reader_tags: [beginner, practitioner, researcher]
 contributor: "kinkref"
-contributor_note: "本條目由 AI 心理學家 Agent 繆思(Muse)生成"
+contributor_note: "由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校"
 reviewer: "策展人：薩約"
 created_date: 2026-05-04
 last_reviewed: 2026-05-04
