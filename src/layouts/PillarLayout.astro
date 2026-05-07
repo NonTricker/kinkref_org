@@ -1,0 +1,251 @@
+---
+/**
+ * PillarLayout — `/guides/` 系列 pillar page 骨架
+ *
+ * 用於：/guides/beginners、/guides/practitioners、/guides/researchers 等。
+ * 結構（脈流師 SPEC §6.1）：
+ *   Hero（H1 + tagline + reading time + audience eyebrow）
+ *   Lead paragraph
+ *   FAQ accordion
+ *   Cluster sections（每個 cluster: title + lead + entry list）
+ *   Related guides cross-link
+ *   English orientation note（含 anchor #english）
+ *
+ * 視覺細節由光影師 Phase 6 polish；此 layout 僅做結構與 token 引用。
+ *
+ * Iron Law: 不重用 EntryLayout — pillar page 結構與條目頁本質不同。
+ */
+
+import BaseLayout from './BaseLayout.astro';
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Hero 上方 eyebrow（如「閱讀指南 · Reading Guide」） */
+  eyebrow?: string;
+  /** 一句話描述本 guide */
+  tagline?: string;
+  /** 預估閱讀時間（分鐘） */
+  readingTimeMin?: number;
+  /** Audience 標籤中文（如「給新手讀者」） */
+  audienceLabel?: string;
+  /** Per-page JSON-LD（FAQPage / BreadcrumbList / etc） */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** 麵包屑路徑（最後一項為當前頁） */
+  breadcrumbs?: BreadcrumbItem[];
+  /** 末次審校日期 */
+  lastReviewed?: Date;
+  /** Contributor 圈名 */
+  contributor?: string;
+  /** AI-augmented 透明性聲明 */
+  contributorNote?: string | null;
+  /** 審校者署名 */
+  reviewer?: string | null;
+}
+
+const {
+  title,
+  description,
+  eyebrow,
+  tagline,
+  readingTimeMin,
+  audienceLabel,
+  jsonLd,
+  breadcrumbs,
+  lastReviewed,
+  contributor,
+  contributorNote,
+  reviewer,
+} = Astro.props;
+
+const formattedDate = lastReviewed
+  ? new Intl.DateTimeFormat('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(lastReviewed)
+  : null;
+---
+
+<BaseLayout title={title} description={description} ogType="article" jsonLd={jsonLd}>
+  <article class="pillar">
+    {
+      breadcrumbs && breadcrumbs.length > 0 && (
+        <nav class="pillar-breadcrumb" aria-label="麵包屑">
+          {breadcrumbs.map((item, i) => (
+            <>
+              {i > 0 && <span aria-hidden="true">/</span>}
+              {i === breadcrumbs.length - 1 ? (
+                <span class="pillar-breadcrumb-current">{item.name}</span>
+              ) : (
+                <a href={item.url}>{item.name}</a>
+              )}
+            </>
+          ))}
+        </nav>
+      )
+    }
+
+    <header class="pillar-header">
+      {eyebrow && <p class="pillar-eyebrow">{eyebrow}</p>}
+      <h1 class="pillar-title">{title}</h1>
+      {tagline && <p class="pillar-tagline">{tagline}</p>}
+      <div class="pillar-meta">
+        {audienceLabel && <span class="pillar-meta-pill">{audienceLabel}</span>}
+        {readingTimeMin && (
+          <span class="pillar-meta-pill" aria-label="預估閱讀時間">
+            約 {readingTimeMin} 分鐘
+          </span>
+        )}
+      </div>
+    </header>
+
+    <div class="pillar-body">
+      <slot />
+    </div>
+
+    {
+      (formattedDate || contributor || contributorNote || reviewer) && (
+        <footer class="pillar-footer">
+          <section class="pillar-meta-block">
+            {contributor && (
+              <p class="pillar-meta-row">
+                <span class="pillar-meta-label">產製</span>
+                <span>{contributor}</span>
+              </p>
+            )}
+            {contributorNote && (
+              <p class="pillar-meta-row">
+                <span class="pillar-meta-label">備註</span>
+                <span>{contributorNote}</span>
+              </p>
+            )}
+            {reviewer && (
+              <p class="pillar-meta-row">
+                <span class="pillar-meta-label">審校</span>
+                <span>{reviewer}</span>
+              </p>
+            )}
+            {formattedDate && (
+              <p class="pillar-meta-row">
+                <span class="pillar-meta-label">最後審校</span>
+                <time datetime={lastReviewed?.toISOString()}>{formattedDate}</time>
+              </p>
+            )}
+          </section>
+        </footer>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .pillar {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-7);
+  }
+
+  .pillar-breadcrumb {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin-bottom: var(--space-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .pillar-breadcrumb a {
+    color: var(--ink-meta);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+
+  .pillar-breadcrumb a:hover {
+    color: var(--accent-primary);
+  }
+
+  .pillar-breadcrumb-current {
+    color: var(--ink-body);
+  }
+
+  .pillar-header {
+    margin-bottom: var(--space-9);
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .pillar-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .pillar-title {
+    font-size: var(--fs-h1);
+    margin: 0 0 var(--space-3);
+  }
+
+  .pillar-tagline {
+    font-family: var(--font-sans);
+    color: var(--ink-meta);
+    font-size: var(--fs-body-sm);
+    margin: 0 0 var(--space-5);
+  }
+
+  .pillar-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .pillar-meta-pill {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-pill);
+  }
+
+  .pillar-body {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .pillar-footer {
+    margin-top: var(--space-11);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-fine);
+  }
+
+  .pillar-meta-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
+  .pillar-meta-row {
+    margin: 0;
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .pillar-meta-label {
+    color: var(--ink-disabled);
+    min-width: 5em;
+  }
+</style>

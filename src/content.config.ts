@@ -516,6 +516,75 @@ const translations = defineCollection({
 });
 
 // ──────────────────────────────────────────────────────
+// Guides collection (v1.9 — pillar pages，脈流師 SPEC v1)
+// ──────────────────────────────────────────────────────
+// 主題包 / topic cluster pillar page。
+// 每個 guide 是 curated curation：將既有 entry 編成「給某類讀者的閱讀地圖」。
+//
+// SSOT: seo/SPEC_guides_pillar_pages_v1.md（脈流師）
+// 內容由靈範師 Phase 2 填寫；織法者 Phase 1 只建 skeleton。
+//
+// File naming：content/guides/{audience}.md（如 beginners.md）
+
+const guideEntryRefSchema = z.object({
+  type: z.enum(['glossary', 'bibliography', 'books', 'journals']),
+  slug: z.string(),
+  why_in_this_cluster: z.string().nullish(),
+});
+
+const guideClusterSchema = z.object({
+  cluster_title: z.string(),
+  cluster_lead: z.string(), // 50-100 字導讀
+  entries: z.array(guideEntryRefSchema).min(2).max(10),
+});
+
+const guideFaqSchema = z.object({
+  question: z.string(),
+  answer: z.string(),
+});
+
+const guideAudienceEnum = z.enum([
+  'beginners',
+  'practitioners',
+  'researchers',
+  'clinical',       // M5 預留
+  'cross-cultural', // M6 預留
+]);
+
+const guides = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './content/guides' }),
+  schema: z.object({
+    schema_version: z.string(),
+    audience: guideAudienceEnum,
+    title_zh: z.string(),
+    title_en: z.string(), // BreadcrumbList / orientation 用
+    tagline: z.string().max(80),
+    lead_paragraph: z.string(), // 200-400 字
+    estimated_reading_time_min: z.number(),
+
+    // FAQ Q&A pairs（FAQPage Schema 用）
+    faq: z.array(guideFaqSchema).min(3).max(8),
+
+    // Curated entry clusters
+    clusters: z.array(guideClusterSchema).min(2).max(6),
+
+    // Cross-link to other guides（guide slug / filename ID list）
+    // v1.9.1：改用 z.string()（guide slug）取代 guideAudienceEnum——
+    //   因為多篇 guide 可共用同一個 audience（如 beginners），用 audience 做 cross-link 不夠用。
+    related_guides: z.array(z.string()).nullish(),
+
+    // English orientation note（200-300 字英文）
+    english_orientation: z.string(),
+
+    contributor: z.string(),
+    contributor_note: z.string().nullish(),
+    reviewer: z.string().nullish(),
+    created_date: z.coerce.date(),
+    last_reviewed: z.coerce.date(),
+  }),
+});
+
+// ──────────────────────────────────────────────────────
 // Export
 // ──────────────────────────────────────────────────────
 
@@ -529,4 +598,5 @@ export const collections = {
   campusGroups,   // v1.3（folder: campus-groups）
   medical,        // v1.3
   translations,   // v1.8 全文中譯
+  guides,         // v1.9 pillar pages
 };

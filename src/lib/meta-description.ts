@@ -85,6 +85,19 @@ export function booksDescription(opts: {
   return `《${opts.title}》${opts.author}（${opts.year}）— ${opts.difficulty} 級｜${metaSlice(opts.abstractZh, 35)}…｜kinkref.org`;
 }
 
+/**
+ * Pillar guide meta description（脈流師 SPEC §5.2）
+ * 範例：`新手入門閱讀地圖｜從測驗到術語：給第一次接觸 BDSM 學術文獻的讀者。
+ *        精選 28 條策展連結｜kinkref.org 學術策展`
+ */
+export function guidesDescription(opts: {
+  titleZh: string;
+  tagline: string;
+  entryCount: number;
+}): string {
+  return `${opts.titleZh}閱讀地圖｜${flattenForMeta(opts.tagline)}。精選 ${opts.entryCount} 條策展連結｜kinkref.org 學術策展`;
+}
+
 /** Journal entry meta description */
 export function journalsDescription(opts: {
   title: string;

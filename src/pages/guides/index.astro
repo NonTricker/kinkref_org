@@ -1,0 +1,199 @@
+---
+/**
+ * Guides index — `/guides/` 主題包總覽頁
+ *
+ * 脈流師 SPEC §2 / §5.1.C：
+ *   - 列出全部 pillar guide（依 audience 排序）
+ *   - 注入 CollectionPage Schema
+ *   - 預留未來擴充入口（clinical / cross-cultural）
+ *
+ * 內容由各 guide frontmatter 帶出（title_zh / tagline / reading time / cluster 數）。
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown';
+
+const allGuides = await getCollection('guides');
+
+// Audience 排序權重（脈流師 SPEC §2.3）
+const AUDIENCE_ORDER: Record<string, number> = {
+  beginners: 1,
+  practitioners: 2,
+  researchers: 3,
+  clinical: 4,
+  'cross-cultural': 5,
+};
+
+const sortedGuides = allGuides.sort(
+  (a, b) =>
+    (AUDIENCE_ORDER[a.data.audience] ?? 99) -
+    (AUDIENCE_ORDER[b.data.audience] ?? 99)
+);
+
+const pageTitle = '閱讀指南 · Guides';
+const pageDescription = `針對不同讀者類型的 BDSM 學術閱讀地圖。**新手入門**、**實踐者進階**、**學術研究**——每份指南由策展人精選術語、文獻、書籍與期刊條目，提供可循的閱讀路徑，而非教學或操作指南。`;
+const metaDescription = stripInlineMarkdown(pageDescription);
+
+// CollectionPage Schema（脈流師 SPEC §5.1.C）
+const SITE_URL = 'https://kinkref.org';
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${SITE_URL}/guides#collection`,
+  name: '閱讀指南',
+  description: metaDescription,
+  url: `${SITE_URL}/guides`,
+  inLanguage: 'zh-Hant-TW',
+  isPartOf: { '@id': `${SITE_URL}#website` },
+  hasPart: sortedGuides.map((g) => ({
+    '@type': 'CreativeWork',
+    name: g.data.title_zh,
+    alternateName: g.data.title_en,
+    description: g.data.tagline,
+    url: `${SITE_URL}/guides/${g.id}`,
+    inLanguage: 'zh-Hant-TW',
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: '閱讀指南', item: `${SITE_URL}/guides` },
+  ],
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={metaDescription}
+  jsonLd={[collectionSchema, breadcrumbSchema]}
+>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-num">06</span>
+        <span class="page-eyebrow-sep" aria-hidden="true">·</span>
+        <span class="page-eyebrow-name">Guides</span>
+      </p>
+      <h1 class="page-title">閱讀指南</h1>
+      <hr class="page-title-rule" aria-hidden="true" />
+      <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
+    </div>
+  </section>
+
+  {
+    sortedGuides.length === 0 ? (
+      <section class="empty-state">
+        <div class="empty-state-inner">
+          <p class="empty-state-eyebrow">尚未開放</p>
+          <h2>閱讀指南正在編纂中</h2>
+          <p>三份首批指南（新手入門 / 實踐者進階 / 學術研究）正由 AI 心理學家 Agent 繆思撰寫、策展人薩約審校中。</p>
+        </div>
+      </section>
+    ) : (
+      <section class="guides-list" aria-label="主題包列表">
+        <ul class="guides-grid">
+          {sortedGuides.map((g) => (
+            <li class="guide-card">
+              <a href={`/guides/${g.id}`} class="guide-card-link">
+                <p class="guide-card-eyebrow">For {g.data.title_en}</p>
+                <h2 class="guide-card-title">{g.data.title_zh}</h2>
+                <p class="guide-card-tagline">{g.data.tagline}</p>
+                <p class="guide-card-meta">
+                  <span>{g.data.clusters.length} 個策展叢集</span>
+                  <span aria-hidden="true">·</span>
+                  <span>約 {g.data.estimated_reading_time_min} 分鐘</span>
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .page-hero {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5) var(--space-7);
+  }
+
+  .page-hero-inner {
+    max-width: var(--content-width-prose);
+  }
+
+  .guides-list {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    padding: 0 var(--space-5) var(--space-11);
+  }
+
+  .guides-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .guide-card {
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-md);
+    background: var(--bg-subtle);
+    transition: var(--transition-color);
+  }
+
+  .guide-card:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .guide-card-link {
+    display: block;
+    padding: var(--space-7);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .guide-card-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .guide-card-title {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-3);
+  }
+
+  .guide-card-tagline {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-5);
+  }
+
+  .guide-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .empty-state {
+    max-width: var(--content-width-prose);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-5);
+  }
+</style>

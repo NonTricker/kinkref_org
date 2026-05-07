@@ -1,0 +1,507 @@
+---
+/**
+ * Guide pillar page detail — `/guides/[slug]`
+ *
+ * 動態路由：/guides/beginners、/guides/practitioners、/guides/researchers...
+ *
+ * 結構（脈流師 SPEC §6.1）：
+ *   Hero（PillarLayout 提供）
+ *   Lead paragraph
+ *   FAQ accordion（FAQPage Schema）
+ *   Cluster sections（每個 cluster: title + lead + entry list）
+ *   Related guides cross-link
+ *   English orientation note（#english anchor + lang="en"）
+ *
+ * SEO Schema 注入（脈流師 SPEC §5.1）：
+ *   - FAQPage（從 frontmatter.faq[] 自動生成）
+ *   - BreadcrumbList
+ *   - CreativeWork（pillar page 自身）
+ *
+ * 內容由靈範師 Phase 2 填寫；織法者 Phase 1 只建 skeleton。
+ */
+
+import { getCollection, getEntry } from 'astro:content';
+import PillarLayout from '@layouts/PillarLayout.astro';
+import { renderParagraphs, renderInlineMarkdown } from '@/lib/inline-markdown';
+import { guidesDescription } from '@/lib/meta-description';
+
+export async function getStaticPaths() {
+  const allGuides = await getCollection('guides');
+  return allGuides.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const data = entry.data;
+
+const SITE_URL = 'https://kinkref.org';
+const pageURL = `${SITE_URL}/guides/${entry.id}`;
+
+// ──────────────────────────────────────────────────────
+// 解析每個 cluster 內 entry 的真實 title（給 internal link anchor text）
+// 脈流師 SPEC §5.3：anchor text 必須是具體 entry 名稱，不能是「點此」「詳見」
+//
+// type → collection 對映 + title 欄位差異處理：
+//   glossary     → term_zh（中英對照取中文）
+//   bibliography → title（論文原題；無中文翻譯欄位時 fallback）
+//   books        → title_zh ?? title
+//   journals     → title_zh ?? abbreviation ?? title
+// ──────────────────────────────────────────────────────
+
+type EntryRef = {
+  type: 'glossary' | 'bibliography' | 'books' | 'journals';
+  slug: string;
+  why_in_this_cluster?: string | null;
+};
+
+type ResolvedEntry = {
+  type: EntryRef['type'];
+  slug: string;
+  href: string;
+  title: string;
+  subtitle?: string;
+  why?: string | null;
+  missing?: boolean;
+};
+
+const COLLECTION_PATH: Record<EntryRef['type'], string> = {
+  glossary: '/glossary',
+  bibliography: '/bibliography',
+  books: '/books',
+  journals: '/journals',
+};
+
+async function resolveEntry(ref: EntryRef): Promise<ResolvedEntry> {
+  const href = `${COLLECTION_PATH[ref.type]}/${ref.slug}`;
+  try {
+    const e = await getEntry(ref.type, ref.slug);
+    if (!e) {
+      return { ...ref, href, title: ref.slug, why: ref.why_in_this_cluster, missing: true };
+    }
+    let title: string;
+    let subtitle: string | undefined;
+    if (ref.type === 'glossary') {
+      const d = e.data as { term_zh: string; term_en: string };
+      title = d.term_zh;
+      subtitle = d.term_en;
+    } else if (ref.type === 'bibliography') {
+      const d = e.data as { title: string; authors: string; year: number };
+      title = d.title;
+      subtitle = `${d.authors} (${d.year})`;
+    } else if (ref.type === 'books') {
+      const d = e.data as { title: string; title_zh?: string | null; author: string };
+      title = d.title_zh ?? d.title;
+      subtitle = d.author;
+    } else {
+      const d = e.data as { title: string; title_zh?: string | null; abbreviation?: string | null };
+      title = d.title_zh ?? d.title;
+      subtitle = d.abbreviation ?? undefined;
+    }
+    return { ...ref, href, title, subtitle, why: ref.why_in_this_cluster };
+  } catch {
+    return { ...ref, href, title: ref.slug, why: ref.why_in_this_cluster, missing: true };
+  }
+}
+
+const resolvedClusters = await Promise.all(
+  data.clusters.map(async (c) => ({
+    cluster_title: c.cluster_title,
+    cluster_lead: c.cluster_lead,
+    entries: await Promise.all(c.entries.map(resolveEntry)),
+  }))
+);
+
+// 統計 entry 總數（給 meta description 用）
+const totalEntryCount = resolvedClusters.reduce((sum, c) => sum + c.entries.length, 0);
+
+// ──────────────────────────────────────────────────────
+// Related guides 解析
+// ──────────────────────────────────────────────────────
+
+let relatedGuides: { id: string; title_zh: string; tagline: string }[] = [];
+if (data.related_guides && data.related_guides.length > 0) {
+  const all = await getCollection('guides');
+  const lookup = new Set(data.related_guides);
+  relatedGuides = all
+    .filter((g) => lookup.has(g.id) && g.id !== entry.id)
+    .map((g) => ({ id: g.id, title_zh: g.data.title_zh, tagline: g.data.tagline }));
+}
+
+// ──────────────────────────────────────────────────────
+// SEO
+// ──────────────────────────────────────────────────────
+
+const pageTitle = `${data.title_zh} · ${data.title_en}`;
+const description = guidesDescription({
+  titleZh: data.title_zh,
+  tagline: data.tagline,
+  entryCount: totalEntryCount,
+});
+
+// FAQPage Schema（脈流師 SPEC §5.1.A）
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${pageURL}#faq`,
+  mainEntity: data.faq.map((qa) => ({
+    '@type': 'Question',
+    name: qa.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: qa.answer,
+    },
+  })),
+};
+
+// BreadcrumbList Schema（脈流師 SPEC §5.1.B）
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: '閱讀指南', item: `${SITE_URL}/guides` },
+    { '@type': 'ListItem', position: 3, name: data.title_zh, item: pageURL },
+  ],
+};
+
+// Pillar page 自身的 CreativeWork Schema
+const guideSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  '@id': `${pageURL}#guide`,
+  name: data.title_zh,
+  alternateName: data.title_en,
+  headline: data.title_zh,
+  description: data.tagline,
+  url: pageURL,
+  inLanguage: 'zh-Hant-TW',
+  isPartOf: { '@id': `${SITE_URL}/guides#collection` },
+  dateCreated: data.created_date.toISOString().slice(0, 10),
+  dateModified: data.last_reviewed.toISOString().slice(0, 10),
+  ...(data.contributor && { author: { '@type': 'Person', name: data.contributor } }),
+};
+
+const breadcrumbs = [
+  { name: '首頁', url: '/' },
+  { name: '閱讀指南', url: '/guides' },
+  { name: data.title_zh, url: `/guides/${entry.id}` },
+];
+
+const audienceLabelMap: Record<string, string> = {
+  beginners: '給新手讀者',
+  practitioners: '給實踐者',
+  researchers: '給研究者',
+  clinical: '給臨床工作者',
+  'cross-cultural': '跨文化視角',
+};
+const audienceLabel = audienceLabelMap[data.audience] ?? data.audience;
+
+const paragraphsHtml = (text: string) => renderParagraphs(text);
+---
+
+<PillarLayout
+  title={pageTitle}
+  description={description}
+  eyebrow="閱讀指南 · Reading Guide"
+  tagline={data.tagline}
+  readingTimeMin={data.estimated_reading_time_min}
+  audienceLabel={audienceLabel}
+  breadcrumbs={breadcrumbs}
+  contributor={data.contributor}
+  contributorNote={data.contributor_note}
+  reviewer={data.reviewer}
+  lastReviewed={data.last_reviewed}
+  jsonLd={[faqSchema, breadcrumbSchema, guideSchema]}
+>
+  {/* Lead paragraph — 200-400 字導讀 */}
+  <section class="pillar-section pillar-lead" aria-label="導讀">
+    {paragraphsHtml(data.lead_paragraph).map((html, i) => (
+      <p class={i === 0 ? 'drop-cap' : undefined} set:html={html} />
+    ))}
+  </section>
+
+  {/* FAQ — details/summary 純 HTML accordion，無 JS */}
+  <section class="pillar-section pillar-faq" aria-label="常見問題">
+    <h2>常見問題</h2>
+    <ul class="faq-list">
+      {data.faq.map((qa, i) => (
+        <li>
+          <details open={i === 0}>
+            <summary>
+              <span class="faq-q-num">Q{i + 1}</span>
+              <span class="faq-q-text">{qa.question}</span>
+            </summary>
+            <div class="faq-answer">
+              {paragraphsHtml(qa.answer).map((html) => (
+                <p set:html={html} />
+              ))}
+            </div>
+          </details>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {/* Curated clusters */}
+  {resolvedClusters.map((cluster, idx) => (
+    <section class="pillar-section pillar-cluster" aria-label={cluster.cluster_title}>
+      <header class="cluster-header">
+        <p class="cluster-num">Cluster {String(idx + 1).padStart(2, '0')}</p>
+        <h2>{cluster.cluster_title}</h2>
+        <div class="cluster-lead">
+          {paragraphsHtml(cluster.cluster_lead).map((html) => (
+            <p set:html={html} />
+          ))}
+        </div>
+      </header>
+      <ul class="cluster-entries">
+        {cluster.entries.map((ent) => (
+          <li class={ent.missing ? 'cluster-entry cluster-entry-missing' : 'cluster-entry'}>
+            <a href={ent.href} class="cluster-entry-link">
+              <p class="cluster-entry-type">{ent.type}</p>
+              <p class="cluster-entry-title">{ent.title}</p>
+              {ent.subtitle && <p class="cluster-entry-subtitle">{ent.subtitle}</p>}
+              {ent.why && (
+                <p class="cluster-entry-why" set:html={renderInlineMarkdown(ent.why)} />
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  {/* Related guides cross-link */}
+  {relatedGuides.length > 0 && (
+    <section class="pillar-section pillar-related" aria-label="其他閱讀指南">
+      <h2>其他閱讀指南</h2>
+      <ul class="related-guides">
+        {relatedGuides.map((g) => (
+          <li>
+            <a href={`/guides/${g.id}`}>
+              <span class="related-guide-title">{g.title_zh}</span>
+              <span class="related-guide-tagline">{g.tagline}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {/* English orientation note — Hreflang 守則：lang="en" 段落而非整頁雙語 */}
+  <section
+    class="pillar-section pillar-english"
+    id="english"
+    lang="en"
+    aria-label="For non-Chinese readers"
+  >
+    <h2>For Non-Chinese Readers</h2>
+    {paragraphsHtml(data.english_orientation).map((html) => (
+      <p set:html={html} />
+    ))}
+  </section>
+</PillarLayout>
+
+<style>
+  .pillar-section {
+    margin-bottom: var(--space-9);
+  }
+
+  /* ── Lead paragraph ── */
+  .pillar-lead {
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body);
+  }
+
+  /* ── FAQ accordion ── */
+  .faq-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .faq-list details {
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    background: var(--bg-subtle);
+  }
+
+  .faq-list summary {
+    cursor: pointer;
+    padding: var(--space-5) var(--space-7);
+    font-family: var(--font-sans);
+    font-weight: var(--fw-medium);
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    list-style: none;
+  }
+
+  .faq-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-q-num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--accent-primary);
+    min-width: 2.5em;
+  }
+
+  .faq-q-text {
+    flex: 1;
+  }
+
+  .faq-answer {
+    padding: 0 var(--space-7) var(--space-7);
+    color: var(--ink-body);
+  }
+
+  .faq-answer p {
+    margin: 0 0 var(--space-3);
+  }
+
+  /* ── Cluster sections ── */
+  .cluster-header {
+    margin-bottom: var(--space-5);
+  }
+
+  .cluster-num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    margin: 0 0 var(--space-2);
+  }
+
+  .cluster-lead {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    margin-top: var(--space-3);
+  }
+
+  .cluster-entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .cluster-entry {
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-color);
+  }
+
+  .cluster-entry:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .cluster-entry-missing {
+    opacity: 0.6;
+  }
+
+  .cluster-entry-link {
+    display: block;
+    padding: var(--space-5);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cluster-entry-type {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+  }
+
+  .cluster-entry-title {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    margin: 0 0 var(--space-2);
+  }
+
+  .cluster-entry-subtitle {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-2);
+  }
+
+  .cluster-entry-why {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-body);
+    margin: var(--space-2) 0 0;
+    font-style: italic;
+  }
+
+  /* ── Related guides ── */
+  .pillar-related {
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-fine);
+  }
+
+  .related-guides {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .related-guides a {
+    display: block;
+    padding: var(--space-5);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-color);
+  }
+
+  .related-guides a:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .related-guide-title {
+    display: block;
+    font-weight: var(--fw-medium);
+    margin-bottom: var(--space-2);
+  }
+
+  .related-guide-tagline {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
+  /* ── English orientation ── */
+  .pillar-english {
+    padding: var(--space-7);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+  }
+
+  .pillar-english h2 {
+    margin-top: 0;
+    font-family: var(--font-serif-en, var(--font-serif));
+  }
+
+  .pillar-english p {
+    margin: 0 0 var(--space-3);
+  }
+</style>
