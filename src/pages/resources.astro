@@ -56,7 +56,62 @@ interface ApplyCriteria {
   applyType: string;      // 申請主旨用（如「諮商師自薦」）
   criteria: string[];     // 收錄基準
   readme: string;         // GitHub README 連結
+  template?: string;      // 信件模板（多行字串）— 預設不提供時 details 不渲染
 }
+
+// 信件模板（v0.10.0 律法家：自薦同意 + 個資告知 + 退出機制）
+// 抽出到 frontmatter 是因為 JSX 內聯 {'\n'} 會破壞 Astro parser
+const T_COUNSELOR_REFERRAL = `主旨：[禁羈名單轉介] 您的姓名/化名
+
+我是 ______（姓名/化名），目前在禁羈友善助人者名單上。
+我願意公開列在 kinkref.org 心理資源頁。
+
+公開顯示名稱：
+執業地點（縣市）：
+聯絡 email（僅供站方定期確認用，不公開）：
+簡短自介或友善聲明（50-200 字，選填）：`;
+
+const T_COUNSELOR_APPLY = `主旨：[助人工作者自薦] 您的姓名/化名
+
+我是 ______（姓名/化名），願意公開列在 kinkref.org 心理資源頁。
+
+專業資格：（諮商心理師 / 臨床心理師 / 精神科醫師 / 社工師）
+執照字號：
+執業機構：
+執業地點（縣市）：
+聯絡 email（僅供站方定期確認用，不公開）：
+Kink-friendly 聲明或相關經驗（50-200 字）：`;
+
+const T_LEGAL = `主旨：[律師/法律扶助自薦] 您的姓名/化名
+
+我是 ______（姓名/化名），願意公開列在 kinkref.org 法律資源頁。
+
+資格類型：（律師 / 法律扶助組織）
+律師證號或組織立案證明：
+專長領域：
+執業地點（縣市）：
+聯絡 email（僅供站方定期確認用，不公開）：
+簡短說明（50-200 字，選填）：`;
+
+const T_CAMPUS = `主旨：[社團官方申請] 社團名稱
+
+我是 ______（社團名稱）的官方代表，願意公開列在 kinkref.org 社團資源頁。
+
+大學名稱：
+社團全名：
+登記狀態：（正式登記 / 穩定運作未登記）
+社團官方聯絡管道（email 或社群帳號）：
+社團簡介（50-200 字）：`;
+
+const T_MEDICAL = `主旨：[醫師/診所自薦] 您的姓名/化名
+
+我是 ______（姓名/化名），願意公開列在 kinkref.org 醫療資源頁。
+
+資格類型：（醫師 / 診所）
+醫師字號或診所統編：
+執業地點（縣市）：
+聯絡 email（僅供站方定期確認用，不公開）：
+提供的 kink-friendly 服務說明（50-200 字）：`;
 
 const applyConfigs = {
   counselors: {
@@ -70,6 +125,7 @@ const applyConfigs = {
       '每 12 個月主動 re-verify 聯絡資訊與執照 / 任職狀態',
     ],
     readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/counselors/README.md',
+    template: T_COUNSELOR_APPLY,
   },
   legal: {
     title: '法律資源',
@@ -82,6 +138,7 @@ const applyConfigs = {
       '每 12 個月主動 re-verify',
     ],
     readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/legal/README.md',
+    template: T_LEGAL,
   },
   campusGroups: {
     title: '社團資源',
@@ -94,6 +151,7 @@ const applyConfigs = {
       '每年新學期主動 re-verify',
     ],
     readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/campus-groups/README.md',
+    template: T_CAMPUS,
   },
   medical: {
     title: '醫療資源',
@@ -106,6 +164,7 @@ const applyConfigs = {
       '每 6 個月主動 re-verify',
     ],
     readme: 'https://github.com/NonTricker/kinkref_org/blob/main/content/medical/README.md',
+    template: T_MEDICAL,
   },
   other: {
     title: '其他資源',
@@ -136,7 +195,7 @@ const applyConfigs = {
     </div>
   </section>
 
-  <section class="disclaimer-section" aria-label="關於本頁列表">
+  <section class="disclaimer-section" id="disclaimer" aria-label="關於本頁列表">
     <div class="disclaimer-inner">
       <p class="disclaimer-eyebrow">⚠️ 關於本頁列表</p>
       <p>
@@ -144,12 +203,19 @@ const applyConfigs = {
         對立或競爭關係的資源<strong>全部列出</strong>，排序按字母順序或註冊日期，不按推薦度。
       </p>
       <p>
-        所有收錄條目均<strong>具名 + 提供執業執照或組織立案證明</strong>，
-        由收錄者自我背書其專業內容。站方僅提供格式化整理與連結，
-        <strong>不收任何費用</strong>（無償）。
+        本站對收錄條目僅進行<strong>形式審查</strong>（確認具名、專業資格證明或組織立案），
+        不對專業能力、服務品質或議題熟悉度進行實質審查。
+        所有條目由收錄者自我背書其專業內容。站方僅提供格式化整理與連結，
+        <strong>不收任何費用</strong>（無償）。本站亦非法律服務機構，站上任何內容均不構成法律諮詢或法律意見。
       </p>
       <p>
-        如發現外部連結失效或有資源已停止運作，請來信
+        使用者與收錄者之間的選擇、互動及後果，由雙方自行負責。
+        若產生爭議，建議回到該專業人員所屬機構或主管機關反映。
+      </p>
+      <p>
+        收錄者可隨時來信要求<strong>修改資訊或退出名單</strong>。
+        逾期未回覆定期 re-verify 達 30 天，站方將暫時下架該條目，待確認後重新上架。
+        如發現外部連結失效或有資源已停止運作，亦請來信
         <a href="mailto:curator@kinkref.org">curator@kinkref.org</a> 告知。
       </p>
     </div>
@@ -203,9 +269,15 @@ const applyConfigs = {
           </p>
           <p class="community-resource-cta">
             若您在「禁羈友善助人者名單」上，並願意公開列在 kinkref 心理資源，歡迎來信
-            <a href="mailto:curator@kinkref.org?subject=[禁羈名單轉介] 您的姓名/化名">curator@kinkref.org</a>，
-            主旨「[禁羈名單轉介] 您的姓名/化名」。我們確認名單後即可上線。
+            <a href="mailto:curator@kinkref.org?subject=[禁羈名單轉介] 您的姓名/化名">curator@kinkref.org</a>。
           </p>
+          <details class="apply-details">
+            <summary>📋 查看信件模板（可直接複製）</summary>
+            <pre class="apply-template"><code>{T_COUNSELOR_REFERRAL}</code></pre>
+            <p class="apply-note">
+              來信即視為同意站方依<a href="#disclaimer">頁首聲明</a>蒐集與公開您的資料。收錄後可隨時來信修改或退出。
+            </p>
+          </details>
         </div>
       </aside>
 
@@ -225,8 +297,16 @@ const applyConfigs = {
           <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.counselors.applyType}]`}>
             curator@kinkref.org
           </a>
-          ，主旨「[{applyConfigs.counselors.applyType}]」，附上身分證明文件與專業說明。
         </p>
+        {applyConfigs.counselors.template && (
+          <details class="apply-details">
+            <summary>📋 查看信件模板（可直接複製）</summary>
+            <pre class="apply-template"><code>{applyConfigs.counselors.template}</code></pre>
+            <p class="apply-note">
+              來信即視為同意站方依<a href="#disclaimer">頁首聲明</a>蒐集與公開您的資料。收錄後可隨時來信修改或退出。
+            </p>
+          </details>
+        )}
       </aside>
     </section>
 
@@ -271,8 +351,16 @@ const applyConfigs = {
           <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.legal.applyType}]`}>
             curator@kinkref.org
           </a>
-          ，主旨「[{applyConfigs.legal.applyType}]」。
         </p>
+        {applyConfigs.legal.template && (
+          <details class="apply-details">
+            <summary>📋 查看信件模板（可直接複製）</summary>
+            <pre class="apply-template"><code>{applyConfigs.legal.template}</code></pre>
+            <p class="apply-note">
+              來信即視為同意站方依<a href="#disclaimer">頁首聲明</a>蒐集與公開您的資料。收錄後可隨時來信修改或退出。
+            </p>
+          </details>
+        )}
       </aside>
     </section>
 
@@ -319,8 +407,16 @@ const applyConfigs = {
           <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.campusGroups.applyType}]`}>
             curator@kinkref.org
           </a>
-          ，主旨「[{applyConfigs.campusGroups.applyType}]」。
         </p>
+        {applyConfigs.campusGroups.template && (
+          <details class="apply-details">
+            <summary>📋 查看信件模板（可直接複製）</summary>
+            <pre class="apply-template"><code>{applyConfigs.campusGroups.template}</code></pre>
+            <p class="apply-note">
+              來信即視為同意站方依<a href="#disclaimer">頁首聲明</a>蒐集與公開您的資料。收錄後可隨時來信修改或退出。
+            </p>
+          </details>
+        )}
       </aside>
     </section>
 
@@ -388,8 +484,16 @@ const applyConfigs = {
           <a href={`mailto:curator@kinkref.org?subject=[${applyConfigs.medical.applyType}]`}>
             curator@kinkref.org
           </a>
-          ，主旨「[{applyConfigs.medical.applyType}]」。
         </p>
+        {applyConfigs.medical.template && (
+          <details class="apply-details">
+            <summary>📋 查看信件模板（可直接複製）</summary>
+            <pre class="apply-template"><code>{applyConfigs.medical.template}</code></pre>
+            <p class="apply-note">
+              來信即視為同意站方依<a href="#disclaimer">頁首聲明</a>蒐集與公開您的資料。收錄後可隨時來信修改或退出。
+            </p>
+          </details>
+        )}
       </aside>
     </section>
 
@@ -800,6 +904,64 @@ const applyConfigs = {
     border-top: 1px dashed var(--rule-fine);
   }
   .apply-cta a { color: var(--accent-primary); }
+
+  /* Details accordion — 信件模板預設摺疊，減少頁面長度
+     對讀者：summary 一行；對申請者：點開照樣完整 */
+  .apply-details {
+    margin: var(--space-4) 0 0;
+  }
+  .apply-details > summary {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-body);
+    list-style: none;
+    transition: var(--transition-color);
+  }
+  .apply-details > summary::-webkit-details-marker {
+    display: none;
+  }
+  .apply-details > summary:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+  }
+  .apply-details[open] > summary {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .apply-template {
+    margin: var(--space-2) 0 0;
+    padding: var(--space-5);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .apply-template code {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    line-height: 1.8;
+    color: var(--ink-body);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .apply-note {
+    font-size: var(--fs-caption);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: var(--space-3) 0 0;
+  }
+  .apply-note a { color: var(--accent-primary); }
 
   /* Hotline cards */
   .hotline-list {
