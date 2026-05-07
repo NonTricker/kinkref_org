@@ -62,6 +62,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
       <h1 class="page-title">術語表</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
+      <p class="page-description-en" lang="en">Bilingual BDSM glossary with academic definitions, disambiguation, and Taiwan-specific usage notes. Each entry cross-references related terms, DSM classification, and community conventions.</p>
       <div class="page-search">
         <SearchBox placeholder="搜尋術語…" variant="hero" />
       </div>
@@ -187,7 +188,16 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-7);
+    margin: 0;
+  }
+
+  .page-description-en {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    line-height: 1.7;
+    color: var(--ink-disabled);
+    margin: var(--space-2) 0 var(--space-7);
+    letter-spacing: 0;
   }
 
   .page-description :global(strong) {

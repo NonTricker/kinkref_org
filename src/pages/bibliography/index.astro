@@ -48,6 +48,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
       <h1 class="page-title">學術文獻</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
+      <p class="page-description-en" lang="en">Curated paper abstracts with Chinese summaries, DOI links, and curation-depth indicators. Organized by topic — depathologization, consent culture, neuroscience, cross-cultural studies.</p>
       <div class="page-search">
         <SearchBox placeholder="搜尋論文標題、作者…" variant="hero" />
       </div>
@@ -223,7 +224,16 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-7);
+    margin: 0;
+  }
+
+  .page-description-en {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    line-height: 1.7;
+    color: var(--ink-disabled);
+    margin: var(--space-2) 0 var(--space-7);
+    letter-spacing: 0;
   }
 
   .page-description :global(strong) {

@@ -132,6 +132,7 @@ const applyConfigs = {
       <h1 class="page-title">資源</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description">{pageDescription}</p>
+      <p class="page-description-en" lang="en">External resources — crisis hotlines, kink-aware therapists, legal aid, campus groups, and medical professionals. All listings are self-endorsed; kinkref.org does not endorse or recommend.</p>
     </div>
   </section>
 
@@ -498,6 +499,15 @@ const applyConfigs = {
   .page-title { font-size: var(--fs-h1); font-weight: var(--fw-semibold); line-height: var(--lh-tight); margin: 0 0 var(--space-5); }
   .page-title-rule { width: 64px; height: 1px; background: var(--accent-primary); border: 0; margin: 0 0 var(--space-6); }
   .page-description { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-meta); margin: 0; }
+
+  .page-description-en {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    line-height: 1.7;
+    color: var(--ink-disabled);
+    margin: var(--space-2) 0 var(--space-7);
+    letter-spacing: 0;
+  }
 
   .disclaimer-section {
     padding: var(--space-7) var(--space-5);

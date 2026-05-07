@@ -81,6 +81,7 @@ const breadcrumbSchema = {
       <h1 class="page-title">閱讀指南</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
+      <p class="page-description-en" lang="en">Curated reading maps for different audiences — newcomers, practitioners, and researchers. Each guide clusters glossary terms, papers, and books into thematic pathways.</p>
     </div>
   </section>
 
@@ -176,6 +177,15 @@ const breadcrumbSchema = {
     line-height: var(--lh-body);
     color: var(--ink-meta);
     margin: 0;
+  }
+
+  .page-description-en {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    line-height: 1.7;
+    color: var(--ink-disabled);
+    margin: var(--space-2) 0 var(--space-7);
+    letter-spacing: 0;
   }
 
   .page-description :global(strong) {

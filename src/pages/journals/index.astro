@@ -50,6 +50,7 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
       <h1 class="page-title">投稿地圖</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
+      <p class="page-description-en" lang="en">Journal submission maps for BDSM researchers — impact factor, OA status, review model, acceptance rate, and submission URLs for sexuality and psychology journals.</p>
       <div class="page-search">
         <SearchBox placeholder="搜尋期刊名、出版社…" variant="hero" />
       </div>
@@ -234,7 +235,16 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     color: var(--ink-meta);
-    margin: 0 0 var(--space-7);
+    margin: 0;
+  }
+
+  .page-description-en {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    line-height: 1.7;
+    color: var(--ink-disabled);
+    margin: var(--space-2) 0 var(--space-7);
+    letter-spacing: 0;
   }
 
   .page-description :global(strong) {
