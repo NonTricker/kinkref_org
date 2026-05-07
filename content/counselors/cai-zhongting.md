@@ -15,7 +15,6 @@ service_modes:
   - in-person
 languages:
   - 中文
-contact_email: ***REDACTED-PRIVATE-EMAIL***
 contact_website: https://www.instagram.com/justine_tsai
 contact_method_label: IG 私訊 @justine_tsai
 referral_source: 禁羈名單

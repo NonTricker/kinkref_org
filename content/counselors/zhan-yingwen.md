@@ -14,7 +14,6 @@ service_modes:
   - in-person
 languages:
   - 中文
-contact_email: ***REDACTED-PRIVATE-EMAIL***
 contact_website: https://www.lumosclinic.com.tw/book-online
 contact_method_label: 線上預約 https://www.lumosclinic.com.tw/book-online
 referral_source: 禁羈名單

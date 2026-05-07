@@ -20,7 +20,6 @@ service_modes:
   - online
 languages:
   - 中文
-contact_email: ***REDACTED-PRIVATE-EMAIL***
 contact_website: https://reunirecounseling.com/
 contact_method_label: 機構官方網站 https://reunirecounseling.com/ ／官方 LINE：@984fwzkq
 referral_source: 禁羈名單

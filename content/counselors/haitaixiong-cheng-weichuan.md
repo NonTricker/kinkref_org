@@ -21,7 +21,6 @@ service_modes:
   - online
 languages:
   - 中文
-contact_email: ***REDACTED-PRIVATE-EMAIL***
 contact_website: http://morph.com.tw/
 contact_method_label: http://morph.com.tw/
 referral_source: 禁羈名單

@@ -22,7 +22,6 @@ service_modes:
   - in-person
 languages:
   - 中文
-contact_email: ***REDACTED-PRIVATE-EMAIL***
 contact_website: https://maps.app.goo.gl/NTjSzgCzhvMY4Rcv8?g_st=com.google.maps.preview.copy
 contact_method_label: Google Maps（拾月拾日豐原心理治療所）
 referral_source: 禁羈名單

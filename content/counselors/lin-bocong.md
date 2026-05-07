@@ -18,7 +18,6 @@ service_modes:
   - in-person
 languages:
   - 中文
-contact_email: ***REDACTED-PRIVATE-EMAIL***
 contact_method_label: 機構網站（點心語心理諮商所）
 referral_source: 禁羈名單
 listing_consent: true

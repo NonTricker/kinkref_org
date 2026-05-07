@@ -15,7 +15,6 @@ service_modes:
   - in-person
 languages:
   - 中文
-contact_email: ***REDACTED-PRIVATE-EMAIL***
 contact_website: https://lixincounseling.wordpress.com/戴英洲-諮商心理師/
 contact_method_label: 機構個人頁
 referral_source: 禁羈名單
