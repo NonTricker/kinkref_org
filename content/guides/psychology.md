@@ -19,18 +19,18 @@ faq:
   - question: 喜歡 SM 跟病態施虐有什麼差別？
     answer: |
       四個關鍵維度可以區分合意的 BDSM 施虐與病態施虐：合意（consent）——雙方知情且積極同意；共感（empathy）——施虐者關注對方的反應與狀態；現實感（reality testing）——施虐者能區分場景與日常；雙向愉悅（mutual pleasure）——雙方都從互動中獲得滿足。相對而言，病態施虐的特徵是單方面控制、缺乏共感、無視對方意願。DSM-5 對 Sexual Sadism Disorder 的診斷標準要求「對非合意者造成傷害」才構成障礙症。合意的 [Sadist（施虐者）](/glossary/sadist) 不等於病態施虐者；[Masochist（受虐者）](/glossary/masochist) 的體驗也不等於被害。
-  - question: BDSM 實踐者的心理健康真的正常嗎？
+  - question: BDSM 實踐者的心理健康跟一般人有什麼不同？
     answer: |
-      不只正常——在某些指標上，BDSM 實踐者的表現甚至優於一般人。Wismeijer & van Assen（2013，n=902+434）發現實踐者在 Big Five 人格量表上神經質較低、開放性較高，主觀幸福感也較高。Richters 等人（2008）以澳洲全國代表性樣本確認 BDSM 實踐者在心理困擾量表上與一般人無顯著差異。Brown、Barker & Rahman（2020）的系統性回顧涵蓋 60 篇研究，結論一致收斂：BDSM 實踐者在人格、心理健康、關係品質上不劣於或優於對照組。Lecuona 等人（2025，n=1884）的最新複製研究再次確認了這一方向。
+      大規模研究的一致結論：在標準化心理量表上，BDSM 實踐者與一般人沒有負面差異，某些指標甚至更佳。[Wismeijer & van Assen（2013）](/bibliography/wismeijer-2013)（n=902+434）發現實踐者在 Big Five 人格量表上神經質較低、開放性較高，主觀幸福感也較高。[Richters 等人（2008）](/bibliography/richters-2008)以澳洲全國代表性樣本確認心理困擾量表上無顯著差異。[Brown、Barker & Rahman（2020）](/bibliography/brown-barker-rahman-2020)的系統性回顧涵蓋 60 篇研究，結論一致收斂。但這些數據不是在說「BDSM 正常」——用「正常/不正常」的框架評判性傾向本身就是過時的方法論。學術研究能告訴你的是：BDSM 傾向不會損害你的心理健康。
   - question: subspace、被打到 high 是怎麼回事？
     answer: |
-      BDSM 場景中的意識狀態變異有神經內分泌層面的實證基礎。Sagarin 等人（2009）測量了場景前後的荷爾蒙變化，發現 bottom 的 cortisol（壓力荷爾蒙）先升後降，且場景後雙方的關係親密感顯著上升。Ambler 等人（2017）進一步區分了角色差異：top 的體驗接近 flow state（心流），bottom 的體驗則呈現 transient hypofrontality（前額葉暫時性抑制）——類似深度冥想的神經機制。Lee 等人（2016）將 BDSM 場景中的意識狀態與極端儀式中的變異意識狀態（ASC）進行比較，發現結構性相似。詳見 [Subspace](/glossary/subspace) 與 [Topspace](/glossary/topspace) 條目。
+      BDSM 場景中的意識狀態變異有神經內分泌層面的實證基礎。[Sagarin 等人（2009）](/bibliography/sagarin-2009)測量了場景前後的荷爾蒙變化，發現 bottom 的 cortisol（壓力荷爾蒙）先升後降，且場景後雙方的關係親密感顯著上升。[Ambler 等人（2017）](/bibliography/ambler-2017)進一步區分了角色差異：top 的體驗接近 flow state（心流），bottom 的體驗則呈現 transient hypofrontality（前額葉暫時性抑制）——類似深度冥想的神經機制。[Lee 等人（2016）](/bibliography/lee-2016)將 BDSM 場景中的意識狀態與極端儀式中的變異意識狀態（ASC）進行比較，發現結構性相似。詳見 [Subspace](/glossary/subspace) 與 [Topspace](/glossary/topspace) 條目。
   - question: 我需要找「懂 BDSM」的心理師嗎？
     answer: |
-      Dunkley & Brotto（2018）區分了兩個層次：kink-aware（理解 BDSM 是有效的性實踐形式，不預設為病理）與 kink-friendly（對 BDSM 友善但不一定具備相關知識）。研究顯示約 75% 的 BDSM 個案求助心理治療的原因與 BDSM 無關——焦慮、抑鬱、關係困擾等一般議題。但如果治療師不具備 kink-aware 的素養，可能將 BDSM 本身當作問題來處理，反而製造新的困擾。台灣目前沒有公認的 kink-aware therapist 名單，但可以在初次諮詢時詢問治療師「你對 BDSM 的理解是什麼」——這個問題本身就是有效的篩選工具。
+      [Dunkley & Brotto（2018）](/bibliography/dunkley-brotto-2018)區分了兩個層次：kink-aware（理解 BDSM 是有效的性實踐形式，不預設為病理）與 kink-friendly（對 BDSM 友善但不一定具備相關知識）。研究顯示約 75% 的 BDSM 個案求助心理治療的原因與 BDSM 無關——焦慮、抑鬱、關係困擾等一般議題。但如果治療師不具備 kink-aware 的素養，可能將 BDSM 本身當作問題來處理，反而製造新的困擾。本站的外部資源頁收錄了策展確認的 kink-aware 友善心理師清單，可作為起點。在初次諮詢時也可以詢問治療師「你對 BDSM 的理解是什麼」——這個問題本身就是有效的篩選工具。
   - question: BDSM 跟童年創傷有關嗎？
     answer: |
-      Cross & Matheson（2006）以實證方法檢驗了精神分析傳統中「SM 源於童年創傷」的假說——結果不被支持。Connolly（2006）使用 7 種標準化心理量表測量 BDSM 實踐者，同樣未發現更多的創傷指標。學術文獻不支持「BDSM 興趣必然源於創傷」的因果敘事。但本站也不否認有些人的 BDSM 興趣可能與早期經驗有關——重點是「有關」不等於「是病」，更不等於「需要矯正」。每個人的性發展路徑不同，動機來源也多元。依據站方立場（§6.11 合意至上），我們不判定任何動機來源的「正確性」——只關注實踐中的合意與安全。
+      [Cross & Matheson（2006）](/bibliography/cross-matheson-2006)以實證方法檢驗了精神分析傳統中「SM 源於童年創傷」的假說——結果不被支持。[Connolly（2006）](/bibliography/connolly-2006)使用 7 種標準化心理量表測量 BDSM 實踐者，同樣未發現更多的創傷指標。學術文獻不支持「BDSM 興趣必然源於創傷」的因果敘事。但本站也不否認有些人的 BDSM 興趣可能與早期經驗有關——重點是「有關」不等於「是病」，更不等於「需要矯正」。每個人的性發展路徑不同，動機來源也多元。依據站方立場（§6.11 合意至上），我們不判定任何動機來源的「正確性」——只關注實踐中的合意與安全。
 
 clusters:
   - cluster_title: 去病理化：歷史與證據

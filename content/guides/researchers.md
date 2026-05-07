@@ -15,7 +15,7 @@ lead_paragraph: |
 faq:
   - question: BDSM 學術研究主要在研究什麼？
     answer: |
-      當代 BDSM 學術研究可粗略分為幾個主軸：去病理化（BDSM 實踐者的心理健康是否異於一般人口？）、合意機制（BDSM 社群如何建構同意的文化與實務？）、心理動態（場景中發生了什麼神經化學與心理變化？）、以及跨文化差異（不同文化脈絡下 BDSM 的呈現與意義有何不同？）。1990 年代以前的文獻多以精神病理框架切入；2006 年 Connolly 的心理特質研究與 2013 年 Wismeijer 的大樣本比較研究之後，去病理化成為主流學術立場。本站的 bibliography 條目依這些主軸進行標記與交叉引用。
+      當代 BDSM 學術研究可粗略分為幾個主軸：去病理化（BDSM 實踐者的心理健康是否異於一般人口？）、合意機制（BDSM 社群如何建構同意的文化與實務？）、心理動態（場景中發生了什麼神經化學與心理變化？）、以及跨文化差異（不同文化脈絡下 BDSM 的呈現與意義有何不同？）。1990 年代以前的文獻多以精神病理框架切入；2006 年 Connolly 的心理特質研究與 2013 年 Wismeijer 的大樣本比較研究之後，去病理化成為主流學術立場。詳見 [DSM 與性偏好分類](/glossary/dsm-paraphilia) 條目。本站的 bibliography 條目依這些主軸進行標記與交叉引用。
   - question: 哪幾篇是必讀的 anchor 文獻？
     answer: |
       本站標記為 anchor 的文獻包括：Wismeijer & van Assen（2013）——最大規模的實踐者 vs 對照組心理健康比較研究；Connolly（2006）——早期以 7 種量表驗證實踐者心理功能的先驅研究；Williams et al.（2014）——提出 4Cs 合意框架，挑戰 SSC/RACK 的理論基礎；Sagarin et al.（2009）——首次在場景中即時測量皮質醇，建立了 BDSM 心理生理研究的方法論典範；Moser & Kleinplatz（2006）——從精神醫學史角度論述 DSM 去病理化的必要性。這五篇共同構成了當代 BDSM 研究的地基。
@@ -24,13 +24,13 @@ faq:
       中文圈的 BDSM 學術研究仍然稀少但正在累積。本站目前收錄的中文相關文獻包括：Liang & Zhang（2023）與 Li（2024）的跨文化研究、Yang & Li（2021）對中國 BDSM 社群的經驗研究。書籍方面，李銀河的《虐戀亞文化》是中文圈最早的系統性學術專書。台灣的碩博士論文中偶有 BDSM 相關主題，但多未公開發表於國際期刊。本站的跨文化視角 cluster 持續擴充中，收錄標準是在同儕審查期刊發表或具有學術出版規格的專書。
   - question: 寫 BDSM 論文要注意什麼？
     answer: |
-      幾個學術寫作上的常見陷阱：第一，避免預設病理框架——使用「BDSM practitioner」而非「BDSM patient」，使用「consensual BDSM」而非「sexual deviance」，除非你在討論歷史文獻中的措辭。第二，審慎處理知情同意——BDSM 研究的受訪者面臨 stigma 風險，資料去識別化的標準需要高於一般性行為研究。第三，區分社群用語與學術用語——「Dom」「sub」「switch」在社群中有約定俗成的意涵，學術寫作中需要提供操作型定義。第四，注意取樣偏誤——多數 BDSM 研究的受試者來自線上社群自我選擇，這在文獻回顧中需要明確承認。
+      幾個學術寫作上的常見陷阱：第一，避免預設病理框架——使用「BDSM practitioner」而非「BDSM patient」，使用「consensual BDSM」而非「sexual deviance」，除非你在討論歷史文獻中的措辭。第二，審慎處理知情同意——BDSM 研究的受訪者面臨 stigma 風險，資料去識別化的標準需要高於一般性行為研究。第三，區分社群用語與學術用語——「[Dom](/glossary/dominant)」「[sub](/glossary/submissive)」「[switch](/glossary/switch)」在社群中有約定俗成的意涵，學術寫作中需要提供操作型定義。第四，注意取樣偏誤——多數 BDSM 研究的受試者來自線上社群自我選擇，這在文獻回顧中需要明確承認。
   - question: 哪些期刊接受 BDSM 投稿？
     answer: |
       接受 BDSM 相關稿件的同儕審查期刊包括但不限於：Archives of Sexual Behavior（IF 較高，性學領域的頂級期刊之一）、Journal of Sex Research（涵蓋廣泛的性行為研究）、Journal of Sexual Medicine（偏臨床與生理面向）、Journal of Sex & Marital Therapy（偏治療與臨床應用）、Culture and Psychoanalytic Review（接受文化分析取向的稿件）、PLOS ONE（開放取用，接受多學科投稿）。本站的期刊投稿地圖 cluster 收錄了這些期刊的基本資訊與投稿連結，研究者可依自身論文的學科取向選擇投稿方向。
   - question: BDSM 研究的 IRB 怎麼準備？
     answer: |
-      本站不提供 IRB（機構審查委員會）申請的具體指引，但可以指出 BDSM 研究在倫理審查中的常見挑戰：受試者的 stigma 風險使得匿名性與資料保護的要求高於一般研究；研究者自身的 insider/outsider 身分可能被 IRB 質疑；涉及性行為描述的問卷設計常被 IRB 要求額外修改。Newmahr（2010）的民族誌方法論提供了一個案例——她詳細記錄了以研究者身分進入 BDSM 社群的倫理考量與 IRB 溝通過程。建議研究者在準備 IRB 申請時，參考已通過審查的同類研究的倫理聲明段落，並提前與 IRB 溝通 BDSM 研究的特殊性。
+      本站不提供 IRB（機構審查委員會）申請的具體指引，但可以指出 BDSM 研究在倫理審查中的常見挑戰：受試者的 stigma 風險使得匿名性與資料保護的要求高於一般研究；研究者自身的 insider/outsider 身分可能被 IRB 質疑；涉及性行為描述的問卷設計常被 IRB 要求額外修改。Newmahr（2010）的民族誌方法論提供了一個案例——她詳細記錄了以研究者身分進入 BDSM 社群的倫理考量與 IRB 溝通過程。建議研究者在準備 IRB 申請時，參考已通過審查的同類研究的倫理聲明段落，並提前與 IRB 溝通 BDSM 研究的特殊性。本站的 [SSC](/glossary/ssc) 與 [RACK](/glossary/rack) 條目描述了社群內部的合意框架，有助於研究者理解受試者的合意語境。
 
 clusters:
   - cluster_title: 必讀 anchor 文獻
