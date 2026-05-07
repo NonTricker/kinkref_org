@@ -162,8 +162,6 @@ related_guides:
   - researchers
 
 english_orientation: |
-  ## For Non-Chinese Readers
-
   This guide curates resources for kink practitioners who already have scene experience and want to deepen their understanding of long-term relationship structures, scene negotiation, aftercare, and advanced practices. The curatorial perspective is in Traditional Chinese — this reflects the site's epistemic position, not a translation limitation.
 
   What you can use this site for, even without reading Chinese:

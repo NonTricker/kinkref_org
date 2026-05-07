@@ -1,8 +1,8 @@
 ---
 schema_version: "1.9"
 audience: beginners
-title_zh: 如何解讀你的 bdsmtest 結果
-title_en: How to Read Your bdsmtest Results
+title_zh: 如何解讀 bdsmtest 結果
+title_en: How to Read bdsmtest Results
 tagline: 從 26 個 archetype 的百分比到理解自己 — 一份結果解讀指南
 estimated_reading_time_min: 15
 lead_paragraph: |
@@ -155,8 +155,6 @@ related_guides:
   - practitioners
 
 english_orientation: |
-  ## For Non-Chinese Readers
-
   This guide helps readers interpret their bdsmtest.org results through a structured analytical framework — not by redefining each archetype (the glossary already does that), but by explaining how archetype combinations reveal patterns.
 
   Key frameworks provided:

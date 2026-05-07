@@ -1,116 +1,116 @@
 {
-  "generated": "2026-05-05T05:19:39.718Z",
+  "generated": "2026-05-06T14:37:55.018Z",
   "period": {
-    "start": "2026-04-28",
-    "end": "2026-05-05"
+    "start": "2026-04-29",
+    "end": "2026-05-06"
   },
-  "totalPageviews": 5640,
+  "totalPageviews": 6415,
   "topGlossary": [
     {
       "path": "/glossary/bdsm/",
-      "views": 79
+      "views": 82
     },
     {
       "path": "/glossary/dominance-submission/",
-      "views": 57
+      "views": 68
     },
     {
       "path": "/glossary/bondage-discipline/",
-      "views": 42
+      "views": 45
     },
     {
       "path": "/glossary/24-7-dynamic/",
-      "views": 33
+      "views": 37
     },
     {
       "path": "/glossary/sadism-masochism/",
-      "views": 30
+      "views": 35
     }
   ],
   "topContent": [
     {
       "path": "/bibliography/larva-rantala-2024/",
-      "views": 25
+      "views": 33
     },
     {
       "path": "/books/xiaolin-shengwu-shengfu-benshi/",
-      "views": 18
+      "views": 23
     },
     {
       "path": "/books/new-bottom-book/",
-      "views": 17
+      "views": 18
+    },
+    {
+      "path": "/books/foucault-lectures-sexuality/",
+      "views": 14
     },
     {
       "path": "/books/cangyue-liu-shin-sm-jutsu/",
       "views": 14
-    },
-    {
-      "path": "/books/foucault-lectures-sexuality/",
-      "views": 13
     }
   ],
   "topOther": [
     {
       "path": "/",
-      "views": 2624
+      "views": 2908
     },
     {
       "path": "/glossary/",
-      "views": 830
+      "views": 945
     },
     {
       "path": "/books/",
-      "views": 388
+      "views": 446
     },
     {
       "path": "/bibliography/",
-      "views": 350
+      "views": 390
     },
     {
       "path": "/journals/",
-      "views": 229
+      "views": 259
     }
   ],
   "countries": [
     {
       "code": "TW",
-      "views": 2145
+      "views": 2702
     },
     {
       "code": "HK",
-      "views": 859
+      "views": 886
     },
     {
       "code": "US",
-      "views": 734
+      "views": 785
     },
     {
       "code": "JP",
-      "views": 566
-    },
-    {
-      "code": "SG",
-      "views": 269
+      "views": 589
     },
     {
       "code": "CN",
-      "views": 268
+      "views": 287
+    },
+    {
+      "code": "SG",
+      "views": 277
     },
     {
       "code": "MY",
-      "views": 155
+      "views": 172
     },
     {
       "code": "CA",
-      "views": 148
+      "views": 162
     },
     {
       "code": "KR",
-      "views": 104
+      "views": 131
     },
     {
       "code": "GB",
-      "views": 94
+      "views": 96
     }
   ]
 }

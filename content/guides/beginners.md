@@ -17,7 +17,7 @@ lead_paragraph: |
 faq:
   - question: 我剛做完 BDSM 測驗，這代表什麼？
     answer: |
-      bdsmtest.org 把 BDSM 傾向拆成 26 個 archetype（如 Dominant、Submissive、Sadist、Masochist、Brat、Daddy/Mommy 等），透過問卷呈現你在每個傾向上的相對強度。測驗結果是認識自己的起點工具，不是定義你的標籤——你不需要「符合」任何 archetype 的全部描述。很多人同時在多個 archetype 上有強度（例如同時偏向 Submissive 和 Masochist），這完全正常。本站的術語表可以幫你理解每個 archetype 的精確定義，以及它們之間的差異（例如 sub 跟 M 不是同一件事）。
+      bdsmtest.org 把 BDSM 傾向拆成 26 個 archetype，透過問卷呈現你在每個傾向上的相對強度。測驗結果是認識自己的起點工具，不是定義你的標籤。本站術語表可以幫你理解每個 archetype 的精確定義與差異。想深入了解百分比怎麼讀、archetype 組合代表什麼、以及新手結果為什麼容易極端，請見[如何解讀 bdsmtest 結果](/guides/bdsmtest-interpretation/)。
   - question: BDSM 是精神疾病嗎？
     answer: |
       不是。當代學術研究一致指出 BDSM 實踐者的心理健康水準與一般人相當或更佳。Wismeijer & van Assen（2013）以 902 位實踐者與 434 位對照組比較，多項人格與幸福感指標上實踐者優於或不劣於對照組。DSM-5（精神疾病診斷手冊）已明確區分「性偏好」與「性偏好障礙症」——單純的 BDSM 興趣或實踐不構成精神疾病診斷。詳見本站的 DSM 與性偏好分類條目。
@@ -35,9 +35,9 @@ faq:
       Aftercare（事後照護）是 BDSM 場景結束後，雙方進行的情緒與身體照護。場景中的強烈感官與情緒體驗（無論是 Top 還是 Bottom）可能在結束後引發情緒波動——aftercare 的目的是讓雙方安全地從場景狀態過渡回日常狀態。常見的 aftercare 包括：擁抱、毛毯、水、甜食、語言確認（「你做得很好」「剛才是場景內的」）。每對伴侶的 aftercare 需求不同，事前協商 aftercare 偏好跟協商場景本身一樣重要。
 
 clusters:
-  - cluster_title: 認識自己的測驗結果
+  - cluster_title: 核心角色速查
     cluster_lead: |
-      bdsmtest.org 的 26 個 archetype 各自有精確的定義和彼此的辨析。以下是最常見的核心角色——點進每個條目，看它的定義、跟相近概念的差異（disambiguation），以及在台灣中文圈的用法。
+      BDSM 中最常見的核心角色——每個條目包含精確定義、跟相近概念的差異辨析、以及在台灣中文圈的用法。想了解這些角色如何對應 bdsmtest 測驗結果的組合意義，見[如何解讀 bdsmtest 結果](/guides/bdsmtest-interpretation/)。
     entries:
       - type: glossary
         slug: dominant
@@ -135,8 +135,6 @@ related_guides:
   - researchers
 
 english_orientation: |
-  ## For Non-Chinese Readers
-
   This guide curates entry points for newcomers to BDSM scholarship in Traditional Chinese. The curation perspective remains in Chinese — this is the site's epistemic position, not a translation gap.
 
   What you can use this site for, even without reading Chinese:

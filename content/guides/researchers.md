@@ -141,8 +141,6 @@ related_guides:
   - practitioners
 
 english_orientation: |
-  ## For Non-Chinese Readers
-
   This guide is designed for graduate students, researchers, and clinicians approaching BDSM as an academic subject. The curatorial perspective is in Traditional Chinese, reflecting the site's mission to address the longstanding absence of structured BDSM scholarship indexes in the Chinese-speaking academic community.
 
   What you can use this site for, even without reading Chinese:

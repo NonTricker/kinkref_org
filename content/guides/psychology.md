@@ -147,8 +147,6 @@ related_guides:
   - researchers
 
 english_orientation: |
-  ## For Non-Chinese Readers
-
   This guide maps the psychological landscape of BDSM scholarship for general readers — not clinicians, not newcomers to BDSM itself, but anyone searching for rigorous, evidence-based answers to questions like "Is BDSM a mental illness?" or "What happens neurologically during subspace?"
 
   The guide covers six domains: (1) the depathologization arc from Krafft-Ebing's 1886 Psychopathia Sexualis through the DSM-5's paraphilia/paraphilic disorder distinction; (2) empirical psychological profiles of BDSM practitioners across Big Five personality, attachment, and well-being measures; (3) the neuroscience of altered states of consciousness during BDSM scenes — cortisol dynamics, flow states, and transient hypofrontality; (4) consent culture research showing BDSM communities score lower on rape-supportive attitudes than controls; (5) kink-aware therapy frameworks for both practitioners seeking help and clinicians seeking competence; and (6) emerging non-Western research from China and Taiwan.
