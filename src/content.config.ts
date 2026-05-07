@@ -11,8 +11,9 @@
  *      - license_number (string) → licenses (string[])，可表達多證號
  *      - 新增 referral_source enum（禁羈名單 / 自薦），
  *        ※ 禁羈名單與自薦皆為心理師主動同意收錄，差別僅在資格審查方
- *      - 新增 contact_phone（內部備援，schema 收但前端不渲染）
- *      - 新增 affiliation_extra（額外協會身份，需本人明確同意才填）
+ *      - 新增 institution / contact_method_label / affiliation_extra
+ *      - Iron Law: repo 是公開的，PII（手機、私 email、未公開地址）絕不入 schema。
+ *        內部聯絡資訊放 internal/counselors/REGISTRY.md（不入 git）。
  *
  * Content SSOT 位於 repo 根目錄 `content/`，
  * 透過 Content Layer `glob` loader 讀入。
@@ -383,15 +384,22 @@ const counselors = defineCollection({
      */
     contact_method_label: z.string().nullish(),
     /**
-     * 內部備援聯絡（手機）— v1.5 schema 收但前端不渲染。
-     * 原則：站方僅供 re-verify 緊急聯絡用。
-     */
-    contact_phone_internal: z.string().nullish(),
-    /**
      * 額外協會 / 機構身份（v1.5）— 例如「道埕協會秘書長」
      * Iron Law: 必須當事人明確同意公開才填，簽名檔附帶資訊不算同意
      */
     affiliation_extra: z.array(z.string()).nullish(),
+
+    // ─────────────────────────────────────────────────────
+    // 為什麼這裡沒有 contact_phone / contact_phone_internal 欄位？
+    //
+    // ❌ Iron Law（律法家 + 執政官 2026-05-08）：
+    //    repo 是公開的。schema 欄位 ≠ 不公開——即使前端不渲染，
+    //    .md 檔案內容會被 GitHub 全文搜尋、fork、scraper 拿到。
+    //    任何 PII（手機、私 email、未公開地址）絕不入 schema。
+    //
+    // ✅ 內部聯絡資訊請放：
+    //    `internal/counselors/REGISTRY.md`（不入 git）
+    // ─────────────────────────────────────────────────────
     /**
      * 來源（v1.5）— 區分資格審查方
      * - 禁羈名單：禁羈友善助人者資源網代審
@@ -433,6 +441,10 @@ const legal = defineCollection({
     service_modes: z.array(z.string()).nullish(),
     languages: z.array(z.string()).nullish(),
     contact_email: z.string().email().nullish(),
+    /**
+     * 機構公開電話（事務所總機 / 診所總機）。
+     * Iron Law: 不接受個人手機。個人聯絡資訊放 internal/ 不入 git。
+     */
     contact_phone: z.string().nullish(),
     contact_website: z.string().url().nullish(),
     statute_url: z.string().url().nullish(),
