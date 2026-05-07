@@ -314,8 +314,8 @@ const applyConfigs = {
         </div>
       </aside>
 
-      <aside class="apply-card" aria-label="開放申請收錄">
-        <p class="apply-eyebrow">開放申請收錄</p>
+      <details class="apply-card" aria-label="開放申請收錄">
+        <summary class="apply-summary">📨 開放申請收錄</summary>
         <p class="apply-intro">
           本目錄為<strong>自薦 + 同意收錄</strong>性質。本站不為任何個人專業能力背書 ──
           收錄條目均<strong>具名 + 提供執業執照</strong>，由收錄者自我背書。
@@ -340,7 +340,7 @@ const applyConfigs = {
             </p>
           </details>
         )}
-      </aside>
+      </details>
     </section>
 
     <hr class="section-divider" aria-hidden="true" />
@@ -369,8 +369,8 @@ const applyConfigs = {
         </ul>
       )}
 
-      <aside class="apply-card" aria-label="開放申請收錄">
-        <p class="apply-eyebrow">📨 開放申請收錄</p>
+      <details class="apply-card" aria-label="開放申請收錄">
+        <summary class="apply-summary">📨 開放申請收錄</summary>
         <p class="apply-intro">
           本目錄收錄<strong>具名律師、法律扶助組織</strong>。站方不提供法律意見、不背書個人能力。
           收錄條目均提供律師證號或組織立案證明。<strong>無償</strong>列入。
@@ -394,7 +394,7 @@ const applyConfigs = {
             </p>
           </details>
         )}
-      </aside>
+      </details>
     </section>
 
     <hr class="section-divider" aria-hidden="true" />
@@ -425,8 +425,8 @@ const applyConfigs = {
         </ul>
       )}
 
-      <aside class="apply-card" aria-label="開放申請收錄">
-        <p class="apply-eyebrow">📨 開放申請收錄</p>
+      <details class="apply-card" aria-label="開放申請收錄">
+        <summary class="apply-summary">📨 開放申請收錄</summary>
         <p class="apply-intro">
           本目錄僅收錄<strong>正式登記或穩定運作的大學社團</strong>，由社團官方代表（非個人社員）申請。
           <strong>個別社員不會被列出</strong>（避免身分曝光）。<strong>無償</strong>列入。
@@ -450,7 +450,7 @@ const applyConfigs = {
             </p>
           </details>
         )}
-      </aside>
+      </details>
     </section>
 
     <hr class="section-divider" aria-hidden="true" />
@@ -502,8 +502,8 @@ const applyConfigs = {
         </>
       )}
 
-      <aside class="apply-card" aria-label="開放申請收錄">
-        <p class="apply-eyebrow">📨 開放申請收錄</p>
+      <details class="apply-card" aria-label="開放申請收錄">
+        <summary class="apply-summary">📨 開放申請收錄</summary>
         <p class="apply-intro">
           自薦醫師/診所須提供醫師字號或診所統編，<strong>具名 + 自我背書專業</strong>。
           站方不背書個人能力，僅提供格式化整理。<strong>無償</strong>列入。
@@ -527,7 +527,7 @@ const applyConfigs = {
             </p>
           </details>
         )}
-      </aside>
+      </details>
     </section>
 
     <hr class="section-divider" aria-hidden="true" />
@@ -582,8 +582,8 @@ const applyConfigs = {
         ))}
       </ul>
 
-      <aside class="apply-card" aria-label="開放申請收錄">
-        <p class="apply-eyebrow">📨 推薦其他資源</p>
+      <details class="apply-card" aria-label="推薦其他資源">
+        <summary class="apply-summary">📨 推薦其他資源</summary>
         <p class="apply-intro">
           若你維護或推薦其他相關公開資源（站方除外、可長期訪問），歡迎來信。站方依本站
           <strong>議題邊界 + 不背書</strong>原則評估後決定是否收錄。
@@ -599,7 +599,7 @@ const applyConfigs = {
           </a>
           。
         </p>
-      </aside>
+      </details>
     </section>
 
     <footer class="resources-acknowledgments">
@@ -886,14 +886,58 @@ const applyConfigs = {
     font-weight: var(--fw-medium);
   }
 
+  /* apply-card v0.10.1：整段摺疊（details/summary）
+     對純讀者：summary 一行；對申請者：點開展開完整 criteria + 模板 */
   .apply-card {
-    padding: var(--space-6) var(--space-7);
     background: var(--bg-subtle);
     border: 1px solid var(--rule-fine);
     border-left: 3px solid var(--accent-citation);
     border-radius: var(--radius-sm);
     margin-top: var(--space-5);
   }
+  .apply-summary {
+    cursor: pointer;
+    padding: var(--space-4) var(--space-7);
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    font-weight: var(--fw-semibold);
+    color: var(--accent-citation);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: var(--transition-color);
+  }
+  .apply-summary::-webkit-details-marker {
+    display: none;
+  }
+  .apply-summary::after {
+    content: '▸';
+    margin-left: auto;
+    font-size: 0.8em;
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .apply-card[open] > .apply-summary::after {
+    transform: rotate(90deg);
+  }
+  .apply-summary:hover {
+    color: var(--accent-primary);
+  }
+  /* details 展開後：內容區的左右 padding（讓 summary 仍佔 full row click） */
+  .apply-card[open] > .apply-summary {
+    border-bottom: 1px solid var(--rule-fine);
+    margin-bottom: var(--space-4);
+  }
+  .apply-card > :not(.apply-summary) {
+    padding-left: var(--space-7);
+    padding-right: var(--space-7);
+  }
+  .apply-card > :last-child:not(.apply-summary) {
+    padding-bottom: var(--space-6);
+  }
+  /* 保留 .apply-eyebrow class 給其他可能用到的地方（向後相容） */
   .apply-eyebrow {
     font-family: var(--font-sans);
     font-size: var(--fs-eyebrow);
