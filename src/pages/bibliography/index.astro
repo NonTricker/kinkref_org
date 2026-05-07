@@ -30,7 +30,7 @@ const allTopicTags = [...new Set(allPapers.flatMap((p) => p.data.topic_tags))].s
 const allStudyTypes = [...new Set(allPapers.map((p) => p.data.study_type))].sort();
 const allAccessTypes = [...new Set(allPapers.map((p) => p.data.access_type))].sort();
 
-const pageTitle = '文獻指南 · Bibliography';
+const pageTitle = '學術文獻 · Bibliography';
 // pageDescription 含 inline markdown，visible 端 render 成 HTML；
 // metaDescription 為去除 markup 後的純文字，給 <meta> / OG / Twitter card 用。
 const pageDescription = `BDSM 學術論文的中文摘要與索引，**策展持續擴充**。聚焦三條主軸：**去病理化**（Wismeijer 2013、Connolly 2006、Moser-Kleinplatz 2006）、**同意框架歷史**（Williams 4Cs、Pitagora 同意 vs 脅迫）、**BDSM 神經科學**（Sagarin 2009、Klement 2017）。所有條目附 DOI 或 article URL、OA 狀態、研究類型、樣本資訊與站方策展導讀。中文摘要為**策展視角重寫**，非機翻原文——讓讀者直接看到「這篇論文對你有什麼用」。`;
@@ -45,7 +45,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
         <span class="page-eyebrow-sep" aria-hidden="true">·</span>
         <span class="page-eyebrow-name">Bibliography</span>
       </p>
-      <h1 class="page-title">文獻指南</h1>
+      <h1 class="page-title">學術文獻</h1>
       <hr class="page-title-rule" aria-hidden="true" />
       <p class="page-description" set:html={renderInlineMarkdown(pageDescription)} />
       <div class="page-search">
@@ -59,7 +59,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
       <section class="empty-state">
         <div class="empty-state-inner">
           <p class="empty-state-eyebrow">尚未開放</p>
-          <h2>文獻指南正在編纂中</h2>
+          <h2>學術文獻正在編纂中</h2>
           <p>
             首批論文摘要正由 AI 心理學家 Agent 繆思生成、策展人薩約審校中。
             如果你想協助翻譯或撰寫摘要，請參考
