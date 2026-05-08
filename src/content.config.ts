@@ -19,6 +19,8 @@
  *      - 新增 introduction（自介 / 邀請語）— 保留本人原話風格
  *      - 新增 contact_phone（機構公開電話 ONLY，個人手機絕不入）
  *      - 新增 contact_extras（多管道：LINE / IG / 補助頁等）
+ *      - 對 4 個 collection 的 contact_email 欄位加紅線註解
+ *        （2026-05-08 PII 事故教訓 — 詳見 counselors.contact_email 註解）
  *
  * Content SSOT 位於 repo 根目錄 `content/`，
  * 透過 Content Layer `glob` loader 讀入。
@@ -381,6 +383,30 @@ const counselors = defineCollection({
     institution: z.string().nullish(),
     service_modes: z.array(z.enum(['in-person', 'online', 'hybrid'])),
     languages: z.array(z.string()),
+    /**
+     * 預約 email — ⛔ 紅線欄位（2026-05-08 事故教訓）
+     *
+     * 只能填寫當事人「明確同意作為公開預約管道」的 email。
+     *
+     * Decision rule（書記官 / agent / 任何想加 counselor 條目者請讀這裡）：
+     *   1. 來源是禁羈名單？查 REGISTRY 該 entry 的「備註」欄是否註明
+     *      「本人主動公開為預約管道」/「本人於名單上將同一 email 同時
+     *      作為預約方式公開」之類字樣 → 才能填。
+     *   2. 來源是自薦？來信本身對「公開 email 為預約管道」是否有
+     *      明確、書面、針對該頁面的同意 → 才能填。
+     *   3. 模糊 / 簽名檔附帶 / 「re-verify 用」/ 任何有疑慮的情況
+     *      → 不填，留 internal/counselors/REGISTRY.md。
+     *
+     * Iron Law: repo 公開。schema 欄位 ≠ 不公開。即使前端不渲染，
+     *   .md 檔案內容會被 GitHub 全文搜尋、fork、scraper 拿到。
+     *
+     * 2026-05-08 事故記錄：曾將 7 個 re-verify 用的 email 誤填此欄，
+     *   導致 PII 進入 git history，需 force-push rewrite + GitHub Support
+     *   申請 GC。所有人時間損失約 90 分鐘 + 對 7 位心理師的 trust 風險。
+     *
+     * 通過此 review 的歷史 OK 案例：#007 徐維廷、#011 曾御俊、#013 史捷、
+     *   #014 林瑞敏、#015 陳丁豪、其他自薦時當事人明確聲明者。
+     */
     contact_email: z.string().email().nullish(),
     contact_website: z.string().url().nullish(),
     /**
@@ -483,6 +509,12 @@ const legal = defineCollection({
     location: z.string().nullish(),
     service_modes: z.array(z.string()).nullish(),
     languages: z.array(z.string()).nullish(),
+    /**
+     * 預約 email — ⛔ 紅線欄位。
+     * 規則同 counselors.contact_email（見上方完整註解）：
+     * 只能填當事人「明確同意作為公開預約管道」的 email。
+     * 律師事務所總信箱通常 OK；個人律師私 email 必須有書面同意。
+     */
     contact_email: z.string().email().nullish(),
     /**
      * 機構公開電話（事務所總機 / 診所總機）。
@@ -529,6 +561,12 @@ const campusGroups = defineCollection({
       'partial-focus',
       'friendly-but-not-focus',
     ]),
+    /**
+     * 社團公開信箱 — ⛔ 紅線欄位。
+     * 規則同 counselors.contact_email（見上方完整註解）：
+     * 只能填社團對外公開的官方信箱（社團官方代表書面同意），
+     * 不接受個別社員的私 email。
+     */
     contact_email: z.string().email().nullish(),
     contact_social: z.string().url().nullish(),
     description: z.string(),
@@ -562,6 +600,12 @@ const medical = defineCollection({
     services_offered: z.array(z.string()),
     location: z.string().nullish(),
     contact_phone: z.string().nullish(),
+    /**
+     * 預約 email — ⛔ 紅線欄位。
+     * 規則同 counselors.contact_email（見上方完整註解）：
+     * 只能填當事人「明確同意作為公開預約管道」的 email。
+     * 診所總信箱通常 OK；個人醫師私 email 必須有書面同意。
+     */
     contact_email: z.string().email().nullish(),
     contact_website: z.string().url().nullish(),
     languages: z.array(z.string()).nullish(),
