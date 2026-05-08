@@ -10,7 +10,7 @@ definition: |
 
   CNC 有兩種常見形式：
 
-  **場景型 CNC**：事前協商一個特定的「模擬非合意」場景，有開始有結束。常見的 scenario 包括模擬強暴（ravishment play）、綁架遊戲（kidnapping play）、監禁遊戲（captivity play）、闖入遊戲（break-in play）。場景結束後雙方回到日常的合意互動模式。
+  **場景型 CNC**：事前協商一個特定的「模擬非合意」場景，有開始有結束。常見的場景型態包括模擬強暴（ravishment play）、綁架遊戲（kidnapping play）、監禁遊戲（captivity play）、闖入遊戲（break-in play）。場景結束後雙方回到日常的合意互動模式。
 
   **動態型 CNC**：在長期 [D/s（支配與順從）](/glossary/dominance-submission) 或 M/s 關係中，sub/slave 授權 dom/master 在特定範圍內「即使 sub 表達拒絕也可以繼續」。這不是一個場景，而是一個**持續性的授權**——合意不是在每次互動時重新獲取，而是在關係協商時一次性授權（但 [Safe Word（安全詞）](/glossary/safe-word) 作為終極退出機制仍然存在）。動態型 CNC 在長期主奴關係中相對常見。
 
@@ -35,7 +35,7 @@ disambiguation:
       CNC 是**合意框架**（「即使看起來不同意，但已經同意」），DID 是**情境劇本**（「被困/被綁架/等待救援」的特定故事型態）。CNC 可以沒有 DID（如 M/s 中的動態型 CNC），DID 場景通常包含 CNC 元素（因為「被困」暗示了非合意情境）。兩者的氛圍也不同：DID 偏向戲劇性與冒險性（有角色、有劇情、有敘事），CNC（特別是動態型）偏向權力的絕對性（不是在演戲，是真的「你說不我也可以繼續」）。圈內兩者常被混用，但本質是框架 vs 劇本的差異。
 
 usage_notes: |
-  台灣中文圈常直接用「CNC」三個字母，「合意的非合意」是書面翻譯。「闖入遊戲」「綁架遊戲」是中文圈常見的 CNC 子類口語。「危機少女」「DID」在日系圈和中文圈有獨立使用——描述的是 CNC 場景中被困/等待救援的 scenario。EDITORIAL §4.2 已有 CNC 事前協商的詳細討論（站方內部參考）。
+  台灣中文圈常直接用「CNC」三個字母，「合意的非合意」是書面翻譯。「闖入遊戲」「綁架遊戲」是中文圈常見的 CNC 子類口語。「危機少女」「DID」在日系圈和中文圈有獨立使用——描述的是 CNC 場景中被困/等待救援的情境。EDITORIAL §4.2 已有 CNC 事前協商的詳細討論（站方內部參考）。
 
 related_terms: [rack, safe-word, consent-capacity, scene, negotiation, hard-limit, trigger]
 
