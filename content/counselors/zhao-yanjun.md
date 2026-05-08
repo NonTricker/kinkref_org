@@ -1,5 +1,5 @@
 ---
-schema_version: "1.5"
+schema_version: "1.6"
 name: 趙彥駿
 credentials:
   - 諮商心理師
@@ -21,7 +21,10 @@ service_modes:
 languages:
   - 中文
 contact_website: https://reunirecounseling.com/
-contact_method_label: 機構官方網站 https://reunirecounseling.com/ ／官方 LINE：@984fwzkq
+contact_method_label: 機構官方網站／官方 LINE
+contact_extras:
+  - label: 官方 LINE @984fwzkq
+    url: https://line.me/R/ti/p/@984fwzkq
 referral_source: 禁羈名單
 listing_consent: true
 self_attestation: true

@@ -14,6 +14,11 @@
  *      - 新增 institution / contact_method_label / affiliation_extra
  *      - Iron Law: repo 是公開的，PII（手機、私 email、未公開地址）絕不入 schema。
  *        內部聯絡資訊放 internal/counselors/REGISTRY.md（不入 git）。
+ * v1.6 counselors 升級（基於 #009-#015 7 位新增資料）：
+ *      - 新增 pro_bono（公益訊號）— 對社群福祉有實質意義
+ *      - 新增 introduction（自介 / 邀請語）— 保留本人原話風格
+ *      - 新增 contact_phone（機構公開電話 ONLY，個人手機絕不入）
+ *      - 新增 contact_extras（多管道：LINE / IG / 補助頁等）
  *
  * Content SSOT 位於 repo 根目錄 `content/`，
  * 透過 Content Layer `glob` loader 讀入。
@@ -384,10 +389,48 @@ const counselors = defineCollection({
      */
     contact_method_label: z.string().nullish(),
     /**
+     * 機構公開電話（v1.6）— 例如「(03) 335-9532 分機 401」
+     * Iron Law: 僅機構公開電話（事務所總機 / 諮商所分機），絕不接受個人手機。
+     * 個人手機留 internal/counselors/REGISTRY.md。
+     */
+    contact_phone: z.string().nullish(),
+    /**
+     * 額外管道（v1.6）— LINE / IG / 補助方案頁 / 其他公開連結
+     * 每個 entry: { label: 顯示文字, url?: 可點擊連結 }
+     * 例：{ label: '官方 LINE @984fwzkq', url: 'https://line.me/...' }
+     */
+    contact_extras: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string().url().nullish(),
+        })
+      )
+      .nullish(),
+    /**
      * 額外協會 / 機構身份（v1.5）— 例如「道埕協會秘書長」
      * Iron Law: 必須當事人明確同意公開才填，簽名檔附帶資訊不算同意
      */
     affiliation_extra: z.array(z.string()).nullish(),
+    /**
+     * 邀請語 / 自介長文（v1.6）— 保留本人原話風格
+     * 例：「我是名專門做伴侶/婚姻/親友/家族的諮商心理師...」（#010 蔡佳賢）
+     * 沒填就不渲染（不強迫每位心理師都要寫）
+     */
+    introduction: z.string().nullish(),
+    /**
+     * 公益訊號（v1.6）— 對社群福祉有實質意義
+     * - available: 是否提供公益管道
+     * - note: 簡短說明（例：「可提供公益諮詢」）
+     * - programs: 具體補助方案清單（例：「15-45 歲青壯年方案」）
+     */
+    pro_bono: z
+      .object({
+        available: z.boolean(),
+        note: z.string().nullish(),
+        programs: z.array(z.string()).nullish(),
+      })
+      .nullish(),
 
     // ─────────────────────────────────────────────────────
     // 為什麼這裡沒有 contact_phone / contact_phone_internal 欄位？

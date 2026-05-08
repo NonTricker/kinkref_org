@@ -92,12 +92,26 @@ const sourceLabel: Record<string, string> = {
         {data.institution && <><span>{data.institution}</span><span aria-hidden="true"> · </span></>}
         <span>{data.location}</span>
       </p>
-      {data.referral_source && (
-        <p class="counselor-source-badge">
-          {sourceLabel[data.referral_source] ?? data.referral_source}
-        </p>
-      )}
+      <div class="counselor-badges">
+        {data.referral_source && (
+          <span class="counselor-badge counselor-badge--source">
+            {sourceLabel[data.referral_source] ?? data.referral_source}
+          </span>
+        )}
+        {data.pro_bono?.available && (
+          <span class="counselor-badge counselor-badge--probono">
+            ✓ {data.pro_bono.note ?? '可提供公益服務'}
+          </span>
+        )}
+      </div>
     </header>
+
+    {/* 邀請語 / 自介（v1.6） — 保留本人原話 */}
+    {data.introduction && (
+      <section class="counselor-section counselor-intro" aria-label="自介">
+        <p>{data.introduction}</p>
+      </section>
+    )}
 
     {/* 專業資格 — 證號（條件渲染） */}
     {data.licenses && data.licenses.length > 0 && (
@@ -148,7 +162,7 @@ const sourceLabel: Record<string, string> = {
             ))}
           </dd>
         </div>
-        {data.languages && data.languages.length > 0 && (
+        {data.languages && data.languages.length > 0 && !(data.languages.length === 1 && data.languages[0] === '中文') && (
           <div>
             <dt>使用語言</dt>
             <dd>{data.languages.join('、')}</dd>
@@ -157,10 +171,10 @@ const sourceLabel: Record<string, string> = {
       </dl>
     </section>
 
-    {/* 預約 */}
+    {/* 預約（v1.6 擴：website + email + phone + extras 多管道） */}
     <section class="counselor-section counselor-cta" aria-label="預約管道">
       <h2>預約管道</h2>
-      {data.contact_method_label && (
+      {data.contact_method_label && !data.contact_extras && (
         <p class="counselor-contact-label">{data.contact_method_label}</p>
       )}
       <div class="counselor-cta-buttons">
@@ -179,11 +193,53 @@ const sourceLabel: Record<string, string> = {
             href={`mailto:${data.contact_email}`}
             class="counselor-cta-button"
           >
-            {data.contact_email}
+            ✉ {data.contact_email}
           </a>
+        )}
+        {data.contact_phone && (
+          <a
+            href={`tel:${data.contact_phone.replace(/[^\d+]/g, '')}`}
+            class="counselor-cta-button"
+          >
+            ☎ {data.contact_phone}
+          </a>
+        )}
+        {data.contact_extras?.map((extra) =>
+          extra.url ? (
+            <a
+              href={extra.url}
+              class="counselor-cta-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {extra.label}
+            </a>
+          ) : (
+            <span class="counselor-cta-button counselor-cta-button--static">
+              {extra.label}
+            </span>
+          )
         )}
       </div>
     </section>
+
+    {/* 公益服務（v1.6） */}
+    {data.pro_bono?.available && (
+      <section class="counselor-section counselor-probono" aria-label="公益服務">
+        <h2>公益服務</h2>
+        {data.pro_bono.note && (
+          <p class="counselor-probono-note">{data.pro_bono.note}</p>
+        )}
+        {data.pro_bono.programs && data.pro_bono.programs.length > 0 && (
+          <ul class="counselor-probono-programs">
+            {data.pro_bono.programs.map((p) => <li>{p}</li>)}
+          </ul>
+        )}
+        <p class="counselor-probono-disclaimer">
+          公益方案細節與適用條件請洽心理師或所屬機構。
+        </p>
+      </section>
+    )}
 
     {/* 站方聲明 */}
     <footer class="counselor-footer" aria-label="站方聲明與驗證資訊">
@@ -275,16 +331,109 @@ const sourceLabel: Record<string, string> = {
     margin: 0 0 var(--space-4);
   }
 
-  .counselor-source-badge {
+  /* v1.6: badge bar — 取代舊的單一 source-badge，可容納多種 badge */
+  .counselor-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .counselor-badge {
     display: inline-block;
     font-family: var(--font-sans);
     font-size: var(--fs-caption);
-    color: var(--accent-primary);
-    background: var(--bg-subtle);
-    border: 1px solid var(--rule-fine);
     border-radius: var(--radius-pill);
     padding: var(--space-1) var(--space-3);
     margin: 0;
+    border: 1px solid var(--rule-fine);
+    background: var(--bg-subtle);
+  }
+
+  .counselor-badge--source {
+    color: var(--accent-primary);
+  }
+
+  .counselor-badge--probono {
+    color: var(--accent-citation);
+    border-color: color-mix(in srgb, var(--accent-citation) 40%, transparent);
+    background: color-mix(in srgb, var(--accent-citation) 8%, var(--bg-subtle));
+  }
+
+  /* v1.6: 邀請語 / 自介 — 用 serif 親切質感，左側書脊作為設計引號 */
+  .counselor-intro {
+    padding: var(--space-5) var(--space-7);
+    background: color-mix(in srgb, var(--accent-primary) 4%, var(--bg-subtle));
+    border-left: 3px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+  }
+
+  .counselor-intro p {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body);
+    line-height: 1.8;
+    color: var(--ink-body);
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  /* v1.6: 公益服務 section */
+  .counselor-probono {
+    padding: var(--space-5) var(--space-7);
+    background: color-mix(in srgb, var(--accent-citation) 6%, var(--bg-subtle));
+    border-radius: var(--radius-sm);
+  }
+
+  .counselor-probono-note {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-3);
+  }
+
+  .counselor-probono-programs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .counselor-probono-programs li {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-body);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .counselor-probono-programs li::before {
+    content: '·';
+    position: absolute;
+    left: var(--space-2);
+    color: var(--accent-citation);
+    font-weight: var(--fw-semibold);
+  }
+
+  .counselor-probono-disclaimer {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    line-height: 1.6;
+    margin: 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule-fine);
+  }
+
+  /* v1.6: 預約區的 static label（沒 url 的 extras 顯示） */
+  .counselor-cta-button--static {
+    cursor: default;
+    color: var(--ink-meta);
+  }
+  .counselor-cta-button--static:hover {
+    border-color: var(--rule-fine);
+    color: var(--ink-meta);
   }
 
   /* Sections */
