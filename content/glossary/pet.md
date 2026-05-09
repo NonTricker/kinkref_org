@@ -13,6 +13,9 @@ definition: |
   Pet 動態通常包含一些非性互動：項圈、遊戲、玩耍、陪伴等，可視協商範圍延伸到性層面或保持非性層面。Pet 的能動性形式與 [Slave（奴僕）](/glossary/slave) 不同：Pet 被允許更大的自由空間，互動性可低，來去較自由。
 
 disambiguation:
+  - vs: Pup Play（人犬扮演）
+    note: |
+      [Pup Play（人犬扮演）](/glossary/pup-play) 是 Pet 的**特定子社群**——專指犬類角色扮演，有自己的 leather 歷史、服飾文化（pup hood、tail）、社群結構（mosh）。所有 pup 都是 pet，但不是所有 pet 都是 pup（如 kitten、bunny、pony 各有獨立社群）。
   - vs: Slave
     note: |
       Pet 著重於存在式歸屬，互動相對鬆散——「能回來就好」；Slave 著重於主動侍奉，互動相對緊密——「以服侍為生活主軸」。Pet 的順從是被接納，Slave 的順從是主動奉獻。
@@ -28,7 +31,7 @@ usage_notes: |
 
   在中文圈，「寵調」「犬調」「貓調」是 Pet play 與調教（[Training（調教）](/glossary/training-discipline)）交叉的用語——描述主導方對寵物角色進行行為塑造的過程。犬調強調犬化行為（爬行、吠叫、口銜物品等），貓調較少見但指貓化行為（撒嬌、抓扒等）。
 
-related_terms: [owner, slave, submissive, daddy-mommy]
+related_terms: [owner, slave, submissive, daddy-mommy, pup-play]
 
 external_references:
   - source: bdsmtest.org
@@ -42,7 +45,7 @@ contributor: "kinkref"
 contributor_note: "由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校"
 reviewer: "策展人：薩約"
 created_date: 2026-05-02
-last_reviewed: 2026-05-05
+last_reviewed: 2026-05-09
 ---
 
 # Pet（寵物）
