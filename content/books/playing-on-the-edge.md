@@ -17,7 +17,7 @@ reader_tags: [researcher, clinical, educator]
 difficulty: advanced
 
 abstract_zh: |
-  本書是 BDSM 領域**最具影響力的學術民族誌之一**，作者 Staci Newmahr 以社會學者身分長期參與美國 BDSM 社群（含實際參與場景），完成深度的內部觀察研究。本書是其博士論文的延伸出版，採用 ethnographic 方法論，結合田野觀察、深度訪談與自身參與經驗。
+  本書是 BDSM 領域**最具影響力的學術民族誌之一**（OpenAlex 引用 115，2026 年 5 月查），作者 Staci Newmahr 以社會學者身分長期參與美國 BDSM 社群（含實際參與場景），完成深度的內部觀察研究。本書是其博士論文的延伸出版，採用 ethnographic 方法論，結合田野觀察、深度訪談與自身參與經驗。本書 DOI: 10.2979/6181.0。
 
   **核心論點**：Newmahr 主張 BDSM 不應被理解為「異常性傾向」，而應理解為一種**特定的休閒（serious leisure）形式**——實踐者透過協商過的風險與親密體驗，建立自我認同與社群連結。這個框架挑戰了以「性異常」分類 BDSM 的傳統研究取向，將 BDSM 置於休閒社會學、風險研究、親密關係研究的交叉點上。
 
@@ -60,7 +60,7 @@ citations:
 contributor: "kinkref"
 contributor_note: "由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校"
 created_date: 2026-05-02
-last_reviewed: 2026-05-02
+last_reviewed: 2026-05-09
 ---
 
 # Playing on the Edge: Sadomasochism, Risk, and Intimacy

@@ -18,6 +18,9 @@ disambiguation:
   - vs: Hard limit / Soft limit
     note: |
       Hard / Soft limit 是 Negotiation 的具體產物之一——透過 Negotiation 雙方確認哪些是 Hard limit、哪些是 Soft limit。
+  - vs: 主流性互動的「默會同意」
+    note: |
+      Pitagora（2013）指出 BDSM 與主流性互動的關鍵差異不在「是否需要同意」，而在同意是**外顯（explicit）**還是**內隱（tacit）**。主流性互動常依賴未說出的假設與默會推論，BDSM 則把同意過程明確化、儀式化。Negotiation 是這種顯式化的核心工具。
 
 usage_notes: |
   在台灣中文圈，「協商」「事前協商」是常見的中文翻譯。實踐中，Negotiation 的形式多樣：可以是文字檢查清單（如 BDSM checklist 表格）、口頭討論、或長期關係累積的默契。新關係或新 practice 通常需要更詳細的 Negotiation，避免依賴未經確認的假設。
@@ -29,7 +32,7 @@ reader_tags: [beginner, practitioner]
 contributor: "kinkref"
 contributor_note: "由 AI 心理學家 Agent 繆思（Muse）協助撰寫，經策展人薩約審校"
 created_date: 2026-05-02
-last_reviewed: 2026-05-02
+last_reviewed: 2026-05-09
 ---
 
 # Negotiation（協商）
