@@ -16,11 +16,12 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build && npm run build:search",
+    "build": "astro check && astro build && npm run build:search && npm run build:sitemap-lastmod",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
     "build:search": "node scripts/build-search-index.mjs",
+    "build:sitemap-lastmod": "node scripts/build-sitemap-lastmod.mjs",
     "lint": "prettier --check \"**/*.{astro,ts,tsx,js,mjs,md,json,css}\"",
     "format": "prettier --write \"**/*.{astro,ts,tsx,js,mjs,md,json,css}\"",
     "selfcheck": "python scripts/self-check.py",
