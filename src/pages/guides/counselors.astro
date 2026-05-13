@@ -1,0 +1,517 @@
+---
+/**
+ * /guides/counselors — BDSM 友善助人者 Pillar Page
+ *
+ * 脈流師 WORKORDER #004（2026-05-12）：補搜尋 query「BDSM 諮商」「kink-friendly
+ * 諮商師」的 entity authority page。三層 SEO 角色分工：
+ *   /resources                 → 想看 kinkref 有什麼資源
+ *   /guides/counselors  ← 本頁  → 從 Google 搜「BDSM 諮商」進來
+ *   /resources/counselors/{x}  → 找特定助人者詳情
+ *
+ * Iron Law（脈流師 §7）：
+ *   - Counselor listing 絕對不能 hardcode，永遠 collection-driven
+ *   - 站方原則：不背書、不排序評價、不主動篩 pro_bono 置頂
+ *
+ * Phase 1（織法者）：本檔 skeleton（架構 + Schema + 動態 listing）
+ * Phase 2（靈範師）：lead paragraph + 6 個 FAQ + selection criteria 文案
+ */
+
+import { getCollection } from 'astro:content';
+import PillarLayout from '@layouts/PillarLayout.astro';
+import { seedShuffle, todaySeed } from '@/lib/seed-shuffle';
+
+// ────────────────────────────────────────────────────────
+// 動態抓 counselor collection
+// ────────────────────────────────────────────────────────
+const allCounselors = await getCollection('counselors');
+
+// 每日 seed shuffle（避免「字母順序 = 隱性排名」展示偏誤）
+const seed = todaySeed();
+const shuffled = seedShuffle(allCounselors, seed);
+
+// ────────────────────────────────────────────────────────
+// 按 credentials 主類型分組（執政官 2026-05-13 指示）
+// 主分組 = 助人者性質；組內維持 shuffle 順序
+// 未來社工師 / 精神科醫師等職類增加時自然容納
+// ────────────────────────────────────────────────────────
+const CREDENTIAL_GROUPS: Array<{
+  key: string;
+  label: string;
+  match: (creds: readonly string[]) => boolean;
+}> = [
+  {
+    key: 'counselor',
+    label: '諮商心理師',
+    match: (c) => c.some((x) => x.includes('諮商心理師')),
+  },
+  {
+    key: 'clinical',
+    label: '臨床心理師',
+    match: (c) => c.some((x) => x.includes('臨床心理師')),
+  },
+  {
+    key: 'psychiatrist',
+    label: '精神科醫師',
+    match: (c) => c.some((x) => x.includes('精神科醫師')),
+  },
+  {
+    key: 'social-worker',
+    label: '社工師',
+    match: (c) => c.some((x) => x.includes('社工師') || x.includes('社工人員')),
+  },
+  {
+    key: 'other',
+    label: '其他助人工作者',
+    match: () => true, // fallback bucket
+  },
+];
+
+// 每位 counselor 分配到第一個符合的群（取頭一個 match，避免重複收錄）
+function getGroupKey(creds: readonly string[]): string {
+  for (const g of CREDENTIAL_GROUPS) {
+    if (g.match(creds)) return g.key;
+  }
+  return 'other';
+}
+
+const groupedCounselors = CREDENTIAL_GROUPS.map((g) => ({
+  ...g,
+  entries: shuffled.filter((entry) => getGroupKey(entry.data.credentials) === g.key),
+})).filter((g) => g.entries.length > 0); // 空組不渲染
+
+const totalCount = allCounselors.length;
+
+// ────────────────────────────────────────────────────────
+// SEO
+// ────────────────────────────────────────────────────────
+const SITE_URL = 'https://kinkref.org';
+const pageURL = `${SITE_URL}/guides/counselors`;
+
+const pageTitle = 'BDSM 友善諮商師指南｜台灣 kink-friendly 心理師名單';
+const description = `台灣 ${totalCount}+ 位 BDSM 友善諮商心理師、臨床心理師、社工師、精神科醫師完整名單。經自薦同意收錄、執照可查。線上／實體諮商管道、公益方案、保密原則說明｜kinkref.org`;
+
+// ────────────────────────────────────────────────────────
+// FAQ — Phase 2 靈範師填內容；目前 placeholder skeleton
+// 待填後 FAQPage Schema 會自動同步
+// ────────────────────────────────────────────────────────
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+const faq: FAQItem[] = [
+  // Phase 2: 靈範師依工單 §2.4 表格填 6 題 Q&A
+  // 入口 query 對齊：「BDSM 諮商」「kink-friendly 諮商」「BDSM 諮商 變態」
+  //               「諮商保密」「線上諮商 BDSM」「免費諮商 / 公益諮商」
+];
+
+// ────────────────────────────────────────────────────────
+// JSON-LD: FAQPage + ItemList
+// ────────────────────────────────────────────────────────
+const faqSchema = faq.length > 0
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      '@id': `${pageURL}#faq`,
+      mainEntity: faq.map((qa) => ({
+        '@type': 'Question',
+        name: qa.question,
+        acceptedAnswer: { '@type': 'Answer', text: qa.answer },
+      })),
+    }
+  : null;
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${pageURL}#counselors`,
+  name: '台灣 BDSM 友善諮商師名單',
+  numberOfItems: totalCount,
+  itemListElement: shuffled.map((entry, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `${SITE_URL}/resources/counselors/${entry.id}`,
+    name: entry.data.name,
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: '閱讀指南', item: `${SITE_URL}/guides` },
+    { '@type': 'ListItem', position: 3, name: 'BDSM 友善諮商師指南', item: pageURL },
+  ],
+};
+
+const jsonLd = [breadcrumbSchema, itemListSchema, ...(faqSchema ? [faqSchema] : [])];
+
+const breadcrumbs = [
+  { name: '首頁', url: '/' },
+  { name: '閱讀指南', url: '/guides' },
+  { name: 'BDSM 友善諮商師指南', url: '/guides/counselors' },
+];
+
+// 服務模式中文 label
+const modeLabel: Record<string, string> = {
+  'in-person': '實體',
+  online: '線上',
+  hybrid: '混合',
+};
+---
+
+<PillarLayout
+  title={pageTitle}
+  description={description}
+  eyebrow="閱讀指南 · Counselors"
+  tagline="台灣 kink-friendly 心理師、臨床心理師、社工師、精神科醫師名單"
+  audienceLabel="尋找助人資源"
+  breadcrumbs={breadcrumbs}
+  jsonLd={jsonLd}
+>
+  {/* Lead paragraph — Phase 2 靈範師 */}
+  <section class="pillar-section pillar-lead" aria-label="導讀">
+    <p>
+      <em>（Phase 2：靈範師將填入 200-400 字的導讀，說明為什麼需要 BDSM 友善助人者、
+      站方收錄原則「自薦 + 同意 + 形式審查」、與如何使用本名單。）</em>
+    </p>
+  </section>
+
+  {/* FAQ — Phase 2 靈範師 */}
+  {faq.length > 0 && (
+    <section class="pillar-section pillar-faq" aria-label="常見問題">
+      <h2>常見問題</h2>
+      <ul class="faq-list">
+        {faq.map((qa, i) => (
+          <li>
+            <details open={i === 0}>
+              <summary>
+                <span class="faq-q-num">Q{i + 1}</span>
+                <span class="faq-q-text">{qa.question}</span>
+              </summary>
+              <div class="faq-answer">
+                <p>{qa.answer}</p>
+              </div>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {/* Counselor Listing — 按 credentials 分組 */}
+  <section class="pillar-section counselors-listing" aria-label="助人者名單">
+    <header class="counselors-listing-header">
+      <h2>名單（{totalCount} 位）</h2>
+      <p class="counselors-listing-note">
+        排序為每次站台更新時隨機。本站不對個人專業能力進行排名或推薦。
+      </p>
+    </header>
+
+    {groupedCounselors.map((group) => (
+      <section class="counselor-group" aria-label={group.label}>
+        <header class="counselor-group-header">
+          <h3>
+            <span class="counselor-group-label">{group.label}</span>
+            <span class="counselor-group-count">{group.entries.length} 位</span>
+          </h3>
+        </header>
+        <ul class="counselor-group-list">
+          {group.entries.map((entry) => (
+            <li class="counselor-row">
+              <a href={`/resources/counselors/${entry.id}`}>
+                <span class="counselor-row-name">{entry.data.name}</span>
+                <span class="counselor-row-meta">
+                  {entry.data.institution && (
+                    <>
+                      <span class="counselor-row-inst">{entry.data.institution}</span>
+                      <span aria-hidden="true"> · </span>
+                    </>
+                  )}
+                  <span class="counselor-row-loc">{entry.data.location}</span>
+                </span>
+                {entry.data.specialty && entry.data.specialty.length > 0 && (
+                  <p class="counselor-row-specialty">
+                    {entry.data.specialty.slice(0, 2).join('、')}
+                    {entry.data.specialty.length > 2 && '⋯'}
+                  </p>
+                )}
+                <p class="counselor-row-badges">
+                  {entry.data.service_modes?.map((m) => (
+                    <span class="counselor-row-mode">{modeLabel[m] ?? m}</span>
+                  ))}
+                  {entry.data.pro_bono?.available && (
+                    <span class="counselor-row-probono">✓ 公益</span>
+                  )}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </section>
+
+  {/* Selection Criteria — Phase 2 靈範師 */}
+  <section class="pillar-section pillar-criteria" aria-label="收錄原則">
+    <h2>收錄與退出原則</h2>
+    <p>
+      <em>（Phase 2：靈範師將填入完整收錄原則 — 自薦性質、同意收錄、形式審查、
+      不背書專業、退出機制、re-verify 週期。）</em>
+    </p>
+    <p>
+      站方僅進行形式審查（具名 + 執業資格證明），不對專業能力進行實質審查。
+      所有條目由收錄者自我背書其專業內容。
+      <a href="/resources#disclaimer">完整站方聲明 →</a>
+    </p>
+  </section>
+
+  {/* Cross-link to related pages */}
+  <section class="pillar-section pillar-related" aria-label="相關頁面">
+    <h2>相關資源</h2>
+    <ul class="related-guides">
+      <li>
+        <a href="/resources">
+          <span class="related-guide-title">外部資源總覽</span>
+          <span class="related-guide-tagline">心理、法律、社團、醫療整合資源頁</span>
+        </a>
+      </li>
+      <li>
+        <a href="/guides/practitioners">
+          <span class="related-guide-title">圈內實踐者進階</span>
+          <span class="related-guide-tagline">D/s 關係、Scene 設計、心理動態與善後</span>
+        </a>
+      </li>
+      <li>
+        <a href="/guides/psychology">
+          <span class="related-guide-title">BDSM 與心理學</span>
+          <span class="related-guide-tagline">去病理化、意識狀態、依附理論</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</PillarLayout>
+
+<style>
+  .pillar-section {
+    margin-bottom: var(--space-9);
+  }
+
+  .pillar-lead {
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body);
+  }
+  .pillar-lead em {
+    color: var(--ink-meta);
+    font-style: italic;
+  }
+
+  /* FAQ — 跟既有 guides pillar 一致 */
+  .faq-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .faq-list details {
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    background: var(--bg-subtle);
+  }
+  .faq-list summary {
+    cursor: pointer;
+    padding: var(--space-5) var(--space-7);
+    font-family: var(--font-sans);
+    font-weight: var(--fw-medium);
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    list-style: none;
+  }
+  .faq-list summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q-num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--accent-primary);
+    min-width: 2.5em;
+  }
+  .faq-q-text {
+    flex: 1;
+  }
+  .faq-answer {
+    padding: 0 var(--space-7) var(--space-7);
+    color: var(--ink-body);
+  }
+  .faq-answer p {
+    margin: 0;
+  }
+
+  /* Listing */
+  .counselors-listing-header {
+    margin-bottom: var(--space-5);
+  }
+  .counselors-listing-note {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Group */
+  .counselor-group {
+    margin-top: var(--space-7);
+  }
+  .counselor-group-header {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--rule-fine);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .counselor-group-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+  }
+  .counselor-group-label {
+    color: var(--ink-heading);
+  }
+  .counselor-group-count {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    font-weight: var(--fw-regular);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Row */
+  .counselor-group-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-3);
+  }
+  .counselor-row {
+    display: flex;
+  }
+  .counselor-row a {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-color);
+  }
+  .counselor-row a:hover {
+    border-color: var(--accent-primary);
+  }
+  .counselor-row-name {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+    margin-bottom: var(--space-2);
+  }
+  .counselor-row-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    line-height: 1.5;
+    margin-bottom: var(--space-2);
+  }
+  .counselor-row-specialty {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-body);
+    margin: 0 0 var(--space-3);
+    line-height: 1.5;
+  }
+  .counselor-row-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: auto 0 0;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--rule-fine);
+  }
+  .counselor-row-mode {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    padding: 1px var(--space-2);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-pill);
+  }
+  .counselor-row-probono {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--accent-citation);
+    padding: 1px var(--space-2);
+    background: color-mix(in srgb, var(--accent-citation) 8%, var(--bg-subtle));
+    border-radius: var(--radius-pill);
+  }
+
+  /* Criteria */
+  .pillar-criteria p {
+    margin: 0 0 var(--space-3);
+    line-height: var(--lh-body);
+  }
+  .pillar-criteria a {
+    color: var(--accent-primary);
+  }
+
+  /* Related */
+  .pillar-related {
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-fine);
+  }
+  .related-guides {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-3);
+  }
+  .related-guides a {
+    display: block;
+    padding: var(--space-5);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-color);
+  }
+  .related-guides a:hover {
+    border-color: var(--accent-primary);
+  }
+  .related-guide-title {
+    display: block;
+    font-weight: var(--fw-medium);
+    margin-bottom: var(--space-2);
+  }
+  .related-guide-tagline {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+</style>

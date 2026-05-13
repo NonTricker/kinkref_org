@@ -16,6 +16,9 @@ import { renderInlineMarkdown, stripInlineMarkdown } from '@/lib/inline-markdown
 
 const allGuides = await getCollection('guides');
 
+// 動態抓 counselors 數量給 directory guide 卡片用（脈流師 WORKORDER #004）
+const allCounselors = await getCollection('counselors');
+
 // Audience 排序權重（脈流師 SPEC §2.3）
 const AUDIENCE_ORDER: Record<string, number> = {
   beginners: 1,
@@ -111,6 +114,19 @@ const breadcrumbSchema = {
               </a>
             </li>
           ))}
+          {/* Directory-style guide — 不在 guides collection，手動列出（脈流師 WORKORDER #004） */}
+          <li class="guide-card guide-card--directory">
+            <a href="/guides/counselors" class="guide-card-link">
+              <p class="guide-card-eyebrow">Directory · Counselors</p>
+              <h2 class="guide-card-title">BDSM 友善諮商師指南</h2>
+              <p class="guide-card-tagline">台灣 kink-friendly 心理師、臨床心理師、社工師、精神科醫師名單</p>
+              <p class="guide-card-meta">
+                <span>{allCounselors.length} 位助人者</span>
+                <span aria-hidden="true">·</span>
+                <span>按性質分組</span>
+              </p>
+            </a>
+          </li>
         </ul>
       </section>
     )

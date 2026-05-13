@@ -33,9 +33,17 @@ const data = entry.data;
 const SITE_URL = 'https://kinkref.org';
 const pageURL = `${SITE_URL}/resources/counselors/${entry.id}`;
 
-// SEO
-const pageTitle = `${data.name} · 心理諮商資源`;
-const description = `${data.name}（${data.credentials.join('、')}）${data.institution ? `· ${data.institution}` : ''} · ${data.location}。kinkref.org 心理諮商資源頁。`;
+// SEO（脈流師 WORKORDER #004 §3）
+// Title: 動態 credentials 對應 query「BDSM 諮商師 / BDSM 友善心理師 / kink 諮商」
+//        加 location 接住地區 long-tail（「台北 BDSM 諮商」「高雄 kink 諮商」）
+// Description: 加 "BDSM 友善" / "kink-friendly" / specialty 提升 entity match
+const credForTitle = data.credentials[0] ?? '助人工作者';
+const pageTitle = `${data.name}｜BDSM 友善${credForTitle}（${data.location}）`;
+
+const specialtyShort = data.specialty.slice(0, 2).join('、');
+const credText = data.credentials.join('、');
+const institutionPart = data.institution ? `・${data.institution}` : '';
+const description = `${data.name}（${credText}）${institutionPart}・${data.location}。BDSM 友善（kink-friendly）${credForTitle}，擅長 ${specialtyShort}。經自薦同意收錄｜kinkref.org BDSM 友善諮商師名單`;
 
 // JSON-LD: ProfilePage（schema.org/ProfilePage）
 const jsonLd = {
@@ -240,6 +248,24 @@ const sourceLabel: Record<string, string> = {
         </p>
       </section>
     )}
+
+    {/* 更多資源 — 交叉導流（脈流師 WORKORDER #004 §4.1） */}
+    <section class="counselor-related" aria-label="更多資源">
+      <h2>更多資源</h2>
+      <ul>
+        <li>
+          <a href="/guides/counselors">BDSM 友善助人者完整名單 →</a>
+          <span class="counselor-related-desc">含諮商心理師、臨床心理師、社工師、精神科醫師按性質分組</span>
+        </li>
+        <li>
+          <a href="/guides/psychology">BDSM 與心理學閱讀指南</a>
+          <span class="counselor-related-desc">去病理化、意識狀態、依附理論</span>
+        </li>
+        <li>
+          <a href="/resources#counselors">回外部資源總覽</a>
+        </li>
+      </ul>
+    </section>
 
     {/* 站方聲明 */}
     <footer class="counselor-footer" aria-label="站方聲明與驗證資訊">
@@ -590,6 +616,48 @@ const sourceLabel: Record<string, string> = {
   }
 
   /* Footer 站方聲明 */
+  /* v1.7: 交叉導流 — 連回 /guides/counselors pillar + 相關 guide */
+  .counselor-related {
+    margin-top: var(--space-9);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-fine);
+  }
+  .counselor-related h2 {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+    margin: 0 0 var(--space-4);
+  }
+  .counselor-related ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .counselor-related li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .counselor-related a {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--fw-medium);
+    color: var(--accent-primary);
+    text-decoration: none;
+  }
+  .counselor-related a:hover {
+    text-decoration: underline;
+  }
+  .counselor-related-desc {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+  }
+
   .counselor-footer {
     margin-top: var(--space-11);
     padding-top: var(--space-7);
