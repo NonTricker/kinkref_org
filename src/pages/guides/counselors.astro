@@ -358,8 +358,14 @@ const modeLabel: Record<string, string> = {
     </p>
   </section>
 
-  {/* English orientation — For Non-Chinese Readers */}
-  <section class="pillar-section pillar-english" aria-label="For Non-Chinese Readers" lang="en">
+  {/* English orientation — For Non-Chinese Readers
+       id="english" 對齊既有 5 個 guides，讓 hero 的 EN pill 能跳轉 */}
+  <section
+    class="pillar-section pillar-english"
+    id="english"
+    lang="en"
+    aria-label="For non-Chinese readers"
+  >
     <h2>For Non-Chinese Readers</h2>
     <p>
       This directory lists kink-friendly mental health practitioners licensed in Taiwan.
@@ -602,19 +608,19 @@ const modeLabel: Record<string, string> = {
   }
 
   /* English orientation */
+  /* English orientation — 對齊 /guides/[...slug].astro 既有風格（灰底色塊） */
   .pillar-english {
-    padding-top: var(--space-7);
-    border-top: 1px solid var(--rule-fine);
+    padding: var(--space-7);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
     font-family: var(--font-sans);
-    font-size: var(--fs-body-sm);
-    color: var(--ink-body);
   }
   .pillar-english h2 {
-    font-family: var(--font-serif);
+    margin-top: 0;
+    font-family: var(--font-serif-en, var(--font-serif));
   }
   .pillar-english p {
     margin: 0 0 var(--space-3);
-    line-height: 1.65;
   }
 
   /* Related */
