@@ -132,7 +132,7 @@ const faq: FAQItem[] = [
   {
     question: '諮商保密原則對 BDSM 議題適用嗎?',
     answer:
-      '適用。中華民國《心理師法》第 17 條規定心理師對業務知悉的個案資訊負保密義務，違反者可處罰鍰並影響執業資格。BDSM 議題不在「應通報」清單內。但有三個例外需注意:(1) 未成年人，若諮商對象未滿 18 歲，部分情境（如疑似性剝削）有通報義務;(2) 明顯而立即的危險，若 BDSM 互動涉及無合意傷害他人，諮商師可能有警告或通報義務;(3) 司法調閱，法院傳喚下諮商紀錄可能被調閱。一般合意成人 BDSM 議題完全在保密範圍內，可以放心討論。對保密邊界有疑慮時，初談主動詢問是合理的。涉及法律議題詳見 [legal](/legal) 資源。',
+      '適用。中華民國《心理師法》第 17 條規定心理師對業務知悉的個案資訊負保密義務，違反者可處罰鍰並影響執業資格。BDSM 議題不在「應通報」清單內。但有三個例外需注意:(1) 未成年人，若諮商對象未滿 18 歲，部分情境（如疑似性剝削）有通報義務;(2) 明顯而立即的危險，若 BDSM 互動涉及無合意傷害他人，諮商師可能有警告或通報義務;(3) 司法調閱，法院傳喚下諮商紀錄可能被調閱。一般合意成人 BDSM 議題完全在保密範圍內，可以放心討論。對保密邊界有疑慮時，初談主動詢問是合理的。涉及法律議題詳見 [外部資源頁 §2 法律資源](/resources#legal)。',
   },
   {
     question: '線上諮商可以談 BDSM 議題嗎?',
@@ -220,7 +220,7 @@ const modeLabel: Record<string, string> = {
       <strong>BDSM 友善（kink-friendly）助人者</strong>不是「特殊」的諮商師，而是受過相關訓練或閱讀去病理化文獻、能將 BDSM 興趣視為個案自我認同一部分（而非病徵）的專業人員。在繁中圈，這個資源長期分散在私下圈內口耳相傳，本站試圖把這個網絡公開化。
     </p>
     <p>
-      <strong>本名單的收錄原則</strong>:自薦同意為主、形式審查執照、每 12 個月 re-verify、不排序不評等。詳見頁尾<a href="#收錄與退出原則">收錄與退出原則</a>。
+      <strong>本名單的收錄原則</strong>:自薦同意為主、形式審查執照、每 12 個月 re-verify、不排序不評等、不收任何費用。詳見頁尾<a href="#selection-criteria">收錄與退出原則</a>。
     </p>
     <p>
       <strong>使用建議</strong>:(1) 從「服務模式」「地區」「specialty」三個維度篩選對位的助人者;(2) 初談時主動討論其對 BDSM 議題的立場與經驗;(3) 不適配時換人不是失敗，這是健康的諮商選擇。
@@ -302,8 +302,8 @@ const modeLabel: Record<string, string> = {
     ))}
   </section>
 
-  {/* Selection Criteria */}
-  <section class="pillar-section pillar-criteria" aria-label="收錄原則" id="收錄與退出原則">
+  {/* Selection Criteria — 措辭對齊 /resources#disclaimer（律法家 2026-05-07） */}
+  <section class="pillar-section pillar-criteria" aria-label="收錄原則" id="selection-criteria">
     <h2>收錄與退出原則</h2>
 
     <h3>收錄原則（自薦同意制）</h3>
@@ -313,28 +313,33 @@ const modeLabel: Record<string, string> = {
         <strong>明確 listing_consent</strong>:諮商師親自聯絡 <code>curator@kinkref.org</code> 或經圈內推薦但<strong>該諮商師明確同意</strong>收錄。
       </li>
       <li>
-        <strong>執照驗證</strong>:驗證中華民國諮商心理師、臨床心理師、社工師或精神科醫師執照狀態（衛福部全國醫事系統可查）。
+        <strong>形式審查不背書</strong>:站方僅驗證「身分真實、執照有效」（中華民國諮商心理師、臨床心理師、社工師或精神科醫師執照，衛福部全國醫事系統可查），<strong>不對專業能力、服務品質或議題熟悉度進行實質審查</strong>。所有條目由收錄者自我背書其專業內容。
       </li>
       <li>
-        <strong>形式審查不背書</strong>:站方僅驗證「身分真實、執照有效」，不對個人專業能力做實質背書，所有條目由收錄者自我背書其專業內容。
+        <strong>不收任何費用（無償）</strong>:站方僅提供格式化整理與連結，不向被收錄者收費，亦不從讀者預約中抽成。
       </li>
       <li>
         <strong>每 12 個月 re-verify</strong>:聯絡資訊、執照狀態、服務模式定期核對。
       </li>
       <li>
-        <strong>不排序、不評等</strong>:列表順序每日 seed shuffle 隨機，避免「字母順序等於隱性排名」的展示偏誤。
+        <strong>不排序、不評等</strong>:列表順序為每次站台更新時隨機，不按推薦度，避免「字母順序等於隱性排名」的展示偏誤。
       </li>
       <li>
         <strong>不主動篩 pro_bono 置頂</strong>:公益方案的諮商師有標記但不置頂，遵守「不背書」原則。
       </li>
     </ol>
 
+    <h3>爭議處理</h3>
+    <p>
+      使用者與收錄者之間的選擇、互動及後果，由雙方自行負責。若產生爭議，建議回到該專業人員所屬機構或主管機關（衛福部全國醫事系統、各縣市心理師公會、社工師公會等）反映。本站不介入第三方專業判斷或爭議仲裁。
+    </p>
+
     <h3>退出機制</h3>
-    <p>收錄者可隨時要求下架，無需理由:</p>
+    <p>收錄者可隨時要求修改資訊或退出名單，無需理由:</p>
     <ul>
       <li>寄信至 <code>curator@kinkref.org</code> 即可</li>
-      <li>24 小時內完成下架</li>
-      <li>過去個別頁面 URL 會以 410 Gone 回應，避免 Google 持續索引死頁</li>
+      <li>站方收到後儘速處理，個別頁面下架後即不再可訪問</li>
+      <li>定期 re-verify 逾期未回覆達 30 天，站方亦會暫時下架該條目，待確認後重新上架</li>
     </ul>
 
     <h3>為什麼這樣設計?</h3>
@@ -342,7 +347,7 @@ const modeLabel: Record<string, string> = {
       站方在「資源能見度」與「不誤導讀者」之間求平衡。承諾過度（背書專業能力）會把資源轉化為偽推薦系統，但完全去中心化（不形式審查）會降低名單可信度。本設計的策略是:<strong>站方負責「身分真實 + 同意收錄」的形式保證，讀者承擔「專業匹配 + 實際接觸」的判斷責任</strong>。
     </p>
     <p>
-      完整投稿管道與 schema 規範詳見 <a href="https://github.com/zaious-design/kinkref-org/blob/main/content/counselors/README.md">GitHub repo 的 counselors README</a>。
+      完整投稿管道與 schema 規範詳見 <a href="https://github.com/NonTricker/kinkref_org/blob/main/content/counselors/README.md" target="_blank" rel="noopener noreferrer">GitHub repo 的 counselors README</a>。
       <a href="/resources#disclaimer">完整站方聲明 →</a>
     </p>
   </section>
