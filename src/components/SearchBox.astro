@@ -1,19 +1,17 @@
 ---
 /**
- * SearchBox — 客戶端搜尋輸入（MiniSearch 占位）
+ * SearchBox — 客戶端搜尋輸入（MiniSearch 動態載入）
  *
- * V2 Polish (2026-05-03)：
- *   - 取代 unicode `⌕` 為 inline SVG（24×24 stroke 1.5px Reference Crimson）
- *   - hero variant：1.5px border（書院打字機氣）+ italic placeholder
- *   - 「/」kbd hint：透明 + 細邊框 + ink-disabled
- *   - Focus ring：1px outline + 2px offset（無 box-shadow）
+ * V2 Polish (2026-05-03)：UI 細節、SVG icon、focus ring
+ * V3 完整接通 (2026-06-01)：
+ *   - 動態 import('minisearch') + fetch /search-index.json
+ *   - input → debounced search → dropdown 結果
+ *   - 鍵盤導覽：↑/↓ 切換、Enter 跳轉、Esc 關閉
+ *   - 點外面關閉 + click 直接跳轉
+ *   - 涵蓋 6 個 collection：glossary / bibliography / books /
+ *     journals / counselors / guides
  *
- * 此組件僅提供 UI shell。
- * 實際 MiniSearch 整合將於後續迭代加入：
- *   - public/search-index.json（build 時生成）
- *   - 動態 import('minisearch')
- *
- * Curated by: 光影師 艾莉兒
+ * Curated by: 光影師 艾莉兒（UI）+ 織法者（V3 邏輯）
  */
 
 interface Props {
@@ -69,7 +67,217 @@ const { placeholder = '搜尋術語、論文、書目…', className, variant = 
 </form>
 
 <script>
-  // Placeholder: focus shortcut "/"
+  // ────────────────────────────────────────────────────────
+  // SearchBox 完整接通 (v0.12.0)
+  //
+  // 流程：
+  //   1. 使用者 focus input → 啟動 lazy load（minisearch + index）
+  //   2. 載入完成 → 將 MiniSearch instance 綁到所有 [data-search-form]
+  //   3. 監聽 input、↑/↓/Enter/Esc 鍵盤事件
+  //   4. Results 點擊 / Enter 直接 navigate
+  //
+  // 邊界：
+  //   - 動態 import，loading 過程不影響首屏 weight
+  //   - 同一頁可有多個 SearchBox（hero + header inline），共用 instance
+  // ────────────────────────────────────────────────────────
+
+  interface SearchEntry {
+    id: string;
+    collection: string;
+    url: string;
+    title: string;
+    subtitle: string;
+    tagline: string;
+    tags: string[];
+    year?: number;
+  }
+
+  // ────── Module-level state ──────
+  let searchPromise: Promise<{
+    search: (q: string) => SearchEntry[];
+  }> | null = null;
+
+  /** Lazy-load minisearch + index (only once per page) */
+  function getSearch() {
+    if (searchPromise) return searchPromise;
+    searchPromise = (async () => {
+      const [{ default: MiniSearch }, indexRes] = await Promise.all([
+        import('minisearch'),
+        fetch('/search-index.json'),
+      ]);
+      const data = (await indexRes.json()) as {
+        version: number;
+        entries: SearchEntry[];
+      };
+      const mini = new MiniSearch<SearchEntry>({
+        idField: 'id',
+        fields: ['title', 'subtitle', 'tagline', 'tags'],
+        storeFields: ['collection', 'url', 'title', 'subtitle', 'tagline', 'year'],
+        searchOptions: {
+          boost: { title: 3, subtitle: 2 },
+          fuzzy: 0.2,
+          prefix: true,
+        },
+        extractField: (doc, fieldName) => {
+          const v = (doc as unknown as Record<string, unknown>)[fieldName];
+          if (Array.isArray(v)) return v.join(' ');
+          return String(v ?? '');
+        },
+      });
+      mini.addAll(data.entries);
+      return {
+        search: (q: string) => {
+          if (!q || q.trim().length < 1) return [];
+          const hits = mini.search(q, { combineWith: 'AND' });
+          return hits.slice(0, 8) as unknown as SearchEntry[];
+        },
+      };
+    })();
+    return searchPromise;
+  }
+
+  // ────── Collection 標籤對照 ──────
+  const COLLECTION_LABEL: Record<string, string> = {
+    glossary: '術語',
+    bibliography: '論文',
+    books: '書籍',
+    journals: '期刊',
+    counselors: '助人者',
+    guides: '指南',
+  };
+
+  /** 簡單 debounce */
+  function debounce<T extends (...args: never[]) => void>(fn: T, ms: number) {
+    let t: ReturnType<typeof setTimeout> | null = null;
+    return (...args: Parameters<T>) => {
+      if (t) clearTimeout(t);
+      t = setTimeout(() => fn(...args), ms);
+    };
+  }
+
+  /** 把搜尋結果渲染到 dropdown */
+  function renderResults(
+    container: HTMLElement,
+    results: SearchEntry[],
+    query: string
+  ) {
+    if (results.length === 0) {
+      container.innerHTML = query
+        ? `<p class="search-box-empty">找不到「${escapeHtml(query)}」相關條目</p>`
+        : '';
+      container.hidden = !query;
+      return;
+    }
+    const html = results
+      .map(
+        (r, i) => `
+          <a
+            class="search-box-result"
+            href="${r.url}"
+            data-search-result-idx="${i}"
+            role="option"
+          >
+            <span class="search-box-result-collection">${COLLECTION_LABEL[r.collection] ?? r.collection}</span>
+            <span class="search-box-result-text">
+              <span class="search-box-result-title">${escapeHtml(r.title)}</span>
+              ${r.subtitle ? `<span class="search-box-result-subtitle">${escapeHtml(r.subtitle)}</span>` : ''}
+            </span>
+          </a>
+        `
+      )
+      .join('');
+    container.innerHTML = html;
+    container.hidden = false;
+  }
+
+  function escapeHtml(s: string): string {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /** 綁定單個 SearchBox form */
+  function bindForm(form: HTMLFormElement) {
+    const input = form.querySelector<HTMLInputElement>('[data-search-input]');
+    const results = form.querySelector<HTMLElement>('[data-search-results]');
+    if (!input || !results) return;
+
+    let activeIdx = -1;
+    let currentResults: SearchEntry[] = [];
+
+    const updateActive = () => {
+      const items = results.querySelectorAll<HTMLElement>('.search-box-result');
+      items.forEach((el, i) => {
+        if (i === activeIdx) el.setAttribute('aria-selected', 'true');
+        else el.removeAttribute('aria-selected');
+      });
+    };
+
+    const runSearch = debounce(async (q: string) => {
+      const trimmed = q.trim();
+      if (!trimmed) {
+        results.hidden = true;
+        results.innerHTML = '';
+        currentResults = [];
+        activeIdx = -1;
+        return;
+      }
+      try {
+        const s = await getSearch();
+        currentResults = s.search(trimmed);
+        renderResults(results, currentResults, trimmed);
+        activeIdx = -1;
+      } catch (err) {
+        // 搜尋載入失敗 → 給降級訊息
+        results.innerHTML = `<p class="search-box-empty">搜尋暫時無法使用</p>`;
+        results.hidden = false;
+      }
+    }, 150);
+
+    input.addEventListener('input', () => runSearch(input.value));
+
+    // 鍵盤導覽
+    input.addEventListener('keydown', (e) => {
+      const items = results.querySelectorAll<HTMLElement>('.search-box-result');
+      if (e.key === 'ArrowDown' && items.length) {
+        e.preventDefault();
+        activeIdx = (activeIdx + 1) % items.length;
+        updateActive();
+      } else if (e.key === 'ArrowUp' && items.length) {
+        e.preventDefault();
+        activeIdx = activeIdx <= 0 ? items.length - 1 : activeIdx - 1;
+        updateActive();
+      } else if (e.key === 'Enter' && activeIdx >= 0) {
+        const target = currentResults[activeIdx];
+        if (target) {
+          e.preventDefault();
+          window.location.href = target.url;
+        }
+      } else if (e.key === 'Escape') {
+        input.blur();
+        results.hidden = true;
+      }
+    });
+
+    // Focus → 預載 minisearch（user 開始打字前就 ready）
+    input.addEventListener('focus', () => {
+      getSearch().catch(() => {});
+    });
+
+    // 點外面關閉
+    document.addEventListener('click', (e) => {
+      if (!form.contains(e.target as Node)) {
+        results.hidden = true;
+      }
+    });
+  }
+
+  // ────── 啟動 ──────
+  document.querySelectorAll<HTMLFormElement>('[data-search-form]').forEach(bindForm);
+
+  // Focus shortcut "/"
   document.addEventListener('keydown', (e) => {
     if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
     const target = e.target as HTMLElement | null;
@@ -79,9 +287,6 @@ const { placeholder = '搜尋術語、論文、書目…', className, variant = 
     e.preventDefault();
     input.focus();
   });
-
-  // TODO: load minisearch lazily and bind to data-search-input
-  // const { default: MiniSearch } = await import('minisearch');
 </script>
 
 <style>
@@ -182,13 +387,104 @@ const { placeholder = '搜尋術語、論文、書目…', className, variant = 
     font-style: italic;
   }
 
+  /* ──────────────────────────────────────────────────────
+     Search results dropdown (v0.12.0)
+     Hero variant 在 hero 區內展開；inline variant 用 absolute 飄浮
+     ────────────────────────────────────────────────────── */
+  .search-box {
+    position: relative;
+  }
+
   .search-box-results {
-    margin-top: var(--space-3);
+    margin-top: var(--space-2);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 16px -8px rgba(0, 0, 0, 0.25);
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  /* Inline variant（header / nav）— 用 absolute 飄浮在 input 下方 */
+  .search-box--inline .search-box-results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: var(--z-dropdown, 100);
+  }
+
+  .search-box-result {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--rule-fine);
+    transition: background-color 100ms ease;
+  }
+
+  .search-box-result:last-child {
+    border-bottom: 0;
+  }
+
+  .search-box-result:hover,
+  .search-box-result[aria-selected='true'] {
+    background: var(--bg-subtle);
+  }
+
+  .search-box-result-collection {
+    flex-shrink: 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--accent-primary);
+    background: color-mix(in srgb, var(--accent-primary) 8%, transparent);
+    padding: 1px var(--space-2);
+    border-radius: var(--radius-pill);
+    min-width: 3em;
+    text-align: center;
+  }
+
+  .search-box-result-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0; /* 讓 flex 子元素可以正確 ellipsis */
+    flex: 1;
+  }
+
+  .search-box-result-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-heading);
+    line-height: 1.4;
+  }
+
+  .search-box-result-subtitle {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .search-box-empty {
+    margin: 0;
+    padding: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-meta);
+    text-align: center;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .search-box-inner,
-    .search-box-icon {
+    .search-box-icon,
+    .search-box-result {
       transition: none;
     }
   }

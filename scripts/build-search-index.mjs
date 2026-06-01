@@ -24,6 +24,11 @@ const collections = [
   { name: 'glossary', path: join(CONTENT_DIR, 'glossary'), route: 'glossary' },
   { name: 'bibliography', path: join(CONTENT_DIR, 'bibliography'), route: 'bibliography' },
   { name: 'books', path: join(CONTENT_DIR, 'books'), route: 'books' },
+  { name: 'journals', path: join(CONTENT_DIR, 'journals'), route: 'journals' },
+  // counselors 的 URL 走 /resources/counselors/{slug}
+  { name: 'counselors', path: join(CONTENT_DIR, 'counselors'), route: 'resources/counselors' },
+  // guides 的 URL 走 /guides/{slug}（pillar pages）
+  { name: 'guides', path: join(CONTENT_DIR, 'guides'), route: 'guides' },
 ];
 
 /** @typedef {{
@@ -83,6 +88,26 @@ async function readCollection({ name, path: dir, route }) {
       entry.subtitle = `${data.author ?? ''} (${data.year ?? '?'})`;
       entry.tagline = data.curator_note ?? '';
       entry.year = typeof data.year === 'number' ? data.year : undefined;
+    } else if (name === 'journals') {
+      // 期刊：title (英) + 中文/abbr + curator_note
+      entry.title = data.title ?? slug;
+      const subParts = [data.title_zh, data.abbreviation].filter(Boolean);
+      entry.subtitle = subParts.join(' · ');
+      entry.tagline = data.curator_note ?? '';
+    } else if (name === 'counselors') {
+      // 助人者：name + credentials/地區 + specialty 聚合
+      entry.title = data.name ?? slug;
+      const credLabel = Array.isArray(data.credentials) ? data.credentials.join('、') : '';
+      entry.subtitle = [credLabel, data.location].filter(Boolean).join(' · ');
+      entry.tagline = Array.isArray(data.specialty) ? data.specialty.join('、') : '';
+      // ⛔ 紅線：counselor 不含 contact_email / contact_phone 進 search index
+      //   邊界與 schema.contact_email 的隱私決策一致——search 結果用以導向頁面，
+      //   不暴露 PII（即使是公開 email，也應透過詳情頁而非 search snippet 接觸）。
+    } else if (name === 'guides') {
+      // Guides：title_zh + title_en + tagline
+      entry.title = data.title_zh ?? data.title ?? slug;
+      entry.subtitle = data.title_en ?? '';
+      entry.tagline = data.tagline ?? '';
     }
 
     out.push(entry);
