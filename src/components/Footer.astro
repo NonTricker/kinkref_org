@@ -181,6 +181,26 @@ const footerSections = [
         </a>
         授權。引用請註明來源。
       </p>
+      <p class="site-footer-feeds">
+        <a
+          href="/rss.xml"
+          class="site-footer-rss"
+          aria-label="RSS feed — 訂閱站方新內容"
+          title="RSS feed"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36zM4 4.44A19.55 19.55 0 0 1 23.56 24h-2.83A16.72 16.72 0 0 0 4 7.27V4.44zm0 5.66a13.9 13.9 0 0 1 13.9 13.9h-2.83A11.08 11.08 0 0 0 4 12.93V10.1z"/>
+          </svg>
+          RSS
+        </a>
+      </p>
       <p class="site-footer-copyright">© 2026 — {currentYear} Kink Reference</p>
     </div>
 
@@ -482,6 +502,34 @@ const footerSections = [
 
   .site-footer-license {
     margin: 0;
+  }
+
+  .site-footer-feeds {
+    margin: 0;
+  }
+
+  .site-footer-rss {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink-inverse);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 4px var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--ink-inverse) 30%, transparent);
+    border-radius: var(--radius-pill);
+    transition: var(--transition-color);
+  }
+
+  .site-footer-rss:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+  }
+
+  .site-footer-rss svg {
+    flex-shrink: 0;
   }
 
   .site-footer-copyright {

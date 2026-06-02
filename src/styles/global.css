@@ -569,15 +569,64 @@ th {
   color: var(--ink-body);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
+  gap: var(--space-3);
   flex-wrap: wrap;
 }
 
-.filter-meta strong {
+.filter-meta-count {
+  white-space: nowrap;
+}
+
+.filter-meta-count strong {
   color: var(--accent-primary);
   font-weight: var(--fw-semibold);
   font-variant-numeric: tabular-nums;
+}
+
+.filter-meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+/* 單個 active filter chip — 點 × 可移除 */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 2px var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  cursor: pointer;
+  transition: var(--transition-color);
+}
+
+.filter-chip:hover {
+  background: color-mix(in srgb, var(--accent-primary) 12%, var(--bg-elevated));
+}
+
+.filter-chip-key {
+  color: var(--ink-meta);
+  font-weight: var(--fw-regular);
+}
+
+.filter-chip-val {
+  color: var(--accent-primary);
+  font-weight: var(--fw-medium);
+}
+
+.filter-chip-x {
+  color: var(--ink-meta);
+  font-weight: var(--fw-medium);
+  margin-left: 2px;
+}
+
+.filter-chip:hover .filter-chip-x {
+  color: var(--accent-primary);
 }
 
 .filter-meta .filter-clear {
@@ -589,6 +638,7 @@ th {
   border: 1px solid var(--rule-fine);
   border-radius: var(--radius-pill);
   transition: var(--transition-color);
+  white-space: nowrap;
 }
 
 .filter-meta .filter-clear:hover {
