@@ -109,10 +109,18 @@ const metaDescription = stripInlineMarkdown(pageDescription);
           </div>
         </section>
 
+        <p class="filter-meta" data-filter-meta hidden></p>
+
         <section class="entry-list-section">
-          <ul class="book-list">
+          <ul class="book-list" data-filter-container>
             {sortedBooks.map((entry, i) => (
-              <li class="book-card">
+              <li
+                class="book-card"
+                data-topic={entry.data.topic_tags.join(',')}
+                data-type={entry.data.book_type}
+                data-difficulty={entry.data.difficulty}
+                data-zh={entry.data.has_zh_translation ? '1' : ''}
+              >
                 <a href={`/books/${entry.id}`}>
                   <span class="book-card-no" aria-hidden="true">№{(i + 1).toString().padStart(3, '0')}</span>
                   <header class="book-card-header">
@@ -482,3 +490,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     }
   }
 </style>
+
+<script>
+  import '@/lib/tag-filter';
+</script>

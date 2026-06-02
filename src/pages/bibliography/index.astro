@@ -111,10 +111,17 @@ const metaDescription = stripInlineMarkdown(pageDescription);
           </div>
         </section>
 
+        <p class="filter-meta" data-filter-meta hidden></p>
+
         <section class="entry-list-section">
-          <ul class="paper-list">
+          <ul class="paper-list" data-filter-container>
             {sortedPapers.map((entry, i) => (
-              <li class="paper-card">
+              <li
+                class="paper-card"
+                data-topic={entry.data.topic_tags.join(',')}
+                data-access={entry.data.access_type}
+                data-study={entry.data.study_type}
+              >
                 <a href={`/bibliography/${entry.id}`}>
                   {translatedSlugs.has(entry.id) && (
                     <span class="paper-card-translated" aria-label="含中文全文翻譯" title="含中文全文翻譯">譯</span>
@@ -493,3 +500,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     }
   }
 </style>
+
+<script>
+  import '@/lib/tag-filter';
+</script>

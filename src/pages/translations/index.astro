@@ -1,0 +1,287 @@
+---
+/**
+ * Translations index — `/translations/` 列表頁
+ *
+ * 列出所有 CC-BY/CC-BY-SA 等開放授權論文的中文全文翻譯。
+ * 與 bibliography 互補（後者是摘要 + 策展導讀；本頁是真正可閱讀的全文）。
+ *
+ * v0.13.0 補建（之前只有 /translations/{slug} 詳情頁，缺 listing 入口）
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const allTranslations = await getCollection('translations');
+
+// 按翻譯日期降序（新譯在前）
+const sortedTranslations = allTranslations.sort((a, b) =>
+  b.data.translation_date.getTime() - a.data.translation_date.getTime()
+);
+
+const SITE_URL = 'https://kinkref.org';
+const pageTitle = '全文翻譯 · Translations';
+const description = `${allTranslations.length} 篇 CC 授權 BDSM 學術論文的繁體中文全文翻譯。原文為英文 / 國際期刊發表，譯者為 kinkref.org 策展團隊。`;
+
+// CollectionPage Schema
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${SITE_URL}/translations#collection`,
+  name: '全文翻譯',
+  description,
+  url: `${SITE_URL}/translations`,
+  inLanguage: 'zh-Hant-TW',
+  isPartOf: { '@id': `${SITE_URL}#website` },
+  hasPart: sortedTranslations.map((t) => ({
+    '@type': 'CreativeWork',
+    name: t.data.title,
+    alternateName: t.data.original_title,
+    url: `${SITE_URL}/translations/${t.id}`,
+    inLanguage: 'zh-Hant-TW',
+    translator: { '@type': 'Person', name: t.data.translator },
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: '全文翻譯', item: `${SITE_URL}/translations` },
+  ],
+};
+
+const dateFmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={description}
+  jsonLd={[collectionSchema, breadcrumbSchema]}
+>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">
+        <span class="page-eyebrow-name">Translations</span>
+      </p>
+      <h1 class="page-title">全文翻譯</h1>
+      <hr class="page-title-rule" aria-hidden="true" />
+      <p class="page-description">
+        {allTranslations.length} 篇 CC 授權 BDSM 學術論文的繁體中文全文翻譯。
+        與 <a href="/bibliography">學術文獻</a> 互補——後者為摘要 + 策展導讀，本頁是可閱讀的全文。
+      </p>
+      <p class="page-description-en" lang="en">
+        Full-text Traditional Chinese translations of {allTranslations.length} CC-licensed BDSM academic papers.
+        Complements <a href="/bibliography">Bibliography</a>: there are curatorial abstracts, here are the full texts.
+      </p>
+    </div>
+  </section>
+
+  <section class="entry-list-section">
+    <ul class="translation-list">
+      {sortedTranslations.map((entry, i) => (
+        <li class="translation-card">
+          <a href={`/translations/${entry.id}`}>
+            <span class="translation-card-no" aria-hidden="true">№{(i + 1).toString().padStart(2, '0')}</span>
+            <header class="translation-card-header">
+              <p class="translation-card-meta">
+                <span>{entry.data.year}</span>
+                <span aria-hidden="true">·</span>
+                <span><em>{entry.data.journal}</em></span>
+              </p>
+              <h2 class="translation-card-title">{entry.data.title}</h2>
+              <p class="translation-card-original">{entry.data.original_title}</p>
+              <p class="translation-card-authors">{entry.data.authors}</p>
+            </header>
+            <footer class="translation-card-footer">
+              <p class="translation-card-translator">
+                <span class="translation-card-label">譯者</span>
+                {entry.data.translator}
+              </p>
+              <p class="translation-card-date">
+                <span class="translation-card-label">翻譯日期</span>
+                <time datetime={entry.data.translation_date.toISOString()}>
+                  {dateFmt(entry.data.translation_date)}
+                </time>
+              </p>
+              <p class="translation-card-license">
+                <span class="translation-card-label">原文授權</span>
+                {entry.data.license}
+              </p>
+            </footer>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: var(--space-11) var(--space-5) var(--space-9);
+    border-bottom: 1px solid var(--rule-fine);
+  }
+
+  .page-hero-inner {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--accent-primary);
+    margin: 0 0 var(--space-4);
+    font-weight: var(--fw-semibold);
+  }
+
+  .page-title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-5);
+  }
+
+  .page-title-rule {
+    width: 64px;
+    height: 1px;
+    background: var(--accent-primary);
+    border: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .page-description {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink-meta);
+    margin: 0;
+  }
+
+  .page-description a {
+    color: var(--accent-primary);
+  }
+
+  .page-description-en {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    line-height: 1.7;
+    color: var(--ink-disabled);
+    margin: var(--space-2) 0 var(--space-7);
+    letter-spacing: 0;
+  }
+
+  .page-description-en a {
+    color: var(--accent-primary);
+  }
+
+  .entry-list-section {
+    padding: var(--space-9) var(--space-5) var(--space-11);
+  }
+
+  .translation-list {
+    max-width: var(--content-width-index);
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .translation-card a {
+    position: relative;
+    display: block;
+    padding: var(--space-6) var(--space-7);
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule-fine);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink-body);
+    transition: var(--transition-color);
+  }
+
+  .translation-card a:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .translation-card-no {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--fw-medium);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: var(--ink-disabled);
+    line-height: 1;
+  }
+
+  .translation-card-header {
+    margin-bottom: var(--space-5);
+    padding-right: var(--space-7);
+  }
+
+  .translation-card-meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-3);
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .translation-card-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-tight);
+    color: var(--ink-heading);
+    margin: 0 0 var(--space-2);
+  }
+
+  .translation-card-original {
+    font-family: var(--font-serif);
+    font-size: var(--fs-body-sm);
+    font-style: italic;
+    color: var(--ink-meta);
+    margin: 0 0 var(--space-2);
+    line-height: 1.5;
+  }
+
+  .translation-card-authors {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-sm);
+    color: var(--ink-body);
+    margin: 0;
+  }
+
+  .translation-card-footer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule-fine);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+  }
+
+  .translation-card-footer p {
+    margin: 0;
+    color: var(--ink-body);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .translation-card-label {
+    color: var(--ink-meta);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-eyebrow);
+    font-size: 10px;
+  }
+</style>

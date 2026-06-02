@@ -84,11 +84,16 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     </div>
   </section>
 
+  <p class="filter-meta" data-filter-meta hidden></p>
+
   <section class="entry-list-section">
-    <ul class="entry-list">
+    <ul class="entry-list" data-filter-container>
       {
         sortedTerms.map((entry, i) => (
-          <li class="entry-card">
+          <li
+            class="entry-card"
+            data-topic={entry.data.topic_tags.join(',')}
+          >
             <a href={`/glossary/${entry.id}`}>
               {pinnedSet.has(entry.id) && (
                 <span class="entry-card-pin" aria-label="置頂條目" title="核心定義詞">◆</span>
@@ -414,3 +419,7 @@ const metaDescription = stripInlineMarkdown(pageDescription);
     }
   }
 </style>
+
+<script>
+  import '@/lib/tag-filter';
+</script>

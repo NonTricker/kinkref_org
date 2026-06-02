@@ -553,6 +553,62 @@ th {
 }
 
 /* ──────────────────────────────────────────────────────
+   Tag filter UI (v0.13.0)
+   - .filter-meta：URL 帶 filter 時顯示「篩選中 / 清除」狀態列
+   - a.tag-pill[data-active]：active filter 高亮
+   ────────────────────────────────────────────────────── */
+.filter-meta {
+  max-width: var(--content-width-index);
+  margin: 0 auto var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  background: color-mix(in srgb, var(--accent-primary) 6%, var(--bg-subtle));
+  border-left: 3px solid var(--accent-primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body-sm);
+  color: var(--ink-body);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.filter-meta strong {
+  color: var(--accent-primary);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.filter-meta .filter-clear {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--ink-meta);
+  text-decoration: none;
+  padding: 2px var(--space-3);
+  border: 1px solid var(--rule-fine);
+  border-radius: var(--radius-pill);
+  transition: var(--transition-color);
+}
+
+.filter-meta .filter-clear:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+/* Active filter pill — 反白 highlight */
+a.tag-pill[data-active='true'] {
+  background: var(--accent-primary);
+  color: var(--bg-base);
+  border-color: var(--accent-primary);
+}
+
+a.tag-pill[data-active='true']:hover {
+  background: var(--accent-primary);
+  opacity: 0.85;
+}
+
+/* ──────────────────────────────────────────────────────
    PRINT — 學術站建議友善列印
    ────────────────────────────────────────────────────── */
 @media print {

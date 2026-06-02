@@ -113,10 +113,18 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
     </div>
   </section>
 
+  <p class="filter-meta" data-filter-meta hidden></p>
+
   <section class="entry-list-section">
-    <ul class="journal-list">
+    <ul class="journal-list" data-filter-container>
       {sortedJournals.map((entry, i) => (
-        <li class="journal-card">
+        <li
+          class="journal-card"
+          data-topic={entry.data.topic_tags.join(',')}
+          data-access={entry.data.access_type}
+          data-bdsm={entry.data.accepts_bdsm}
+          data-publisher={entry.data.publisher}
+        >
           <a href={`/journals/${entry.id}`}>
             <span class="journal-card-no" aria-hidden="true">№{(i + 1).toString().padStart(3, '0')}</span>
             <header class="journal-card-header">
@@ -431,3 +439,7 @@ function accessStatus(at: string): 'oa' | 'paywalled' | 'translated' {
     flex-wrap: wrap;
   }
 </style>
+
+<script>
+  import '@/lib/tag-filter';
+</script>
