@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-14T02:24:31.746Z",
+  "generated": "2026-06-14T02:28:36.856Z",
   "period": {
     "start": "2026-06-07",
     "end": "2026-06-14"
@@ -56,7 +56,7 @@
     },
     {
       "path": "/journals/",
-      "views": 53
+      "views": 54
     }
   ],
   "countries": [
@@ -82,7 +82,7 @@
     },
     {
       "code": "CN",
-      "views": 55
+      "views": 54
     },
     {
       "code": "KR",
@@ -97,8 +97,8 @@
       "views": 14
     },
     {
-      "code": "FR",
-      "views": 11
+      "code": "CA",
+      "views": 12
     }
   ],
   "lifetime": {
