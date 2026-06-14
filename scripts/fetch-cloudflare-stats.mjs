@@ -31,8 +31,9 @@ const CF_API_TOKEN = process.env.CF_API_TOKEN;
 const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID;
 
 if (!CF_API_TOKEN || !CF_ACCOUNT_ID) {
-  console.warn('⚠️  CF_API_TOKEN or CF_ACCOUNT_ID not set — writing empty stats.json');
-  writeFileSync(OUTPUT_PATH, JSON.stringify({ error: 'no credentials', generated: new Date().toISOString() }, null, 2));
+  // ⛔ Iron Law：不覆寫現有 stats.json，避免 break 既有顯示。
+  //   CF Pages 上若 secrets 缺失，dashboard / 首頁仍會用 repo 內 commit 進去的舊版本。
+  console.warn('⚠️  CF_API_TOKEN or CF_ACCOUNT_ID not set — preserving existing stats.json');
   process.exit(0);
 }
 
@@ -88,8 +89,10 @@ try {
   const json = await res.json();
 
   if (json.errors) {
-    console.error('❌ Cloudflare API errors:', JSON.stringify(json.errors, null, 2));
-    process.exit(1);
+    // ⛔ Build pipeline 等級的優先順序：站台可部署 > stats 新鮮度。
+    //   CF API 偶發 500 / token 過期不該 break 整個 deploy。
+    console.warn('⚠️  Cloudflare API errors — preserving existing stats.json:', JSON.stringify(json.errors));
+    process.exit(0);
   }
 
   const account = json.data.viewer.accounts[0];
@@ -144,6 +147,7 @@ try {
   console.log(`   Top country: ${countries[0]?.code} (${countries[0]?.views})`);
   console.log(`   Top glossary: ${glossaryPaths[0]?.path} (${glossaryPaths[0]?.views})`);
 } catch (err) {
-  console.error('❌ Fetch failed:', err.message);
-  process.exit(1);
+  // 同上：fetch 失敗 → graceful degrade，保留現有 stats.json。
+  console.warn(`⚠️  Fetch failed: ${err.message} — preserving existing stats.json`);
+  process.exit(0);
 }

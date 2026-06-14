@@ -16,10 +16,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && npm run build:search && astro build && npm run build:sitemap-lastmod",
+    "build": "astro check && npm run build:stats && npm run build:search && astro build && npm run build:sitemap-lastmod",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "build:stats": "node scripts/fetch-cloudflare-stats.mjs",
     "build:search": "node scripts/build-search-index.mjs",
     "build:sitemap-lastmod": "node scripts/build-sitemap-lastmod.mjs",
     "lint": "prettier --check \"**/*.{astro,ts,tsx,js,mjs,md,json,css}\"",

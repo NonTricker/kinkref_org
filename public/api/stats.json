@@ -1,104 +1,104 @@
 {
-  "generated": "2026-06-01T08:10:05.193Z",
+  "generated": "2026-06-14T02:19:02.135Z",
   "period": {
-    "start": "2026-05-25",
-    "end": "2026-06-01"
+    "start": "2026-06-07",
+    "end": "2026-06-14"
   },
-  "totalPageviews": 584,
+  "totalPageviews": 1410,
   "topGlossary": [
     {
       "path": "/glossary/spanking/",
+      "views": 27
+    },
+    {
+      "path": "/glossary/ddlg/",
+      "views": 27
+    },
+    {
+      "path": "/glossary/bdsm/",
       "views": 26
     },
     {
-      "path": "/glossary/cnc/",
+      "path": "/glossary/slave-contract/",
       "views": 16
     },
     {
-      "path": "/glossary/rack/",
-      "views": 11
-    },
-    {
-      "path": "/glossary/ssc/",
-      "views": 10
-    },
-    {
-      "path": "/glossary/degrader/",
-      "views": 10
+      "path": "/glossary/aftercare/",
+      "views": 16
     }
   ],
   "topContent": [
     {
-      "path": "/bibliography/li-2024/",
-      "views": 8
+      "path": "/books/sm-101/",
+      "views": 11
     },
     {
-      "path": "/bibliography/ambler-2017/",
-      "views": 5
+      "path": "/books/xiaolin-shengwu-shengfu-benshi/",
+      "views": 10
     }
   ],
   "topOther": [
     {
       "path": "/",
-      "views": 94
+      "views": 259
     },
     {
       "path": "/glossary/",
-      "views": 51
+      "views": 110
     },
     {
-      "path": "/guides/bdsmtest-interpretation/",
-      "views": 28
-    },
-    {
-      "path": "/guides/counselors/",
-      "views": 22
+      "path": "/bibliography/",
+      "views": 75
     },
     {
       "path": "/books/",
-      "views": 19
+      "views": 73
+    },
+    {
+      "path": "/journals/",
+      "views": 51
     }
   ],
   "countries": [
     {
       "code": "TW",
-      "views": 287
+      "views": 461
     },
     {
-      "code": "US",
-      "views": 109
-    },
-    {
-      "code": "CN",
-      "views": 60
+      "code": "SG",
+      "views": 358
     },
     {
       "code": "HK",
-      "views": 51
+      "views": 156
+    },
+    {
+      "code": "US",
+      "views": 128
     },
     {
       "code": "JP",
-      "views": 18
+      "views": 120
+    },
+    {
+      "code": "CN",
+      "views": 55
+    },
+    {
+      "code": "KR",
+      "views": 32
     },
     {
       "code": "VN",
       "views": 18
     },
     {
-      "code": "CA",
-      "views": 17
+      "code": "MY",
+      "views": 14
     },
     {
-      "code": "SG",
-      "views": 10
-    },
-    {
-      "code": "DE",
-      "views": 4
-    },
-    {
-      "code": "MX",
-      "views": 2
+      "code": "FR",
+      "views": 11
     }
   ]
 }
