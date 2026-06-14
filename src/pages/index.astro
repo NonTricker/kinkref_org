@@ -134,7 +134,9 @@ const pillars = [
   </section>
 
   <script is:inline>
-    /* 首頁國家 flags — 從 /api/stats.json 讀取（build-time 生成） */
+    /* 首頁國家 flags — 從 /api/stats.json 讀取（build-time 生成）
+       讀 lifetime 區段（自啟站累計），不是 top-level 的近 7 天。
+       Fallback：lifetime 不在 → 舊 schema → 用 top-level countries。 */
     (function () {
       const FLAGS = {
         TW: '🇹🇼', HK: '🇭🇰', US: '🇺🇸', JP: '🇯🇵', SG: '🇸🇬',
@@ -148,19 +150,28 @@ const pillars = [
       fetch('/api/stats.json')
         .then(function (r) { return r.json(); })
         .then(function (d) {
-          if (!d.countries) return;
+          var pool = (d.lifetime && d.lifetime.countries) || d.countries;
+          var rangeStart = (d.lifetime && d.lifetime.period && d.lifetime.period.start) || '';
+          var rangeEnd = (d.lifetime && d.lifetime.period && d.lifetime.period.end) ||
+                         (d.generated || '').slice(0, 10);
+          if (!pool || !pool.length) return;
           var el = document.getElementById('readers-flags');
           var src = document.getElementById('readers-source');
           if (!el) return;
-          el.innerHTML = d.countries
+          el.innerHTML = pool
             .slice(0, 5)
             .map(function (c) {
               return (FLAGS[c.code] || '') + ' ' + (NAMES[c.code] || c.code) +
                 ' <span class="readers-count">' + c.views.toLocaleString() + '</span>';
             })
             .join('  <span class="readers-sep">\u00b7</span>  ');
-          if (src) src.innerHTML = '\u622a\u81f3 ' + (d.generated || '').slice(0, 10) +
-            ' \u00b7 <a href="/dashboard">\u67e5\u770b\u5b8c\u6574\u6578\u64da \u2192</a>';
+          if (src) {
+            var label = rangeStart
+              ? '\u81ea ' + rangeStart + ' \u555f\u7ad9\u7d2f\u8a08'  // 自 YYYY-MM-DD 啟站累計
+              : '\u7d2f\u8a08';
+            src.innerHTML = label +
+              ' \u00b7 <a href="/dashboard">\u67e5\u770b\u5b8c\u6574\u6578\u64da \u2192</a>';
+          }
         })
         .catch(function () { /* no-op */ });
     })();

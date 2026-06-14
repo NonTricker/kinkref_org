@@ -1,14 +1,14 @@
 {
-  "generated": "2026-06-14T02:19:02.135Z",
+  "generated": "2026-06-14T02:24:31.746Z",
   "period": {
     "start": "2026-06-07",
     "end": "2026-06-14"
   },
-  "totalPageviews": 1410,
+  "totalPageviews": 1421,
   "topGlossary": [
     {
       "path": "/glossary/spanking/",
-      "views": 27
+      "views": 28
     },
     {
       "path": "/glossary/ddlg/",
@@ -40,11 +40,11 @@
   "topOther": [
     {
       "path": "/",
-      "views": 259
+      "views": 261
     },
     {
       "path": "/glossary/",
-      "views": 110
+      "views": 111
     },
     {
       "path": "/bibliography/",
@@ -56,17 +56,17 @@
     },
     {
       "path": "/journals/",
-      "views": 51
+      "views": 53
     }
   ],
   "countries": [
     {
       "code": "TW",
-      "views": 461
+      "views": 471
     },
     {
       "code": "SG",
-      "views": 358
+      "views": 359
     },
     {
       "code": "HK",
@@ -100,5 +100,54 @@
       "code": "FR",
       "views": 11
     }
-  ]
+  ],
+  "lifetime": {
+    "period": {
+      "start": "2026-05-03",
+      "end": "2026-06-14"
+    },
+    "totalPageviews": 11670,
+    "countries": [
+      {
+        "code": "TW",
+        "views": 5170
+      },
+      {
+        "code": "HK",
+        "views": 1460
+      },
+      {
+        "code": "US",
+        "views": 1170
+      },
+      {
+        "code": "SG",
+        "views": 920
+      },
+      {
+        "code": "JP",
+        "views": 870
+      },
+      {
+        "code": "CN",
+        "views": 790
+      },
+      {
+        "code": "KR",
+        "views": 190
+      },
+      {
+        "code": "MY",
+        "views": 170
+      },
+      {
+        "code": "CA",
+        "views": 150
+      },
+      {
+        "code": "VN",
+        "views": 140
+      }
+    ]
+  }
 }
