@@ -1,116 +1,104 @@
 {
-  "generated": "2026-05-06T14:37:55.018Z",
+  "generated": "2026-06-01T08:10:05.193Z",
   "period": {
-    "start": "2026-04-29",
-    "end": "2026-05-06"
+    "start": "2026-05-25",
+    "end": "2026-06-01"
   },
-  "totalPageviews": 6415,
+  "totalPageviews": 584,
   "topGlossary": [
     {
-      "path": "/glossary/bdsm/",
-      "views": 82
+      "path": "/glossary/spanking/",
+      "views": 26
     },
     {
-      "path": "/glossary/dominance-submission/",
-      "views": 68
+      "path": "/glossary/cnc/",
+      "views": 16
     },
     {
-      "path": "/glossary/bondage-discipline/",
-      "views": 45
+      "path": "/glossary/rack/",
+      "views": 11
     },
     {
-      "path": "/glossary/24-7-dynamic/",
-      "views": 37
+      "path": "/glossary/ssc/",
+      "views": 10
     },
     {
-      "path": "/glossary/sadism-masochism/",
-      "views": 35
+      "path": "/glossary/degrader/",
+      "views": 10
     }
   ],
   "topContent": [
     {
-      "path": "/bibliography/larva-rantala-2024/",
-      "views": 33
+      "path": "/bibliography/li-2024/",
+      "views": 8
     },
     {
-      "path": "/books/xiaolin-shengwu-shengfu-benshi/",
-      "views": 23
-    },
-    {
-      "path": "/books/new-bottom-book/",
-      "views": 18
-    },
-    {
-      "path": "/books/foucault-lectures-sexuality/",
-      "views": 14
-    },
-    {
-      "path": "/books/cangyue-liu-shin-sm-jutsu/",
-      "views": 14
+      "path": "/bibliography/ambler-2017/",
+      "views": 5
     }
   ],
   "topOther": [
     {
       "path": "/",
-      "views": 2908
+      "views": 94
     },
     {
       "path": "/glossary/",
-      "views": 945
+      "views": 51
+    },
+    {
+      "path": "/guides/bdsmtest-interpretation/",
+      "views": 28
+    },
+    {
+      "path": "/guides/counselors/",
+      "views": 22
     },
     {
       "path": "/books/",
-      "views": 446
-    },
-    {
-      "path": "/bibliography/",
-      "views": 390
-    },
-    {
-      "path": "/journals/",
-      "views": 259
+      "views": 19
     }
   ],
   "countries": [
     {
       "code": "TW",
-      "views": 2702
-    },
-    {
-      "code": "HK",
-      "views": 886
-    },
-    {
-      "code": "US",
-      "views": 785
-    },
-    {
-      "code": "JP",
-      "views": 589
-    },
-    {
-      "code": "CN",
       "views": 287
     },
     {
-      "code": "SG",
-      "views": 277
+      "code": "US",
+      "views": 109
     },
     {
-      "code": "MY",
-      "views": 172
+      "code": "CN",
+      "views": 60
+    },
+    {
+      "code": "HK",
+      "views": 51
+    },
+    {
+      "code": "JP",
+      "views": 18
+    },
+    {
+      "code": "VN",
+      "views": 18
     },
     {
       "code": "CA",
-      "views": 162
+      "views": 17
     },
     {
-      "code": "KR",
-      "views": 131
+      "code": "SG",
+      "views": 10
     },
     {
-      "code": "GB",
-      "views": 96
+      "code": "DE",
+      "views": 4
+    },
+    {
+      "code": "MX",
+      "views": 2
     }
   ]
 }

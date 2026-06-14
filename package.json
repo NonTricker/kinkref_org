@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build && npm run build:search && npm run build:sitemap-lastmod",
+    "build": "astro check && npm run build:search && astro build && npm run build:sitemap-lastmod",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
