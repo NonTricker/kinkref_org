@@ -1,0 +1,74 @@
+name: Refresh stats
+
+# 每日自動拉 Cloudflare Web Analytics → commit 進 repo → CF Pages auto-deploy
+#
+# 觸發：
+#   - schedule: 台北 08:00 = UTC 00:00（best-effort，可能延遲 10-30 min）
+#   - workflow_dispatch: GitHub UI 手動觸發按鈕
+#
+# Secrets 前置（在 repo Settings → Secrets and variables → Actions 設）：
+#   CF_API_TOKEN  — 跟 CF Pages env 同一把（scope: Account Analytics Read）
+#   CF_ACCOUNT_ID — Cloudflare Account ID
+#
+# 失敗時的 graceful degrade：
+#   fetch-cloudflare-stats.mjs 內建三道防線（無 credentials / API errors / fetch fail）
+#   一律 exit 0 + 保留現有 stats.json，所以這個 workflow 永遠不該紅。
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write # 需要推 commit 回 main
+
+jobs:
+  refresh:
+    name: Fetch & commit fresh stats
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Fetch fresh stats from Cloudflare RUM
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: node scripts/fetch-cloudflare-stats.mjs
+
+      - name: Commit & push if substantive change
+        run: |
+          set -euo pipefail
+
+          # 沒任何 diff（連 generated timestamp 都沒寫）→ 跳過
+          if git diff --quiet -- public/api/stats.json; then
+            echo "::notice::No diff at all — fetch likely skipped (secrets missing or API down). Nothing to push."
+            exit 0
+          fi
+
+          # 過濾 generated timestamp 後比對 — 如果只有 timestamp 變了，數據本身相同 → 跳過推
+          # （避免「半夜沒人造訪、數字沒變、但 timestamp 更新」也產生噪音 commit）
+          old_hash=$(git show HEAD:public/api/stats.json | jq -S 'del(.generated)' | sha256sum | cut -d' ' -f1)
+          new_hash=$(jq -S 'del(.generated)' public/api/stats.json | sha256sum | cut -d' ' -f1)
+
+          if [ "$old_hash" = "$new_hash" ]; then
+            echo "::notice::Only generated timestamp changed — skipping commit to keep history clean."
+            git checkout -- public/api/stats.json
+            exit 0
+          fi
+
+          # 真有數字變化才推
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/api/stats.json
+          git commit -m "chore(stats): daily refresh $(date -u +%Y-%m-%d)
+
+          Automated Cloudflare RUM refresh.
+          7d total: $(jq .totalPageviews public/api/stats.json) PV · lifetime: $(jq .lifetime.totalPageviews public/api/stats.json) PV"
+          git push
+          echo "::notice::Stats refreshed and pushed — CF Pages will auto-deploy."
