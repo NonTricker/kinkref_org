@@ -1,30 +1,30 @@
 {
-  "generated": "2026-06-17T04:48:53.952Z",
+  "generated": "2026-06-18T04:42:13.779Z",
   "period": {
-    "start": "2026-06-10",
-    "end": "2026-06-17"
+    "start": "2026-06-11",
+    "end": "2026-06-18"
   },
-  "totalPageviews": 1541,
+  "totalPageviews": 1484,
   "topGlossary": [
     {
-      "path": "/glossary/spanking/",
+      "path": "/glossary/ddlg/",
       "views": 36
     },
     {
-      "path": "/glossary/ddlg/",
-      "views": 31
+      "path": "/glossary/spanking/",
+      "views": 33
     },
     {
       "path": "/glossary/bdsm/",
-      "views": 26
+      "views": 24
     },
     {
       "path": "/glossary/slave-contract/",
-      "views": 22
+      "views": 21
     },
     {
       "path": "/glossary/aftercare/",
-      "views": 18
+      "views": 19
     }
   ],
   "topContent": [
@@ -45,52 +45,52 @@
       "views": 8
     },
     {
-      "path": "/books/foucault-lectures-sexuality/",
+      "path": "/books/foucault-history-of-sexuality-vol1/",
       "views": 8
     }
   ],
   "topOther": [
     {
       "path": "/",
-      "views": 322
+      "views": 323
     },
     {
       "path": "/glossary/",
-      "views": 130
+      "views": 124
     },
     {
       "path": "/books/",
-      "views": 81
-    },
-    {
-      "path": "/bibliography/",
       "views": 79
     },
     {
-      "path": "/about/",
-      "views": 47
+      "path": "/bibliography/",
+      "views": 72
+    },
+    {
+      "path": "/journals/",
+      "views": 48
     }
   ],
   "countries": [
     {
       "code": "TW",
-      "views": 505
+      "views": 475
     },
     {
       "code": "SG",
-      "views": 376
+      "views": 365
     },
     {
       "code": "HK",
-      "views": 168
-    },
-    {
-      "code": "US",
-      "views": 125
+      "views": 178
     },
     {
       "code": "JP",
-      "views": 118
+      "views": 120
+    },
+    {
+      "code": "US",
+      "views": 110
     },
     {
       "code": "KR",
@@ -98,47 +98,47 @@
     },
     {
       "code": "CN",
-      "views": 73
+      "views": 69
     },
     {
       "code": "CA",
       "views": 23
     },
     {
-      "code": "VN",
-      "views": 14
-    },
-    {
       "code": "FR",
       "views": 11
+    },
+    {
+      "code": "VN",
+      "views": 10
     }
   ],
   "lifetime": {
     "period": {
       "start": "2026-05-03",
-      "end": "2026-06-17"
+      "end": "2026-06-18"
     },
-    "totalPageviews": 12180,
+    "totalPageviews": 12290,
     "countries": [
       {
         "code": "TW",
-        "views": 5340
+        "views": 5360
       },
       {
         "code": "HK",
-        "views": 1510
+        "views": 1530
       },
       {
         "code": "US",
-        "views": 1240
+        "views": 1250
       },
       {
         "code": "SG",
-        "views": 1050
+        "views": 1100
       },
       {
         "code": "JP",
-        "views": 890
+        "views": 900
       },
       {
         "code": "CN",
