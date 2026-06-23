@@ -1,88 +1,88 @@
 {
-  "generated": "2026-06-22T05:05:00.077Z",
+  "generated": "2026-06-23T04:03:54.780Z",
   "period": {
-    "start": "2026-06-15",
-    "end": "2026-06-22"
+    "start": "2026-06-16",
+    "end": "2026-06-23"
   },
-  "totalPageviews": 932,
+  "totalPageviews": 901,
   "topGlossary": [
     {
       "path": "/glossary/spanking/",
-      "views": 49
+      "views": 55
     },
     {
       "path": "/glossary/slave-contract/",
-      "views": 29
+      "views": 30
     },
     {
       "path": "/glossary/ssc/",
-      "views": 21
+      "views": 20
     },
     {
       "path": "/glossary/cnc/",
       "views": 17
     },
     {
-      "path": "/glossary/ddlg/",
-      "views": 14
+      "path": "/glossary/bdsm/",
+      "views": 15
     }
   ],
   "topContent": [
     {
-      "path": "/books/xiaolin-shengwu-shengfu-benshi/",
+      "path": "/books/li-yinhe-nuelian-yawenhua/",
+      "views": 7
+    },
+    {
+      "path": "/books/sm-101/",
       "views": 7
     },
     {
       "path": "/bibliography/williams-2014/",
-      "views": 7
-    },
-    {
-      "path": "/bibliography/li-2024/",
-      "views": 6
+      "views": 5
     }
   ],
   "topOther": [
     {
       "path": "/",
-      "views": 118
+      "views": 115
     },
     {
       "path": "/glossary/",
-      "views": 76
+      "views": 63
     },
     {
       "path": "/books/",
-      "views": 50
+      "views": 47
     },
     {
       "path": "/bibliography/",
-      "views": 30
+      "views": 27
     },
     {
-      "path": "/about/",
-      "views": 20
+      "path": "/resources/",
+      "views": 18
     }
   ],
   "countries": [
     {
       "code": "SG",
-      "views": 310
+      "views": 300
     },
     {
       "code": "TW",
-      "views": 271
+      "views": 256
     },
     {
       "code": "US",
-      "views": 123
+      "views": 116
     },
     {
       "code": "HK",
-      "views": 98
+      "views": 96
     },
     {
       "code": "CN",
-      "views": 58
+      "views": 60
     },
     {
       "code": "JP",
@@ -97,7 +97,7 @@
       "views": 8
     },
     {
-      "code": "DE",
+      "code": "CA",
       "views": 5
     },
     {
@@ -108,25 +108,25 @@
   "lifetime": {
     "period": {
       "start": "2026-05-03",
-      "end": "2026-06-22"
+      "end": "2026-06-23"
     },
-    "totalPageviews": 12690,
+    "totalPageviews": 12830,
     "countries": [
       {
         "code": "TW",
-        "views": 5510
+        "views": 5570
       },
       {
         "code": "HK",
-        "views": 1570
+        "views": 1590
       },
       {
         "code": "US",
-        "views": 1310
+        "views": 1330
       },
       {
         "code": "SG",
-        "views": 1210
+        "views": 1250
       },
       {
         "code": "JP",
