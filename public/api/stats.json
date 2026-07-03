@@ -1,127 +1,127 @@
 {
-  "generated": "2026-07-02T04:04:00.808Z",
+  "generated": "2026-07-03T03:50:10.008Z",
   "period": {
-    "start": "2026-06-25",
-    "end": "2026-07-02"
+    "start": "2026-06-26",
+    "end": "2026-07-03"
   },
-  "totalPageviews": 1171,
+  "totalPageviews": 1426,
   "topGlossary": [
     {
       "path": "/glossary/spanking/",
-      "views": 81
+      "views": 85
     },
     {
       "path": "/glossary/ddlg/",
-      "views": 39
-    },
-    {
-      "path": "/glossary/bdsm/",
-      "views": 33
+      "views": 40
     },
     {
       "path": "/glossary/slave-contract/",
-      "views": 31
+      "views": 35
+    },
+    {
+      "path": "/glossary/bdsm/",
+      "views": 29
     },
     {
       "path": "/glossary/shibari/",
-      "views": 24
+      "views": 26
     }
   ],
   "topContent": [],
   "topOther": [
     {
       "path": "/",
-      "views": 89
+      "views": 91
     },
     {
       "path": "/glossary/",
-      "views": 70
-    },
-    {
-      "path": "/books/",
-      "views": 41
+      "views": 82
     },
     {
       "path": "/bibliography/",
-      "views": 38
+      "views": 72
+    },
+    {
+      "path": "/books/",
+      "views": 49
     },
     {
       "path": "/resources/",
-      "views": 15
+      "views": 21
     }
   ],
   "countries": [
     {
-      "code": "SG",
-      "views": 322
+      "code": "TW",
+      "views": 545
     },
     {
-      "code": "TW",
-      "views": 308
+      "code": "SG",
+      "views": 331
     },
     {
       "code": "HK",
-      "views": 191
+      "views": 187
     },
     {
       "code": "US",
-      "views": 121
+      "views": 128
     },
     {
       "code": "CN",
-      "views": 104
+      "views": 108
     },
     {
       "code": "JP",
-      "views": 39
-    },
-    {
-      "code": "KR",
-      "views": 23
-    },
-    {
-      "code": "GB",
-      "views": 9
+      "views": 45
     },
     {
       "code": "CA",
-      "views": 8
+      "views": 12
+    },
+    {
+      "code": "GB",
+      "views": 11
+    },
+    {
+      "code": "KR",
+      "views": 9
     },
     {
       "code": "AU",
-      "views": 5
+      "views": 6
     }
   ],
   "lifetime": {
     "period": {
       "start": "2026-05-03",
-      "end": "2026-07-02"
+      "end": "2026-07-03"
     },
-    "totalPageviews": 14250,
+    "totalPageviews": 14670,
     "countries": [
       {
         "code": "TW",
-        "views": 5920
+        "views": 6190
       },
       {
         "code": "HK",
-        "views": 1830
+        "views": 1850
       },
       {
         "code": "SG",
-        "views": 1660
+        "views": 1720
       },
       {
         "code": "US",
-        "views": 1470
+        "views": 1490
       },
       {
         "code": "JP",
-        "views": 960
+        "views": 980
       },
       {
         "code": "CN",
-        "views": 900
+        "views": 920
       },
       {
         "code": "KR",
