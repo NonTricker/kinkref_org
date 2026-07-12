@@ -1,62 +1,66 @@
 {
-  "generated": "2026-07-11T03:19:27.364Z",
+  "generated": "2026-07-12T03:31:10.545Z",
   "period": {
-    "start": "2026-07-04",
-    "end": "2026-07-11"
+    "start": "2026-07-05",
+    "end": "2026-07-12"
   },
-  "totalPageviews": 1258,
+  "totalPageviews": 1194,
   "topGlossary": [
     {
       "path": "/glossary/spanking/",
-      "views": 47
-    },
-    {
-      "path": "/glossary/relationship-ds/",
       "views": 46
     },
     {
-      "path": "/glossary/bdsm/",
-      "views": 33
+      "path": "/glossary/relationship-ds/",
+      "views": 44
     },
     {
-      "path": "/glossary/pain-play/",
-      "views": 23
+      "path": "/glossary/bdsm/",
+      "views": 28
     },
     {
       "path": "/glossary/slave-contract/",
-      "views": 23
+      "views": 24
+    },
+    {
+      "path": "/glossary/shibari/",
+      "views": 22
     }
   ],
   "topContent": [
     {
       "path": "/books/xiaolin-shengwu-shengfu-benshi/",
-      "views": 12
+      "views": 10
+    },
+    {
+      "path": "/bibliography/ambler-2017/",
+      "views": 10
     },
     {
       "path": "/books/sm-101/",
-      "views": 8
+      "views": 9
     }
   ],
   "topOther": [
     {
       "path": "/",
-      "views": 97
+      "views": 88
     },
     {
       "path": "/glossary/",
       "views": 63
     },
     {
-      "path": "/books/",
-      "views": 51
+      "path": "/resources/",
+      "views": 41
     },
     {
-      "path": "/resources/",
-      "views": 39
+      "path": "/books/",
+      "views": 37
     },
     {
       "path": "/bibliography/",
-      "views": 34
+      "views": 30
     }
   ],
   "countries": [
@@ -70,83 +74,63 @@
     },
     {
       "code": "HK",
-      "views": 232
+      "views": 195
     },
     {
       "code": "US",
-      "views": 93
-    },
-    {
-      "code": "JP",
-      "views": 72
+      "views": 78
     },
     {
       "code": "CN",
-      "views": 66
+      "views": 71
+    },
+    {
+      "code": "JP",
+      "views": 59
     },
     {
       "code": "VN",
-      "views": 20
+      "views": 21
     },
     {
       "code": "MO",
-      "views": 13
+      "views": 18
+    },
+    {
+      "code": "AU",
+      "views": 11
     },
     {
       "code": "PL",
-      "views": 8
-    },
-    {
-      "code": "ZA",
       "views": 8
     }
   ],
   "lifetime": {
     "period": {
       "start": "2026-05-03",
-      "end": "2026-07-11"
+      "end": "2026-07-12"
     },
-    "totalPageviews": 16280,
+    "totalPageviews": 16500,
     "countries": [
       {
         "code": "TW",
-        "views": 6570
-      },
-      {
-        "code": "HK",
-        "views": 2180
-      },
-      {
-        "code": "SG",
-        "views": 2140
-      },
-      {
-        "code": "US",
-        "views": 1680
-      },
-      {
-        "code": "JP",
-        "views": 1120
+        "views": 5000
       },
       {
         "code": "CN",
-        "views": 960
+        "views": 2000
       },
       {
-        "code": "KR",
-        "views": 250
+        "code": "HK",
+        "views": 1000
       },
       {
-        "code": "CA",
-        "views": 180
-      },
-      {
-        "code": "MY",
-        "views": 180
+        "code": "US",
+        "views": 1000
       },
       {
         "code": "VN",
-        "views": 160
+        "views": 1000
       }
     ]
   }
