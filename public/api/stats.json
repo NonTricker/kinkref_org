@@ -1,30 +1,30 @@
 {
-  "generated": "2026-07-23T03:26:35.691Z",
+  "generated": "2026-07-24T03:20:12.594Z",
   "period": {
-    "start": "2026-07-16",
-    "end": "2026-07-23"
+    "start": "2026-07-17",
+    "end": "2026-07-24"
   },
-  "totalPageviews": 1247,
+  "totalPageviews": 1296,
   "topGlossary": [
     {
       "path": "/glossary/spanking/",
-      "views": 52
+      "views": 56
     },
     {
       "path": "/glossary/ddlg/",
-      "views": 36
+      "views": 37
     },
     {
       "path": "/glossary/relationship-ds/",
-      "views": 36
+      "views": 37
+    },
+    {
+      "path": "/glossary/dominance-submission/",
+      "views": 22
     },
     {
       "path": "/glossary/cuckold/",
-      "views": 28
-    },
-    {
-      "path": "/glossary/submissive/",
-      "views": 23
+      "views": 22
     }
   ],
   "topContent": [
@@ -36,49 +36,49 @@
   "topOther": [
     {
       "path": "/",
-      "views": 111
+      "views": 105
     },
     {
       "path": "/glossary/",
-      "views": 62
+      "views": 64
     },
     {
       "path": "/books/",
-      "views": 53
+      "views": 56
     },
     {
       "path": "/bibliography/",
-      "views": 48
+      "views": 52
     },
     {
       "path": "/resources/",
-      "views": 36
+      "views": 35
     }
   ],
   "countries": [
     {
       "code": "TW",
-      "views": 412
+      "views": 455
     },
     {
       "code": "SG",
-      "views": 344
+      "views": 338
     },
     {
       "code": "CN",
-      "views": 128
+      "views": 134
     },
     {
       "code": "HK",
-      "views": 108
+      "views": 109
     },
     {
       "code": "US",
-      "views": 100
+      "views": 96
     },
     {
       "code": "JP",
-      "views": 54
+      "views": 60
     },
     {
       "code": "CA",
@@ -86,39 +86,39 @@
     },
     {
       "code": "DE",
-      "views": 9
+      "views": 12
     },
     {
       "code": "VN",
-      "views": 7
+      "views": 8
     },
     {
-      "code": "MY",
+      "code": "GB",
       "views": 5
     }
   ],
   "lifetime": {
     "period": {
       "start": "2026-05-03",
-      "end": "2026-07-23"
+      "end": "2026-07-24"
     },
-    "totalPageviews": 18630,
+    "totalPageviews": 18790,
     "countries": [
       {
         "code": "TW",
-        "views": 7310
+        "views": 7380
       },
       {
         "code": "SG",
-        "views": 2640
+        "views": 2680
       },
       {
         "code": "HK",
-        "views": 2440
+        "views": 2460
       },
       {
         "code": "US",
-        "views": 1900
+        "views": 1910
       },
       {
         "code": "CN",
@@ -126,7 +126,7 @@
       },
       {
         "code": "JP",
-        "views": 1190
+        "views": 1200
       },
       {
         "code": "KR",
